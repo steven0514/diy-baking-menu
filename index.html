@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己做烘焙聚樂部 - 智能菜單篩選</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- 分離之外部樣式表 -->
+    <link rel="stylesheet" href="menu_selector.css">
+</head>
+
+<body>
+    <div id="app" class="container" v-cloak>
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <!-- <div class="brand-badge">
+                <span class="brand-icon">🍰</span>
+                <span>DIY Baking Club · 自己做烘焙聚樂部</span>
+            </div> -->
+            <div class="top-controls">
+                <div class="control-item">
+                    <label for="store-select" class="control-label">{{ t.store_label }}</label>
+                    <select id="store-select" class="custom-select" v-model="currentStore">
+                        <option v-for="st in storeList" :key="st.id" :value="st.id">
+                            {{ st[currentLang] || st.zh }}
+                        </option>
+                    </select>
+                </div>
+                <div class="control-item lang-control-wrap">
+                    <span class="control-label">{{ t.lang_label }}</span>
+                    <div class="lang-btn-group" role="group" aria-label="語言切換">
+                        <button type="button" v-for="lang in availableLanguages" :key="lang.code" class="lang-pill-btn"
+                            :class="{ active: currentLang === lang.code }" :title="lang.title"
+                            @click="setLanguage(lang.code)">
+                            {{ lang.label }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="hero">
+            <h1>{{ t.title }}</h1>
+            <p>{{ t.subtitle }}</p>
+        </header>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <!-- Group 1: 烘焙經驗 -->
+            <div class="filter-group" data-category="experience">
+                <div class="filter-title">
+                    <span>👨‍🍳</span>
+                    <span>{{ t.step1 }}</span>
+                </div>
+                <div class="options-wrap">
+                    <button v-for="opt in experienceOptions" :key="opt.value" class="filter-btn"
+                        :class="{ active: filters.experience === opt.value }" v-show="opt.count > 0"
+                        @click="toggleExperience(opt.value)">
+                        {{ opt.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Group 2: 品相種類 -->
+            <div class="filter-group" data-category="type">
+                <div class="filter-title">
+                    <span>🧁</span>
+                    <span>{{ t.step2 }}</span>
+                </div>
+                <div class="options-wrap">
+                    <button v-for="opt in typeOptions" :key="opt.value" class="filter-btn"
+                        :class="{ active: filters.type === opt.value }" v-show="opt.count > 0"
+                        @click="toggleType(opt.value)">
+                        {{ opt.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Group 3: 季節與特色限定標籤 -->
+            <div class="filter-group" data-category="tag">
+                <div class="filter-title">
+                    <span>🌟</span>
+                    <span>{{ t.step_tag }}</span>
+                </div>
+                <div class="options-wrap">
+                    <!-- 全部品項 -->
+                    <button class="filter-btn" :class="{ active: !filters.tag }" @click="setTag('')">
+                        {{ t.tag_all }}
+                    </button>
+                    <!-- 節慶限定 (動態名稱、顏色與計數) -->
+                    <button class="filter-btn btn-tag-midautumn" id="filter-btn-seasonal"
+                        :class="{ active: isSeasonalTag(filters.tag) }" :style="seasonalButtonStyle"
+                        v-show="seasonalCount > 0" @click="setTag(seasonalTagKey)">
+                        {{ seasonalButtonLabel }}
+                    </button>
+                    <!-- 生日限定 -->
+                    <button class="filter-btn btn-tag-birthday" :class="{ active: filters.tag === 'birthday' }"
+                        v-show="birthdayCount > 0" @click="setTag('birthday')">
+                        {{ t.tag_birthday }}
+                    </button>
+                    <!-- 門市限定 -->
+                    <button class="filter-btn btn-tag-store" :class="{ active: filters.tag === 'store_limited' }"
+                        v-show="storeLimitedCount > 0" @click="setTag('store_limited')">
+                        {{ t.tag_store_limited }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="actions-bar">
+                <div class="result-count" id="result-count" v-html="resultCountText"></div>
+                <button class="reset-btn" id="reset-btn" @click="resetFilters">
+                    <span>↺</span>
+                    <span>{{ t.reset_btn }}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+            <div v-if="filteredProducts.length === 0" class="no-result">
+                {{ t.no_result }}
+            </div>
+            <div v-else v-for="p in filteredProducts" :key="p.id" class="product-card" @click="openModal(p)">
+                <div class="product-img-wrapper">
+                    <img :src="p.image" :alt="getLocalizedName(p)" class="product-img" loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80'">
+                    <span class="card-price-pill">{{ p.price_display || ('NT$ ' + p.price) }}</span>
+                    <span v-if="getTagPill(p.tag)" :class="getTagPill(p.tag).className"
+                        :style="getTagPill(p.tag).style">
+                        {{ getTagPill(p.tag).text }}
+                    </span>
+                </div>
+                <div class="product-content">
+                    <div>
+                        <div class="product-title">{{ getLocalizedName(p) }}</div>
+                        <div class="card-badges">
+                            <span v-if="getTagBadge(p.tag)" :class="getTagBadge(p.tag).className"
+                                :style="getTagBadge(p.tag).style">
+                                {{ getTagBadge(p.tag).text }}
+                            </span>
+                            <span v-for="expItem in getProductExpList(p)" :key="expItem" class="badge badge-exp"
+                                style="margin-right:2px;">{{ translateSingleExp(expItem) }}</span>
+                            <span class="badge badge-type">{{ translateType(p.type) }}</span>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="product-subtitle-preview" :title="getLocalizedSub(p)"
+                            v-html="highlightNotice(getLocalizedSub(p))"></span>
+                        <span class="detail-link">{{ t.detail_btn }} →</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Popup -->
+        <div class="modal-overlay" id="product-modal" :class="{ active: isModalOpen }" @click="closeModal">
+            <div v-if="selectedProduct" class="modal-box" @click.stop>
+                <div class="modal-header-img-wrap">
+                    <img :src="selectedProduct.image" :alt="getLocalizedName(selectedProduct)" class="modal-img"
+                        id="modal-img">
+                    <button class="modal-close-icon" @click="closeModal" aria-label="Close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-title-row">
+                        <h2 class="modal-title" id="modal-title">{{ getLocalizedName(selectedProduct) }}</h2>
+                        <div class="modal-price" id="modal-price">
+                            {{ selectedProduct.price_display || ('NT$ ' + selectedProduct.price) }}
+                        </div>
+                    </div>
+                    <div class="modal-subtitle-row" v-if="getLocalizedSub(selectedProduct)">
+                        <span>⏱️</span>
+                        <span id="modal-subtitle" v-html="highlightNotice(getLocalizedSub(selectedProduct))"></span>
+                    </div>
+                    <div class="modal-tags">
+                        <span v-for="expItem in getProductExpList(selectedProduct)" :key="expItem"
+                            class="badge badge-exp" style="margin-right:4px;">{{ translateSingleExp(expItem) }}</span>
+                        <span class="badge badge-type" id="modal-type">{{ translateType(selectedProduct.type) }}</span>
+                        <span v-if="getTagBadge(selectedProduct.tag)"
+                            :class="getTagBadge(selectedProduct.tag).className"
+                            :style="getTagBadge(selectedProduct.tag).style" id="modal-special-tag">
+                            {{ getTagBadge(selectedProduct.tag).text }}
+                        </span>
+                    </div>
+
+                    <!-- 產品特色 (若留空則不顯示該區塊，絕不自動顯示中文內容) -->
+                    <div class="modal-section" v-if="getLocalizedFeatures(selectedProduct)">
+                        <div class="modal-section-title">
+                            <span>✨</span>
+                            <span>{{ t.features_title }}</span>
+                        </div>
+                        <div class="modal-content-box features-box" id="modal-features"
+                            v-html="highlightNotice(getLocalizedFeatures(selectedProduct))"></div>
+                    </div>
+
+                    <!-- 保存方式 (若留空則不顯示該區塊，絕不自動顯示中文內容) -->
+                    <div class="modal-section" v-if="getLocalizedStorage(selectedProduct)">
+                        <div class="modal-section-title">
+                            <span>📦</span>
+                            <span>{{ t.storage_title }}</span>
+                        </div>
+                        <div class="modal-content-box storage-box" id="modal-storage"
+                            v-html="highlightNotice(getLocalizedStorage(selectedProduct))"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-close-btn" @click="closeModal">{{ t.close_btn }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue 3 核心庫 (離線支援 + CDN 備援) -->
+    <script src="vue.global.prod.js"></script>
+    <script>
+        if (typeof Vue === 'undefined') {
+            document.write('<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"><\/script>');
+        }
+    </script>
+    <!-- 分離之靜態預設菜單數據庫 -->
+    <script src="products_data.js"></script>
+    <!-- 分離之 Vue 3 前端核心邏輯 -->
+    <script src="menu_app.js"></script>
+</body>
+
+</html>
