@@ -42,9 +42,8 @@
                     </div>
                 </div>
                 <div class="control-item sync-control-wrap">
-                    <button type="button" class="sync-btn" @click="checkRemoteUpdate(true)" :title="isSyncing ? '同步中...' : '檢查雲端最新菜單更新'">
+                    <button type="button" class="sync-btn" @click="checkRemoteUpdate(true)" :title="isSyncing ? '同步中...' : '檢查雲端最新菜單更新'" aria-label="檢查雲端菜單更新">
                         <span :class="{ 'spin-icon': isSyncing }">🔄</span>
-                        <span class="sync-text">{{ isSyncing ? '同步中' : '檢查更新' }}</span>
                     </button>
                 </div>
             </div>

@@ -745,29 +745,36 @@ header.hero p {
     font-weight: 700;
 }
 
-/* 雲端即時同步按鈕 */
+/* 雲端即時同步按鈕 (精簡圖示版，防止破版) */
+.sync-control-wrap {
+    padding: 3px 6px;
+    justify-content: center;
+}
+
 .sync-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid var(--border, #eddcd2);
-    border-radius: 9999px;
-    font-size: 0.82rem;
-    font-weight: 700;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sync-btn:hover {
-    background: #ffffff;
+    background: var(--primary-light);
     color: var(--primary, #c2673a);
-    border-color: var(--primary, #c2673a);
-    box-shadow: 0 3px 10px rgba(194, 103, 58, 0.2);
-    transform: translateY(-1px);
+    transform: scale(1.15);
+}
+
+.sync-btn:active {
+    transform: scale(0.95);
 }
 
 @keyframes spin {
