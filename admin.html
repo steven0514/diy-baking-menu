@@ -159,6 +159,16 @@
             border-radius: 6px;
         }
 
+        .btn-danger {
+            background: #ef4444;
+            color: #ffffff;
+            border: 1px solid #dc2626;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+            border-color: #b91c1c;
+        }
+
         /* Main Container */
         .admin-main {
             max-width: 1400px;
@@ -360,6 +370,72 @@
 
         tbody tr:hover {
             background: #f8fafc;
+        }
+
+        tbody tr.row-selected {
+            background-color: #fff1f2 !important;
+        }
+
+        /* Batch Action Bar */
+        .batch-action-bar {
+            display: none;
+            position: sticky;
+            top: 70px;
+            z-index: 90;
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+            border: 1px solid #fecdd3;
+            border-radius: var(--radius-md);
+            padding: 12px 20px;
+            margin-bottom: 16px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.12);
+            animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .batch-action-bar.active {
+            display: flex;
+        }
+
+        .batch-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #9f1239;
+        }
+
+        .batch-count-badge {
+            background: #e11d48;
+            color: #ffffff;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 12.5px;
+            font-weight: 800;
+            box-shadow: 0 2px 6px rgba(225, 29, 72, 0.25);
+        }
+
+        .batch-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .table-checkbox {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            vertical-align: middle;
+            border-radius: 4px;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         tbody td {
@@ -1021,12 +1097,31 @@
             </div>
         </div>
 
+        <!-- Batch Action Bar (Visible when >= 1 product is checked) -->
+        <div id="batch-action-bar" class="batch-action-bar">
+            <div class="batch-info">
+                <span style="font-size: 16px;">☑️</span>
+                <span>已選取</span>
+                <span id="batch-selected-count" class="batch-count-badge">0</span>
+                <span>項商品</span>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="clearSelection()" style="margin-left: 6px; padding: 3px 8px; font-size: 11px;">✕ 取消選取</button>
+            </div>
+            <div class="batch-actions">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="batchSetStatus('active')" title="將已選取的品項設為上架">👁️ 批次上架</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="batchSetStatus('draft')" title="將已選取的品項暫時下架">🚫 批次下架</button>
+                <button type="button" class="btn btn-danger btn-sm" id="batch-delete-btn" onclick="batchDeleteProducts()" style="font-weight: 700; box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);">🗑️ 一鍵批次刪除</button>
+            </div>
+        </div>
+
         <!-- Products Table -->
         <div class="table-card">
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
+                            <th style="width: 44px; text-align: center;">
+                                <input type="checkbox" id="select-all-checkbox" class="table-checkbox" onchange="toggleSelectAll(this)" title="全選 / 取消全選 (當前篩選結果)">
+                            </th>
                             <th class="sortable-th" style="width: 70px;" onclick="sortTable('id')" title="點擊依 ID 排序">ID <span id="sort-icon-id" class="sort-icon">▼</span></th>
                             <th class="sortable-th" onclick="sortTable('name')" title="點擊依品名排序">商品資訊 (品名 / 規格) <span id="sort-icon-name" class="sort-icon">↕</span></th>
                             <th class="sortable-th" onclick="sortTable('price')" title="點擊依售價排序">售價 <span id="sort-icon-price" class="sort-icon">↕</span></th>
@@ -3671,6 +3766,7 @@ Term: "${zhName}"`;
         }
 
         let products = [];
+        let selectedProductIds = new Set();
 
         // ==========================================
         // 🏢 11 間實體門市定義 (依北中南排序)
@@ -4112,14 +4208,20 @@ Term: "${zhName}"`;
                     return 0;
                 });
 
+                // 紀錄當前篩選渲染出的商品 ID
+                window.currentRenderedIds = filtered.map(p => Number(p.id));
+
                 if (filtered.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding: 40px; color: var(--text-muted);">無符合篩選條件的商品</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding: 40px; color: var(--text-muted);">無符合篩選條件的商品</td></tr>`;
+                    updateSelectAllCheckboxState();
+                    updateBatchBar();
                     return;
                 }
 
                 tbody.innerHTML = filtered.map(p => {
                     const isDraft = p.status === 'draft';
                     const isNew = newlyAddedId && Number(p.id) === Number(newlyAddedId);
+                    const isSelected = selectedProductIds.has(Number(p.id));
                     const nameZh = getFieldText(p.name, 'zh');
                     const subZh = getFieldText(p.subtitle, 'zh');
 
@@ -4158,7 +4260,10 @@ Term: "${zhName}"`;
                     const safePriceDisplay = p.price_display || `NT$ ${safePrice}`;
 
                     return `
-                    <tr class="${isNew ? 'row-highlight' : ''}" style="${isDraft ? 'opacity: 0.6; background: #fdfefe;' : ''}">
+                    <tr data-product-id="${p.id}" class="${isNew ? 'row-highlight' : ''} ${isSelected ? 'row-selected' : ''}" style="${isDraft ? 'opacity: 0.6; background: #fdfefe;' : ''}">
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="table-checkbox row-checkbox" value="${p.id}" ${isSelected ? 'checked' : ''} onchange="toggleSelectRow(${p.id}, this.checked)">
+                        </td>
                         <td style="font-weight:600; color:var(--text-muted);">#${p.id}</td>
                         <td>
                             <div class="product-meta-cell">
@@ -4190,12 +4295,16 @@ Term: "${zhName}"`;
                     </tr>
                     `;
                 }).join('');
+
+                updateSelectAllCheckboxState();
+                updateBatchBar();
             } catch (err) {
                 console.error('renderTable failed:', err);
                 // 降級保護：若發生不可預期例外，直接安全輸出品項，絕不讓表格變白
                 try {
                     tbody.innerHTML = products.map(p => `
-                        <tr>
+                        <tr data-product-id="${p.id}">
+                            <td style="text-align: center;"><input type="checkbox" class="table-checkbox row-checkbox" value="${p.id}" onchange="toggleSelectRow(${p.id}, this.checked)"></td>
                             <td>#${p.id}</td>
                             <td><strong>${getFieldText(p.name, 'zh')}</strong></td>
                             <td>NT$ ${p.price || 0}</td>
@@ -4224,6 +4333,124 @@ Term: "${zhName}"`;
             document.getElementById('filter-type').value = '';
             document.getElementById('filter-store').value = '';
             renderTable();
+        }
+
+        // ==========================================
+        // 批量勾選與一鍵操作 (Batch Actions)
+        // ==========================================
+        function toggleSelectAll(el) {
+            const isChecked = el.checked;
+            const ids = window.currentRenderedIds || [];
+            if (isChecked) {
+                ids.forEach(id => selectedProductIds.add(id));
+            } else {
+                ids.forEach(id => selectedProductIds.delete(id));
+            }
+            renderTable();
+            updateBatchBar();
+        }
+
+        function toggleSelectRow(id, isChecked) {
+            id = Number(id);
+            if (isChecked) {
+                selectedProductIds.add(id);
+            } else {
+                selectedProductIds.delete(id);
+            }
+            updateSelectAllCheckboxState();
+            updateBatchBar();
+            const row = document.querySelector(`tr[data-product-id="${id}"]`);
+            if (row) {
+                row.classList.toggle('row-selected', isChecked);
+            }
+        }
+
+        function updateSelectAllCheckboxState() {
+            const selectAllEl = document.getElementById('select-all-checkbox');
+            if (!selectAllEl) return;
+            const ids = window.currentRenderedIds || [];
+            if (ids.length === 0) {
+                selectAllEl.checked = false;
+                selectAllEl.indeterminate = false;
+                return;
+            }
+            const selectedCountInView = ids.filter(id => selectedProductIds.has(id)).length;
+            if (selectedCountInView === 0) {
+                selectAllEl.checked = false;
+                selectAllEl.indeterminate = false;
+            } else if (selectedCountInView === ids.length) {
+                selectAllEl.checked = true;
+                selectAllEl.indeterminate = false;
+            } else {
+                selectAllEl.checked = false;
+                selectAllEl.indeterminate = true;
+            }
+        }
+
+        function clearSelection() {
+            selectedProductIds.clear();
+            const selectAllEl = document.getElementById('select-all-checkbox');
+            if (selectAllEl) {
+                selectAllEl.checked = false;
+                selectAllEl.indeterminate = false;
+            }
+            renderTable();
+            updateBatchBar();
+        }
+
+        function updateBatchBar() {
+            const bar = document.getElementById('batch-action-bar');
+            const countEl = document.getElementById('batch-selected-count');
+            const delBtn = document.getElementById('batch-delete-btn');
+            if (!bar) return;
+            selectedProductIds = new Set([...selectedProductIds].filter(id => products.some(p => Number(p.id) === id)));
+            const count = selectedProductIds.size;
+            if (count > 0) {
+                bar.classList.add('active');
+                if (countEl) countEl.textContent = count;
+                if (delBtn) delBtn.innerHTML = `🗑️ 一鍵批次刪除 (${count})`;
+            } else {
+                bar.classList.remove('active');
+            }
+        }
+
+        function batchDeleteProducts() {
+            if (selectedProductIds.size === 0) {
+                alert('請先勾選要刪除的商品品項！');
+                return;
+            }
+            const count = selectedProductIds.size;
+            const targetProducts = products.filter(p => selectedProductIds.has(Number(p.id)));
+            const sampleNames = targetProducts.slice(0, 4).map(p => `「${getFieldText(p.name, 'zh')}」`).join('、');
+            const moreNote = count > 4 ? ` 等共 ${count} 款商品` : ` 等 ${count} 款商品`;
+            
+            const confirmed = confirm(`確定要批次刪除 ${sampleNames}${moreNote} 嗎？\n\n⚠️ 注意：此操作將從目前商品庫永久移除選取的商品！\n刪除完成後，請記得點擊右上方「🚀 發布至全裝置」同步雲端與全台門市。`);
+            if (!confirmed) return;
+
+            const deleteSet = new Set(selectedProductIds);
+            products = products.filter(p => !deleteSet.has(Number(p.id)));
+            selectedProductIds.clear();
+            saveToLocalStorage();
+            renderTable();
+            updateBatchBar();
+            showToast(`🗑️ 已成功刪除 ${count} 款商品！請記得點擊「🚀 發布至全裝置」同步更新。`);
+        }
+
+        function batchSetStatus(newStatus) {
+            if (selectedProductIds.size === 0) {
+                alert('請先勾選要操作的商品品項！');
+                return;
+            }
+            const count = selectedProductIds.size;
+            const statusLabel = newStatus === 'active' ? '上架' : '下架';
+            products.forEach(p => {
+                if (selectedProductIds.has(Number(p.id))) {
+                    p.status = newStatus;
+                }
+            });
+            saveToLocalStorage();
+            renderTable();
+            showToast(`已將選取的 ${count} 款商品批次設為「${statusLabel}」！`);
         }
 
         // 上下架切換
@@ -4335,8 +4562,10 @@ Term: "${zhName}"`;
             const nameZh = getFieldText(p.name, 'zh');
             if (confirm(`確定要刪除「${nameZh}」嗎？此操作不可逆。`)) {
                 products = products.filter(item => item.id !== id);
+                selectedProductIds.delete(Number(id));
                 saveToLocalStorage();
                 renderTable();
+                updateBatchBar();
                 showToast(`已刪除「${nameZh}」`);
             }
         }
