@@ -23,7 +23,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "❗非當日壽星：無法選擇與付費製作！\r\r\n🏠提供兌換：所有分店\r\r\n［蛋奶素］\r\r\n●主體：原味海綿蛋糕\r\r\n●內餡：無\r\r\n●裝飾：鮮奶油、生日小插卡\r\r\n🎁附手提紙盒一個\r\r\n---------------------------------------------\r\r\n🎉【當日壽星優惠】🎂\r\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\r\n即可享受以下四選一優惠：\r\r\n1. 免費製作我的生日蛋糕\r\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\r\n---------------------------------------------\r\r\n《注意事項》\r\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\r\n• 限年滿12歲(含)以上的壽星本人使用\r\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\r\n• 如遇店休，不提供壽星優惠活動\r\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\r\n---------------------------------------------\r\r\n《兌換方式》\r\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
+      "zh": "❗非當日壽星：無法選擇與付費製作！\r\n🏠提供兌換：所有分店\r\n［蛋奶素］\r\n●主體：原味海綿蛋糕\r\n●內餡：無\r\n●裝飾：鮮奶油、生日小插卡\r\n🎁附手提紙盒一個\r\n---------------------------------------------\r\n🎉【當日壽星優惠】🎂\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\n即可享受以下四選一優惠：\r\n1. 免費製作我的生日蛋糕\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\n---------------------------------------------\r\n《注意事項》\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\n• 限年滿12歲(含)以上的壽星本人使用\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\n• 如遇店休，不提供壽星優惠活動\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\n---------------------------------------------\r\n《兌換方式》\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
       "en": "❗ Birthday person only: Non-birthday guests cannot select or pay to make this item!\n🏠 Redeemable at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Original sponge cake\n● Filling: None\n● Decoration: Whipped cream, birthday cake topper card\n🎁 Includes one portable cake box\n---------------------------------------------\n🎉【Birthday Person Exclusive Offer】🎂\nOn your birthday, all nationalities welcome! Show personal ID and membership info,\nEnjoy one of the following 4 birthday benefits:\n1. Make My Birthday Cake for FREE\n2. Upgrade for +$199 to Oreo Chocolate, Crunchy Cocoa, or Berry Earl Grey\n3. 31% OFF any other dessert (excludes custom deco & couple cakes)\n---------------------------------------------\n《Important Notes》\n• Accompanying guests must make an independent dessert (companion fee & 31% off discount do not apply)\n• Valid only for the birthday person aged 12 or above\n• Strictly valid on your actual birthday only; cannot be used early or postponed (no birthday month extension)\n• Birthday offer is unavailable if the store is closed on that day\n• Offers cannot be combined; each birthday person may choose only one benefit\n---------------------------------------------\n《How to Redeem》\n1. Reserve in advance: Book via the official website by clicking [Reserve Now]\n2. Member Registration: The birthday person must register as a member (via LINE or Email)\n3. Check-in: Inform staff on site and present ID + membership screen to redeem offer",
       "ja": "❗ 当日お誕生日の方限定：対象外の方の選択・有料製作はできません！\n🏠 特典引換：全店舗で利用可能\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：プレーンスポンジケーキ\n● フィリング：なし\n● デコレーション：生クリーム、バースデーピックカード\n🎁 手提げケーキ箱1個付き\n---------------------------------------------\n🎉【当日お誕生日限定特典】🎂\nお誕生日当日、国籍不問！ご本人様の身分証明書と公式サイト会員画面をご提示いただくと、\n以下の4つの特典から1つお選びいただけます：\n1. 「私のバースデーケーキ」を無料で手作り体験\n2. +199元でオレオチョコ、クランチココア、ベリーアールグレイへグレードアップ\n3. その他スイーツが31%OFF（デコレーションケーキ・ペアケーキ対象外）\n---------------------------------------------\n《注意事項》\n• 同伴者様も1名につき1品の独立製作が必要です（同伴料および割引は適用外）\n• 満12歳以上の誕生日ご本人様のみご利用可能\n• お誕生日当日限定（前倒し・後倒し不可、誕生月割引なし）\n• 定休日の場合は誕生日特典をご利用いただけません\n• 特典の併用・重複利用は不可、1名様につき1つのみ選択可能\n---------------------------------------------\n《引き換え方法》\n1. 事前予約：公式サイトの［予約する］からご本人または代理で予約\n2. 会員登録：予約者に関わらず、誕生日ご本人様の公式会員登録が必須です（LINEまたはメール）\n3. 来店受付：店頭で誕生日であることを伝え、身分証と会員画面を提示して特典利用",
       "th": "❗ เฉพาะเจ้าของวันเกิดเท่านั้น: บุคคลอื่นไม่สามารถเลือกหรือชำระเงินเพื่อทำได้!\n🏠 ใช้สิทธิ์ได้ที่: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: สปันจ์เค้กรสดั้งเดิม\n● ไส้: ไม่มี\n● การตกแต่ง: วิปครีมสด, ป้ายการ์ดปักวันเกิด\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ\n---------------------------------------------\n🎉【สิทธิพิเศษสำหรับเจ้าของวันเกิด】🎂\nในวันเกิดของคุณ ไม่จำกัดสัญชาติ เพียงแสดงบัตรประจำตัวและข้อมูลสมาชิกเว็บไซต์,\nรับสิทธิ์เลือก 1 ใน 4 โปรโมชั่นสุดพิเศษดังนี้:\n1. ทำเค้กวันเกิดของฉัน ฟรี!\n2. เพิ่มเงิน $199 เลือกทำ โอริโอ้ช็อกโกแลต, ช็อกโกแลตครันชี่ หรือ เบอร์รี่เอิร์ลเกรย์\n3. ลด 31% สำหรับเมนูของหวานอื่นๆ (ไม่รวมเค้กตกแต่งตามสั่งและเค้กคู่รัก)\n---------------------------------------------\n《ข้อควรทราบ》\n• ผู้ติดตามต้องทำขนมแยก 1 ชิ้นต่อคน (ไม่สามารถใช้สิทธิ์ส่วนลดวันเกิดร่วมได้)\n• สำหรับเจ้าของวันเกิดที่มีอายุ 12 ปีขึ้นไปเท่านั้น\n• ใช้ได้เฉพาะในวันเกิดจริงเท่านั้น ไม่สามารถใช้ก่อนหรือหลังได้ (ไม่มีโปรโมชั่นประจำเดือน)\n• หากตรงกับวันหยุดทำการของร้าน จะไม่มีการชดเชยโปรโมชั่น\n• ไม่สามารถใช้สิทธิ์ซ้ำซ้อนได้ จำกัด 1 สิทธิ์ต่อ 1 ท่าน\n---------------------------------------------\n《วิธีรับสิทธิ์》\n1. จองล่วงหน้า: จองผ่านเว็บไซต์ทางการโดยคลิก [จองคิว]\n2. สมัครสมาชิก: เจ้าของวันเกิดต้องสมัครสมาชิกเว็บไซต์ (ผ่าน LINE หรืออีเมล)\n3. เช็คอินที่หน้าร้าน: แจ้งพนักงานและแสดงบัตรประจำตัวพร้อมข้อมูลสมาชิกเพื่อรับสิทธิ์",
@@ -31,7 +31,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "❗ Chỉ dành cho người có sinh nhật trong ngày: Người khác không thể chọn hoặc trả tiền để làm!\n🏠 Áp dụng đổi quà tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh bông lan nguyên vị\n● Nhân: Không có\n● Trang trí: Kem tươi, thiệp cắm sinh nhật\n🎁 Tặng kèm 1 hộp giấy xách tay\n---------------------------------------------\n🎉【Ưu đãi dành riêng cho sinh nhật】🎂\nVào ngày sinh nhật, không phân biệt quốc tịch, chỉ cần xuất trình CCCD/hộ chiếu và thông tin thành viên,\nSẽ được chọn 1 trong 4 ưu đãi hấp dẫn sau:\n1. Làm miễn phí Bánh sinh nhật của tôi\n2. Thêm $199 để làm Sô-cô-la Oreo, Ca cao giòn hoặc Bá tước quả mọng\n3. Giảm giá 31% cho các món tráng miệng khác (không gồm bánh trang trí và bánh đôi)\n---------------------------------------------\n《Lưu ý quan trọng》\n• Người đi cùng phải tự làm một phần tráng miệng riêng (không áp dụng phí đi kèm và giảm giá)\n• Chỉ áp dụng cho người có sinh nhật từ đủ 12 tuổi trở lên\n• Chỉ áp dụng đúng ngày sinh nhật, không được dời trước hoặc sau (không có ưu đãi tháng sinh)\n• Nếu trùng vào ngày cửa hàng nghỉ, ưu đãi sẽ không được áp dụng\n• Ưu đãi không được áp dụng cộng dồn, mỗi khách chỉ được chọn 1 ưu đãi\n---------------------------------------------\n《Cách thức nhận ưu đãi》\n1. Đặt bàn trước: Đặt chỗ qua website chính thức bằng cách chọn [Đặt bàn ngay]\n2. Đăng ký thành viên: Người có sinh nhật phải đăng ký thành viên trên web (qua LINE hoặc Email)\n3. Xác nhận tại chỗ: Báo với nhân viên và xuất trình giấy tờ tùy thân cùng trang thành viên để nhận ưu đãi"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -81,7 +81,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "❗非當日壽星：無法選擇與付費製作！\r\r\n🏠提供兌換：所有分店\r\r\n［蛋奶素］\r\r\n●主體：巧克力戚風蛋糕\r\r\n●內餡：巧克力鮮奶油、巧克力\r\r\n●裝飾：巧克力鮮奶油、鮮奶油、可可粉、巧克力、脆笛酥、糖片\r\r\n🎁附手提紙盒一個\r\r\n---------------------------------------------\r\r\n🎉【當日壽星優惠】🎂\r\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\r\n即可享受以下四選一優惠：\r\r\n1. 免費製作我的生日蛋糕\r\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\r\n---------------------------------------------\r\r\n《注意事項》\r\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\r\n• 限年滿12歲(含)以上的壽星本人使用\r\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\r\n• 如遇店休，不提供壽星優惠活動\r\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\r\n---------------------------------------------\r\r\n《兌換方式》\r\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
+      "zh": "❗非當日壽星：無法選擇與付費製作！\r\n🏠提供兌換：所有分店\r\n［蛋奶素］\r\n●主體：巧克力戚風蛋糕\r\n●內餡：巧克力鮮奶油、巧克力\r\n●裝飾：巧克力鮮奶油、鮮奶油、可可粉、巧克力、脆笛酥、糖片\r\n🎁附手提紙盒一個\r\n---------------------------------------------\r\n🎉【當日壽星優惠】🎂\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\n即可享受以下四選一優惠：\r\n1. 免費製作我的生日蛋糕\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\n---------------------------------------------\r\n《注意事項》\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\n• 限年滿12歲(含)以上的壽星本人使用\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\n• 如遇店休，不提供壽星優惠活動\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\n---------------------------------------------\r\n《兌換方式》\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
       "en": "❗ Birthday person only: Non-birthday guests cannot select or pay to make this item!\n🏠 Redeemable at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Chocolate chiffon cake\n● Filling: Chocolate whipped cream, chocolate\n● Decoration: Chocolate whipped cream, whipped cream, cocoa powder, chocolate, wafer rolls, sugar flakes\n🎁 Includes one portable cake box\n---------------------------------------------\n🎉【Birthday Person Exclusive Offer】🎂\nOn your birthday, all nationalities welcome! Show personal ID and membership info,\nEnjoy one of the following 4 birthday benefits:\n1. Make My Birthday Cake for FREE\n2. Upgrade for +$199 to Oreo Chocolate, Crunchy Cocoa, or Berry Earl Grey\n3. 31% OFF any other dessert (excludes custom deco & couple cakes)\n---------------------------------------------\n《Important Notes》\n• Accompanying guests must make an independent dessert (companion fee & 31% off discount do not apply)\n• Valid only for the birthday person aged 12 or above\n• Strictly valid on your actual birthday only; cannot be used early or postponed (no birthday month extension)\n• Birthday offer is unavailable if the store is closed on that day\n• Offers cannot be combined; each birthday person may choose only one benefit\n---------------------------------------------\n《How to Redeem》\n1. Reserve in advance: Book via the official website by clicking [Reserve Now]\n2. Member Registration: The birthday person must register as a member (via LINE or Email)\n3. Check-in: Inform staff on site and present ID + membership screen to redeem offer",
       "ja": "❗ 当日お誕生日の方限定：対象外の方の選択・有料製作はできません！\n🏠 特典引換：全店舗で利用可能\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：チョコシフォンケーキ\n● フィリング：チョコ生クリーム、チョコレート\n● デコレーション：チョコ生クリーム、生クリーム、ココアパウダー、チョコ、ピコラ風ウエハース、シュガーチップ\n🎁 手提げケーキ箱1個付き\n---------------------------------------------\n🎉【当日お誕生日限定特典】🎂\nお誕生日当日、国籍不問！ご本人様の身分証明書と公式サイト会員画面をご提示いただくと、\n以下の4つの特典から1つお選びいただけます：\n1. 「私のバースデーケーキ」を無料で手作り体験\n2. +199元でオレオチョコ、クランチココア、ベリーアールグレイへグレードアップ\n3. その他スイーツが31%OFF（デコレーションケーキ・ペアケーキ対象外）\n---------------------------------------------\n《注意事項》\n• 同伴者様も1名につき1品の独立製作が必要です（同伴料および割引は適用外）\n• 満12歳以上の誕生日ご本人様のみご利用可能\n• お誕生日当日限定（前倒し・後倒し不可、誕生月割引なし）\n• 定休日の場合は誕生日特典をご利用いただけません\n• 特典の併用・重複利用は不可、1名様につき1つのみ選択可能\n---------------------------------------------\n《引き換え方法》\n1. 事前予約：公式サイトの［予約する］からご本人または代理で予約\n2. 会員登録：予約者に関わらず、誕生日ご本人様の公式会員登録が必須です（LINEまたはメール）\n3. 来店受付：店頭で誕生日であることを伝え、身分証と会員画面を提示して特典利用",
       "th": "❗ เฉพาะเจ้าของวันเกิดเท่านั้น: บุคคลอื่นไม่สามารถเลือกหรือชำระเงินเพื่อทำได้!\n🏠 ใช้สิทธิ์ได้ที่: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: เค้กชิฟฟอนช็อกโกแลต\n● ไส้: วิปครีมช็อกโกแลต, ช็อกโกแลต\n● ตกแต่ง: วิปครีมช็อกโกแลต, วิปครีม, ผงโกโก้, ช็อกโกแลต, เวเฟอร์โรล, เกล็ดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ\n---------------------------------------------\n🎉【สิทธิพิเศษสำหรับเจ้าของวันเกิด】🎂\nในวันเกิดของคุณ ไม่จำกัดสัญชาติ เพียงแสดงบัตรประจำตัวและข้อมูลสมาชิกเว็บไซต์,\nรับสิทธิ์เลือก 1 ใน 4 โปรโมชั่นสุดพิเศษดังนี้:\n1. ทำเค้กวันเกิดของฉัน ฟรี!\n2. เพิ่มเงิน $199 เลือกทำ โอริโอ้ช็อกโกแลต, ช็อกโกแลตครันชี่ หรือ เบอร์รี่เอิร์ลเกรย์\n3. ลด 31% สำหรับเมนูของหวานอื่นๆ (ไม่รวมเค้กตกแต่งตามสั่งและเค้กคู่รัก)\n---------------------------------------------\n《ข้อควรทราบ》\n• ผู้ติดตามต้องทำขนมแยก 1 ชิ้นต่อคน (ไม่สามารถใช้สิทธิ์ส่วนลดวันเกิดร่วมได้)\n• สำหรับเจ้าของวันเกิดที่มีอายุ 12 ปีขึ้นไปเท่านั้น\n• ใช้ได้เฉพาะในวันเกิดจริงเท่านั้น ไม่สามารถใช้ก่อนหรือหลังได้ (ไม่มีโปรโมชั่นประจำเดือน)\n• หากตรงกับวันหยุดทำการของร้าน จะไม่มีการชดเชยโปรโมชั่น\n• ไม่สามารถใช้สิทธิ์ซ้ำซ้อนได้ จำกัด 1 สิทธิ์ต่อ 1 ท่าน\n---------------------------------------------\n《วิธีรับสิทธิ์》\n1. จองล่วงหน้า: จองผ่านเว็บไซต์ทางการโดยคลิก [จองคิว]\n2. สมัครสมาชิก: เจ้าของวันเกิดต้องสมัครสมาชิกเว็บไซต์ (ผ่าน LINE หรืออีเมล)\n3. เช็คอินที่หน้าร้าน: แจ้งพนักงานและแสดงบัตรประจำตัวพร้อมข้อมูลสมาชิกเพื่อรับสิทธิ์",
@@ -89,7 +89,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "❗ Chỉ dành cho người có sinh nhật trong ngày: Người khác không thể chọn hoặc trả tiền để làm!\n🏠 Áp dụng đổi quà tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh Chiffon sô-cô-la\n● Nhân: Kem tươi sô-cô-la, sô-cô-la\n● Trang trí: Kem tươi sô-cô-la, kem tươi, bột ca cao, sô-cô-la, bánh quế cuộn, kẹo đường\n🎁 Tặng kèm 1 hộp giấy xách tay\n---------------------------------------------\n🎉【Ưu đãi dành riêng cho sinh nhật】🎂\nVào ngày sinh nhật, không phân biệt quốc tịch, chỉ cần xuất trình CCCD/hộ chiếu và thông tin thành viên,\nSẽ được chọn 1 trong 4 ưu đãi hấp dẫn sau:\n1. Làm miễn phí Bánh sinh nhật của tôi\n2. Thêm $199 để làm Sô-cô-la Oreo, Ca cao giòn hoặc Bá tước quả mọng\n3. Giảm giá 31% cho các món tráng miệng khác (không gồm bánh trang trí và bánh đôi)\n---------------------------------------------\n《Lưu ý quan trọng》\n• Người đi cùng phải tự làm một phần tráng miệng riêng (không áp dụng phí đi kèm và giảm giá)\n• Chỉ áp dụng cho người có sinh nhật từ đủ 12 tuổi trở lên\n• Chỉ áp dụng đúng ngày sinh nhật, không được dời trước hoặc sau (không có ưu đãi tháng sinh)\n• Nếu trùng vào ngày cửa hàng nghỉ, ưu đãi sẽ không được áp dụng\n• Ưu đãi không được áp dụng cộng dồn, mỗi khách chỉ được chọn 1 ưu đãi\n---------------------------------------------\n《Cách thức nhận ưu đãi》\n1. Đặt bàn trước: Đặt chỗ qua website chính thức bằng cách chọn [Đặt bàn ngay]\n2. Đăng ký thành viên: Người có sinh nhật phải đăng ký thành viên trên web (qua LINE hoặc Email)\n3. Xác nhận tại chỗ: Báo với nhân viên và xuất trình giấy tờ tùy thân cùng trang thành viên để nhận ưu đãi"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -139,7 +139,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "❗非當日壽星：無法選擇與付費製作！\r\r\n🏠提供兌換：所有分店\r\r\n［蛋奶素］\r\r\n●主體：原味海棉蛋糕\r\r\n●內餡：無\r\r\n●裝飾：Oreo鮮奶油、Oreo餅乾、Oreo粉、眼睛糖珠\r\r\n🎁附手提紙盒一個\r\r\n---------------------------------------------\r\r\n🎉【當日壽星優惠】🎂\r\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\r\n即可享受以下三選一優惠：\r\r\n1. 免費製作我的生日蛋糕\r\r\n2. 加價$199，選擇Oreo巧克力、脆笛可可、莓果伯爵\r\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\r\n---------------------------------------------\r\r\n《注意事項》\r\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\r\n• 限年滿12歲(含)以上的壽星本人使用\r\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\r\n• 如遇店休，不提供壽星優惠活動\r\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\r\n---------------------------------------------\r\r\n《兌換方式》\r\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
+      "zh": "❗非當日壽星：無法選擇與付費製作！\r\n🏠提供兌換：所有分店\r\n［蛋奶素］\r\n●主體：原味海棉蛋糕\r\n●內餡：無\r\n●裝飾：Oreo鮮奶油、Oreo餅乾、Oreo粉、眼睛糖珠\r\n🎁附手提紙盒一個\r\n---------------------------------------------\r\n🎉【當日壽星優惠】🎂\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\n即可享受以下三選一優惠：\r\n1. 免費製作我的生日蛋糕\r\n2. 加價$199，選擇Oreo巧克力、脆笛可可、莓果伯爵\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\n---------------------------------------------\r\n《注意事項》\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\n• 限年滿12歲(含)以上的壽星本人使用\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\n• 如遇店休，不提供壽星優惠活動\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\n---------------------------------------------\r\n《兌換方式》\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
       "en": "❗ Birthday person only: Non-birthday guests cannot select or pay to make this item!\n🏠 Redeemable at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Original sponge cake\n● Filling: None\n● Decoration: Oreo whipped cream, Oreo cookies, Oreo crumbs, sugar candy eyes\n🎁 Includes one portable cake box\n---------------------------------------------\n🎉【Birthday Person Exclusive Offer】🎂\nOn your birthday, all nationalities welcome! Show personal ID and membership info,\nEnjoy one of the following 3 birthday benefits:\n1. Make My Birthday Cake for FREE\n2. Upgrade for +$199 to Oreo Chocolate, Crunchy Cocoa, or Berry Earl Grey\n3. 31% OFF any other dessert (excludes custom deco & couple cakes)\n---------------------------------------------\n《Important Notes》\n• Accompanying guests must make an independent dessert (companion fee & 31% off discount do not apply)\n• Valid only for the birthday person aged 12 or above\n• Strictly valid on your actual birthday only; cannot be used early or postponed (no birthday month extension)\n• Birthday offer is unavailable if the store is closed on that day\n• Offers cannot be combined; each birthday person may choose only one benefit\n---------------------------------------------\n《How to Redeem》\n1. Reserve in advance: Book via the official website by clicking [Reserve Now]\n2. Member Registration: The birthday person must register as a member (via LINE or Email)\n3. Check-in: Inform staff on site and present ID + membership screen to redeem offer",
       "ja": "❗ 当日お誕生日の方限定：対象外の方の選択・有料製作はできません！\n🏠 特典引換：全店舗で利用可能\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：プレーンスポンジケーキ\n● フィリング：なし\n● デコレーション：オレオ生クリーム、オレオクッキー、オレオパウダー、目玉シュガーキャンディ\n🎁 手提げケーキ箱1個付き\n---------------------------------------------\n🎉【当日お誕生日限定特典】🎂\nお誕生日当日、国籍不問！ご本人様の身分証明書と公式サイト会員画面をご提示いただくと、\n以下の3つの特典から1つお選びいただけます：\n1. 「私のバースデーケーキ」を無料で手作り体験\n2. +199元でオレオチョコ、クランチココア、ベリーアールグレイを選択可能\n3. その他スイーツが31%OFF（デコレーションケーキ・ペアケーキ対象外）\n---------------------------------------------\n《注意事項》\n• 同伴者様も1名につき1品の独立製作が必要です（同伴料および割引は適用外）\n• 満12歳以上の誕生日ご本人様のみご利用可能\n• お誕生日当日限定（前倒し・後倒し不可、誕生月割引なし）\n• 定休日の場合は誕生日特典をご利用いただけません\n• 特典の併用・重複利用は不可、1名様につき1つのみ選択可能\n---------------------------------------------\n《引き換え方法》\n1. 事前予約：公式サイトの［予約する］からご本人または代理で予約\n2. 会員登録：予約者に関わらず、誕生日ご本人様の公式会員登録が必須です（LINEまたはメール）\n3. 来店受付：店頭で誕生日であることを伝え、身分証と会員画面を提示して特典利用",
       "th": "❗ เฉพาะเจ้าของวันเกิดเท่านั้น: บุคคลอื่นไม่สามารถเลือกหรือชำระเงินเพื่อทำได้!\n🏠 ใช้สิทธิ์ได้ที่: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: สปันจ์เค้กรสดั้งเดิม\n● ไส้: ไม่มี\n● ตกแต่ง: วิปครีมโอริโอ้, คุกกี้โอริโอ้, ผงโอริโอ้, น้ำตาลรูปดวงตา\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ\n---------------------------------------------\n🎉【สิทธิพิเศษสำหรับเจ้าของวันเกิด】🎂\nในวันเกิดของคุณ ไม่จำกัดสัญชาติ เพียงแสดงบัตรประจำตัวและข้อมูลสมาชิกเว็บไซต์,\nรับสิทธิ์เลือก 1 ใน 3 โปรโมชั่นสุดพิเศษดังนี้:\n1. ทำเค้กวันเกิดของฉัน ฟรี!\n2. เพิ่มเงิน $199 เลือกทำ โอริโอ้ช็อกโกแลต, ช็อกโกแลตครันชี่ หรือ เบอร์รี่เอิร์ลเกรย์\n3. ลด 31% สำหรับเมนูของหวานอื่นๆ (ไม่รวมเค้กตกแต่งตามสั่งและเค้กคู่รัก)\n---------------------------------------------\n《ข้อควรทราบ》\n• ผู้ติดตามต้องทำขนมแยก 1 ชิ้นต่อคน (ไม่สามารถใช้สิทธิ์ส่วนลดวันเกิดร่วมได้)\n• สำหรับเจ้าของวันเกิดที่มีอายุ 12 ปีขึ้นไปเท่านั้น\n• ใช้ได้เฉพาะในวันเกิดจริงเท่านั้น ไม่สามารถใช้ก่อนหรือหลังได้ (ไม่มีโปรโมชั่นประจำเดือน)\n• หากตรงกับวันหยุดทำการของร้าน จะไม่มีการชดเชยโปรโมชั่น\n• ไม่สามารถใช้สิทธิ์ซ้ำซ้อนได้ จำกัด 1 สิทธิ์ต่อ 1 ท่าน\n---------------------------------------------\n《วิธีรับสิทธิ์》\n1. จองล่วงหน้า: จองผ่านเว็บไซต์ทางการโดยคลิก [จองคิว]\n2. สมัครสมาชิก: เจ้าของวันเกิดต้องสมัครสมาชิกเว็บไซต์ (ผ่าน LINE หรืออีเมล)\n3. เช็คอินที่หน้าร้าน: แจ้งพนักงานและแสดงบัตรประจำตัวพร้อมข้อมูลสมาชิกเพื่อรับสิทธิ์",
@@ -147,7 +147,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "❗ Chỉ dành cho người có sinh nhật trong ngày: Người khác không thể chọn hoặc trả tiền để làm!\n🏠 Áp dụng đổi quà tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh bông lan nguyên vị\n● Nhân: Không có\n● Trang trí: Kem tươi Oreo, bánh quy Oreo, vụn Oreo, hạt kẹo đường hình mắt\n🎁 Tặng kèm 1 hộp giấy xách tay\n---------------------------------------------\n🎉【Ưu đãi dành riêng cho sinh nhật】🎂\nVào ngày sinh nhật, không phân biệt quốc tịch, chỉ cần xuất trình CCCD/hộ chiếu và thông tin thành viên,\nSẽ được chọn 1 trong 3 ưu đãi sau:\n1. Làm miễn phí Bánh sinh nhật của tôi\n2. Thêm $199 để chọn Sô-cô-la Oreo, Ca cao giòn hoặc Bá tước quả mọng\n3. Giảm giá 31% cho các món tráng miệng khác (không gồm bánh trang trí và bánh đôi)\n---------------------------------------------\n《Lưu ý quan trọng》\n• Người đi cùng phải tự làm một phần tráng miệng riêng (không áp dụng phí đi kèm và giảm giá)\n• Chỉ áp dụng cho người có sinh nhật từ đủ 12 tuổi trở lên\n• Chỉ áp dụng đúng ngày sinh nhật, không được dời trước hoặc sau (không có ưu đãi tháng sinh)\n• Nếu trùng vào ngày cửa hàng nghỉ, ưu đãi sẽ không được áp dụng\n• Ưu đãi không được áp dụng cộng dồn, mỗi khách chỉ được chọn 1 ưu đãi\n---------------------------------------------\n《Cách thức nhận ưu đãi》\n1. Đặt bàn trước: Đặt chỗ qua website chính thức bằng cách chọn [Đặt bàn ngay]\n2. Đăng ký thành viên: Người có sinh nhật phải đăng ký thành viên trên web (qua LINE hoặc Email)\n3. Xác nhận tại chỗ: Báo với nhân viên và xuất trình giấy tờ tùy thân cùng trang thành viên để nhận ưu đãi"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -197,7 +197,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：伯爵紅茶戚風蛋糕\r\r\n●內餡：蔓越莓鮮奶油、寒天QQ\r\r\n●裝飾：鮮奶油、巧克力、糖粒、裝飾派對帽、蠟燭\r\r\n🎁附手提紙盒一個\r\r\n---------------------------------------------\r\r\n🎉【當日壽星優惠】🎂\r\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\r\n即可享受以下四選一優惠：\r\r\n1. 免費製作我的生日蛋糕\r\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\r\n---------------------------------------------\r\r\n《注意事項》\r\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\r\n• 限年滿12歲(含)以上的壽星本人使用\r\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\r\n• 如遇店休，不提供壽星優惠活動\r\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\r\n---------------------------------------------\r\r\n《兌換方式》\r\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：伯爵紅茶戚風蛋糕\r\n●內餡：蔓越莓鮮奶油、寒天QQ\r\n●裝飾：鮮奶油、巧克力、糖粒、裝飾派對帽、蠟燭\r\n🎁附手提紙盒一個\r\n---------------------------------------------\r\n🎉【當日壽星優惠】🎂\r\n生日當天，不分國籍，只要出示本人證件和官網會員資訊，\r\n即可享受以下四選一優惠：\r\n1. 免費製作我的生日蛋糕\r\n2. 加價$199，Oreo巧克力、脆笛可可、莓果伯爵\r\n3. 69折換購其他甜點（不含裝飾蛋糕和雙人蛋糕）\r\n---------------------------------------------\r\n《注意事項》\r\n• 陪同者需獨立製作一份甜點（不適用陪同費及壽星69折優惠）\r\n• 限年滿12歲(含)以上的壽星本人使用\r\n• 僅限生日當天使用，無法提前或延後（無當月優惠）\r\n• 如遇店休，不提供壽星優惠活動\r\n• 優惠不可重複使用，每位壽星限擇一使用\r\n---------------------------------------------\r\n《兌換方式》\r\n1. 預先訂位：可以由壽星本人或他人，透過官網點選［我要訂位］進行預定\r\n2. 會員註冊：無論由誰訂位，壽星本人都必須註冊成為官網會員（可選擇使用LINE或信箱）。\r\n3. 完成訂位：現場告知有壽星，並由壽星本人出示證件及官網會員資訊，即可兌換優惠。",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Earl Grey tea chiffon cake\n● Filling: Cranberry whipped cream, agar jelly QQ balls\n● Decoration: Whipped cream, chocolate, sugar sprinkles, party hat topper, candle\n🎁 Includes one portable cake box\n---------------------------------------------\n🎉【Birthday Person Exclusive Offer】🎂\nOn your birthday, all nationalities welcome! Show personal ID and membership info,\nEnjoy one of the following 4 birthday benefits:\n1. Make My Birthday Cake for FREE\n2. Upgrade for +$199 to Oreo Chocolate, Crunchy Cocoa, or Berry Earl Grey\n3. 31% OFF any other dessert (excludes custom deco & couple cakes)\n---------------------------------------------\n《Important Notes》\n• Accompanying guests must make an independent dessert (companion fee & 31% off discount do not apply)\n• Valid only for the birthday person aged 12 or above\n• Strictly valid on your actual birthday only; cannot be used early or postponed (no birthday month extension)\n• Birthday offer is unavailable if the store is closed on that day\n• Offers cannot be combined; each birthday person may choose only one benefit\n---------------------------------------------\n《How to Redeem》\n1. Reserve in advance: Book via the official website by clicking [Reserve Now]\n2. Member Registration: The birthday person must register as a member (via LINE or Email)\n3. Check-in: Inform staff on site and present ID + membership screen to redeem offer",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：アールグレイ紅茶シフォンケーキ\n● フィリング：クランベリー生クリーム、寒天QQゼリー\n● デコレーション：生クリーム、チョコ、シュガースプリンクル、パーティーハット飾り、キャンドル\n🎁 手提げケーキ箱1個付き\n---------------------------------------------\n🎉【当日お誕生日限定特典】🎂\nお誕生日当日、国籍不問！ご本人様の身分証明書と公式サイト会員画面をご提示いただくと、\n以下の4つの特典から1つお選びいただけます：\n1. 「私のバースデーケーキ」を無料で手作り体験\n2. +199元でオレオチョコ、クランチココア、ベリーアールグレイへグレードアップ\n3. その他スイーツが31%OFF（デコレーションケーキ・ペアケーキ対象外）\n---------------------------------------------\n《注意事項》\n• 同伴者様も1名につき1品の独立製作が必要です（同伴料および割引は適用外）\n• 満12歳以上の誕生日ご本人様のみご利用可能\n• お誕生日当日限定（前倒し・後倒し不可、誕生月割引なし）\n• 定休日の場合は誕生日特典をご利用いただけません\n• 特典の併用・重複利用は不可、1名様につき1つのみ選択可能\n---------------------------------------------\n《引き換え方法》\n1. 事前予約：公式サイトの［予約する］からご本人または代理で予約\n2. 会員登録：予約者に関わらず、誕生日ご本人様の公式会員登録が必須です（LINEまたはメール）\n3. 来店受付：店頭で誕生日であることを伝え、身分証と会員画面を提示して特典利用",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: ชิฟฟอนชาเอิร์ลเกรย์\n● ไส้: วิปครีมแครนเบอร์รี่, เยลลี่คันเต็น QQ\n● ตกแต่ง: วิปครีม, ช็อกโกแลต, น้ำตาลเกล็ด, หมวกปาร์ตี้จิ๋ว, เทียน\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ\n---------------------------------------------\n🎉【สิทธิพิเศษสำหรับเจ้าของวันเกิด】🎂\nในวันเกิดของคุณ ไม่จำกัดสัญชาติ เพียงแสดงบัตรประจำตัวและข้อมูลสมาชิกเว็บไซต์,\nรับสิทธิ์เลือก 1 ใน 4 โปรโมชั่นสุดพิเศษดังนี้:\n1. ทำเค้กวันเกิดของฉัน ฟรี!\n2. เพิ่มเงิน $199 เลือกทำ โอริโอ้ช็อกโกแลต, ช็อกโกแลตครันชี่ หรือ เบอร์รี่เอิร์ลเกรย์\n3. ลด 31% สำหรับเมนูของหวานอื่นๆ (ไม่รวมเค้กตกแต่งตามสั่งและเค้กคู่รัก)\n---------------------------------------------\n《ข้อควรทราบ》\n• ผู้ติดตามต้องทำขนมแยก 1 ชิ้นต่อคน (ไม่สามารถใช้สิทธิ์ส่วนลดวันเกิดร่วมได้)\n• สำหรับเจ้าของวันเกิดที่มีอายุ 12 ปีขึ้นไปเท่านั้น\n• ใช้ได้เฉพาะในวันเกิดจริงเท่านั้น ไม่สามารถใช้ก่อนหรือหลังได้ (ไม่มีโปรโมชั่นประจำเดือน)\n• หากตรงกับวันหยุดทำการของร้าน จะไม่มีการชดเชยโปรโมชั่น\n• ไม่สามารถใช้สิทธิ์ซ้ำซ้อนได้ จำกัด 1 สิทธิ์ต่อ 1 ท่าน\n---------------------------------------------\n《วิธีรับสิทธิ์》\n1. จองล่วงหน้า: จองผ่านเว็บไซต์ทางการโดยคลิก [จองคิว]\n2. สมัครสมาชิก: เจ้าของวันเกิดต้องสมัครสมาชิกเว็บไซต์ (ผ่าน LINE หรืออีเมล)\n3. เช็คอินที่หน้าร้าน: แจ้งพนักงานและแสดงบัตรประจำตัวพร้อมข้อมูลสมาชิกเพื่อรับสิทธิ์",
@@ -205,7 +205,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh Chiffon trà Bá tước\n● Nhân: Kem tươi nam việt quất, thạch agar QQ\n● Trang trí: Kem tươi, sô-cô-la, hạt cốm đường, nón sinh nhật mini, nến\n🎁 Tặng kèm 1 hộp giấy xách tay\n---------------------------------------------\n🎉【Ưu đãi dành riêng cho sinh nhật】🎂\nVào ngày sinh nhật, không phân biệt quốc tịch, chỉ cần xuất trình CCCD/hộ chiếu và thông tin thành viên,\nSẽ được chọn 1 trong 4 ưu đãi hấp dẫn sau:\n1. Làm miễn phí Bánh sinh nhật của tôi\n2. Thêm $199 để làm Sô-cô-la Oreo, Ca cao giòn hoặc Bá tước quả mọng\n3. Giảm giá 31% cho các món tráng miệng khác (không gồm bánh trang trí và bánh đôi)\n---------------------------------------------\n《Lưu ý quan trọng》\n• Người đi cùng phải tự làm một phần tráng miệng riêng (không áp dụng phí đi kèm và giảm giá)\n• Chỉ áp dụng cho người có sinh nhật từ đủ 12 tuổi trở lên\n• Chỉ áp dụng đúng ngày sinh nhật, không được dời trước hoặc sau (không có ưu đãi tháng sinh)\n• Nếu trùng vào ngày cửa hàng nghỉ, ưu đãi sẽ không được áp dụng\n• Ưu đãi không được áp dụng cộng dồn, mỗi khách chỉ được chọn 1 ưu đãi\n---------------------------------------------\n《Cách thức nhận ưu đãi》\n1. Đặt bàn trước: Đặt chỗ qua website chính thức bằng cách chọn [Đặt bàn ngay]\n2. Đăng ký thành viên: Người có sinh nhật phải đăng ký thành viên trên web (qua LINE hoặc Email)\n3. Xác nhận tại chỗ: Báo với nhân viên và xuất trình giấy tờ tùy thân cùng trang thành viên để nhận ưu đãi"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -255,7 +255,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "5 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n●主體：消化餅乾底、檸檬生乳酪\r\r\n●內餡：檸檬奶餡\r\r\n●裝飾：檸檬奶餡、鮮奶油、糖珠、胡椒葉\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n●主體：消化餅乾底、檸檬生乳酪\r\n●內餡：檸檬奶餡\r\n●裝飾：檸檬奶餡、鮮奶油、糖珠、胡椒葉\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n● Main: Digestive biscuit base, lemon rare cheesecake\n● Filling: Lemon curd custard\n● Decoration: Lemon curd, whipped cream, sugar pearls, pepper leaves\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n● メイン：ダイジェスティブビスケットクラスト、レモンレアチーズ\n● フィリング：レモンカスタードカード\n● デコレーション：レモンカード、生クリーム、シュガーパール、ハーブリーフ\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n● ตัวเค้ก: ฐานบิสกิตไดเจสทีฟ, แรร์ชีสเค้กเลมอน\n● ไส้: เลมอนเคิร์ดคัสตาร์ด\n● ตกแต่ง: เลมอนเคิร์ด, วิปครีม, ลูกปัดน้ำตาล, ใบพริกไทยประดับ\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -263,7 +263,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n● Cốt bánh: Đế bánh quy Digestive, cheesecake tươi chanh\n● Nhân: Kem sữa chanh vàng\n● Trang trí: Kem sữa chanh, kem tươi, hạt ngọc đường, lá trang trí\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -313,7 +313,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：巧克力戚風蛋糕\r\r\n●內餡：巧克力甘納許\r\r\n●裝飾：Oreo鮮奶油、Oreo粉、Oreo餅乾、眼睛糖珠\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［含酒，可不加］\r\n●主體：巧克力戚風蛋糕\r\n●內餡：巧克力甘納許\r\n●裝飾：Oreo鮮奶油、Oreo粉、Oreo餅乾、眼睛糖珠\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Chocolate chiffon cake\n● Filling: Rich chocolate ganache\n● Decoration: Oreo whipped cream, Oreo crumbs, Oreo cookies, sugar candy eyes\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：チョコシフォンケーキ\n● フィリング：濃厚生チョコガナッシュ\n● デコレーション：オレオ生クリーム、オレオパウダー、オレオクッキー、目玉キャンディ\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: เค้กชิฟฟอนช็อกโกแลต\n● ไส้: ช็อกโกแลตกานาชเข้มข้น\n● ตกแต่ง: วิปครีมโอริโอ้, ผงโอริโอ้, คุกกี้โอริโอ้, น้ำตาลรูปดวงตา\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -321,7 +321,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh Chiffon sô-cô-la\n● Nhân: Ganache sô-cô-la đậm đà\n● Trang trí: Kem tươi Oreo, bột Oreo, bánh quy Oreo, kẹo hình mắt\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -371,7 +371,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n●主體：檸檬巴斯克、檸檬慕斯\r\r\n●裝飾：檸檬皮屑、檸檬片、糖粉、鮮奶油\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n●主體：檸檬巴斯克、檸檬慕斯\r\n●裝飾：檸檬皮屑、檸檬片、糖粉、鮮奶油\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n● Main: Lemon Basque cheesecake, lemon mousse\n● Decoration: Lemon zest, lemon slices, powdered sugar, whipped cream\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n● メイン：レモンバスクチーズケーキ、レモンムース\n● デコレーション：レモンゼスト、レモンスライス、粉糖、生クリーム\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n● ตัวเค้ก: ชีสเค้กบาสก์เลมอน, มูสเลมอน\n● ตกแต่ง: ผิวมะนาวขูด, เลมอนสไลซ์, ไอซิ่ง, วิปครีม\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -379,7 +379,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n● Cốt bánh: Basque phô mai chanh, mousse chanh\n● Trang trí: Vỏ chanh bào, lát chanh tươi, đường bột, kem tươi\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●塑膠圍邊撕開，邊緣會些許不平整，為正常現象。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●塑膠圍邊撕開，邊緣會些許不平整，為正常現象。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Removing the plastic collar may cause slight unevenness on edges, which is normal.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●フィルムを剥がす際にフチが多少崩れる場合がありますが品質には問題ありません。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เมื่อลอกแผ่นพลาสติกใสรอบเค้กออก ขอบอาจจะไม่เรียบเล็กน้อย ซึ่งเป็นลักษณะปกติ\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -429,7 +429,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：原味海綿蛋糕\r\r\n●上層：檸檬糖霜\r\r\n●裝飾：檸檬片、檸檬皮屑\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：原味海綿蛋糕\r\n●上層：檸檬糖霜\r\n●裝飾：檸檬片、檸檬皮屑\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Original sponge cake\n● Top Layer: Fresh lemon sugar glaze\n● Decoration: Candied lemon slice, fresh lemon zest\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：プレーンスポンジケーキ\n● トップ：爽やかレモンアイシングシュガー\n● デコレーション：レモンスライス、レモンピール\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: สปันจ์เค้กรสดั้งเดิม\n● หน้าเค้ก: เลมอนชูการ์ไอซิ่งเกลซ\n● ตกแต่ง: เลมอนสไลซ์, ผิวมะนาวขูดสด\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -437,7 +437,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh bông lan nguyên vị\n● Lớp phủ trên: Lớp men đường chanh tươi\n● Trang trí: Lát chanh tươi, vỏ chanh bào\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●可常溫保存。\r\r\n●若冷藏保存，請退冰至常溫後再食用。\r\r\n（建議放入保鮮盒或以保鮮膜包覆）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●可常溫保存。\r\n●若冷藏保存，請退冰至常溫後再食用。\r\n（建議放入保鮮盒或以保鮮膜包覆）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Can be stored at room temperature.\n● If refrigerated, allow to return to room temperature before serving.\n(Recommend airtight container or cling wrap)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存可能です。\n●冷蔵保存する場合は、常温に戻してからお召し上がりください。\n（密閉容器またはラップで包むことをおすすめします）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●สามารถเก็บที่อุณหภูมิห้องได้\n●หากเก็บในตู้เย็น กรุณารอให้คลายความเย็นสู่ระดับอุณหภูมิห้องก่อนรับประทาน\n(แนะนำให้เก็บในกล่องปิดสนิทหรือห่อด้วยพลาสติกถนอมอาหาร)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -487,7 +487,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：巧克力巴斯克、巧克力甘納許\r\r\n●裝飾：可可粉、糖珠\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［含酒，可不加］\r\n●主體：巧克力巴斯克、巧克力甘納許\r\n●裝飾：可可粉、糖珠\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Chocolate Basque cheesecake, chocolate ganache\n● Decoration: Pure cocoa powder, sugar pearls\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：チョコバスクチーズケーキ、生チョコガナッシュ\n● デコレーション：厳選ココアパウダー、シュガーパール\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ชีสเค้กบาสก์ช็อกโกแลต, ช็อกโกแลตกานาช\n● ตกแต่ง: ผงโกโก้แท้, ลูกปัดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -495,7 +495,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Basque sô-cô-la, ganache sô-cô-la\n● Trang trí: Bột ca cao nguyên chất, hạt ngọc đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -545,7 +545,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch2 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：巧克力戚風\r\r\n●內餡：鐵觀音鮮奶油、鐵觀音茶凍、巧克力脆球\r\r\n●裝飾：鮮奶油、焦糖鮮奶油、Oreo餅乾、焦糖餅乾、胡椒葉\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：巧克力戚風\r\n●內餡：鐵觀音鮮奶油、鐵觀音茶凍、巧克力脆球\r\n●裝飾：鮮奶油、焦糖鮮奶油、Oreo餅乾、焦糖餅乾、胡椒葉\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Chocolate chiffon cake\n● Filling: Tieguanyin tea whipped cream, tea jelly, chocolate crunch pearls\n● Decoration: Whipped cream, caramel whipped cream, Oreo cookies, Lotus Biscoff biscuit, herbal leaf\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：チョコシフォンケーキ\n● フィリング：鉄観音茶生クリーム、鉄観音茶ゼリー、サクサクチョコボール\n● デコレーション：生クリーム、キャラメル生クリーム、オレオ、ロータスカラメルビスケット、ハーブ\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: เค้กชิฟฟอนช็อกโกแลต\n● ไส้: วิปครีมชาทิกวนอิม, เยลลี่ชาทิกวนอิม, ช็อกโกบอลครันชี่\n● ตกแต่ง: วิปครีม, วิปครีมคาราเมล, คุกกี้โอริโอ้, บิสกิตคาราเมล, ใบไม้ประดับ\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -553,7 +553,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Chiffon sô-cô-la\n● Nhân: Kem tươi trà Thiết Quan Âm, thạch trà, viên bi sô-cô-la giòn\n● Trang trí: Kem tươi, kem caramel, bánh Oreo, bánh quy caramel, lá thảo mộc\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -603,7 +603,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：焙茶戚風蛋糕\r\r\n●內餡：焙茶巧克力甘納許\r\r\n●裝飾：巧克力鮮奶油、巧克力甘納許、糖珠\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［含酒，可不加］\r\n●主體：焙茶戚風蛋糕\r\n●內餡：焙茶巧克力甘納許\r\n●裝飾：巧克力鮮奶油、巧克力甘納許、糖珠\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Hojicha roasted green tea chiffon cake\n● Filling: Hojicha chocolate ganache\n● Decoration: Chocolate whipped cream, chocolate ganache, sugar pearls\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：芳醇ほうじ茶シフォンケーキ\n● フィリング：ほうじ茶生チョコガナッシュ\n● デコレーション：チョコ生クリーム、チョコガナッシュ、シュガーパール\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ชิฟฟอนชาเขียวคั่วโฮจิฉะ\n● ไส้: โฮจิฉะช็อกโกแลตกานาช\n● ตกแต่ง: วิปครีมช็อกโกแลต, ช็อกโกแลตกานาช, ลูกปัดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -611,7 +611,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Chiffon trà rang Hojicha\n● Nhân: Ganache sô-cô-la trà Hojicha\n● Trang trí: Kem tươi sô-cô-la, ganache sô-cô-la, hạt ngọc đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -661,7 +661,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "5 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［含酒，可不加］\r\r\n●主體：手指餅乾 (非成品)\r\r\n●內餡：乳酪鮮奶油、咖啡酒\r\r\n●裝飾：可可粉\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［含酒，可不加］\r\n●主體：手指餅乾 (非成品)\r\n●內餡：乳酪鮮奶油、咖啡酒\r\n●裝飾：可可粉\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Contains Alcohol, Optional］\n● Main: Hand-baked ladyfinger sponge biscuits (from scratch)\n● Filling: Mascarpone cheese cream, Kahlúa coffee liqueur\n● Decoration: Dusted Valrhona cocoa powder\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［洋酒使用（省略可能）］\n● メイン：手作りレディフィンガービスケット（焼成から体験）\n● フィリング：マスカルポーネチーズクリーム、カルーアコーヒーリキュール\n● デコレーション：上質ココアパウダー\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มีส่วนผสมของแอลกอฮอล์ (เลือกไม่ใส่ได้)］\n● ตัวขนม: บิสกิตเลดี้ฟิงเกอร์ (เริ่มทำตั้งแต่ตีแป้งอบเอง)\n● ไส้: ครีมมาสคาร์โปเนชีส, เหล้ากาแฟคาลัว\n● ตกแต่ง: ผงโกโก้โรยหน้า\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -669,7 +669,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh quy ngón tay Ladyfingers (tự làm từ đầu)\n● Nhân: Kem phô mai Mascarpone, rượu cà phê Kahlúa\n● Trang trí: Bột ca cao mịn\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -719,7 +719,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "5 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n●主體：Oreo餅乾底、原味生乳酪、Oreo生乳酪\r\r\n●裝飾：鮮奶油、巧克力、Oreo餅乾碎、Oreo餅乾\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n●主體：Oreo餅乾底、原味生乳酪、Oreo生乳酪\r\n●裝飾：鮮奶油、巧克力、Oreo餅乾碎、Oreo餅乾\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n● Main: Oreo cookie crust, classic rare cheesecake, Oreo rare cheesecake\n● Decoration: Whipped cream, chocolate, crushed Oreo crumbs, whole Oreo cookie\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n● メイン：オレオクッキークラスト、プレーンレアチーズ、オレオレアチーズ\n● デコレーション：生クリーム、チョコ、クラッシュオレオ、ホールオレオ\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n● ตัวเค้ก: ฐานคุกกี้โอริโอ้, แรร์ชีสเค้กต้นตำรับ, แรร์ชีสเค้กโอริโอ้\n● ตกแต่ง: วิปครีม, ช็อกโกแลต, เศษโอริโอ้บด, คุกกี้โอริโอ้ทั้งชิ้น\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -727,7 +727,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n● Cốt bánh: Đế bánh quy Oreo, cheesecake tươi nguyên vị, cheesecake tươi Oreo\n● Trang trí: Kem tươi, sô-cô-la, vụn bánh Oreo, bánh Oreo nguyên chiếc\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●塑膠圍邊撕開，邊緣會些許不平整，為正常現象。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●塑膠圍邊撕開，邊緣會些許不平整，為正常現象。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Removing the plastic collar may cause slight unevenness on edges, which is normal.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●フィルムを剥がす際にフチが多少崩れる場合がありますが品質には問題ありません。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เมื่อลอกแผ่นพลาสติกใสรอบเค้กออก ขอบอาจจะไม่เรียบเล็กน้อย ซึ่งเป็นลักษณะปกติ\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -777,7 +777,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\r\n●主體：伯爵紅茶戚風蛋糕\r\r\n●內餡：原味奶凍、柚子鮮奶油、巧克力碎\r\r\n●裝飾：焦糖鮮奶油、焦糖醬、焦糖餅乾\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\n●主體：伯爵紅茶戚風蛋糕\r\n●內餡：原味奶凍、柚子鮮奶油、巧克力碎\r\n●裝飾：焦糖鮮奶油、焦糖醬、焦糖餅乾\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All stores (except Wu Pao Chun co-branded store)\n● Main: Earl Grey tea chiffon cake\n● Filling: Milk panna cotta, Japanese yuzu citrus whipped cream, chocolate flakes\n● Decoration: Salted caramel whipped cream, caramel drizzle, Biscoff biscuit\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗（※呉宝春コラボ店舗を除く）\n● メイン：アールグレイ紅茶シフォンケーキ\n● フィリング：自家製ミルクパンナコッタ、柚子生クリーム、削りチョコ\n● デコレーション：キャラメル生クリーム、濃厚キャラメルソース、ロータスビスケット\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 ให้บริการที่: ทุกสาขา (ยกเว้นสาขาอู๋เป่าชุน)\n● ตัวเค้ก: ชิฟฟอนชาเอิร์ลเกรย์\n● ไส้: พานาคอตต้านมสด, วิปครีมส้มยูซุ, ช็อกโกแลตเฟล็ก\n● ตกแต่ง: วิปครีมคาราเมล, ซอสคาราเมลเข้มข้น, คุกกี้คาราเมลบิสคอฟฟ์\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -785,7 +785,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh (trừ chi nhánh Wu Pao Chun)\n● Cốt bánh: Bánh Chiffon trà Bá tước\n● Nhân: Panna cotta sữa, kem tươi quýt Yuzu, vụn sô-cô-la\n● Trang trí: Kem tươi sốt caramel, sốt caramel, bánh quy caramel\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -834,7 +834,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "5 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n●主體：Oreo餅乾底、伯爵紅茶生乳酪\r\r\n●裝飾：巧克力甘納許、鮮奶油、可可粉、糖珠、小花翻糖\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n●主體：Oreo餅乾底、伯爵紅茶生乳酪\r\n●裝飾：巧克力甘納許、鮮奶油、可可粉、糖珠、小花翻糖\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n● Main: Oreo cookie crust, Earl Grey tea rare cheesecake\n● Decoration: Chocolate ganache, whipped cream, cocoa powder, sugar pearls, fondant mini flower\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n● メイン：オレオクッキークラスト、アールグレイ紅茶レアチーズ\n● デコレーション：生チョコガナッシュ、生クリーム、ココアパウダー、シュガーパール、フォンダン小花\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n● ตัวเค้ก: ฐานคุกกี้โอริโอ้, แรร์ชีสเค้กชาเอิร์ลเกรย์\n● ตกแต่ง: ช็อกโกแลตกานาช, วิปครีม, ผงโกโก้, ลูกปัดน้ำตาล, ฟองดองท์ดอกไม้จิ๋ว\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -842,7 +842,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n● Cốt bánh: Đế bánh Oreo, cheesecake tươi trà Bá tước\n● Trang trí: Ganache sô-cô-la, kem tươi, bột ca cao, hạt ngọc đường, hoa đường fondant\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -892,7 +892,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\r\n［蛋奶素］\r\r\n●主體：焙茶戚風蛋糕\r\r\n●內餡：柚子凍、焙茶鮮奶油\r\r\n●裝飾：鮮奶油、食用乾燥玫瑰花瓣、糖珠\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\n［蛋奶素］\r\n●主體：焙茶戚風蛋糕\r\n●內餡：柚子凍、焙茶鮮奶油\r\n●裝飾：鮮奶油、食用乾燥玫瑰花瓣、糖珠\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All stores (except Wu Pao Chun co-branded store)\n［Ovo-lacto Vegetarian］\n● Main: Hojicha roasted green tea chiffon cake\n● Filling: Yuzu citrus jelly, Hojicha roasted tea whipped cream\n● Decoration: Whipped cream, organic edible dried rose petals, sugar pearls\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗（※呉宝春コラボ店舗を除く）\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：芳醇ほうじ茶シフォンケーキ\n● フィリング：柚子ジュレ、ほうじ茶生クリーム\n● デコレーション：生クリーム、食用ドライローズ花びら、シュガーパール\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 ให้บริการที่: ทุกสาขา (ยกเว้นสาขาอู๋เป่าชุน)\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: ชิฟฟอนชาเขียวคั่วโฮจิฉะ\n● ไส้: เยลลี่ส้มยูซุ, วิปครีมชาเขียวคั่วโฮจิฉะ\n● ตกแต่ง: วิปครีม, กลีบกุหลาบแห้งออร์แกนิกเกรดรับประทานได้, ลูกปัดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -900,7 +900,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh (trừ chi nhánh Wu Pao Chun)\n［Chay có trứng sữa］\n● Cốt bánh: Chiffon trà rang Hojicha\n● Nhân: Thạch quýt Yuzu, kem tươi trà rang Hojicha\n● Trang trí: Kem tươi, cánh hoa hồng khô ăn được, hạt ngọc đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -949,7 +949,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋素］\r\r\n●主體：蜂蜜戚風蛋糕 (無加精緻糖)\r\r\n（可不添加蜂蜜🍯）\r\r\n●內餡：無\r\r\n（可添加自備的毛孩罐頭🐶🐱）\r\r\n●裝飾：地瓜、小花蠟燭*1+愛心氣球插件*1+生日橫幅插件*1 (圖片款、不挑色)\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋素］\r\n●主體：蜂蜜戚風蛋糕 (無加精緻糖)\r\n（可不添加蜂蜜🍯）\r\n●內餡：無\r\n（可添加自備的毛孩罐頭🐶🐱）\r\n●裝飾：地瓜、小花蠟燭*1+愛心氣球插件*1+生日橫幅插件*1 (圖片款、不挑色)\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo Vegetarian］\n● Main: Pure honey chiffon cake (no refined sugars added)\n(Honey can be omitted upon request 🍯)\n● Filling: None\n(You may bring your own pet canned food to mix in 🐶🐱)\n● Decoration: Fresh steamed sweet potato, flower candle*1 + heart balloon topper*1 + birthday banner*1 (colors random)\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵素（オボ・ベジタリアン）］\n● メイン：純粋ハチミツシフォンケーキ（精製白砂糖不使用）\n（ハチミツは入れずに製作することも可能です🍯）\n● フィリング：なし\n（ご持参のペット用ウェットフード・缶詰を配合可能🐶🐱）\n● デコレーション：ほくほく蒸しさつまいも、花型キャンドル×1＋ハート風船ピック×1＋バースデーガーランドピック×1（色おまかせ）\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่］\n● ตัวเค้ก: เค้กชิฟฟอนน้ำผึ้งแท้ (ไม่ใส่น้ำตาลทรายขาวขัดสี)\n(สามารถเลือกไม่ใส่น้ำผึ้งได้🍯)\n● ไส้: ไม่มี\n(สามารถนำอาหารเปียกหรืออาหารกระป๋องสัตว์เลี้ยงมาใส่เพิ่มได้🐶🐱)\n● ตกแต่ง: มันเทศนึ่ง, เทียนดอกไม้*1 + ป้ายลูกโป่งหัวใจ*1 + ป้ายวันเกิด*1 (สุ่มสีตามภาพ)\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -957,7 +957,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng］\n● Cốt bánh: Chiffon mật ong nguyên chất (không thêm đường tinh luyện)\n(Có thể không thêm mật ong🍯)\n● Nhân: Không có\n(Có thể tự mang đồ hộp thú cưng đến để cho thêm vào🐶🐱)\n● Trang trí: Khoai lang tươi, 1 nến hoa + 1 cắm bóng bay tim + 1 cắm chữ sinh nhật (màu ngẫu nhiên)\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1007,7 +1007,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch x 4 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［⚠ 過敏原｜花生／堅果］\r\r\n●主體：原味塔皮\r\r\n●內餡：檸檬蛋奶餡\r\r\n●裝飾：蜂蜜凍、檸檬皮屑、檸檬片\r\r\n🎁附手提紙盒一個(4個裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［⚠ 過敏原｜花生／堅果］\r\n●主體：原味塔皮\r\n●內餡：檸檬蛋奶餡\r\n●裝飾：蜂蜜凍、檸檬皮屑、檸檬片\r\n🎁附手提紙盒一個(4個裝一起)",
       "en": "🏠 Available at: All branch stores\n［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Classic crisp butter tart shell\n● Filling: French tangy lemon curd custard\n● Decoration: Honey jelly cubes, fresh lemon zest, candied lemon slice\n🎁 Includes one portable box (fits all 4 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：サクサク香ばしいバタータルト生地\n● フィリング：甘酸っぱいフランス風レモンカスタードカード\n● デコレーション：ハニージュレ、レモンピール、レモンスライス\n🎁 手提げケーキ箱1個付き（4個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● แป้งทาร์ต: แป้งทาร์ตเนยสดกรอบรสดั้งเดิม\n● ไส้: คัสตาร์ดเลมอนเคิร์ดสไตล์ฝรั่งเศส รสเปรี้ยวอมหวาน\n● ตกแต่ง: เยลลี่น้ำผึ้ง, ผิวมะนาวขูดสด, เลมอนสไลซ์\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 4 ชิ้น)",
@@ -1015,7 +1015,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［⚠ Dị ứng | Đậu phộng / Hạt phỉ, quả hạch］\n● Vỏ bánh: Vỏ bánh tart bơ nướng giòn rụm\n● Nhân: Kem trứng sữa chanh kiểu Pháp chua ngọt thanh mát\n● Trang trí: Thạch mật ong, vỏ chanh bào tươi, lát chanh\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 4 cái)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少2小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少2小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 2 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は2時間以上冷蔵し、フィリングが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 2 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1065,7 +1065,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］\r\r\n●主體：原味派皮\r\r\n●內餡：焦糖蘋果\r\r\n●裝飾：蜂蜜、原味派皮\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］\r\n●主體：原味派皮\r\n●內餡：焦糖蘋果\r\n●裝飾：蜂蜜、原味派皮\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Golden flaky pie pastry\n● Filling: Warm caramelized Fuji apples with cinnamon notes\n● Decoration: Honey glaze, hand-woven lattice pie crust\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：黄金色のサクサクパイ生地\n● フィリング：シナモン香る手作りキャラメルアップル\n● デコレーション：蜂蜜がけ、編み込みパイ生地\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● แป้งพาย: แป้งพายเนยสดอบกรอบสีทอง\n● ไส้: แอปเปิ้ลตุ๋นคาราเมลหอมกลิ่นซินนามอนอ่อนๆ\n● ตกแต่ง: น้ำผึ้งเคลือบเงา, แป้งพายถักลายตารางสวยงาม\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -1073,7 +1073,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［⚠ Dị ứng | Đậu phộng / Quả hạch］\n● Vỏ bánh: Vỏ bánh pie nướng vàng giòn nhiều lớp\n● Nhân: Táo tươi ngào sốt caramel thơm lừng\n● Trang trí: Quét mật ong bóng mượt, đan lưới bột pie nghệ thuật\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●當天沒吃完再冷藏。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●當天沒吃完再冷藏。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● Refrigerate leftovers if not finished on the day.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●当日食べきれない場合は冷蔵保存してください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●หากทานไม่หมดในวันนั้นให้แช่เย็น\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1123,7 +1123,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch x 4 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［⚠ 過敏原｜花生／堅果］\r\r\n●主體：焙茶塔皮\r\r\n●內餡：柚子生乳酪、焙茶凍\r\r\n●裝飾：鮮奶油、焙茶凍、可可粉、糖珠\r\r\n🎁附手提紙盒一個 (4個裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［⚠ 過敏原｜花生／堅果］\r\n●主體：焙茶塔皮\r\n●內餡：柚子生乳酪、焙茶凍\r\n●裝飾：鮮奶油、焙茶凍、可可粉、糖珠\r\n🎁附手提紙盒一個 (4個裝一起)",
       "en": "🏠 Available at: All branch stores\n［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Roasted green tea (Hojicha) infused tart shell\n● Filling: Yuzu rare cheesecake filling, Hojicha tea jelly\n● Decoration: Whipped cream, Hojicha jelly cubes, cocoa powder, sugar pearls\n🎁 Includes one portable box (fits 4 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：香ばしいほうじ茶仕立てのタルト生地\n● フィリング：さわやか柚子レアチーズ、濃厚ほうじ茶ゼリー\n● デコレーション：生クリーム、ほうじ茶ジュレ、ココアパウダー、シュガーパール\n🎁 手提げケーキ箱1個付き（4個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● แป้งทาร์ต: แป้งทาร์ตผสมชาเขียวคั่วโฮจิฉะเข้มข้น\n● ไส้: แรร์ชีสส้มยูซุญี่ปุ่น, เยลลี่ชาโฮจิฉะเข้มข้น\n● ตกแต่ง: วิปครีม, เยลลี่โฮจิฉะ, ผงโกโก้, ลูกปัดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 4 ชิ้น)",
@@ -1131,7 +1131,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［⚠ Dị ứng | Đậu phộng / Hạt phỉ, quả hạch］\n● Vỏ bánh: Vỏ bánh tart trà rang Hojicha thơm bùi\n● Nhân: Phô mai tươi quýt Yuzu, thạch trà rang Hojicha\n● Trang trí: Kem tươi, thạch trà Hojicha, bột ca cao, hạt ngọc đường\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 4 cái)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少2小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少2小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 2 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は2時間以上冷蔵し、フィリングが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 2 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1181,7 +1181,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch x 3 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［⚠ 過敏原｜花生／堅果］\r\r\n●主體：巧克力塔皮\r\r\n●內餡：伯爵奶茶乳酪餡、巧克力碎\r\r\n●裝飾：鮮奶油、Oreo餅乾、眼睛糖珠、巧克力脆球\r\r\n🎁附手提紙盒一個 (3個裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［⚠ 過敏原｜花生／堅果］\r\n●主體：巧克力塔皮\r\n●內餡：伯爵奶茶乳酪餡、巧克力碎\r\n●裝飾：鮮奶油、Oreo餅乾、眼睛糖珠、巧克力脆球\r\n🎁附手提紙盒一個 (3個裝一起)",
       "en": "🏠 Available at: All branch stores\n［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Rich dark chocolate tart shell\n● Filling: Earl Grey milk tea cheese cream, crunchy chocolate flakes\n● Decoration: Whipped cream, Mini Oreo cookies, sugar candy eyes, chocolate crunch pearls\n🎁 Includes one portable box (fits 3 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：ビターチョコタルト生地\n● フィリング：アールグレイロイヤルミルクティーチーズクリーム、砕きチョコ\n● デコレーション：生クリーム、ミニオレオ、目玉キャンディ、チョコクリスピーボール\n🎁 手提げケーキ箱1個付き（3個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● แป้งทาร์ต: แป้งทาร์ตช็อกโกแลตเข้มข้น\n● ไส้: ครีมชีสชานมเอิร์ลเกรย์พรีเมียม, ช็อกโกแลตเฟล็กกรุบกรอบ\n● ตกแต่ง: วิปครีม, มินิโอริโอ้, น้ำตาลรูปดวงตา, ช็อกโกบอลกรุบกรอบ\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 3 ชิ้น)",
@@ -1189,7 +1189,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［⚠ Dị ứng | Đậu phộng / Hạt phỉ, quả hạch］\n● Vỏ bánh: Vỏ tart sô-cô-la đen đậm đà\n● Nhân: Kem phô mai trà sữa Bá tước, vụn sô-cô-la giòn\n● Trang trí: Kem tươi, bánh Oreo mini, kẹo đường hình mắt, hạt sô-cô-la giòn\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 3 cái)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1239,7 +1239,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：巧克力蛋糕\r\r\n●內餡：巧克力甘納許\r\r\n●裝飾：巧克力、可可粉\r\r\n●尺寸約：長4cm、寬4cm、高3cm\r\r\n🎁附手提紙盒一個 (6個裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：巧克力蛋糕\r\n●內餡：巧克力甘納許\r\n●裝飾：巧克力、可可粉\r\n●尺寸約：長4cm、寬4cm、高3cm\r\n🎁附手提紙盒一個 (6個裝一起)",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Rich chocolate sponge cake\n● Filling: Rich chocolate ganache\n● Decoration: Melted chocolate, dusted Dutch cocoa powder\n● Approx. Size: 4cm (L) × 4cm (W) × 3cm (H)\n🎁 Includes one portable box (fits 6 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：濃厚フォンダンショコラ生地\n● フィリング：濃厚生チョコガナッシュ\n● デコレーション：チョコレート、厳選ココアパウダー\n● サイズ約：縦4cm × 横4cm × 高さ3cm\n🎁 手提げケーキ箱1個付き（6個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: เค้กช็อกโกแลตเข้มข้นสไตล์ลาวา\n● ไส้: ช็อกโกแลตกานาชเข้มข้น\n● ตกแต่ง: ช็อกโกแลต, โรยผงโกโก้\n● ขนาดประมาณ: ยาว 4 ซม. × กว้าง 4 ซม. × สูง 3 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 6 ชิ้น)",
@@ -1247,7 +1247,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh sô-cô-la nham thạch tan chảy\n● Nhân: Ganache sô-cô-la đậm đà\n● Trang trí: Sô-cô-la tạo hình, phủ bột ca cao\n● Kích thước khoảng: Dài 4cm × Rộng 4cm × Cao 3cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 6 cái)"
     },
     "storage": {
-      "zh": "●當天沒吃完再冷藏。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●當天沒吃完再冷藏。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● Refrigerate leftovers if not finished on the day.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●当日食べきれない場合は冷蔵保存してください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●หากทานไม่หมดในวันนั้นให้แช่เย็น\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1297,7 +1297,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "35 lát / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\r\n［蛋奶素］\r\r\n●主體：可可餅乾、梔子藍餅乾、原味餅乾\r\r\n*款式依現場為準\r\r\n●尺寸約：長6cm、寬5cm\r\r\n🎁附手提紙盒一個 (35片裝一起)",
+      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\n［蛋奶素］\r\n●主體：可可餅乾、梔子藍餅乾、原味餅乾\r\n*款式依現場為準\r\n●尺寸約：長6cm、寬5cm\r\n🎁附手提紙盒一個 (35片裝一起)",
       "en": "🏠 Available at: All stores (except Wu Pao Chun co-branded store)\n［Ovo-lacto Vegetarian］\n● Main: Cocoa cookies, natural gardenia blue cookies, vanilla butter cookies\n* Cookie cutter designs subject to on-site availability\n● Approx. Size: 6cm (L) × 5cm (W)\n🎁 Includes one portable box (fits all 35 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗（※呉宝春コラボ店舗を除く）\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：ココアクッキー、クチナシ色素ブルーサブレ、プレーンバタークッキー\n※型抜きデザインは店頭の在庫状況により異なります\n● サイズ約：縦6cm × 横5cm\n🎁 手提げクッキー箱1個付き（35枚入りパッケージ）",
       "th": "🏠 ให้บริการที่: ทุกสาขา (ยกเว้นสาขาอู๋เป่าชุน)\n［มังสวิรัติไข่-นม］\n● ตัวคุกกี้: คุกกี้โกโก้, คุกกี้สีฟ้าจากพุดซ้อนธรรมชาติ, คุกกี้เนยรสดั้งเดิม\n* รูปทรงและลวดลายอาจปรับเปลี่ยนตามอุปกรณ์ที่มี ณ หน้าร้าน\n● ขนาดประมาณ: ยาว 6 ซม. × กว้าง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 35 ชิ้น)",
@@ -1305,7 +1305,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh (trừ chi nhánh Wu Pao Chun)\n［Chay có trứng sữa］\n● Thân bánh: Bánh quy ca cao, bánh quy xanh hoa dành dành tự nhiên, bánh quy bơ truyền thống\n* Mẫu mã và hình dáng phụ thuộc vào thực tế tại cửa hàng\n● Kích thước khoảng: Dài 6cm × Rộng 5cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 35 miếng)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1354,7 +1354,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "16 viên / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：蜂蜜瑪德蓮 8顆+ 鐵觀音瑪德蓮 8顆\r\r\n●尺寸約：長4cm、寬6cm、高3cm\r\r\n🎁附手提紙盒一個 (16顆裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：蜂蜜瑪德蓮 8顆+ 鐵觀音瑪德蓮 8顆\r\n●尺寸約：長4cm、寬6cm、高3cm\r\n🎁附手提紙盒一個 (16顆裝一起)",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: 8 Honey Madeleines + 8 Tieguanyin Tea Madeleines\n● Approx. Size: 4cm (L) × 6cm (W) × 3cm (H)\n🎁 Includes one portable box (fits all 16 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：ハチミツマドレーヌ8個 ＋ 鉄観音茶マドレーヌ8個\n● サイズ約：縦4cm × 横6cm × 高さ3cm\n🎁 手提げ焼き菓子箱1個付き（16個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวขนม: มาดแลนน้ำผึ้ง 8 ชิ้น + มาดแลนชาทิกวนอิม 8 ชิ้น\n● ขนาดประมาณ: ยาว 4 ซม. × กว้าง 6 ซม. × สูง 3 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 16 ชิ้น)",
@@ -1362,7 +1362,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Thân bánh: 8 bánh Madeleine mật ong + 8 bánh Madeleine trà Thiết Quan Âm\n● Kích thước khoảng: Dài 4cm × Rộng 6cm × Cao 3cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 16 cái)"
     },
     "storage": {
-      "zh": "●當天沒吃完再冷藏。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●當天沒吃完再冷藏。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● Refrigerate leftovers if not finished on the day.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●当日食べきれない場合は冷蔵保存してください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●หากทานไม่หมดในวันนั้นให้แช่เย็น\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1412,7 +1412,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "12 lát / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：抹茶餅乾\r\r\n●內餡：白巧克力\r\r\n●裝飾：巧克力\r\r\n●尺寸約：直徑5.5cm、高1.5cm\r\r\n🎁附手提紙盒一個 (12片裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：抹茶餅乾\r\n●內餡：白巧克力\r\n●裝飾：巧克力\r\n●尺寸約：直徑5.5cm、高1.5cm\r\n🎁附手提紙盒一個 (12片裝一起)",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Japanese Uji matcha butter cookies\n● Filling: Smooth Belgian white chocolate\n● Decoration: Fine piping chocolate\n● Approx. Size: 5.5cm diameter × 1.5cm (H)\n🎁 Includes one portable box (fits all 12 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：香り高い京都宇治抹茶サブレ\n● フィリング：とろけるベルギー産ホワイトチョコ\n● デコレーション：チョコペンアート\n● サイズ約：直径5.5cm × 厚さ1.5cm\n🎁 手提げクッキー箱1個付き（12枚入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวคุกกี้: คุกกี้เนยสดมัทฉะอุจิแท้จากญี่ปุ่น\n● ไส้: ไวท์ช็อกโกแลตสไตล์เบลเยียมเนียนนุ่ม\n● ตกแต่ง: ช็อกโกแลตวาดลวดลาย\n● ขนาดประมาณ: เส้นผ่านศูนย์กลาง 5.5 ซม. × หนา 1.5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 12 ชิ้น)",
@@ -1420,7 +1420,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Thân bánh: Bánh quy bơ trà xanh Uji matcha thơm ngậy\n● Nhân: Sô-cô-la trắng mềm mịn\n● Trang trí: Họa tiết sô-cô-la tạo hình\n● Kích thước khoảng: Đường kính 5.5cm × Dày 1.5cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 12 miếng)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1470,7 +1470,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "16 lát / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：原味、可可餅乾\r\r\n●內餡：白巧克力、巧克力\r\r\n●裝飾：食用色素\r\r\n●尺寸約：長5cm、寬6cm\r\r\n🎁附手提紙盒一個 (16片裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：原味、可可餅乾\r\n●內餡：白巧克力、巧克力\r\n●裝飾：食用色素\r\n●尺寸約：長5cm、寬6cm\r\n🎁附手提紙盒一個 (16片裝一起)",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Classic vanilla & rich cocoa Langue de Chat cookies\n● Filling: Silky white chocolate & dark chocolate ganache\n● Decoration: Natural food coloring detail\n● Approx. Size: 5cm (L) × 6cm (W)\n🎁 Includes one portable box (fits all 16 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：プレーンバター＆濃厚ココアラングドシャ\n● フィリング：ホワイトチョコ＆スイートチョコ\n● デコレーション：天然食用色素\n● サイズ約：縦5cm × 横6cm\n🎁 手提げクッキー箱1個付き（16枚入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวคุกกี้: คุกกี้เนยวานิลลาและคุกกี้ดับเบิ้ลโกโก้\n● ไส้: ไวท์ช็อกโกแลต และ ดาร์กช็อกโกแลต\n● ตกแต่ง: สีผสมอาหารเกรดธรรมชาติ\n● ขนาดประมาณ: ยาว 5 ซม. × กว้าง 6 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 16 ชิ้น)",
@@ -1478,7 +1478,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Thân bánh: Bánh quy bơ vani & bánh quy ca cao hảo hạng\n● Nhân: Sô-cô-la trắng & sô-cô-la đen\n● Trang trí: Màu thực phẩm an toàn tự nhiên\n● Kích thước khoảng: Dài 5cm × Rộng 6cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 16 miếng)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1528,7 +1528,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "9 miếng / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：布朗尼蛋糕\r\r\n●裝飾：Oreo餅乾、眼睛糖珠、白巧克力\r\r\n●尺寸約：一塊蛋糕 (長5cm×寬5cm)、完整蛋糕 (長15cm×寬15cm)\r\r\n🎁附手提紙盒一個 (9塊裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［含酒，可不加］\r\n●主體：布朗尼蛋糕\r\n●裝飾：Oreo餅乾、眼睛糖珠、白巧克力\r\n●尺寸約：一塊蛋糕 (長5cm×寬5cm)、完整蛋糕 (長15cm×寬15cm)\r\n🎁附手提紙盒一個 (9塊裝一起)",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Fudgy double chocolate brownies\n● Decoration: Oreo cookies, sugar candy eyes, drizzled white chocolate\n● Approx. Size: Per slice (5cm × 5cm), Full cake (15cm × 15cm)\n🎁 Includes one portable box (fits all 9 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：しっとり濃厚ファッジブラウニー\n● デコレーション：オレオクッキー、目玉シュガーキャンディ、ホワイトチョコ\n● サイズ約：1ピース（縦5cm × 横5cm）、全体（縦15cm × 横15cm）\n🎁 手提げケーキ箱1個付き（9個入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ฟัดจ์บราวนี่ช็อกโกแลตเข้มข้นฉ่ำแน่น\n● ตกแต่ง: คุกกี้โอริโอ้, น้ำตาลรูปดวงตา, ไวท์ช็อกโกแลต\n● ขนาดประมาณ: 1 ชิ้น (5 ซม. × 5 ซม.), ทั้งถาด (15 ซม. × 15 ซม.)\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 9 ชิ้น)",
@@ -1536,7 +1536,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh brownie sô-cô-la mềm ẩm đậm đà\n● Trang trí: Bánh quy Oreo, kẹo hình mắt ngộ nghĩnh, sô-cô-la trắng\n● Kích thước khoảng: 1 miếng (5cm × 5cm), cả bánh (15cm × 15cm)\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 9 miếng)"
     },
     "storage": {
-      "zh": "●當天沒吃完再冷藏。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●當天沒吃完再冷藏。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● Refrigerate leftovers if not finished on the day.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●当日食べきれない場合は冷蔵保存してください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●หากทานไม่หมดในวันนั้นให้แช่เย็น\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1586,7 +1586,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 viên / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\r\n［⚠ 過敏原｜花生／堅果］\r\r\n●主體：原味達克瓦茲\r\r\n●內餡：鐵觀音卡士達鮮奶油、鐵觀音茶凍\r\r\n●裝飾：糖粉\r\r\n●尺寸約：長8cm、寬5cm、高3cm\r\r\n🎁附手提紙盒一個 6顆裝一起)",
+      "zh": "🏠提供製作：所有分店 （吳寶春自己做不提供）\r\n［⚠ 過敏原｜花生／堅果］\r\n●主體：原味達克瓦茲\r\n●內餡：鐵觀音卡士達鮮奶油、鐵觀音茶凍\r\n●裝飾：糖粉\r\n●尺寸約：長8cm、寬5cm、高3cm\r\n🎁附手提紙盒一個 6顆裝一起)",
       "en": "🏠 Available at: All stores (except Wu Pao Chun co-branded store)\n［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Classic almond Dacquoise biscuit shells\n● Filling: Tieguanyin tea custard cream, fragrant tea jelly\n● Decoration: Dusted snow powdered sugar\n● Approx. Size: 8cm (L) × 5cm (W) × 3cm (H)\n🎁 Includes one portable box (fits all 6 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗（※呉宝春コラボ店舗を除く）\n［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：アーモンド香るサクふわダックワーズ\n● フィリング：鉄観音カスタードクリーム、爽快鉄観音茶ジュレ\n● デコレーション：微粒子パ우ダーシュガー\n● サイズ約：縦8cm × 横5cm × 高さ3cm\n🎁 手提げ焼き菓子箱1個付き（6個入りパッケージ）",
       "th": "🏠 ให้บริการที่: ทุกสาขา (ยกเว้นสาขาอู๋เป่าชุน)\n［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● ตัวขนม: แป้งดาควอสอัลมอนด์กรอบนอกนุ่มใน\n● ไส้: ครีมคัสตาร์ดชาทิกวนอิม, เยลลี่ชาทิกวนอิมหอมละมุน\n● ตกแต่ง: ผงน้ำตาลไอซิ่งหิมะ\n● ขนาดประมาณ: ยาว 8 ซม. × กว้าง 5 ซม. × สูง 3 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 6 ชิ้น)",
@@ -1594,7 +1594,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh (trừ chi nhánh Wu Pao Chun)\n［⚠ Dị ứng | Đậu phộng / Hạt phỉ, quả hạch］\n● Vỏ bánh: Vỏ bánh Dacquoise hạnh nhân giòn xốp\n● Nhân: Kem trứng custard trà Thiết Quan Âm, thạch trà thanh mát\n● Trang trí: Bột đường tuyết mịn\n● Kích thước khoảng: Dài 8cm × Rộng 5cm × Cao 3cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 6 cái)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷凍。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷凍保存。\r\r\n（建議放入保鮮盒或以保鮮膜包覆）\r\r\n●建議食用前先退冰至常溫。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷凍。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷凍保存。\r\n（建議放入保鮮盒或以保鮮膜包覆）\r\n●建議食用前先退冰至常溫。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be frozen within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep frozen.\n(Recommend airtight container or cling wrap)\n● Recommended to defrost to room temperature before serving.\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷凍。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷凍保存。\n（密閉容器またはラップで包むことをおすすめします）\n●お召し上がり前に常温で少し解凍することをおすすめします。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่ช่องฟรีซภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในช่องแช่แข็ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●แนะนำให้คลายความเย็นสู่อุณหภูมิห้องเล็กน้อยก่อนรับประทาน\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1643,7 +1643,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2.5 giờ"
     },
     "features": {
-      "zh": "⭐價格依選擇內容 而有所不同 ($650起)⭐\r\r\n🏠提供製作：所有分店\r\r\n⚠晚上最後一場『需提前30分鐘到』否則無法製作！\r\r\n❗團體訂位：選此品項需「訂位前30分鐘」先入場開始製作！\r\r\n---------------------------------------------\r\r\n【蛋糕體＋夾餡＋抹面＋表層裝飾＝裝飾蛋糕】\r\r\n［蛋奶素］\r\r\n🎁附手提紙盒一個\r\r\n---------------------------------------------\r\r\n1. 戚風蛋糕體6吋(3選1)$450：\r\r\n原味／抹茶／巧克力\r\r\n2. 夾餡(3選1)$100：\r\r\n海鹽焦糖鮮奶油／巧克力甘納許／藍莓果餡\r\r\n3. 抹面(3選1)：\r\r\n單色$100／雙色$120／三色$150\r\r\n⭐顏色：白/粉/黃/藍/綠/紫\r\r\n4. 表層裝飾(如圖)\r\r\n⭐裝飾物：款式、數量依當天現場提供為準。(無預留)",
+      "zh": "⭐價格依選擇內容 而有所不同 ($650起)⭐\r\n🏠提供製作：所有分店\r\n⚠晚上最後一場『需提前30分鐘到』否則無法製作！\r\n❗團體訂位：選此品項需「訂位前30分鐘」先入場開始製作！\r\n---------------------------------------------\r\n【蛋糕體＋夾餡＋抹面＋表層裝飾＝裝飾蛋糕】\r\n［蛋奶素］\r\n🎁附手提紙盒一個\r\n---------------------------------------------\r\n1. 戚風蛋糕體6吋(3選1)$450：\r\n原味／抹茶／巧克力\r\n2. 夾餡(3選1)$100：\r\n海鹽焦糖鮮奶油／巧克力甘納許／藍莓果餡\r\n3. 抹面(3選1)：\r\n單色$100／雙色$120／三色$150\r\n⭐顏色：白/粉/黃/藍/綠/紫\r\n4. 表層裝飾(如圖)\r\n⭐裝飾物：款式、數量依當天現場提供為準。(無預留)",
       "en": "⭐ Price varies based on customization selections (Starting from $650) ⭐\n🏠 Available at: All branch stores\n⚠ Evening final timeslot: Must arrive 30 minutes early, otherwise crafting cannot be accommodated!\n❗ Group Bookings: For this item, please check in 30 minutes before reservation time to begin!\n---------------------------------------------\n【Cake Base + Filling + Frosting + Toppings = Custom Deco Cake】\n［Ovo-lacto Vegetarian］\n🎁 Includes one portable cake box\n---------------------------------------------\n1. 6-inch Chiffon Base (Choose 1 of 3) $450:\nVanilla Original / Japanese Matcha / Rich Chocolate\n2. Layer Filling (Choose 1 of 3) $100:\nSea Salt Caramel Cream / Chocolate Ganache / Wild Blueberry Compote\n3. Exterior Frosting (Choose 1 of 3):\nSingle Tone $100 / Dual Tone $120 / Tri-Color Ombré $150\n⭐ Available Hues: White / Pink / Yellow / Sky Blue / Mint Green / Lilac Purple\n4. Top Surface Toppings (As shown in reference photo)\n⭐ Topper items: Designs and quantities subject to daily on-site availability (no advance reservation)",
       "ja": "⭐ カスタマイズ内容により料金が異なります（650元〜）⭐\n🏠 製作可能店舗：全店舗\n⚠ 夜の最終セッション枠：『30分前までに到着必須』遅刻された場合は製作できません！\n❗ 団体予約：当メニューを選択の場合「予約時間の30分前」に入場し製作を開始してください！\n---------------------------------------------\n【スポンジ土台 ＋ 贅沢サンド ＋ ナッペクリーム ＋ トッピング ＝ フルカスタムケーキ】\n［卵乳素（オボ・ラクト・ベジタリアン）］\n🎁 手提げケーキ箱1個付き\n---------------------------------------------\n1. 6インチシフォンケーキ土台（3種から1択）450元：\nプレーンバニラ ／ 宇治抹茶 ／ 濃厚チョコ\n2. 贅沢サンドフィリング（3種から1択）100元：\n塩キャラメル生クリーム ／ 生チョコガナッシュ ／ ブルーベリー果肉フィリング\n3. ナッペクリーム仕上げ（3種から1択）：\n単色 100元 ／ 2色バイカラー 120元 ／ 3色グラデーション 150元\n⭐ 選べるカラー：ピュアホワイト ／ パステルピンク ／ レモンイエロー ／ スカイブルー ／ ミントグリーン ／ ラベンダーパープル\n4. トップデコレーション（参考写真をご参照ください）\n⭐ 飾り付けアイテム：種類および数量は当日の店頭在庫状況により変動します（お取り置き不可）",
       "th": "⭐ ราคาปรับตามตัวเลือกที่กำหนดเอง (เริ่มต้นที่ $650) ⭐\n🏠 สาขาที่ให้บริการ: ทุกสาขา\n⚠ รอบสุดท้ายของช่วงค่ำ: 'ต้องมาถึงก่อนเวลา 30 นาที' มิฉะนั้นจะไม่สามารถเริ่มทำได้!\n❗ การจองแบบกลุ่ม: หากเลือกเมนูนี้ ต้องเข้าสถานที่ก่อนเวลาจอง 30 นาที เพื่อเริ่มขั้นตอนการทำ!\n---------------------------------------------\n【เนื้อเค้ก + ไส้แซนวิช + ครีมปาดหน้า + ของตกแต่ง = เค้กคัสตอมในฝัน】\n［มังสวิรัติไข่-นม］\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ\n---------------------------------------------\n1. เนื้อเค้กชิฟฟอน 6 นิ้ว (เลือก 1 จาก 3 รส) $450:\nรสดั้งเดิม / มัทฉะเข้มข้น / ช็อกโกแลต\n2. ไส้แซนวิชชั้นกลาง (เลือก 1 จาก 3 รส) $100:\nวิปครีมคาราเมลเกลือสมุทร / ช็อกโกแลตกานาช / แยมบลูเบอร์รี่สดเข้มข้น\n3. รูปแบบการปาดครีมรอบตัวเค้ก (เลือก 1 จาก 3 แบบ):\nสีเดี่ยว $100 / ทูโทน 2 สี $120 / ทรีโทน 3 สีไล่เฉด $150\n⭐ โทนสีที่เลือกได้: ขาว / ชมพู / เหลือง / ฟ้า / เขียว / ม่วง\n4. ของตกแต่งหน้าเค้ก (ตามตัวอย่างในภาพ)\n⭐ อุปกรณ์ตกแต่ง: แบบและจำนวนขึ้นอยู่กับสต็อกที่หน้าร้านในแต่ละวัน (ไม่มีการจองล่วงหน้า)",
@@ -1651,7 +1651,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "⭐ Giá thay đổi tùy theo lựa chọn trang trí (Từ $650 trở lên) ⭐\n🏠 Áp dụng tại: Tất cả các chi nhánh\n⚠ Khung giờ tối cuối cùng: 'Cần đến trước 30 phút', nếu không sẽ không kịp làm!\n❗ Đặt bàn theo nhóm: Chọn món này cần vào trước giờ hẹn 30 phút để bắt đầu làm!\n---------------------------------------------\n【Cốt bánh + Nhân giữa + Kem phủ mặt + Trang trí = Bánh kem tự sáng tạo】\n［Chay có trứng sữa］\n🎁 Tặng kèm 1 hộp giấy xách tay\n---------------------------------------------\n1. Cốt bánh Chiffon 6 inch (Chọn 1 trong 3) $450:\nNguyên vị vani / Trà xanh matcha / Sô-cô-la\n2. Nhân kẹp tầng (Chọn 1 trong 3) $100:\nKem caramel muối biển / Ganache sô-cô-la / Mứt việt quất rừng\n3. Phong cách phủ kem ngoài (Chọn 1 trong 3):\nĐơn sắc $100 / Phối 2 màu $120 / Phối 3 màu $150\n⭐ Màu sắc lựa chọn: Trắng / Hồng / Vàng / Xanh lam / Xanh lá / Tím\n4. Phụ kiện trang trí mặt bánh (Như hình mẫu)\n⭐ Phụ kiện trang trí: Mẫu mã và số lượng tùy thuộc vào thực tế tại quầy trong ngày (không giữ trước)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1701,7 +1701,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "8 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n［蛋奶素］［預製品=現成品］\r\r\n●主體：原味酥皮(油酥、油皮為預製品)、黑芝麻\r\r\n●內餡：大甲芋頭餡、白玉QQ麻糬\r\r\n●裝飾：巧克力、糖片\r\r\n●尺寸約：直徑5cm\r\r\n🎁附手提禮盒一個 (8個裝一起)",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n［蛋奶素］［預製品=現成品］\r\n●主體：原味酥皮(油酥、油皮為預製品)、黑芝麻\r\n●內餡：大甲芋頭餡、白玉QQ麻糬\r\n●裝飾：巧克力、糖片\r\n●尺寸約：直徑5cm\r\n🎁附手提禮盒一個 (8個裝一起)",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n［Ovo-lacto Vegetarian］［Pre-made Artisan Base］\n● Main: Traditional flaky puff pastry (pre-made artisan dough), black sesame seeds\n● Filling: Signature Dajia taro paste, chewy white jade QQ mochi\n● Decoration: Fine chocolate detailing, crispy sugar flakes\n● Approx. Size: 5cm diameter\n🎁 Includes an exquisite gift box (fits all 8 pieces together)",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n［卵乳素］［仕込み済み生地・具材使用］\n● メイン：伝統のサクサク多層パイ生地（仕込み済み生地）、黒ごま\n● フィリング：本場大甲産極上タロイモ餡、白玉もちもちQQ餅\n● デコレーション：チョコレート、シュガーチップ\n● サイズ約：直径5cm\n🎁 高級手提げギフトボックス1箱付き（8個入りパッケージ）",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n［มังสวิรัติไข่-นม］［แป้งสำเร็จรูปคุณภาพสูง］\n● แป้งพาย: แป้งพายเปี๊ยะหลายชั้นสูตรดั้งเดิม (แป้งสำเร็จรูป), งาดำ\n● ไส้: ไส้เผือกหอมต้าเจี่ยชื่อดัง, โมจิขาวหนึบหนับ QQ\n● ตกแต่ง: ช็อกโกแลตตกแต่งหน้าตา, เกล็ดน้ำตาลกรุบกรอบ\n● ขนาดประมาณ: เส้นผ่านศูนย์กลาง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องของขวัญสุดหรู 1 กล่อง (บรรจุรวม 8 ชิ้น)",
@@ -1709,7 +1709,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n［Chay có trứng sữa］［Sử dụng nguyên liệu làm sẵn chất lượng cao］\n● Vỏ bánh: Vỏ bánh ngàn lớp thơm giòn truyền thống (bột làm sẵn), mè đen\n● Nhân: Nhân khoai môn Đại Giáp trứ danh, mochi bạch ngọc dẻo dai QQ\n● Trang trí: Nét vẽ sô-cô-la tạo hình, vảy đường giòn\n● Kích thước khoảng: Đường kính 5cm\n🎁 Tặng kèm 1 hộp quà xách tay cao cấp (đựng chung 8 cái)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1759,7 +1759,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "8 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n［奶素］ ［⚠ 過敏原｜花生／堅果］\r\r\n●主體：原味冰皮\r\r\n●內餡：紅豆餡、糖漬栗子\r\r\n●裝飾：黑芝麻\r\r\n●尺寸約：直徑5cm\r\r\n🎁附手提禮盒一個 (8個裝一起)",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n［奶素］ ［⚠ 過敏原｜花生／堅果］\r\n●主體：原味冰皮\r\n●內餡：紅豆餡、糖漬栗子\r\n●裝飾：黑芝麻\r\n●尺寸約：直徑5cm\r\n🎁附手提禮盒一個 (8個裝一起)",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n［Lacto Vegetarian］［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Silky snow-skin mochi wrapper\n● Filling: Smooth sweet red azuki bean paste, whole candied chestnut\n● Decoration: Black sesame seeds\n● Approx. Size: 5cm diameter\n🎁 Includes an exquisite gift box (fits all 8 pieces together)",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n［乳素］［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：しっとりなめらかスノースキン餅皮\n● フィリング：極上小豆あん、贅沢マロングラッセ（甘露煮栗）\n● デコレーション：香ばしい黒ごま\n● サイズ約：直径5cm\n🎁 高級手提げギフトボックス1箱付き（8個入りパッケージ）",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n［มังสวิรัตินม］［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● แป้ง: แป้งบัวหิมะเหนียวนุ่มละมุนลิ้น\n● ไส้: ถั่วแดงกวนเนื้อเนียนหวานกลมกล่อม, เกาลัดเชื่อมทั้งลูก\n● ตกแต่ง: เมล็ดงาดำคั่วหอม\n● ขนาดประมาณ: เส้นผ่านศูนย์กลาง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องของขวัญสุดหรู 1 กล่อง (บรรจุรวม 8 ชิ้น)",
@@ -1767,7 +1767,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n［Chay có sữa］［⚠ Dị ứng | Đậu phộng / Quả hạch］\n● Vỏ bánh: Vỏ bánh dẻo lạnh mềm mịn\n● Nhân: Đậu đỏ nghiền mịn ngọt thanh, hạt dẻ ngâm đường nguyên hạt\n● Trang trí: Mè đen rang thơm\n● Kích thước khoảng: Đường kính 5cm\n🎁 Tặng kèm 1 hộp quà xách tay cao cấp (đựng chung 8 cái)"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1817,7 +1817,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "16 lát / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n［蛋奶素］\r\r\n●主體：原味餅乾\r\r\n●裝飾：食用色素\r\r\n●尺寸約：長5cm、寬5cm\r\r\n🎁附手提紙盒一個 (16片裝一起)",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n［蛋奶素］\r\n●主體：原味餅乾\r\n●裝飾：食用色素\r\n●尺寸約：長5cm、寬5cm\r\n🎁附手提紙盒一個 (16片裝一起)",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n［Ovo-lacto Vegetarian］\n● Main: Rich vanilla butter shortbread cookies\n● Decoration: Natural food coloring detail\n● Approx. Size: 5cm (L) × 5cm (W)\n🎁 Includes one portable box (fits all 16 pieces together)",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：発酵バター香るプレーンサブレクッキー\n● デコレーション：天然食用色素\n● サイズ約：縦5cm × 横5cm\n🎁 手提げクッキー箱1個付き（16枚入りパッケージ）",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n［มังสวิรัติไข่-นม］\n● ตัวคุกกี้: ชอร์ตเบรดคุกกี้เนยสดรสคลาสสิก\n● ตกแต่ง: สีผสมอาหารเกรดธรรมชาติ\n● ขนาดประมาณ: ยาว 5 ซม. × กว้าง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 16 ชิ้น)",
@@ -1825,7 +1825,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n［Chay có trứng sữa］\n● Thân bánh: Bánh quy bơ giòn xốp hương vani\n● Trang trí: Màu thực phẩm an toàn tự nhiên\n● Kích thước khoảng: Dài 5cm × Rộng 5cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 16 miếng)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1875,7 +1875,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "10 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］\r\r\n●主體：瑪德蓮 (蜂蜜口味5個、焙茶口味5個)\r\r\n●內餡：QQ麻糬丁、糖漬栗子\r\r\n●裝飾：巧克力、杏仁片、黑芝麻、眼珠糖粒\r\r\n●尺寸約：長7cm、寬5cm\r\r\n🎁附手提紙盒一個 (10個裝一起)",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］\r\n●主體：瑪德蓮 (蜂蜜口味5個、焙茶口味5個)\r\n●內餡：QQ麻糬丁、糖漬栗子\r\n●裝飾：巧克力、杏仁片、黑芝麻、眼珠糖粒\r\n●尺寸約：長7cm、寬5cm\r\n🎁附手提紙盒一個 (10個裝一起)",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n［Ovo-lacto Vegetarian］［⚠ Allergen | Peanuts / Tree Nuts］\n● Main: Pony Madeleines (5 Honey + 5 Roasted Hojicha)\n● Filling: Chewy mochi bites, candied chestnuts\n● Decoration: Chocolate drizzle, toasted almond slices, black sesame, sugar candy eyes\n● Approx. Size: 7cm (L) × 5cm (W)\n🎁 Includes one portable box (fits all 10 pieces together)",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n［卵乳素］［⚠ アレルゲン｜落花生・ナッツ類］\n● メイン：おうまさんマドレーヌ（ハチミツ味5個 ＋ ほうじ茶味5個）\n● フィリング：モチモチQQ餅ダイス、栗の甘露煮\n● デコレーション：チョコレート、ローストアーモンドスライス、黒ごま、目玉シュガー\n● サイズ約：縦7cm × 横5cm\n🎁 手提げ焼き菓子箱1個付き（10個入りパッケージ）",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n［มังสวิรัติไข่-นม］［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］\n● ตัวขนม: มาดแลนรูปม้าโพนี่ (รสน้ำผึ้ง 5 ชิ้น + รสชาโฮจิฉะ 5 ชิ้น)\n● ไส้: โมจิบดหนึบหนับ QQ, เกาลัดเชื่อมแสนอร่อย\n● ตกแต่ง: ช็อกโกแลต, อัลมอนด์สไลซ์อบกรอบ, งาดำ, น้ำตาลรูปดวงตา\n● ขนาดประมาณ: ยาว 7 ซม. × กว้าง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 10 ชิ้น)",
@@ -1883,7 +1883,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n［Chay có trứng sữa］［⚠ Dị ứng | Đậu phộng / Quả hạch］\n● Thân bánh: Madeleine ngựa con (5 cái vị mật ong + 5 cái vị trà Hojicha)\n● Nhân: Viên mochi dẻo QQ, hạt dẻ ngâm đường ngọt bùi\n● Trang trí: Sô-cô-la, hạnh nhân lát nướng, mè đen, hạt kẹo đường hình mắt\n● Kích thước khoảng: Dài 7cm × Rộng 5cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 10 cái)"
     },
     "storage": {
-      "zh": "●當天沒吃完再冷藏。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●當天沒吃完再冷藏。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● Refrigerate leftovers if not finished on the day.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●当日食べきれない場合は冷蔵保存してください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●หากทานไม่หมดในวันนั้นให้แช่เย็น\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1933,7 +1933,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "5 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n●主體：烏龍茶餅乾底、蜂蜜柚子生乳酪\r\r\n●內餡：柚子果凍、寒天QQ\r\r\n●裝飾：巧克力、鮮奶油、黑芝麻、抹茶微波蛋糕、胡椒葉、小花翻糖、糖粉\r\r\n🎁附手提紙盒一個",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n●主體：烏龍茶餅乾底、蜂蜜柚子生乳酪\r\n●內餡：柚子果凍、寒天QQ\r\n●裝飾：巧克力、鮮奶油、黑芝麻、抹茶微波蛋糕、胡椒葉、小花翻糖、糖粉\r\n🎁附手提紙盒一個",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n● Main: Oolong tea cookie crust, honey yuzu rare cheesecake\n● Filling: Yuzu citrus jelly, chewy agar QQ pearls\n● Decoration: Chocolate rabbit ears, fresh cream, sesame, matcha sponge moss, fondant flowers, powdered sugar\n🎁 Includes one portable cake box",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n● メイン：極上烏龍茶クッキークラスト、ハニー柚子レアチーズ\n● フィリング：さわやか柚子ジュレ、寒天もちもちQQボール\n● デコレーション：うさぎ耳チョコ、生クリーム、黒ごま、抹茶スポンジ苔、小花フォンダン、粉糖\n🎁 手提げケーキ箱1個付き",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n● ตัวเค้ก: ฐานคุกกี้ชาอู่หลง, แรร์ชีสเค้กส้มยูซุน้ำผึ้ง\n● ไส้: เยลลี่ส้มยูซุแท้, เยลลี่วุ้นคันเต็นหนึบหนับ QQ\n● ตกแต่ง: ช็อกโกแลตหูกระต่าย, วิปครีม, งาดำ, สปันจ์เค้กมัทฉะมอส, ดอกไม้ฟองดองท์, ไอซิ่ง\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -1941,7 +1941,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n● Cốt bánh: Đế bánh quy trà Ô Long, cheesecake tươi quýt Yuzu mật ong\n● Nhân: Thạch nước cốt quýt Yuzu, thạch agar dẻo QQ\n● Trang trí: Tai thỏ sô-cô-la, kem tươi, mè đen, vụn bông lan matcha rêu phong, hoa fondant, đường bột\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需1小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需1小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●回家後請冷藏至少3小時，待內餡凝固再食用。\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 1 hour.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● After returning home, refrigerate for at least 3 hours until filling sets before serving.\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：1時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●ご帰宅後は3時間以上冷蔵し、クリームが固まってからお召し上がりください。\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 1 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เมื่อถึงบ้านแล้ว กรุณาแช่เย็นอย่างน้อย 3 ชั่วโมง เพื่อให้ไส้เซ็ตตัวก่อนรับประทาน\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -1991,7 +1991,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "8 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "【中秋限定 8/20 - 9/29】\r\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\r\n---------------------------------------------\r\r\n［蛋奶素］［預製品=現成品］\r\r\n●主體：原味酥皮(油酥、油皮為預製品)、黑芝麻\r\r\n●內餡：紅豆餡、鹹蛋黃\r\r\n●裝飾：巧克力、蛋黃液\r\r\n●尺寸約：直徑5cm\r\r\n🎁附手提禮盒一個 (8個裝一起)",
+      "zh": "【中秋限定 8/20 - 9/29】\r\n⭐限8/20 - 9/29之訂位，可以製作！\r\n---------------------------------------------\r\n［蛋奶素］［預製品=現成品］\r\n●主體：原味酥皮(油酥、油皮為預製品)、黑芝麻\r\n●內餡：紅豆餡、鹹蛋黃\r\n●裝飾：巧克力、蛋黃液\r\n●尺寸約：直徑5cm\r\n🎁附手提禮盒一個 (8個裝一起)",
       "en": "【Mid-Autumn Festival Limited 8/20 - 9/29】\n⭐ Available exclusively for bookings between 8/20 and 9/29!\n---------------------------------------------\n［Ovo-lacto Vegetarian］［Pre-made Artisan Base］\n● Main: Traditional flaky puff pastry (pre-made artisan dough), black sesame seeds\n● Filling: Fine red azuki bean paste, savory salted egg yolk\n● Decoration: Chocolate puppy facial features, glossy egg wash glaze\n● Approx. Size: 5cm diameter\n🎁 Includes an exquisite gift box (fits all 8 pieces together)",
       "ja": "【中秋節限定 8/20 - 9/29】\n⭐ 8/20〜9/29のご予約日のみ製作可能です！\n---------------------------------------------\n［卵乳素］［仕込み済み生地・具材使用］\n● メイン：伝統のサクサク多層パイ生地（仕込み済み生地）、黒ごま\n● フィリング：上質な甘さの小豆餡、コク深い黄金塩漬け卵黄\n● デコレーション：わんこフェイスチョコ、つややかな卵黄がけ\n● サイズ約：直径5cm\n🎁 高級手提げギフトボックス1箱付き（8個入りパッケージ）",
       "th": "【เทศกาลไหว้พระจันทร์ ลิมิเต็ด 8/20 - 9/29】\n⭐ สามารถทำได้เฉพาะรอบการจองช่วง 8/20 - 9/29 เท่านั้น!\n---------------------------------------------\n［มังสวิรัติไข่-นม］［แป้งสำเร็จรูปคุณภาพสูง］\n● แป้งพาย: แป้งพายเปี๊ยะหลายชั้นสูตรดั้งเดิม (แป้งสำเร็จรูป), งาดำ\n● ไส้: ถั่วแดงกวนละเอียด, ไข่แดงเค็มลูกโตหอมมันเข้มข้น\n● ตกแต่ง: ช็อกโกแลตวาดหน้าตาลูกหมา, ทาไข่แดงอบสีทองเงางาม\n● ขนาดประมาณ: เส้นผ่านศูนย์กลาง 5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องของขวัญสุดหรู 1 กล่อง (บรรจุรวม 8 ชิ้น)",
@@ -1999,7 +1999,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "【Giới hạn Tết Trung Thu 8/20 - 9/29】\n⭐ Chỉ có thể làm khi đặt bàn trong khoảng thời gian từ 8/20 - 9/29!\n---------------------------------------------\n［Chay có trứng sữa］［Sử dụng nguyên liệu làm sẵn chất lượng cao］\n● Vỏ bánh: Vỏ bánh ngàn lớp thơm giòn truyền thống (bột làm sẵn), mè đen\n● Nhân: Đậu đỏ nghiền mịn, lòng đỏ trứng muối béo ngậy đậm đà\n● Trang trí: Sô-cô-la vẽ mặt cún cưng ngộ nghĩnh, quét lòng đỏ trứng nướng vàng óng\n● Kích thước khoảng: Đường kính 5cm\n🎁 Tặng kèm 1 hộp quà xách tay cao cấp (đựng chung 8 cái)"
     },
     "storage": {
-      "zh": "●常溫保存，並保持密封乾燥。\r\r\n（建議放入保鮮盒或夾鏈袋）\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●常溫保存，並保持密封乾燥。\r\n（建議放入保鮮盒或夾鏈袋）\r\n●請於3天內食用完，口感較佳。",
       "en": "● Store at room temperature, keep sealed and dry.\n(Recommend airtight container or ziploc bag)\n● Best consumed within 3 days for optimal taste.",
       "ja": "●常温保存し、密封して湿気を避けてください。\n（密閉容器またはジッパー付き保存袋推奨）\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●เก็บที่อุณหภูมิห้อง และปิดให้สนิทในที่แห้ง\n(แนะนำให้ใส่กล่องปิดสนิทหรือถุงซิปล็อค)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -2049,7 +2049,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "2 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠限信義、高雄店製作\r\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\r\n［奶素］［預製品=現成品］\r\r\n●主體：綜合穀物麵包 (麵糰為預製品)\r\r\n●內餡：雙色乳酪丁、帕馬森起司粉\r\r\n🎁附麵包袋2個",
+      "zh": "🏠限信義、高雄店製作\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\n［奶素］［預製品=現成品］\r\n●主體：綜合穀物麵包 (麵糰為預製品)\r\n●內餡：雙色乳酪丁、帕馬森起司粉\r\n🎁附麵包袋2個",
       "en": "🏠 Exclusive to Taipei Xinyi & Kaohsiung stores\n⭐ Due to the intricate artisan process of Master Wu Pao Chun's bread, pre-made artisan dough is provided on site.\n［Lacto Vegetarian］［Pre-made Artisan Dough］\n● Main: Multi-grain artisan bread (pre-made specialty dough)\n● Filling: Duo-cheese cubes (Cheddar & Mozzarella), grated Parmesan cheese powder\n🎁 Includes 2 artisan bread bags",
       "ja": "🏠 信義・高雄店限定で製作可能\n⭐ 呉宝春（ウー・バオチュン）直伝パンは工程が極めて複雑なため、店頭では特別発酵済みの仕込み生地を提供いたします。\n［乳素］［特製仕込み済み生地使用］\n● メイン：健康ブレンド雑穀パン（特製仕込み生地使用）\n● フィリング：2色の濃厚角切りチーズ、贅沢パルメザン粉チーズ\n🎁 ブレッド用紙袋2枚付き",
       "th": "🏠 มีให้บริการเฉพาะสาขาไทเปซินอี้ และ เกาสง เท่านั้น\n⭐ เนื่องจากกรรมวิธีของมาสเตอร์อู๋เป่าชุนมีความประณีตและซับซ้อนสูง ทางร้านจะเตรียมแป้งโดว์หมักสูตรพิเศษไว้ให้\n［มังสวิรัตินม］［ใช้แป้งโดว์สูตรสำเร็จรูป］\n● ตัวขนมปัง: ขนมปังธัญพืชรวมเพื่อสุขภาพ (ใช้แป้งโดว์หมักสำเร็จรูป)\n● ไส้: ชีสเต๋าสองสีรสเข้มข้น, โรยผงพาร์เมซานชีสหอมมัน\n🎁 แถมฟรีถุงใส่ขนมปัง 2 ใบ",
@@ -2057,7 +2057,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Chỉ áp dụng làm tại chi nhánh Tín Nghĩa (Đài Bắc) & Cao Hùng\n⭐ Do quy trình làm bánh của bậc thầy Wu Pao Chun vô cùng công phu, cửa hàng sẽ cung cấp sẵn khối bột ủ đặc biệt.\n［Chay có sữa］［Sử dụng bột ủ sẵn cao cấp］\n● Cốt bánh: Bánh mì thủ công ngũ cốc dinh dưỡng (bột ủ sẵn)\n● Nhân: Phô mai hai màu cắt hạt lựu béo ngậy, bột phô mai Parmesan thơm lừng\n🎁 Đi kèm 2 túi giấy đựng bánh mì"
     },
     "storage": {
-      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
+      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
       "en": "● Best enjoyed warm right after baking.\n● Refrigerate if not finished today (recommend airtight container or foil wrap).\n● Keeps 3 days refrigerated or 1 week frozen. Reheat before eating for best texture.",
       "ja": "●焼き立て熱々のうちにお召し上がりいただくのが一番美味しいです。\n●当日食べきれない場合は冷蔵保存してください（密閉容器またはアルミホイル推奨）。\n●冷蔵3日、冷凍1週間。召し上がる前にリベイクするとより美味しくなります。",
       "th": "●รับประทานขณะอบเสร็จร้อนๆ อร่อยที่สุด\n●หากทานไม่หมดในวันนั้นให้แช่เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อฟอยล์)\n●แช่เย็นได้ 3 วัน แช่แข็งได้ 1 สัปดาห์ อบซ้ำก่อนทานเพื่อความกรอบอร่อย",
@@ -2098,7 +2098,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "9 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠限信義、高雄店製作\r\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\r\n【2018米其林指南晚宴麵包】\r\r\n［蛋奶素］［預製品=現成品］\r\r\n●主體：布里歐麵包 (麵糰為預製品)\r\r\n🎁附麵包袋9個",
+      "zh": "🏠限信義、高雄店製作\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\n【2018米其林指南晚宴麵包】\r\n［蛋奶素］［預製品=現成品］\r\n●主體：布里歐麵包 (麵糰為預製品)\r\n🎁附麵包袋9個",
       "en": "🏠 Exclusive to Taipei Xinyi & Kaohsiung stores\n⭐ Due to the intricate artisan process of Master Wu Pao Chun's bread, pre-made artisan dough is provided on site.\n【2018 Michelin Guide Gala Dinner Featured Bread】\n［Ovo-lacto Vegetarian］［Pre-made Artisan Base］\n● Main: French Brioche bread (pre-made specialty dough with butter)\n🎁 Includes 9 bread bags",
       "ja": "🏠 信義・高雄店限定で製作可能\n⭐ 呉宝春（ウー・バオチュン）直伝パンは工程が極めて複雑なため、店頭では特別発酵済みの仕込み生地を提供いたします。\n【2018年 ミシュランガイド ガラディナー公式指定ブレッド】\n［卵乳素］［仕込み済み生地・具材使用］\n● メイン：芳醇バター香る伝統ブリオッシュ（特製仕込み生地使用）\n🎁 ブレッド用紙袋9枚付き",
       "th": "🏠 มีให้บริการเฉพาะสาขาไทเปซินอี้ และ เกาสง เท่านั้น\n⭐ เนื่องจากกรรมวิธีของมาสเตอร์อู๋เป่าชุนมีความประณีตและซับซ้อนสูง ทางร้านจะเตรียมแป้งโดว์หมักสูตรพิเศษไว้ให้\n【ขนมปังอย่างเป็นทางการในงานกาล่าดินเนอร์ Michelin Guide ปี 2018】\n［มังสวิรัติไข่-นม］［แป้งสำเร็จรูปคุณภาพสูง］\n● ตัวขนมปัง: ขนมปังบริออชฝรั่งเศสหอมเนยสดพรีเมียม (ใช้แป้งโดว์หมักสำเร็จรูป)\n🎁 แถมฟรีถุงใส่ขนมปัง 9 ใบ",
@@ -2106,7 +2106,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Chỉ áp dụng làm tại chi nhánh Tín Nghĩa (Đài Bắc) & Cao Hùng\n⭐ Do quy trình làm bánh của bậc thầy Wu Pao Chun vô cùng công phu, cửa hàng sẽ cung cấp sẵn khối bột ủ đặc biệt.\n【Bánh mì dạ tiệc Michelin Guide năm 2018】\n［Chay có trứng sữa］［Sử dụng nguyên liệu làm sẵn chất lượng cao］\n● Cốt bánh: Bánh mì Brioche kiểu Pháp thơm lừng hương bơ (bột ủ sẵn)\n🎁 Đi kèm 9 túi giấy đựng bánh mì"
     },
     "storage": {
-      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
+      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
       "en": "● Best enjoyed warm right after baking.\n● Refrigerate if not finished today (recommend airtight container or foil wrap).\n● Keeps 3 days refrigerated or 1 week frozen. Reheat before eating for best texture.",
       "ja": "●焼き立て熱々のうちにお召し上がりいただくのが一番美味しいです。\n●当日食べきれない場合は冷蔵保存してください（密閉容器またはアルミホイル推奨）。\n●冷蔵3日、冷凍1週間。召し上がる前にリベイクするとより美味しくなります。",
       "th": "●รับประทานขณะอบเสร็จร้อนๆ อร่อยที่สุด\n●หากทานไม่หมดในวันนั้นให้แช่เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อฟอยล์)\n●แช่เย็นได้ 3 วัน แช่แข็งได้ 1 สัปดาห์ อบซ้ำก่อนทานเพื่อความกรอบอร่อย",
@@ -2147,7 +2147,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "2 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠限信義、高雄店製作\r\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\r\n【2010世界麵包大師賽冠軍】\r\r\n［全素］［含酒］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\r\n●主體：歐式麵包 (麵糰為預製品)\r\r\n●內餡：埔里有機玫瑰花瓣、酒釀荔枝乾(荔枝酒)、核桃\r\r\n🎁附麵包袋2個",
+      "zh": "🏠限信義、高雄店製作\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\n【2010世界麵包大師賽冠軍】\r\n［全素］［含酒］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\n●主體：歐式麵包 (麵糰為預製品)\r\n●內餡：埔里有機玫瑰花瓣、酒釀荔枝乾(荔枝酒)、核桃\r\n🎁附麵包袋2個",
       "en": "🏠 Exclusive to Taipei Xinyi & Kaohsiung stores\n⭐ Due to the intricate artisan process of Master Wu Pao Chun's bread, pre-made artisan dough is provided on site.\n【2010 Bakery Masters World Champion Recipe】\n［Vegan］［Contains Alcohol］［⚠ Allergen | Peanuts / Tree Nuts］［Pre-made Artisan Dough］\n● Main: European artisan crusty sourdough (pre-made specialty dough)\n● Filling: Puli organic rose petals, lychee wine-infused dried lychee, premium walnuts\n🎁 Includes 2 artisan bread bags",
       "ja": "🏠 信義・高雄店限定で製作可能\n⭐ 呉宝春（ウー・バオチュン）直伝パンは工程が極めて複雑なため、店頭では特別発酵済みの仕込み生地を提供いたします。\n【2010年 世界ベーカリーマスターズ 優勝記念作品】\n［完全菜食 ヴィーガン］［洋酒使用］［⚠ アレルゲン｜落花生・ナッツ類］［特製仕込み生地使用］\n● メイン：ハード系ヨーロピアンブレッド（特製仕込み生地使用）\n● フィリング：台湾埔里産オーガニック食用バラ花びら、ライチリキュール漬けドライライチ、香ばしいローストくるみ\n🎁 ブレッド用紙袋2枚付き",
       "th": "🏠 มีให้บริการเฉพาะสาขาไทเปซินอี้ และ เกาสง เท่านั้น\n⭐ เนื่องจากกรรมวิธีของมาสเตอร์อู๋เป่าชุนมีความประณีตและซับซ้อนสูง ทางร้านจะเตรียมแป้งโดว์หมักสูตรพิเศษไว้ให้\n【สูตรแชมป์โลก Bakery Masters ปี 2010】\n［เจ/วีแกน］［มีส่วนผสมของแอลกอฮอล์］［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］［ใช้แป้งโดว์สำเร็จรูป］\n● ตัวขนมปัง: ขนมปังยุโรปสไตล์ชนบทผิวกรอบนอกนุ่มใน (ใช้แป้งโดว์สำเร็จรูป)\n● ไส้: กลีบกุหลาบออร์แกนิกจากผูหลี่, ลิ้นจี่อบแห้งหมักไวน์ลิ้นจี่หอมหวาน, วอลนัทกรุบกรอบ\n🎁 แถมฟรีถุงใส่ขนมปัง 2 ใบ",
@@ -2155,7 +2155,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Chỉ áp dụng làm tại chi nhánh Tín Nghĩa (Đài Bắc) & Cao Hùng\n⭐ Do quy trình làm bánh của bậc thầy Wu Pao Chun vô cùng công phu, cửa hàng sẽ cung cấp sẵn khối bột ủ đặc biệt.\n【Công thức quán quân thế giới Bakery Masters năm 2010】\n［Thuần chay］［Có chứa cồn］［⚠ Dị ứng | Đậu phộng / Quả hạch］［Sử dụng bột ủ sẵn］\n● Cốt bánh: Bánh mì men tự nhiên phong cách Âu châu (bột ủ sẵn)\n● Nhân: Cánh hoa hồng hữu cơ Phố Lý, vải thiều sấy dẻo ngâm rượu vải hảo hạng, quả óc chó giòn bùi\n🎁 Đi kèm 2 túi giấy đựng bánh mì"
     },
     "storage": {
-      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
+      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
       "en": "● Best enjoyed warm right after baking.\n● Refrigerate if not finished today (recommend airtight container or foil wrap).\n● Keeps 3 days refrigerated or 1 week frozen. Reheat before eating for best texture.",
       "ja": "●焼き立て熱々のうちにお召し上がりいただくのが一番美味しいです。\n●当日食べきれない場合は冷蔵保存してください（密閉容器またはアルミホイル推奨）。\n●冷蔵3日、冷凍1週間。召し上がる前にリベイクするとより美味しくなります。",
       "th": "●รับประทานขณะอบเสร็จร้อนๆ อร่อยที่สุด\n●หากทานไม่หมดในวันนั้นให้แช่เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อฟอยล์)\n●แช่เย็นได้ 3 วัน แช่แข็งได้ 1 สัปดาห์ อบซ้ำก่อนทานเพื่อความกรอบอร่อย",
@@ -2196,7 +2196,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "2 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠限信義、高雄店製作\r\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\r\n【2008世界麵包大賽亞軍】\r\r\n［全素］［含酒］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\r\n●主體：歐式麵包 (麵糰為預製品)\r\r\n●內餡：酒釀東山煙燻桂圓(法國紅酒)、核桃\r\r\n🎁附麵包袋2個",
+      "zh": "🏠限信義、高雄店製作\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\n【2008世界麵包大賽亞軍】\r\n［全素］［含酒］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\n●主體：歐式麵包 (麵糰為預製品)\r\n●內餡：酒釀東山煙燻桂圓(法國紅酒)、核桃\r\n🎁附麵包袋2個",
       "en": "🏠 Exclusive to Taipei Xinyi & Kaohsiung stores\n⭐ Due to the intricate artisan process of Master Wu Pao Chun's bread, pre-made artisan dough is provided on site.\n【2008 Coupe du Monde de la Boulangerie Runner-Up Recipe】\n［Vegan］［Contains Alcohol］［⚠ Allergen | Peanuts / Tree Nuts］［Pre-made Artisan Dough］\n● Main: European artisan crusty sourdough (pre-made specialty dough)\n● Filling: Dongshan ancient smoked longan steeped in French red wine, roasted walnuts\n🎁 Includes 2 artisan bread bags",
       "ja": "🏠 信義・高雄店限定で製作可能\n⭐ 呉宝春（ウー・バオチュン）直伝パンは工程が極めて複雑なため、店頭では特別発酵済みの仕込み生地を提供いたします。\n【2008年 世界ベーカリーカップ 準優勝作品】\n［完全菜食 ヴィーガン］［洋酒使用］［⚠ アレルゲン｜落花生・ナッツ類］［特製仕込み生地使用］\n● メイン：ハード系ヨーロピアンブレッド（特製仕込み生地使用）\n● フィリング：台南東山産伝統燻製干し龍眼（フランス産赤ワイン漬け）、香ばしいローストくるみ\n🎁 ブレッド用紙袋2枚付き",
       "th": "🏠 มีให้บริการเฉพาะสาขาไทเปซินอี้ และ เกาสง เท่านั้น\n⭐ เนื่องจากกรรมวิธีของมาสเตอร์อู๋เป่าชุนมีความประณีตและซับซ้อนสูง ทางร้านจะเตรียมแป้งโดว์หมักสูตรพิเศษไว้ให้\n【สูตรรองแชมป์โลก Coupe du Monde de la Boulangerie ปี 2008】\n［เจ/วีแกน］［มีส่วนผสมของแอลกอฮอล์］［⚠ ข้อมูลผู้แพ้อาหาร | ถั่วลิสง/ถั่วเปลือกแข็ง］［ใช้แป้งโดว์สำเร็จรูป］\n● ตัวขนมปัง: ขนมปังยุโรปสไตล์ชนบทผิวกรอบนอกนุ่มใน (ใช้แป้งโดว์สำเร็จรูป)\n● ไส้: ลำไยรมควันโบราณตงซานหมักไวน์แดงฝรั่งเศส, วอลนัทคั่วหอมมัน\n🎁 แถมฟรีถุงใส่ขนมปัง 2 ใบ",
@@ -2204,7 +2204,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Chỉ áp dụng làm tại chi nhánh Tín Nghĩa (Đài Bắc) & Cao Hùng\n⭐ Do quy trình làm bánh của bậc thầy Wu Pao Chun vô cùng công phu, cửa hàng sẽ cung cấp sẵn khối bột ủ đặc biệt.\n【Công thức Á quân Cúp Bánh mì Thế giới năm 2008】\n［Thuần chay］［Có chứa cồn］［⚠ Dị ứng | Đậu phộng / Quả hạch］［Sử dụng bột ủ sẵn］\n● Cốt bánh: Bánh mì men tự nhiên phong cách Âu châu (bột ủ sẵn)\n● Nhân: Nhãn nhục hun khói truyền thống Đông Sơn ngâm rượu vang đỏ Pháp, quả óc chó\n🎁 Đi kèm 2 túi giấy đựng bánh mì"
     },
     "storage": {
-      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
+      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
       "en": "● Best enjoyed warm right after baking.\n● Refrigerate if not finished today (recommend airtight container or foil wrap).\n● Keeps 3 days refrigerated or 1 week frozen. Reheat before eating for best texture.",
       "ja": "●焼き立て熱々のうちにお召し上がりいただくのが一番美味しいです。\n●当日食べきれない場合は冷蔵保存してください（密閉容器またはアルミホイル推奨）。\n●冷蔵3日、冷凍1週間。召し上がる前にリベイクするとより美味しくなります。",
       "th": "●รับประทานขณะอบเสร็จร้อนๆ อร่อยที่สุด\n●หากทานไม่หมดในวันนั้นให้แช่เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อฟอยล์)\n●แช่เย็นได้ 3 วัน แช่แข็งได้ 1 สัปดาห์ อบซ้ำก่อนทานเพื่อความกรอบอร่อย",
@@ -2245,7 +2245,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 cái / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠限信義、高雄店製作\r\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\r\n【2021人氣熱銷款】\r\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\r\n●主體：肉桂捲麵包 (麵糰為預製品)\r\r\n●內餡：肉桂奶油、義大利橘皮\r\r\n●裝飾：焦糖淋醬、核桃\r\r\n🎁附手提紙盒一個(4個裝一起)",
+      "zh": "🏠限信義、高雄店製作\r\n⭐因製作吳寶春麵包繁瑣不易，現場會提供麵糰預製品。\r\n【2021人氣熱銷款】\r\n［蛋奶素］［⚠ 過敏原｜花生／堅果］［預製品=現成品］\r\n●主體：肉桂捲麵包 (麵糰為預製品)\r\n●內餡：肉桂奶油、義大利橘皮\r\n●裝飾：焦糖淋醬、核桃\r\n🎁附手提紙盒一個(4個裝一起)",
       "en": "🏠 Exclusive to Taipei Xinyi & Kaohsiung stores\n⭐ Due to the intricate artisan process of Master Wu Pao Chun's bread, pre-made artisan dough is provided on site.\n【2021 All-Time Best Seller】\n［Ovo-lacto Vegetarian］［⚠ Allergen | Peanuts / Tree Nuts］［Pre-made Ingredients Used］\n● Main: Artisan cinnamon roll dough (pre-made specialty dough)\n● Filling: Rich Ceylon cinnamon butter, candied Italian orange peel\n● Decoration: Housemade caramel glaze drizzle, toasted walnuts\n🎁 Includes one portable box (fits all 4 pieces together)",
       "ja": "🏠 信義・高雄店限定で製作可能\n⭐ 呉宝春（ウー・バオチュン）直伝パンは工程が極めて複雑なため、店頭では特別発酵済みの仕込み生地を提供いたします。\n【2021年 年間ベストセラー大人気商品】\n［卵乳素（オボ・ラクト・ベジタリアン）］［⚠ アレルゲン｜落花生／ナッツ類］［仕込み済み半製品使用］\n● メイン：香り高いシナモンロール（特製仕込み生地使用）\n● フィリング：極上シナモンバター、爽快なイタリア産オレンジピール\n● デコレーション：自家製キャラメルソースがけ、ローストくるみ\n🎁 手提げケーキ箱1個付き（4個入りパッケージ）",
       "th": "🏠 มีให้บริการเฉพาะสาขาไทเปซินอี้ และ เกาสง เท่านั้น\n⭐ เนื่องจากกรรมวิธีของมาสเตอร์อู๋เป่าชุนมีความประณีตและซับซ้อนสูง ทางร้านจะเตรียมแป้งโดว์หมักสูตรพิเศษไว้ให้\n【เมนูยอดนิยม Best-Seller แห่งปี 2021】\n［มังสวิรัติไข่-นม］［⚠ ข้อมูลสำหรับผู้แพ้อาหาร｜ถั่วลิสง / ถั่วเปลือกแข็ง］［ใช้วัตถุดิบสำเร็จรูป］\n● ตัวขนมปัง: ขนมปังซินนามอนโรลนุ่มฉ่ำเนย (ใช้แป้งโดว์สำเร็จรูป)\n● ไส้: เนยซินนามอนหอมกรุ่น, ผิวส้มอิตาเลียนเชื่อมหวานหอม\n● ตกแต่ง: ราดซอสคาราเมลโฮมเมดเข้มข้น, วอลนัทกรอบ\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 4 ชิ้น)",
@@ -2253,7 +2253,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Chỉ áp dụng làm tại chi nhánh Tín Nghĩa (Đài Bắc) & Cao Hùng\n⭐ Do quy trình làm bánh của bậc thầy Wu Pao Chun vô cùng công phu, cửa hàng sẽ cung cấp sẵn khối bột ủ đặc biệt.\n【Món bán chạy được yêu thích nhất năm 2021】\n［Chay có trứng sữa］［⚠ Cảnh báo dị ứng｜Đậu phộng / Các loại hạt］［Sử dụng nguyên liệu sơ chế sẵn］\n● Cốt bánh: Bánh cuộn quế mềm thơm ngậy (bột ủ sẵn)\n● Nhân: Bơ quế nồng nàn, mứt vỏ cam Ý thơm thanh\n● Trang trí: Sốt caramel ngọt ngào rưới đều, hạt óc chó giòn bùi\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 4 cái)"
     },
     "storage": {
-      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
+      "zh": "●出爐後帶至美食街座位區，熱熱吃最好吃。\r\n●當天沒吃完再冷藏（建議放入保鮮盒或以錫箔紙包覆）。\r\n●冷藏3天，冷凍1星期，食用前回烤口感較佳。",
       "en": "● Best enjoyed warm right after baking.\n● Refrigerate if not finished today (recommend airtight container or foil wrap).\n● Keeps 3 days refrigerated or 1 week frozen. Reheat before eating for best texture.",
       "ja": "●焼き立て熱々のうちにお召し上がりいただくのが一番美味しいです。\n●当日食べきれない場合は冷蔵保存してください（密閉容器またはアルミホイル推奨）。\n●冷蔵3日、冷凍1週間。召し上がる前にリベイクするとより美味しくなります。",
       "th": "●รับประทานขณะอบเสร็จร้อนๆ อร่อยที่สุด\n●หากทานไม่หมดในวันนั้นให้แช่เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อฟอยล์)\n●แช่เย็นได้ 3 วัน แช่แข็งได้ 1 สัปดาห์ อบซ้ำก่อนทานเพื่อความกรอบอร่อย",
@@ -2294,7 +2294,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "4 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：紅玉紅茶戚風蛋糕\r\r\n●內餡：紅玉紅茶凍、紅玉紅茶甘納許、紅玉紅茶可可鮮奶油\r\r\n●裝飾：紅玉紅茶可可鮮奶油、鮮奶油、紅玉紅茶甘納許、Oreo餅乾、糖珠\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］［含酒，可不加］\r\n●主體：紅玉紅茶戚風蛋糕\r\n●內餡：紅玉紅茶凍、紅玉紅茶甘納許、紅玉紅茶可可鮮奶油\r\n●裝飾：紅玉紅茶可可鮮奶油、鮮奶油、紅玉紅茶甘納許、Oreo餅乾、糖珠\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Ruby Black Tea (Taiwan No. 18) chiffon cake\n● Filling: Ruby black tea jelly, Ruby tea ganache, Ruby tea cocoa whipped cream\n● Decoration: Ruby tea cocoa cream, fresh whipped cream, tea ganache, Oreo cookies, sugar pearls\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：台湾特産「紅玉紅茶」シフォンケーキ\n● フィリング：紅玉紅茶ゼリー、紅玉紅茶ガナッシュ、紅玉紅茶ココア生クリーム\n● デコレーション：紅玉紅茶ココア生クリーム、生クリーム、紅茶ガナッシュ、オレオ、シュガーパール\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ชิฟฟอนชาดำทับทิมไต้หวันเบอร์ 18\n● ไส้: เยลลี่ชาดำทับทิม, กานาชชาทับทิม, วิปครีมโกโก้ชาทับทิม\n● ตกแต่ง: วิปครีมโกโก้ชาทับทิม, วิปครีม, กานาชชา, คุกกี้โอริโอ้, ลูกปัดน้ำตาล\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -2302,7 +2302,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh Chiffon hồng trà Hồng Ngọc (Đài Loan số 18)\n● Nhân: Thạch hồng trà, ganache hồng trà, kem tươi ca cao hồng trà\n● Trang trí: Kem ca cao hồng trà, kem tươi, ganache hồng trà, bánh Oreo, hạt ngọc đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -2352,7 +2352,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n［蛋奶素］\r\r\n●主體：伯爵戚風蛋糕\r\r\n●內餡：伯爵茶凍、焦糖鮮奶油\r\r\n●裝飾：鮮奶油、造型糖片、恐龍蠟燭*4+生日橫幅插件*1 (圖片款、不挑色)\r\r\n❗裝飾搭配固定不可換款，若需換款請加購。\r\r\n🎁附透明盒一個",
+      "zh": "🏠提供製作：所有分店\r\n［蛋奶素］\r\n●主體：伯爵戚風蛋糕\r\n●內餡：伯爵茶凍、焦糖鮮奶油\r\n●裝飾：鮮奶油、造型糖片、恐龍蠟燭*4+生日橫幅插件*1 (圖片款、不挑色)\r\n❗裝飾搭配固定不可換款，若需換款請加購。\r\n🎁附透明盒一個",
       "en": "🏠 Available at: All branch stores\n［Ovo-lacto Vegetarian］\n● Main: Earl Grey tea chiffon cake\n● Filling: Earl Grey tea jelly, caramel whipped cream\n● Decoration: Whipped cream, candy flakes, dinosaur candles*4 + birthday banner*1 (colors random)\n❗ Accessories and decorations are fixed; additional styles must be purchased separately.\n🎁 Includes one clear display gift box",
       "ja": "🏠 製作可能店舗：全店舗\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：アールグレイ紅茶シフォンケーキ\n● フィリング：アールグレイ茶ジュレ、キャラメル生クリーム\n● デコレーション：生クリーム、シュガーチップ、恐竜キャンドル×4＋バースデーバナーピック×1（色おまかせ）\n❗ 飾り・キャンドルの変更はできません（追加購入をご利用ください）。\n🎁 高級クリアギフトケース1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: ชิฟฟอนชาเอิร์ลเกรย์\n● ไส้: เยลลี่ชาเอิร์ลเกรย์, วิปครีมคาราเมล\n● ตกแต่ง: วิปครีม, เกล็ดน้ำตาล, เทียนไดโนเสาร์*4 + ป้ายวันเกิด*1 (สุ่มสีตามภาพ)\n❗ การจัดชุดตกแต่งเป็นแบบตายตัว ไม่สามารถเปลี่ยนแบบได้ หากต้องการเปลี่ยนต้องซื้อเพิ่ม\n🎁 แถมฟรีกล่องใสโชว์เค้กสุดหรู 1 ใบ",
@@ -2360,7 +2360,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n［Chay có trứng sữa］\n● Cốt bánh: Bánh Chiffon trà Bá tước\n● Nhân: Thạch trà Bá tước, kem tươi caramel\n● Trang trí: Kem tươi, kẹo đường, 4 nến khủng long + 1 cắm chữ sinh nhật (màu ngẫu nhiên)\n❗ Phụ kiện trang trí cố định không thể đổi mẫu, muốn đổi vui lòng mua thêm.\n🎁 Tặng kèm 1 hộp mica trong suốt cao cấp"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -2410,7 +2410,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n【伯爵焦糖奶油戚風*1份＋動物餅乾*20片/份】\r\r\n❗搭配固定不可換款，若需換款請改單點。\r\r\n❗可以1人或2人製作 (無陪同費)，第3人需獨立再製作一份甜點。\r\r\n❗不可以與1499券、當日壽星優惠等併用。\r\r\n⭐２人製作：訂位一場即可！\r\r\n（訂位時→入場人數：2位、製作份數：2份）\r\r\n（品項：1.抱一下、2.不點選；總金額：999 (無陪同費)）\r\r\n⭐１人製作：需訂位二場！\r\r\n（範例：訂位11:00~13:00場1人，加訂13:00~15:00場1人）\r\r\n（品項：第一場 1.抱一下，第二場 1.不點選）\r\r\n---------------------------------------------\r\r\n🎂【伯爵焦糖奶油戚風】\r\r\n［蛋奶素］\r\r\n●主體：伯爵戚風蛋糕\r\r\n●內餡：伯爵茶凍、焦糖鮮奶油\r\r\n●裝飾：焦糖鮮奶油、Oreo粉、單根蠟燭*1+生日木插牌*1+紗球*1 (圖片款、不挑色)\r\r\n🎁附透明盒一個\r\r\n🍪【動物餅乾】\r\r\n［蛋奶素］\r\r\n●主體：餅乾20片 (原味/可可)\r\r\n●尺寸約：長6.5cm、寬3.5cm、高2.5cm\r\r\n🎁附手提紙盒一個 (20片裝一起)",
+      "zh": "🏠提供製作：所有分店\r\n【伯爵焦糖奶油戚風*1份＋動物餅乾*20片/份】\r\n❗搭配固定不可換款，若需換款請改單點。\r\n❗可以1人或2人製作 (無陪同費)，第3人需獨立再製作一份甜點。\r\n❗不可以與1499券、當日壽星優惠等併用。\r\n⭐２人製作：訂位一場即可！\r\n（訂位時→入場人數：2位、製作份數：2份）\r\n（品項：1.抱一下、2.不點選；總金額：999 (無陪同費)）\r\n⭐１人製作：需訂位二場！\r\n（範例：訂位11:00~13:00場1人，加訂13:00~15:00場1人）\r\n（品項：第一場 1.抱一下，第二場 1.不點選）\r\n---------------------------------------------\r\n🎂【伯爵焦糖奶油戚風】\r\n［蛋奶素］\r\n●主體：伯爵戚風蛋糕\r\n●內餡：伯爵茶凍、焦糖鮮奶油\r\n●裝飾：焦糖鮮奶油、Oreo粉、單根蠟燭*1+生日木插牌*1+紗球*1 (圖片款、不挑色)\r\n🎁附透明盒一個\r\n🍪【動物餅乾】\r\n［蛋奶素］\r\n●主體：餅乾20片 (原味/可可)\r\n●尺寸約：長6.5cm、寬3.5cm、高2.5cm\r\n🎁附手提紙盒一個 (20片裝一起)",
       "en": "🏠 Available at: All branch stores\n【Earl Grey Caramel Chiffon Cake × 1 + Animal Butter Cookies × 20 pcs】\n❗ Combo items are fixed and cannot be substituted; for alternatives please order individually.\n❗ Suitable for 1 or 2 guests to craft together (no companion fee); a 3rd guest must craft an independent dessert.\n❗ Cannot be combined with $1499 vouchers, birthday person promotions, or other discounts.\n⭐ 2 People Crafting: Simply book ONE timeslot!\n(When booking -> Party Size: 2 guests, Servings: 2 portions)\n(Items: 1. Give a Hug, 2. None; Total: $999 with no companion fee)\n⭐ 1 Person Crafting Alone: Must book TWO consecutive timeslots!\n(Example: Book 11:00-13:00 for 1 guest, then book 13:00-15:00 for 1 guest)\n(Selection: 1st slot select 'Give a Hug', 2nd slot select 'None')\n---------------------------------------------\n🎂【Earl Grey Caramel Cream Chiffon】\n［Ovo-lacto Vegetarian］\n● Main: Earl Grey tea chiffon cake\n● Filling: Earl Grey tea jelly, caramel whipped cream\n● Decoration: Caramel whipped cream, Oreo dust, candle*1 + wooden birthday sign*1 + tulle pom*1 (colors random)\n🎁 Includes one clear display gift box\n🍪【Animal Butter Cookies】\n［Ovo-lacto Vegetarian］\n● Main: 20 butter cookies (Vanilla / Dutch Cocoa)\n● Approx. Size: 6.5cm (L) × 3.5cm (W) × 2.5cm (H)\n🎁 Includes one portable box (fits all 20 pieces together)",
       "ja": "🏠 製作可能店舗：全店舗\n【アールグレイキャラメルシフォン×1台 ＋ アニマルサブレ×20枚】\n❗ セット内容は固定となっております。別商品をご希望の場合は単品でご注文ください。\n❗ 1名または2名で体験可能（同伴料なし）。3人目の方は別メニューの独立製作が必要です。\n❗ 1499元バウチャーやお誕生日当日割引等の他キャンペーンとの併用はできません。\n⭐ 2名で製作する場合：予約枠は1枠のみでOK！\n（予約時→来店人数：2名、製作数量：2品と選択）\n（メニュー：1. ぎゅっとハグ、2. 選択なし；合計金額：999元・同伴料なし）\n⭐ 1名で全工程を製作する場合：連続する2枠の予約が必要です！\n（例：11:00〜13:00枠で1名予約 ＋ 13:00〜15:00枠で1名追加予約）\n（メニュー選択：第1枠で「ぎゅっとハグ」選択、第2枠は「選択なし」）\n---------------------------------------------\n🎂【アールグレイキャラメルクリームシフォン】\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：アールグレイ紅茶シフォンケーキ\n● フィリング：アールグレイ茶ジュレ、キャラメル生クリーム\n● デコレーション：キャラメル生クリーム、オレオパウダー、キャンドル×1＋木製バースデーピック×1＋チュールポンポン×1（色おまかせ）\n🎁 高級クリアギフトケース1個付き\n🍪【アニマルサブレクッキー】\n［卵乳素（オボ・ラクト・ベジタリアン）］\n● メイン：クッキー20枚（プレーンバニラ／ココア）\n● サイズ約：縦6.5cm × 横3.5cm × 高さ2.5cm\n🎁 手提げクッキー箱1個付き（20枚入りパッケージ）",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n【ชิฟฟอนเอิร์ลเกรย์คาราเมล 1 ก้อน + คุกกี้สัตว์แฟนซี 20 ชิ้น】\n❗ เซ็ตเมนูจับคู่ตายตัวไม่สามารถเปลี่ยนรายการได้ หากต้องการปรับเปลี่ยนให้สั่งแยกเดี่ยว\n❗ สามารถทำได้ 1 หรือ 2 ท่าน (ไม่มีค่าผู้ติดตาม) ท่านที่ 3 ต้องแยกทำอีก 1 เมนู\n❗ ไม่สามารถใช้ร่วมกับคูปอง 1499 หรือโปรโมชั่นวันเกิดได้\n⭐ สำหรับ 2 ท่านร่วมกันทำ: จองเพียง 1 รอบเวลาเท่านั้น!\n(ขั้นตอนการจอง -> จำนวนผู้เข้า: 2 ท่าน, จำนวนขนม: 2 ชุด)\n(เมนู: 1. กอดหน่อยนะ, 2. ไม่เลือก; ยอดรวม: 999 ไม่มีค่าผู้ติดตาม)\n⭐ สำหรับ 1 ท่านทำคนเดียว: ต้องจองล่วงหน้า 2 รอบเวลาต่อเนื่องกัน!\n(ตัวอย่าง: จองรอบ 11:00-13:00 สำหรับ 1 คน และจองเพิ่มรอบ 13:00-15:00 สำหรับ 1 คน)\n(การเลือกเมนู: รอบแรกเลือก 'กอดหน่อยนะ', รอบสอง 'ไม่เลือก')\n---------------------------------------------\n🎂【ชิฟฟอนชาเอิร์ลเกรย์ครีมคาราเมล】\n［มังสวิรัติไข่-นม］\n● ตัวเค้ก: ชิฟฟอนชาเอิร์ลเกรย์\n● ไส้: เยลลี่ชาเอิร์ลเกรย์, วิปครีมคาราเมล\n● ตกแต่ง: วิปครีมคาราเมล, ผงโอริโอ้, เทียนแท่ง*1 + ป้ายไม้ปักวันเกิด*1 + พู่ผ้าโปร่ง*1 (สุ่มสีตามภาพ)\n🎁 แถมฟรีกล่องใสโชว์เค้กสุดหรู 1 ใบ\n🍪【คุกกี้สัตว์แฟนซี】\n［มังสวิรัติไข่-นม］\n● ตัวคุกกี้: คุกกี้เนยสด 20 ชิ้น (รสดั้งเดิม / โกโก้)\n● ขนาดประมาณ: ยาว 6.5 ซม. × กว้าง 3.5 ซม. × สูง 2.5 ซม.\n🎁 แถมฟรีกระเป๋ากล่องขนม 1 กล่อง (บรรจุรวม 20 ชิ้น)",
@@ -2418,7 +2418,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n【Chiffon kem caramel Bá tước × 1 + Bánh quy động vật × 20 miếng】\n❗ Combo cố định không thể thay đổi món, nếu muốn đổi vui lòng gọi món lẻ.\n❗ Có thể làm 1 hoặc 2 người (không tính phí đi kèm), người thứ 3 phải tự làm 1 món riêng.\n❗ Không thể kết hợp với voucher 1499, ưu đãi sinh nhật hoặc khuyến mãi khác.\n⭐ 2 người cùng làm: Chỉ cần đặt 1 khung giờ duy nhất!\n(Khi đặt bàn -> Số người vào: 2 người, Số phần làm: 2 phần)\n(Món: 1. Ôm một cái, 2. Không chọn; Tổng cộng: 999 không phí đi kèm)\n⭐ 1 người tự làm hết: Cần đặt 2 khung giờ liên tiếp!\n(Ví dụ: Đặt khung 11:00~13:00 cho 1 người, và đặt thêm 13:00~15:00 cho 1 người)\n(Chọn món: Lượt 1 chọn 'Ôm một cái', Lượt 2 chọn 'Không chọn')\n---------------------------------------------\n🎂【Chiffon kem caramel trà Bá tước】\n［Chay có trứng sữa］\n● Cốt bánh: Bánh Chiffon trà Bá tước\n● Nhân: Thạch trà Bá tước, kem tươi caramel\n● Trang trí: Kem caramel, vụn Oreo, 1 nến cây + 1 cắm gỗ sinh nhật + 1 quả cầu voan (màu ngẫu nhiên)\n🎁 Tặng kèm 1 hộp mica trong suốt cao cấp\n🍪【Bánh quy động vật ngộ nghĩnh】\n［Chay có trứng sữa］\n● Thân bánh: 20 miếng bánh quy bơ (Vani / Ca cao)\n● Kích thước khoảng: Dài 6.5cm × Rộng 3.5cm × Cao 2.5cm\n🎁 Tặng kèm 1 hộp giấy xách tay (đựng chung 20 miếng)"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
@@ -2468,7 +2468,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "6 inch / Thời gian làm: 2 giờ"
     },
     "features": {
-      "zh": "🏠提供製作：所有分店\r\r\n❗可以1人或2人製作 (無陪同費)，第3人需獨立再製作一份甜點。\r\r\n❗不可以與當日壽星優惠併用。\r\r\n⭐２人製作：訂位一場即可！\r\r\n（訂位時→入場人數：2位、製作份數：2份）\r\r\n（品項：1.另一半、2.不點選；總金額：999 (無陪同費)）\r\r\n⭐１人製作：需訂位二場！\r\r\n（範例：訂位11:00~13:00場1人，加訂13:00~15:00場1人）\r\r\n（品項：第一場 1.另一半，第二場 1.不點選）\r\r\n---------------------------------------------\r\r\n［蛋奶素］［含酒，可不加］\r\r\n●主體：原味戚風蛋糕 (愛心型)\r\r\n●內餡：覆盆子鮮奶油、巧克力鮮奶油、巧克力甘納許、覆盆子凍\r\r\n●裝飾：鮮奶油、心形巧克力片(顏色隨機)、巧克力、糖粒、糖片\r\r\n🎁附手提紙盒一個",
+      "zh": "🏠提供製作：所有分店\r\n❗可以1人或2人製作 (無陪同費)，第3人需獨立再製作一份甜點。\r\n❗不可以與當日壽星優惠併用。\r\n⭐２人製作：訂位一場即可！\r\n（訂位時→入場人數：2位、製作份數：2份）\r\n（品項：1.另一半、2.不點選；總金額：999 (無陪同費)）\r\n⭐１人製作：需訂位二場！\r\n（範例：訂位11:00~13:00場1人，加訂13:00~15:00場1人）\r\n（品項：第一場 1.另一半，第二場 1.不點選）\r\n---------------------------------------------\r\n［蛋奶素］［含酒，可不加］\r\n●主體：原味戚風蛋糕 (愛心型)\r\n●內餡：覆盆子鮮奶油、巧克力鮮奶油、巧克力甘納許、覆盆子凍\r\n●裝飾：鮮奶油、心形巧克力片(顏色隨機)、巧克力、糖粒、糖片\r\n🎁附手提紙盒一個",
       "en": "🏠 Available at: All branch stores\n❗ Suitable for 1 or 2 guests to craft together (no companion fee); a 3rd guest must craft an independent dessert.\n❗ Cannot be combined with birthday person discounts or promotions.\n⭐ 2 People Crafting: Simply book ONE timeslot!\n(When booking -> Party Size: 2 guests, Servings: 2 portions)\n(Items: 1. The Other Half, 2. None; Total: $999 with no companion fee)\n⭐ 1 Person Crafting Alone: Must book TWO consecutive timeslots!\n(Example: Book 11:00-13:00 for 1 guest, then book 13:00-15:00 for 1 guest)\n(Selection: 1st slot select 'The Other Half', 2nd slot select 'None')\n---------------------------------------------\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Heart-shaped fluffy vanilla chiffon cake\n● Filling: Raspberry whipped cream, chocolate whipped cream, chocolate ganache, tangy raspberry jelly\n● Decoration: Whipped cream, heart chocolate plaque (color random), chocolate drizzle, sugar beads, crispy sugar flakes\n🎁 Includes one portable cake box",
       "ja": "🏠 製作可能店舗：全店舗\n❗ 1名または2名で体験可能（同伴料なし）。3人目の方は別メニューの独立製作が必要です。\n❗ お誕生日当日割引との併用はできません。\n⭐ 2名で製作する場合：予約枠は1枠のみでOK！\n（予約時→来店人数：2名、製作数量：2品と選択）\n（メニュー：1. 運命の片割れ、2. 選択なし；合計金額：999元・同伴料なし）\n⭐ 1名で全工程を製作する場合：連続する2枠の予約が必要です！\n（例：11:00〜13:00枠で1名予約 ＋ 13:00〜15:00枠で1名追加予約）\n（メニュー選択：第1枠で「運命の片割れ」選択、第2枠は「選択なし」）\n---------------------------------------------\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：ハート型のふわふわプレーンシフォンケーキ\n● フィリング：ラズベリー生クリーム、チョコ生クリーム、生チョコガナッシュ、甘酸っぱいラズベリージュレ\n● デコレーション：生クリーム、ハート型チョコプレート（色おまかせ）、チョコレート、シュガースプリンクル、チップ\n🎁 手提げケーキ箱1個付き",
       "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n❗ สามารถทำได้ 1 หรือ 2 ท่าน (ไม่มีค่าผู้ติดตาม) ท่านที่ 3 ต้องแยกทำอีก 1 เมนู\n❗ ไม่สามารถใช้ร่วมกับสิทธิพิเศษวันเกิดได้\n⭐ สำหรับ 2 ท่านร่วมกันทำ: จองเพียง 1 รอบเวลาเท่านั้น!\n(ขั้นตอนการจอง -> จำนวนผู้เข้า: 2 ท่าน, จำนวนขนม: 2 ชุด)\n(เมนู: 1. อีกครึ่งหนึ่งของหัวใจ, 2. ไม่เลือก; ยอดรวม: 999 ไม่มีค่าผู้ติดตาม)\n⭐ สำหรับ 1 ท่านทำคนเดียว: ต้องจองล่วงหน้า 2 รอบเวลาต่อเนื่องกัน!\n(ตัวอย่าง: จองรอบ 11:00-13:00 สำหรับ 1 คน และจองเพิ่มรอบ 13:00-15:00 สำหรับ 1 คน)\n(การเลือกเมนู: รอบแรกเลือก 'อีกครึ่งหนึ่งของหัวใจ', รอบสอง 'ไม่เลือก')\n---------------------------------------------\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ชิฟฟอนเค้กรูปหัวใจเนียนนุ่ม\n● ไส้: วิปครีมราสเบอร์รี่, วิปครีมช็อกโกแลต, กานาชช็อกโกแลต, เยลลี่ราสเบอร์รี่เปรี้ยวอมหวาน\n● ตกแต่ง: วิปครีมสด, ช็อกโกแลตรูปหัวใจ (สุ่มสี), ช็อกโกแลต, เกล็ดน้ำตาลตกแต่ง\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
@@ -2476,7 +2476,7 @@ window.DEFAULT_PRODUCTS = [
       "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n❗ Có thể làm 1 hoặc 2 người (không tính phí đi kèm), người thứ 3 phải tự làm 1 món riêng.\n❗ Không thể áp dụng đồng thời với ưu đãi sinh nhật.\n⭐ 2 người cùng làm: Chỉ cần đặt 1 khung giờ duy nhất!\n(Khi đặt bàn -> Số người vào: 2 người, Số phần làm: 2 phần)\n(Món: 1. Nửa kia của nhau, 2. Không chọn; Tổng cộng: 999 không phí đi kèm)\n⭐ 1 người tự làm hết: Cần đặt 2 khung giờ liên tiếp!\n(Ví dụ: Đặt khung 11:00~13:00 cho 1 người, và đặt thêm 13:00~15:00 cho 1 người)\n(Chọn món: Lượt 1 chọn 'Nửa kia của nhau', Lượt 2 chọn 'Không chọn')\n---------------------------------------------\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh Chiffon hình trái tim xốp mềm\n● Nhân: Kem tươi phúc bồn tử, kem tươi sô-cô-la, ganache sô-cô-la, thạch phúc bồn tử\n● Trang trí: Kem tươi, phiến sô-cô-la trái tim (màu ngẫu nhiên), sô-cô-la, hạt cốm đường, kẹo đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
     },
     "storage": {
-      "zh": "●製作完成：需2小時內冷藏。\r\r\n（店內無借冰，保冰墊:加購價$39/個）\r\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\r\n●請於3天內食用完，口感較佳。",
+      "zh": "●製作完成：需2小時內冷藏。\r\n（店內無借冰，保冰墊:加購價$39/個）\r\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\r\n●請於3天內食用完，口感較佳。",
       "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
       "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
       "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
