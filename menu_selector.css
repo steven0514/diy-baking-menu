@@ -1,5 +1,6 @@
 :root {
     --primary: #c2673a;
+    --primary-color: #c2673a;
     --primary-hover: #a8542b;
     --primary-light: #fff7ed;
     --primary-dark: #7e4740;
@@ -8,6 +9,7 @@
     --text-main: #2d2625;
     --text-muted: #796e6d;
     --border: #eddcd2;
+    --border-color: #eddcd2;
     --tag-exp-bg: #fef3c7;
     --tag-exp-text: #92400e;
     --tag-type-bg: #f5ebe6;
@@ -737,9 +739,9 @@ header.hero p {
 }
 
 .lang-pill-btn.active {
-    background: var(--primary-color);
-    color: #ffffff;
-    box-shadow: 0 2px 8px rgba(194, 103, 58, 0.3);
+    background: var(--primary, #c2673a) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(194, 103, 58, 0.35);
     font-weight: 700;
 }
 
@@ -750,7 +752,7 @@ header.hero p {
     gap: 6px;
     padding: 7px 14px;
     background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid var(--border-color);
+    border: 1.5px solid var(--border, #eddcd2);
     border-radius: 9999px;
     font-size: 0.82rem;
     font-weight: 700;
@@ -762,8 +764,8 @@ header.hero p {
 
 .sync-btn:hover {
     background: #ffffff;
-    color: var(--primary-color);
-    border-color: var(--primary-color);
+    color: var(--primary, #c2673a);
+    border-color: var(--primary, #c2673a);
     box-shadow: 0 3px 10px rgba(194, 103, 58, 0.2);
     transform: translateY(-1px);
 }
