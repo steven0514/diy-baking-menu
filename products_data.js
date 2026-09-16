@@ -1,6 +1,6 @@
 // 自己做烘焙聚樂部 · 完整商品多語系數據庫
-// Version: v2026.09.16.1209
-window.PRODUCTS_VERSION = 'v2026.09.16.1209';
+// Version: v2026.09.16.1210
+window.PRODUCTS_VERSION = 'v2026.09.16.1210';
 window.DEFAULT_PRODUCTS = [
   {
     "id": 47,
@@ -50,7 +50,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "供應 4 間門市 (精明、草悟道、台南Focus、高雄SKM)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
   },
   {
@@ -101,7 +101,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "供應 4 間門市 (精明、草悟道、台南Focus、高雄SKM)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
   },
   {
@@ -152,7 +152,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "供應 4 間門市 (精明、草悟道、台南Focus、高雄SKM)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
   },
   {
@@ -210,7 +210,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e7524c6d-e24a-42b4-ac4d-17f9bd96e4f2/wi/wi1-e7524c6d-e24a-42b4-ac4d-17f9bd96e4f2.jpg?v=230526050111"
   },
   {
@@ -268,7 +268,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/71bdac2b-fc9e-4d31-b4f7-b53fdc137d4d/wi/wi1-71bdac2b-fc9e-4d31-b4f7-b53fdc137d4d.jpg?v=260506014044"
   },
   {
@@ -326,7 +326,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/8625a39d-bb7f-469e-9ea9-80e6b0620bb4/wi/wi1-8625a39d-bb7f-469e-9ea9-80e6b0620bb4.jpg?v=230526045823"
   },
   {
@@ -384,7 +384,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/c623ce3f-a256-4884-93fa-5fa1acc03362/wi/wi1-c623ce3f-a256-4884-93fa-5fa1acc03362.jpg?v=251103061008"
   },
   {
@@ -442,7 +442,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/02e2229a-c35f-4f29-a214-e7276264d704/wi/wi1-02e2229a-c35f-4f29-a214-e7276264d704.jpg?v=260506013717"
   },
   {
@@ -500,7 +500,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/5ce155c7-1f95-4273-a0ed-5bbc8adcfe99/wi/wi1-5ce155c7-1f95-4273-a0ed-5bbc8adcfe99.jpg?v=230526045716"
   },
   {
@@ -558,7 +558,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/23ebdf9f-5a95-40f3-a80c-1d60308d0c6c/wi/wi1-23ebdf9f-5a95-40f3-a80c-1d60308d0c6c.jpg?v=250508104053"
   },
   {
@@ -616,7 +616,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/27734ab6-def5-4883-82a9-338d8bd73a2a/wi/wi1-27734ab6-def5-4883-82a9-338d8bd73a2a.jpg?v=230526045455"
   },
   {
@@ -674,7 +674,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/3a00fc5d-f9ef-418c-824e-ec44f6d338bd/wi/wi1-3a00fc5d-f9ef-418c-824e-ec44f6d338bd.jpg?v=260319095415"
   },
   {
@@ -732,7 +732,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/6401ca95-67c8-4d0a-bbbc-e65f4e9594bc/wi/wi1-6401ca95-67c8-4d0a-bbbc-e65f4e9594bc.jpg?v=260506013929"
   },
   {
@@ -790,7 +790,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/64606bc4-9456-4b04-bce3-0457c47705d0/wi/wi1-64606bc4-9456-4b04-bce3-0457c47705d0.jpg?v=260319095905"
   },
   {
@@ -848,7 +848,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/951b88c9-5136-4af8-a167-d6ae8e028b7d/wi/wi1-951b88c9-5136-4af8-a167-d6ae8e028b7d.jpg?v=260506013833"
   },
   {
@@ -906,7 +906,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/9a61b83f-a535-4378-bfda-4fd56a09a124/wi/wi1-9a61b83f-a535-4378-bfda-4fd56a09a124.jpg?v=260506013903"
   },
   {
@@ -963,7 +963,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市(除信義)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/ac8d0fbb-d4ca-47df-86b4-955b450c695c/wi/wi1-ac8d0fbb-d4ca-47df-86b4-955b450c695c.jpg?v=260506013442"
   },
   {
@@ -1021,7 +1021,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/adfe83d8-249a-48bc-8ece-b6a4ad6e73cf/wi/wi1-adfe83d8-249a-48bc-8ece-b6a4ad6e73cf.jpg?v=260506013623"
   },
   {
@@ -1078,7 +1078,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市(除信義)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/ba70589f-841e-4a6d-bc62-5667cd7dc8f3/wi/wi1-ba70589f-841e-4a6d-bc62-5667cd7dc8f3.jpg?v=260506014020"
   },
   {
@@ -1136,7 +1136,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e7c10b79-5034-41d8-b9e6-71a39a35e17c/wi/wi1-e7c10b79-5034-41d8-b9e6-71a39a35e17c.jpg?v=240515102238"
   },
   {
@@ -1194,7 +1194,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/26ff212d-4ad6-4f1e-a4a8-bec7397cf19d/wi/wi1-26ff212d-4ad6-4f1e-a4a8-bec7397cf19d.jpg?v=241101061713"
   },
   {
@@ -1252,7 +1252,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/a5c759c9-4b63-481a-a271-f58b8e371c9b/wi/wi1-a5c759c9-4b63-481a-a271-f58b8e371c9b.JPG?v=231102113417"
   },
   {
@@ -1310,7 +1310,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/bc158106-032a-4c2d-894d-464e5a6e020d/wi/wi1-bc158106-032a-4c2d-894d-464e5a6e020d.jpg?v=260319094319"
   },
   {
@@ -1368,7 +1368,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/f5fce417-79c5-49c0-af4b-2e443bc1291d/wi/wi1-f5fce417-79c5-49c0-af4b-2e443bc1291d.jpg?v=260506013521"
   },
   {
@@ -1426,7 +1426,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/6355acf3-0cd4-470d-858c-1dfa0cf67592/wi/wi1-6355acf3-0cd4-470d-858c-1dfa0cf67592.jpg?v=230526045533"
   },
   {
@@ -1483,7 +1483,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市(除信義)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/36fb954e-2bc9-438c-95d8-3091f80db945/wi/wi1-36fb954e-2bc9-438c-95d8-3091f80db945.jpg?v=251022013640"
   },
   {
@@ -1541,7 +1541,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/5d6e1589-6f53-49ff-a92d-516a497c2f9d/wi/wi1-5d6e1589-6f53-49ff-a92d-516a497c2f9d.jpg?v=231102113537"
   },
   {
@@ -1599,7 +1599,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/c628f37b-8bf2-4f00-936d-813558f856b0/wi/wi1-c628f37b-8bf2-4f00-936d-813558f856b0.jpg?v=230526045609"
   },
   {
@@ -1657,7 +1657,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/5e63e7de-f30d-410e-9fb1-a87371f61170/wi/wi1-5e63e7de-f30d-410e-9fb1-a87371f61170.jpg?v=260506014125"
   },
   {
@@ -1715,7 +1715,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/86c34832-23ca-4041-a6be-194daeb72805/wi/wi1-86c34832-23ca-4041-a6be-194daeb72805.jpg?v=231027043946"
   },
   {
@@ -1772,7 +1772,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市(除信義)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e3a5e697-c7e8-4c83-b7de-185470bd7229/wi/wi1-e3a5e697-c7e8-4c83-b7de-185470bd7229.jpg?v=251103061316"
   },
   {
@@ -1830,7 +1830,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/53b355f2-a02a-4615-9ca3-5b12451c730c/wi/wi1-53b355f2-a02a-4615-9ca3-5b12451c730c.jpg?v=251111015613"
   },
   {
@@ -1888,7 +1888,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/2f168124-a491-44c3-a49f-83cc6c4ea0d4/wi/wi1-2f168124-a491-44c3-a49f-83cc6c4ea0d4.jpg?v=260728053917"
   },
   {
@@ -1946,7 +1946,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/7ca9f94c-0df3-486e-9c50-eaa8746e4f5a/wi/wi1-7ca9f94c-0df3-486e-9c50-eaa8746e4f5a.jpg?v=260728054148"
   },
   {
@@ -2004,7 +2004,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/9365dad8-292c-4160-ba9d-b184d65abd64/wi/wi1-9365dad8-292c-4160-ba9d-b184d65abd64.jpg?v=260728054300"
   },
   {
@@ -2062,7 +2062,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/c93aa1bd-c217-4f1a-b98c-fd03c5a30b90/wi/wi1-c93aa1bd-c217-4f1a-b98c-fd03c5a30b90.jpg?v=260728054353"
   },
   {
@@ -2120,7 +2120,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/cdb99bf2-89e7-40b2-852d-730ef6121063/wi/wi1-cdb99bf2-89e7-40b2-852d-730ef6121063.jpg?v=260728054331"
   },
   {
@@ -2178,7 +2178,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/d2e7805b-8ad7-4da3-a4a4-b967f72c07da/wi/wi1-d2e7805b-8ad7-4da3-a4a4-b967f72c07da.jpg?v=260728053631"
   },
   {
@@ -2227,7 +2227,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "限信義、高雄SKM店",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/1bc6cd51-32d4-4fd2-8207-fc7be9b0daa9/wi/wi1-1bc6cd51-32d4-4fd2-8207-fc7be9b0daa9.jpg?v=260506014842"
   },
   {
@@ -2276,7 +2276,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "限信義、高雄SKM店",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/2d902da4-1f50-4010-9bd2-759a77d79691/wi/wi1-2d902da4-1f50-4010-9bd2-759a77d79691.jpg?v=221124033050"
   },
   {
@@ -2325,7 +2325,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "限信義、高雄SKM店",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/437078aa-63d8-4377-8bdc-10e7a3a0dd04/wi/wi1-437078aa-63d8-4377-8bdc-10e7a3a0dd04.jpg?v=221124033205"
   },
   {
@@ -2374,7 +2374,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "限信義、高雄SKM店",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/fd4e90ff-dee9-4b49-b288-ff7fe4234738/wi/wi1-fd4e90ff-dee9-4b49-b288-ff7fe4234738.jpg?v=221124033245"
   },
   {
@@ -2423,7 +2423,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "限信義、高雄SKM店",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/a3599542-e0fb-4730-95de-61c0cb33cd7d/wi/wi1-a3599542-e0fb-4730-95de-61c0cb33cd7d.jpg?v=221124033317"
   },
   {
@@ -2481,7 +2481,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/3ed239d7-bdb7-426b-9066-c304761f2359/wi/wi1-3ed239d7-bdb7-426b-9066-c304761f2359.jpg?v=260319100221"
   },
   {
@@ -2539,7 +2539,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/5a34397c-7a97-475b-87d5-50ffe33f7f1c/wi/wi1-5a34397c-7a97-475b-87d5-50ffe33f7f1c.jpg?v=231102113612"
   },
   {
@@ -2597,7 +2597,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/8af2fe6b-c0d2-4cc1-aa5d-320bebf49dc3/wi/wi1-8af2fe6b-c0d2-4cc1-aa5d-320bebf49dc3.jpg?v=251103060708"
   },
   {
@@ -2655,7 +2655,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "全門市供應",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
   }
 ];
