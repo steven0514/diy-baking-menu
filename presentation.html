@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>「自己做烘焙聚樂部」智能菜單系統 - 專案開發成果簡報</title>
+  <title>跨越語言的烘焙體驗：AI 智慧多語系菜單與後台管理系統</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -12,14 +12,15 @@
       --primary: #c2673a;
       --primary-light: #e88c5d;
       --primary-dark: #964820;
-      --bg: #0f1117;
-      --card-bg: rgba(26, 29, 41, 0.85);
+      --bg: #0c0e14;
+      --card-bg: rgba(22, 25, 37, 0.88);
       --card-border: rgba(255, 255, 255, 0.08);
       --text: #f3f4f6;
       --text-muted: #9ca3af;
       --accent-green: #10b981;
       --accent-blue: #3b82f6;
       --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
       --accent-purple: #8b5cf6;
     }
 
@@ -39,7 +40,6 @@
       user-select: none;
     }
 
-    /* Presentation Deck Container */
     .deck {
       position: relative;
       width: 100vw;
@@ -48,9 +48,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 10% 20%, rgba(194, 103, 58, 0.12) 0%, transparent 40%),
-                  radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-                  #0c0e14;
+      background: radial-gradient(circle at 10% 15%, rgba(194, 103, 58, 0.14) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 85%, rgba(59, 130, 246, 0.1) 0%, transparent 45%),
+                  #090a0f;
     }
 
     .slide {
@@ -61,11 +61,11 @@
       height: 100%;
       opacity: 0;
       pointer-events: none;
-      transform: scale(0.96) translateY(20px);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.97) translateY(16px);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
-      padding: 60px 80px;
+      padding: 50px 70px;
       overflow-y: auto;
     }
 
@@ -75,13 +75,12 @@
       transform: scale(1) translateY(0);
     }
 
-    /* Top Navigation bar */
     .header-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--card-border);
     }
 
@@ -89,7 +88,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 14px;
+      padding: 5px 14px;
       background: rgba(194, 103, 58, 0.15);
       border: 1px solid rgba(194, 103, 58, 0.35);
       border-radius: 9999px;
@@ -106,11 +105,10 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Content Typography */
     h1.hero-title {
-      font-size: 3.2rem;
+      font-size: 3.1rem;
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.2;
       background: linear-gradient(135deg, #ffffff 40%, #ffc5a8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -118,35 +116,34 @@
     }
 
     h2.slide-title {
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
     p.slide-subtitle {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
-      margin-bottom: 36px;
+      margin-bottom: 28px;
       line-height: 1.6;
     }
 
-    /* Grid Layouts */
     .grid-2 {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 36px;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
       flex: 1;
-      align-items: start;
+      align-items: stretch;
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 22px;
       flex: 1;
     }
 
@@ -157,16 +154,17 @@
       flex: 1;
     }
 
-    /* Card Components */
     .glass-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(16px);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .glass-card::before {
@@ -179,8 +177,16 @@
       background: linear-gradient(90deg, var(--primary), transparent);
     }
 
+    .glass-card.danger::before {
+      background: linear-gradient(90deg, var(--accent-red), transparent);
+    }
+
+    .glass-card.success::before {
+      background: linear-gradient(90deg, var(--accent-green), transparent);
+    }
+
     .glass-card h3 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #fff;
       margin-bottom: 12px;
@@ -209,6 +215,11 @@
       margin-right: 8px;
     }
 
+    .glass-card.danger li::before {
+      content: '✕';
+      color: var(--accent-red);
+    }
+
     .badge {
       display: inline-block;
       padding: 4px 10px;
@@ -220,42 +231,126 @@
     .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
     .badge-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
     .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
     .badge-purple { background: rgba(139, 92, 246, 0.2); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.4); }
 
-    /* Code / Demo blocks */
-    .code-box {
-      background: #08090d;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Journey Flow Box */
+    .journey-flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    .flow-step {
+      flex: 1;
+      padding: 20px;
+      background: rgba(30, 35, 48, 0.8);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .flow-step.bottleneck {
+      background: rgba(239, 68, 68, 0.15);
+      border: 2px dashed rgba(239, 68, 68, 0.6);
+      transform: scale(1.04);
+      position: relative;
+    }
+
+    .flow-step h4 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .flow-arrow {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+    }
+
+    /* Comparison Table */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
       border-radius: 12px;
-      padding: 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      color: #a5b4fc;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .custom-table th, .custom-table td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .custom-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .custom-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #e5e7eb;
+    }
+
+    .custom-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .quote-box {
+      border-left: 4px solid var(--primary);
+      padding: 14px 20px;
+      background: rgba(194, 103, 58, 0.1);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #ffc5a8;
+      font-size: 1.05rem;
       line-height: 1.6;
+      margin: 12px 0;
+    }
+
+    .quote-box.big {
+      font-size: 1.6rem;
+      border-left: 6px solid var(--accent-amber);
+      padding: 24px 32px;
+      background: rgba(245, 158, 11, 0.08);
+      color: #fef3c7;
+      text-align: center;
+      border-radius: 16px;
+      line-height: 1.7;
     }
 
     /* Footer & Controls */
     .controls {
       position: fixed;
-      bottom: 24px;
-      right: 36px;
+      bottom: 20px;
+      right: 32px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       z-index: 100;
     }
 
     .btn-ctrl {
-      background: rgba(30, 34, 48, 0.8);
+      background: rgba(26, 30, 42, 0.85);
       border: 1px solid var(--card-border);
       color: #fff;
-      padding: 10px 16px;
-      border-radius: 12px;
+      padding: 8px 16px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
       backdrop-filter: blur(8px);
     }
@@ -275,20 +370,19 @@
       z-index: 101;
     }
 
-    /* Speaker Notes Drawer */
     .speaker-drawer {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(15, 17, 23, 0.95);
+      background: rgba(12, 14, 20, 0.96);
       border-top: 2px solid var(--primary);
       backdrop-filter: blur(20px);
-      padding: 24px 80px;
+      padding: 20px 70px;
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 99;
-      max-height: 240px;
+      max-height: 220px;
       overflow-y: auto;
     }
 
@@ -297,44 +391,18 @@
     }
 
     .speaker-header {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: #ff9b6a;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .speaker-text {
       font-size: 1.05rem;
       line-height: 1.7;
       color: #e5e7eb;
-    }
-
-    /* Quick Links Box */
-    .links-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .link-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      color: #fff;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .link-item:hover {
-      background: rgba(194, 103, 58, 0.15);
-      border-color: rgba(194, 103, 58, 0.4);
-      transform: translateX(4px);
     }
 
     .pill-group {
@@ -354,211 +422,327 @@
       background: var(--primary);
       color: white;
     }
+
+    .links-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .link-item:hover {
+      background: rgba(194, 103, 58, 0.15);
+      border-color: rgba(194, 103, 58, 0.4);
+      transform: translateX(4px);
+    }
   </style>
 </head>
 <body>
 
   <div class="deck" id="deck">
 
-    <!-- SLIDE 1 -->
-    <div class="slide active" data-notes="各位主管好，今天我要向大家分享『自己做烘焙聚樂部』智能菜單篩選系統的完整研發成果。在這次專案中，我們不僅打造了適合外國觀光客的多語系篩選前台，更結合了 Google Gemini AI 與 Excel 營運工作流，徹底翻轉實體門市的商品管理流程。">
+    <!-- SLIDE 1: 封面 -->
+    <div class="slide active" data-notes="各位主管與夥伴好，今天我要向大家分享『跨越語言的烘焙體驗：AI 智慧多語系菜單與後台管理系統』。這是專為『自己做烘焙聚樂部』打造的外籍客流暢度升級方案與完整技術實作成果。">
       <div class="header-bar">
         <span class="project-tag">🍰 專案成果發表</span>
-        <span class="slide-number">01 / 10</span>
+        <span class="slide-number">01 / 12</span>
       </div>
-      <div style="margin-top: auto; margin-bottom: auto; max-width: 900px;">
-        <h1 class="hero-title">「自己做烘焙聚樂部」<br>AI 智能菜單與門市排程系統</h1>
-        <p class="slide-subtitle">AI 多語系即時在地化 × 實體門市智慧排程演算法 × 純前端高擴展架構</p>
-        <div style="display: flex; gap: 16px; margin-top: 32px;">
+      <div style="margin-top: auto; margin-bottom: auto; max-width: 960px;">
+        <h1 class="hero-title">跨越語言的烘焙體驗：<br>AI 智慧多語系菜單與後台管理系統</h1>
+        <p class="slide-subtitle">「自己做烘焙聚樂部」外籍客流暢度升級方案與系統實作</p>
+        <div style="display: flex; gap: 12px; margin-top: 28px;">
           <span class="badge badge-green">Vue 3 SFC Core</span>
           <span class="badge badge-blue">Google Gemini AI</span>
           <span class="badge badge-amber">SheetJS Dual Engine</span>
           <span class="badge badge-purple">GitHub Pages Live</span>
         </div>
       </div>
-      <div style="margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid var(--card-border); padding-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
-        <span>報告人：專案研發團隊</span>
+      <div style="margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid var(--card-border); padding-top: 16px; font-size: 0.9rem; color: var(--text-muted);">
+        <span>報告單位：專案開發團隊</span>
         <span>2026 年 9 月</span>
       </div>
     </div>
 
-    <!-- SLIDE 2 -->
-    <div class="slide" data-notes="在專案啟動之初，我們梳理了實體店鋪的三大核心瓶頸：第一，翻譯成本高昂且不即時；第二，全台 11 間門市的供應規則極其繁雜；第三，現場第一線使用 iPad 讓顧客點餐時，經常面臨破版擠壓的窘境。這驅使我們打造一套『讓營運人員用最熟悉的 Excel、讓 AI 負責語言轉換、讓顧客享受絲滑操作』的完整解決方案。">
+    <!-- SLIDE 2: 調研發現 (語言斷點) -->
+    <div class="slide" data-notes="在 9 月 8 日的現場實地調研中，我們觀察並訪談了來自泰國與越南的顧客。我們發現，自己做烘焙的自助體驗之所以迷人，是因為平板的圖文引導；但這個流暢旅程卻在『進店選品』的第一步產生了嚴重的『語言斷點』，外籍顧客因為看不懂中文菜單，導致自助體驗在一開始就卡關。">
       <div class="header-bar">
-        <span class="project-tag">📌 痛點與挑戰</span>
-        <span class="slide-number">02 / 10</span>
+        <span class="project-tag">🔍 調研洞察</span>
+        <span class="slide-number">02 / 12</span>
       </div>
-      <h2 class="slide-title">專案背景與門市營運四大痛點</h2>
-      <p class="slide-subtitle">面對疫後國際旅客激增與多據點營運擴展，既有菜單維護模式遭遇結構性瓶頸：</p>
-      <div class="grid-4">
-        <div class="glass-card">
-          <h3>🌐 外籍觀光客語言壁壘</h3>
-          <p>日、韓、港澳、歐美與東南亞旅客眾多，現場店員外語溝通壓力沉重，傳統紙本菜單印製成本高、多語系資訊更新緩慢滯後。</p>
+      <h2 class="slide-title">完美的自助體驗，遇到語言障礙就卡關</h2>
+      <p class="slide-subtitle">根據 9/8 現場實測與外籍客（泰國、越南）訪談，DIY 模式的成功高度依賴「圖文理解」。當外籍顧客看不懂菜單與步驟，自助體驗即告崩潰。</p>
+      
+      <div class="journey-flow">
+        <div class="flow-step">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🗓️</div>
+          <h4>網路預約</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">線上選定時段與門市</p>
         </div>
-        <div class="glass-card">
-          <h3>🏢 全台 11 間門市規則龐雜</h3>
-          <p>台北、新北、新竹、台中、台南、高雄分佈，吳寶春聯名店限定、特定店鋪限定等規則複雜，人工維護容易發生供貨資訊不對稱。</p>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-step bottleneck">
+          <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent-red); color: white; font-size: 0.75rem; font-weight: bold; padding: 2px 8px; border-radius: 999px;">⚠️ 語言斷點 (Bottleneck)</div>
+          <div style="font-size: 2rem; margin-bottom: 8px;">📋</div>
+          <h4 style="color: #f87171;">進店選品與溝通</h4>
+          <p style="font-size: 0.85rem; color: #fca5a5;">看不懂中文菜單，溝通受阻</p>
         </div>
-        <div class="glass-card">
-          <h3>📑 資料維護仰賴工程介入</h3>
-          <p>門市營運端最熟悉 Excel 表格，過去每次新品上架需工程師修改 JSON 程式碼，維護鏈路長且缺乏即時反應能力。</p>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-step">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🥣</div>
+          <h4>DIY 實作與平板導引</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">動手烘焙與器具操作</p>
         </div>
-        <div class="glass-card">
-          <h3>📱 平板點餐體驗破版跑位</h3>
-          <p>店面常設 iPad 供客人現場翻閱，但過去網頁在 768px ~ 1024px 直橫向切換時排版擠壓、彈窗過長無法查看特色。</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>📌 9/8 實地調研與學生訪談觀察紀錄</h3>
+        <p>外籍顧客進店後因語言不通，平均需花費 15~20 分鐘於菜單確認與比手畫腳，大幅拖慢翻桌率與現場動線流暢度。</p>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: 現場真實痛點 (顧客 vs 店員) -->
+    <div class="slide" data-notes="這引發了現場的雙重困境：外國顧客端只能拿到殘缺的小張英文單，還要忍受不著邊際的機器直譯；而第一線夥伴更辛苦，一人往往要顧 16 到 20 位客人，還要充當隨身翻譯機，大量時間花在比手畫腳和幫忙找工具，本末倒置，無法專注於烘焙環境的維護與高品質指導。">
+      <div class="header-bar">
+        <span class="project-tag">⚠️ 真實痛點</span>
+        <span class="slide-number">03 / 12</span>
+      </div>
+      <h2 class="slide-title">現場真實痛點：殘缺的菜單與消耗殆盡的第一線</h2>
+      <p class="slide-subtitle">深入第一線現場訪談，看見顧客與門市夥伴被語言枷鎖束縛的真實困境：</p>
+      
+      <div class="grid-2">
+        <!-- 顧客端 -->
+        <div class="glass-card danger">
+          <h3>🧑‍🦱 外籍顧客端 (Foreign Customer)</h3>
+          <div class="quote-box">“I just look confused and ask for help.”</div>
+          <ul style="margin-top: 10px;">
+            <li><strong>殘缺的選擇</strong>：現場只能挑選極少數幾款印在紙張上的 English Menu。</li>
+            <li><strong>直譯大災難</strong>：面對機器直譯的 <code>Kitchen tissue</code> 或 <code>Working bowl</code> 感到迷茫，甚至誤將「抹刀」認錯。</li>
+            <li><strong>體驗被閹割</strong>：無法品嚐到台灣當季限定或最新研發的熱門甜點。</li>
+          </ul>
+        </div>
+        <!-- 店員端 -->
+        <div class="glass-card danger">
+          <h3>👩‍🍳 第一線店員端 (Staff)</h3>
+          <div class="quote-box">「我們還變身隨身翻譯，一人有時要顧一層樓 16-20 個客人。」</div>
+          <ul style="margin-top: 10px;">
+            <li><strong>高度情緒勞動</strong>：夥伴外語能力參差不齊，需耗費大量時間開 Google 翻譯比手畫腳。</li>
+            <li><strong>核心價值本末倒置</strong>：被「找工具」等基礎溝通綁死，無法專注於環境整潔與烘焙指導。</li>
+            <li><strong>尖峰時段崩潰</strong>：一人同時應對多組客人，語言溝通耗時導致翻桌延宕。</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 3 -->
-    <div class="slide" data-notes="在技術架構上，我們追求極致的輕量與穩定。捨棄繁重的後端伺服器，改採純前端 Vue 3 響應式核心，搭配 SheetJS 直接在瀏覽器解析 Excel，並結合 Google Gemini AI 完成即時在地化。整個系統可以直接託管在 GitHub Pages 上，零運維成本且具有高度穩定性。">
+    <!-- SLIDE 4: 營運瓶頸 (短檔期與翻譯) -->
+    <div class="slide" data-notes="大家可能會問：『那為什麼過去不直接做完整多語系？』答案在於『後台營運成本』。甜點更換頻繁，中秋節、萬聖節等檔期短則一個月。傳統若找人工翻譯，從詢價、翻譯到校對要花一到兩週，檔期都快過完了，營運根本無法負荷。">
       <div class="header-bar">
-        <span class="project-tag">🏗️ 技術架構</span>
-        <span class="slide-number">03 / 10</span>
+        <span class="project-tag">⏳ 營運瓶頸</span>
+        <span class="slide-number">04 / 12</span>
       </div>
-      <h2 class="slide-title">系統架構：純前端輕量化與 AI 驅動</h2>
-      <p class="slide-subtitle">以「零維運負擔、秒級極速載入、本機安全運算」為指導原則的架構設計：</p>
-      <div class="grid-3">
-        <div class="glass-card">
-          <h3>⚡ 前台展示核心 (Frontend)</h3>
-          <ul>
-            <li><strong>Vue 3 SFC Reactive</strong>：狀態集中驅動，全無依賴打包，毫秒級篩選。</li>
-            <li><strong>Design Tokens 規範</strong>：自研 <code>menu_selector.css</code>，嚴格定義色彩與網格。</li>
-            <li><strong>極致快顯</strong>：首次載入體積 &lt; 200KB，無白屏延遲。</li>
-          </ul>
-        </div>
-        <div class="glass-card">
-          <h3>🤖 智能轉譯引擎 (AI Engine)</h3>
-          <ul>
-            <li><strong>Google Gemini API</strong>：結構化 JSON Prompt 批次翻譯。</li>
-            <li><strong>在地化術語字典</strong>：精確對齊專業烘焙名稱（戚風、塔派、甘納許）。</li>
-            <li><strong>獨立儲存隔離</strong>：各語言特色獨立，徹底杜絕資料污染。</li>
-          </ul>
-        </div>
-        <div class="glass-card">
-          <h3>📊 雙向資料管線 (Data Pipeline)</h3>
-          <ul>
-            <li><strong>SheetJS (XLSX)</strong>：純瀏覽器 13 欄位 Excel 匯入與匯出。</li>
-            <li><strong>智慧門市演算法</strong>：北中南門市自動識別全門市與除外店。</li>
-            <li><strong>GitHub Pages CI/CD</strong>：全球 CDN 加速，零主機月費。</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 4 -->
-    <div class="slide" data-notes="AI 翻譯是本系統的靈魂。我們在開發過程中克服了『語言污染』問題——確保當外語特色留空時不會誤抓中文，並為 44 種烘焙品項建立了精準的專用術語庫。營運人員只要輸入一次中文，AI 就會秒速產出 5 國語言，讓外國顧客一目了然。">
-      <div class="header-bar">
-        <span class="project-tag">💡 核心演算法</span>
-        <span class="slide-number">04 / 10</span>
-      </div>
-      <h2 class="slide-title">里程碑一：AI 智慧多語系翻譯引擎</h2>
-      <p class="slide-subtitle">消滅「偽翻譯」與語言退化，打造 6 國語言（繁中、英、日、韓、泰、越）即時在地化：</p>
+      <h2 class="slide-title">為什麼不提供完整的多國語言菜單？</h2>
+      <p class="slide-subtitle">核心痛點在於「後台營運成本」。季節限定品項檔期短、變動快，傳統人工翻譯建檔速度完全無法應付：</p>
+      
       <div class="grid-2">
         <div class="glass-card">
-          <h3>🔍 核心難題與突破</h3>
-          <ul>
-            <li><strong>退化問題解決</strong>：修正原始 Prompt 避免外語欄位留空時 Fallback 錯誤抓取中文。</li>
-            <li><strong>結構化 JSON 強制輸出</strong>：明確約束輸出欄位 <code>name</code>、<code>category</code>、<code>features</code>、<code>storage</code>。</li>
-            <li><strong>烘焙術語精準對齊</strong>：例如「戚風蛋糕」英譯 <code>Chiffon Cake</code>、日譯 <code>シフォンケーキ</code>、韓譯 <code>쉬폰 케이크</code>。</li>
-          </ul>
-          <div style="margin-top: 16px;">
-            <span class="badge badge-green">繁中 (ZH)</span>
-            <span class="badge badge-blue">English (EN)</span>
-            <span class="badge badge-amber">日本語 (JA)</span>
-            <span class="badge badge-purple">한국어 (KO)</span>
-            <span class="badge badge-blue">ภาษาไทย (TH)</span>
-            <span class="badge badge-green">Tiếng Việt (VI)</span>
+          <h3>🍰 季節短檔期商品的時效性挑戰</h3>
+          <p>「自己做」每逢 9月~10月中秋節、萬聖節、聖誕節、草莓季等，皆會推出為期 3~4 週的短檔期聯名甜點。</p>
+          <div style="margin-top: 16px; padding: 14px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.3);">
+            <strong style="color: #fbbf24;">⚡ 營運痛點：</strong>
+            <p style="font-size: 0.9rem; margin-top: 4px;">檔期只有 3 週，但傳統翻譯詢價、人工校對與上架就要消耗 1~2 週，時間完全跟不上研發新品的速度！</p>
           </div>
         </div>
-        <div class="code-box">
-          <div style="color: #6ee7b7; margin-bottom: 8px;">// Gemini API 結構化呼叫範例</div>
-          const prompt = `翻譯下列繁體中文烘焙品項為 5 國語言(en, ja, ko, th, vi)。<br>
-          請嚴格遵守 JSON Schema，不得回傳其他文字：<br>
-          {<br>
-          &nbsp;&nbsp;"en": { "name": "...", "features": "..." },<br>
-          &nbsp;&nbsp;"ja": { "name": "...", "features": "..." }<br>
-          }`;
-        </div>
-      </div>
-    </div>
 
-    <!-- SLIDE 5 -->
-    <div class="slide" data-notes="為確保系統長期好維護，我們將原本混合在一起的幾千行程式碼進行了嚴格的模組化拆分。導入 Vue 3 資料驅動架構後，頁面不再需要手動操作 DOM，不論是切換分店、勾選難度，所有的品項數量與徽章都能即時重新計算，流暢度大幅提升。">
-      <div class="header-bar">
-        <span class="project-tag">⚡ 架構重構</span>
-        <span class="slide-number">05 / 10</span>
-      </div>
-      <h2 class="slide-title">里程碑二：現代化前端模組化與資料驅動</h2>
-      <p class="slide-subtitle">告別單檔臃腫與難以維護的 DOM 操作，實現四層清晰職責分離：</p>
-      <div class="grid-4">
-        <div class="glass-card">
-          <h3>🎨 樣式系統 (`menu_selector.css`)</h3>
-          <p>抽離 600+ 行樣式，統一設定品牌色、字型級階、卡片微動態動畫與多裝置 Breakpoints。</p>
-        </div>
-        <div class="glass-card">
-          <h3>⚙️ 核心邏輯 (`menu_app.js`)</h3>
-          <p>Vue 3 響應式實體，承載三維多條件篩選器、語系狀態機、搜尋防抖與彈窗焦點捕獲。</p>
-        </div>
-        <div class="glass-card">
-          <h3>📦 資料儲庫 (`products_data.js`)</h3>
-          <p>44 個烘焙品項完整收錄，包含六國語言、尺寸時長與門市標記，具備 100% 離線執行能力。</p>
-        </div>
-        <div class="glass-card">
-          <h3>⚡ 渲染效率大幅躍進</h3>
-          <p>不再有 InnerHTML 拼接字串造成的跳動；篩選時 DOM Diff 局部更新，毫秒內完成品項替換。</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 6 -->
-    <div class="slide" data-notes="這一步是營運效率的巨大躍進。我們將原本複雜的門市限制，濃縮成聰明的勾選演算法：不論是『全門市供應』、『吳寶春限定』還是『全門市除特定店』，系統都會自動算出最精確的中文描述，並相容 Excel 匯入，完全貼合現場實務。">
-      <div class="header-bar">
-        <span class="project-tag">💼 營運創新</span>
-        <span class="slide-number">06 / 10</span>
-      </div>
-      <h2 class="slide-title">里程碑三：Excel 雙向流通與門市規則智慧識別</h2>
-      <p class="slide-subtitle">移除舊式 JSON 匯入，打造營運團隊最熟悉的純中文 Excel 雙向流暢工作流：</p>
-      <div class="grid-2">
-        <div class="glass-card">
-          <h3>🏢 北中南 11 間門市分區與智慧規則</h3>
+        <div class="glass-card danger">
+          <h3>⛓️ 傳統人工建檔流程的致命斷鏈</h3>
           <ul>
-            <li><strong>北部門市 (7 間)</strong>：信義、板橋、南西、士林、忠孝、新竹巨城、新竹東門</li>
-            <li><strong>中部門市 (2 間)</strong>：台中逢甲、台中綠園道</li>
-            <li><strong>南部門市 (2 間)</strong>：台南西門、高雄遠百 (吳寶春聯名)</li>
-            <li><strong>智能語意計算</strong>：
-              <div style="margin-top: 6px;">
-                <span class="badge badge-green">全部勾選 ➔ 全門市供應</span>
-                <span class="badge badge-blue">單選/少選 ➔ 限特定門市</span>
-                <span class="badge badge-amber">少數沒選 ➔ 全門市(除XX、YY)</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="glass-card">
-          <h3>👨‍🍳 經驗彈性多選與 Excel 匯出</h3>
-          <ul>
-            <li><strong>經驗等級支援多選</strong>：初學、有幾次經驗、烘焙達人挑戰可自由組合。</li>
-            <li><strong>13 欄中文 Excel 格式</strong>：營運端只需填寫品名、價格、時長與門市，一鍵匯入自動觸發 AI 翻譯並儲存。</li>
-            <li><strong>零技術門檻</strong>：前線店長、行銷小編皆可在 3 分鐘內完成新品批次上下架。</li>
+            <li><strong>步驟一：商品企劃發想</strong>（研發與定價）</li>
+            <li><strong>步驟二：中文建檔維護</strong>（營運端撰寫商品文案）</li>
+            <li><strong>步驟三：尋找人工翻譯 ❌</strong>（溝通規格、報價等候 3~5 天）</li>
+            <li><strong>步驟四：多次校對確認 ❌</strong>（外包譯者不懂烘焙專業名詞，往返耗時）</li>
+            <li><strong>步驟五：工程師手動上架</strong>（修改程式碼與 JSON，維護鏈冗長）</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 7 -->
-    <div class="slide" data-notes="在前台顧客端，我們將語系切換從隱蔽的下拉選單改為頂部直覺的藥丸型按鈕。顧客只需單指輕點，瞬間切換語言。搭配經驗與種類的三層篩選，顧客平均可在 5 秒內找到最心儀的烘焙品項。">
+    <!-- SLIDE 5: AI 驅動營運架構 -->
+    <div class="slide" data-notes="因此，我們提出全新架構：『將繁瑣的語言處理交給後台 AI，把純粹的烘焙樂趣還給顧客，把寶貴的時間還給員工。』透過 Google Gemini API 作為智慧中樞，結合 Vue 3 響應式前台與 SheetJS 純前端處理，建立了一套零伺服器維護成本的高效率系統。">
       <div class="header-bar">
-        <span class="project-tag">✨ 前台體驗</span>
-        <span class="slide-number">07 / 10</span>
+        <span class="project-tag">⚡ 系統架構</span>
+        <span class="slide-number">05 / 12</span>
       </div>
-      <h2 class="slide-title">里程碑四：前台 UX 升級 —— 六國語系藥丸按鈕</h2>
-      <p class="slide-subtitle">以觸控友好與國際觀光客直覺為出發點的介面優化：</p>
+      <h2 class="slide-title">AI 驅動的營運升級：一鍵生成、全語系支援</h2>
+      <p class="slide-subtitle">將繁瑣的語言處理交給後台 AI，把純粹的烘焙樂趣還給顧客，把寶貴的時間還給員工：</p>
+      
+      <div class="grid-3">
+        <div class="glass-card">
+          <h3>⚙️ 管理端 (Admin Dashboard)</h3>
+          <ul>
+            <li><strong>中文單一入口</strong>：店長只需填寫中文 Excel。</li>
+            <li><strong>一鍵 AI 上架</strong>：自動觸發 Google Gemini API 轉譯。</li>
+            <li><strong>門市規則排程</strong>：北中南門市智慧條件計算。</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color: rgba(59, 130, 246, 0.4);">
+          <h3>🤖 智能中樞 (Google Gemini API)</h3>
+          <ul>
+            <li><strong>結構化 JSON</strong>：嚴格 Schema 規範，零格式跑位。</li>
+            <li><strong>懂烘焙的語意引擎</strong>：精準對齊器材與甜點名詞。</li>
+            <li><strong>安全防護</strong>：金鑰鎖定本機 LocalStorage，絕不外洩。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>📱 顧客端 (Smart Menu)</h3>
+          <ul>
+            <li><strong>母語選品</strong>：中 / EN / 日 / KR / TH / VI 自由切換。</li>
+            <li><strong>44 款商品全解鎖</strong>：徹底告別閹割版英文菜單。</li>
+            <li><strong>iPad 極致適配</strong>：768px~1024px 直橫向零破版。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: 懂烘焙的語意引擎 -->
+    <div class="slide" data-notes="我們的 AI 引擎不僅是字面翻譯，而是『懂烘焙』的專業語意引擎。例如傳統翻譯會把抹刀翻成 Wing、把工作盆翻成 Working bowl，外國客人根本找不到工具。我們透過嚴格調校 Gemini Prompt，精準輸出 Paper towel、Mixing bowl 與 Spatula。同時修復了語言退化問題，確保 6 國語言完全獨立、絕不混入中文。">
+      <div class="header-bar">
+        <span class="project-tag">🧠 智慧核心</span>
+        <span class="slide-number">06 / 12</span>
+      </div>
+      <h2 class="slide-title">不只是翻譯，是「懂烘焙」的語意引擎</h2>
+      <p class="slide-subtitle">傳統機器直譯會產生 Kitchen tissue 或錯誤工具的災難。透過調校 Gemini API Prompt，精準輸出烘焙專有名詞：</p>
+      
       <div class="grid-2">
         <div class="glass-card">
-          <h3>💊 藥丸型 (Pill) 語系切換器</h3>
-          <p style="margin-bottom: 12px;">徹底替換容易被忽略的傳統 <code>&lt;select&gt;</code> 下拉選單，頂部常駐多語系按鈕：</p>
-          <div class="pill-group">
+          <h3>🔬 烘焙專有詞彙實測對照</h3>
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>烘焙中文</th>
+                <th>傳統機器直譯 (災難)</th>
+                <th>Gemini 語意引擎 (精準)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>廚房紙巾</strong></td>
+                <td><span style="color: #f87171;">Kitchen tissue ✕</span></td>
+                <td><span style="color: #34d399; font-weight: bold;">Paper towel ✓</span></td>
+              </tr>
+              <tr>
+                <td><strong>工作盆</strong></td>
+                <td><span style="color: #f87171;">Working bowl ✕</span></td>
+                <td><span style="color: #34d399; font-weight: bold;">Mixing bowl ✓</span></td>
+              </tr>
+              <tr>
+                <td><strong>抹刀</strong></td>
+                <td><span style="color: #f87171;">Wing / Knife ✕</span></td>
+                <td><span style="color: #34d399; font-weight: bold;">Spatula ✓</span></td>
+              </tr>
+              <tr>
+                <td><strong>戚風蛋糕</strong></td>
+                <td>Chiffon cake</td>
+                <td><span style="color: #34d399; font-weight: bold;">シフォンケーキ (日) / 쉬폰 케이크 (韓)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glass-card success">
+          <h3>🛠️ 語言隔離與防退化突破</h3>
+          <ul>
+            <li><strong>徹底消除資料污染</strong>：修復初期外語特色留空會誤抓中文的 Fallback Bug。</li>
+            <li><strong>六大語系獨立儲存</strong>：繁中、English、日本語、한국어、ภาษาไทย、Tiếng Việt 完全分離。</li>
+            <li><strong>現場器材無縫識別</strong>：外籍客看著畫面上的 <code>Mixing bowl</code> 就能一眼找到盆子，不再拉著店員詢問。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: 管理端實作 1 (Excel & 一鍵翻譯) -->
+    <div class="slide" data-notes="在後台管理端，我們徹底移除了舊有的 JSON 檔案，改採現場人員最熟悉的純中文 Excel。店長不需要懂英文或外語，只要在 Excel 填好中文，上傳後點擊『一鍵 AI 翻譯』，系統在 10 秒內就會將 5 國語言全部生成並存入資料庫，上架時間從數週縮短至數秒。">
+      <div class="header-bar">
+        <span class="project-tag">📑 後台實作</span>
+        <span class="slide-number">07 / 12</span>
+      </div>
+      <h2 class="slide-title">管理端實作 1：AI 賦能的一鍵多語系上架</h2>
+      <p class="slide-subtitle">店長無須具備外語能力，填寫中文後一鍵即可自動生成 5 國語言完整菜單，徹底消除時間差：</p>
+      
+      <div class="grid-3">
+        <div class="glass-card">
+          <h3>📥 13 欄純中文 Excel 雙向流</h3>
+          <p>移除技術門檻高的 JSON 匯入匯出。店長在 Excel 中維護品名、價格、規格、時長與門市，一鍵直接上傳。</p>
+        </div>
+        <div class="glass-card success">
+          <h3>🚀 一鍵 AI 批次同步轉譯</h3>
+          <p>點擊「一鍵 AI 同步翻譯」，系統自動調用 Gemini API，於 10 秒內批次完成 44 項商品 5 國語系在地化儲存。</p>
+        </div>
+        <div class="glass-card">
+          <h3>👀 即時多語系分頁預覽</h3>
+          <p>後台提供 EN / JA / KO / TH / VI 即時切換預覽視窗，可直接手動微調潤飾，兼具自動化與彈性。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: 管理端實作 2 (門市規則演算法) -->
+    <div class="slide" data-notes="為了解決全台 11 間門市複雜的供貨限制，我們開發了智慧門市規則演算法。系統按照北中南地理區域分類，並自動根據勾選結果計算出中文標籤：全選會自動變成『全門市供應』，少數沒選會變成『全門市(除某某店)』，同時支援烘焙經驗多選，將現場複雜規則完全防呆化。">
+      <div class="header-bar">
+        <span class="project-tag">🏢 門市演算法</span>
+        <span class="slide-number">08 / 12</span>
+      </div>
+      <h2 class="slide-title">管理端實作 2：全台 11 間門市與智慧排程規則</h2>
+      <p class="slide-subtitle">北中南門市地理排序與語意演算法，將原本繁雜的實體店鋪限制化繁為簡：</p>
+      
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>📍 北中南 11 間門市清晰分區</h3>
+          <ul>
+            <li><strong>北部 (7 間)</strong>：台北信義、新北板橋、台北南西、台北士林、台北忠孝、新竹巨城、新竹東門</li>
+            <li><strong>中部 (2 間)</strong>：台中逢甲、台中綠園道</li>
+            <li><strong>南部 (2 間)</strong>：台南西門、高雄遠百 (吳寶春聯名店)</li>
+            <li><strong>烘焙經驗支援複選</strong>：初學、有幾次經驗、烘焙達人挑戰可自由勾選組合。</li>
+          </ul>
+        </div>
+        <div class="glass-card success">
+          <h3>🧮 門市供應智慧語意演算</h3>
+          <ul>
+            <li><span class="badge badge-green">全部勾選</span> ➔ 自動輸出 <strong>全門市供應</strong></li>
+            <li><span class="badge badge-blue">只選特定店</span> ➔ 自動輸出 <strong>限信義店</strong>、<strong>限高屏店</strong></li>
+            <li><span class="badge badge-amber">少數沒勾選</span> ➔ 自動輸出 <strong>全門市(除信義、板橋)</strong></li>
+            <li><strong>零防呆失誤</strong>：前台自動精準過濾，不再有跑錯門市撲空的客訴！</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: 顧客端實作 1 (母語選品 & 藥丸按鈕) -->
+    <div class="slide" data-notes="在顧客端，我們全面釋放了所有 44 款商品，外籍顧客不再被限制在閹割版的英文菜單中。我們把語系選單做成頂部醒目的『藥丸型切換按鈕』，只要輕輕一按，日文、韓文、泰文、越文瞬間轉換，連同副標題規格與製作時長都清楚顯示，毫無文字截斷。">
+      <div class="header-bar">
+        <span class="project-tag">🧁 顧客體驗</span>
+        <span class="slide-number">09 / 12</span>
+      </div>
+      <h2 class="slide-title">顧客端實作 1：母語等級的流暢選品體驗</h2>
+      <p class="slide-subtitle">打破 Foreigner Only 的閹割版菜單限制，讓外國顧客享受 100% 完整的 DIY 烘焙選擇：</p>
+      
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>🔓 44 款烘焙商品全量解鎖</h3>
+          <p>告別過去「只給老外看 3~5 種簡單餅乾」的限制。戚風蛋糕、塔派乳酪、常溫小點、手工麵包與節慶限定款全數支援多語系，外國顧客享受與本國人同等的豐富選擇。</p>
+        </div>
+        <div class="glass-card">
+          <h3>💊 藥丸型 (Pill) 六國語系切換按鈕</h3>
+          <p>徹底移除容易被忽略的傳統 <code>&lt;select&gt;</code> 下拉選單，改為前台頂部常駐的高對比藥丸按鈕：</p>
+          <div class="pill-group" style="margin: 14px 0;">
             <span class="pill-item active">中</span>
             <span class="pill-item">EN</span>
             <span class="pill-item">日</span>
@@ -566,117 +750,120 @@
             <span class="pill-item">TH</span>
             <span class="pill-item">VI</span>
           </div>
-          <p style="margin-top: 16px;">單指輕點瞬間切換，按鈕具備焦糖橙主色高亮與平滑微陰影回饋。</p>
-        </div>
-        <div class="glass-card">
-          <h3>🎯 三維立體動態篩選</h3>
-          <ul>
-            <li><strong>維度一：烘焙經驗等級</strong>（初學者也能安心做）。</li>
-            <li><strong>維度二：甜點種類分類</strong>（戚風海綿、塔派乳酪、常溫餅乾、手作麵包）。</li>
-            <li><strong>維度三：季節檔期標籤</strong>（中秋限定、門市專屬、聯名款）。</li>
-            <li><strong>零文字截斷</strong>：卡片自動調整字級與副標題，完美容納各國長文。</li>
-          </ul>
+          <p style="font-size: 0.9rem; color: #a5b4fc;">單指輕觸即時重繪畫面，副標題自適應折行，杜絕長文跑版。</p>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 8 -->
-    <div class="slide" data-notes="現場門市最重視的就是 iPad 的點餐體驗。我們針對 iPad Mini、iPad Air 到 iPad Pro，重新設計了專屬的媒體查詢。無論顧客橫拿或直拿，卡片永遠維持雙欄或三欄的黃金比例，彈窗內容也不會被螢幕高度切掉，達到真正 100% 零破版。">
+    <!-- SLIDE 10: 顧客端實作 2 & iPad 工程 -->
+    <div class="slide" data-notes="現場最重要的載具是門市 iPad。我們特別針對 iPad 直向與橫向模式進行了媒體查詢重構，直向維持雙欄、橫向維持三欄，並且將彈窗在矮螢幕下的最大高度進行縮放調優，確保特色說明與關閉按鈕永遠在視窗之內，達到真正的 100% 零破版。">
       <div class="header-bar">
-        <span class="project-tag">📱 跨裝置工程</span>
-        <span class="slide-number">08 / 10</span>
+        <span class="project-tag">📱 iPad 工程</span>
+        <span class="slide-number">10 / 12</span>
       </div>
-      <h2 class="slide-title">里程碑五：iPad 專屬 768px ~ 1024px 零破版工程</h2>
-      <p class="slide-subtitle">針對實體門市 iPad Air、iPad Mini、iPad Pro 實體裝置深度優化：</p>
+      <h2 class="slide-title">降低認知負荷與 iPad 768px~1024px 零破版工程</h2>
+      <p class="slide-subtitle">用視覺化的防呆設計取代長篇文字說明，並針對實體店面 iPad 平板進行深度適配：</p>
+      
       <div class="grid-3">
         <div class="glass-card">
-          <h3>📐 直向模式 (Portrait)</h3>
+          <h3>👀 直覺難度與資訊卡</h3>
           <ul>
-            <li><strong>適用寬度</strong>：768px ~ 992px。</li>
-            <li><strong>頂部雙層結構</strong>：品牌名單行展開，門市與語系兩端對齊。</li>
-            <li><strong>嚴格雙欄網格</strong>：卡片等寬 354px~387px，圖片黃金 200px。</li>
+            <li><strong>難度指標標籤</strong>：初學、經驗、達人跨越語言障礙。</li>
+            <li><strong>透明化時長與價格</strong>：製作 90 分鐘、冷藏 3 天清楚標示。</li>
           </ul>
         </div>
         <div class="glass-card">
-          <h3>📐 橫向模式 (Landscape)</h3>
+          <h3>📐 iPad 雙向自適應網格</h3>
           <ul>
-            <li><strong>適用寬度</strong>：993px ~ 1200px。</li>
-            <li><strong>頂部單列齊全</strong>：導覽列元素一行優雅展示。</li>
-            <li><strong>精準三欄網格</strong>：空間利用率最大化，視野開闊。</li>
+            <li><strong>直向模式 (768px~992px)</strong>：頂部兩端對齊，卡片鎖定 <strong>2 欄</strong>。</li>
+            <li><strong>橫向模式 (993px~1200px)</strong>：導覽列單行齊全，卡片展開為 <strong>3 欄</strong>。</li>
           </ul>
         </div>
-        <div class="glass-card">
-          <h3>🖼️ 短視窗彈窗適配</h3>
+        <div class="glass-card success">
+          <h3>🖼️ 彈窗高度短視窗適配</h3>
           <ul>
-            <li><strong>針對短螢幕限制</strong>：高度 &le; 820px 時圖片自動縮至 160px。</li>
-            <li><strong>全景可見</strong>：特色、保存方式與關閉按鈕無需上下滑動全部一覽無遺。</li>
-            <li><strong>iOS 慣性滑動</strong>：全站保證 <code>overflow-x: hidden</code>。</li>
+            <li><strong>高度 &le; 820px 智慧縮放</strong>：圖片自動降為 160px。</li>
+            <li><strong>無捲動截斷</strong>：產品特色、保存與關閉鈕全部一次入鏡。</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 9 -->
-    <div class="slide" data-notes="在發布到 GitHub 前，我們進行了嚴密的資安審核。系統架構完全採用客戶端金鑰儲存，原始碼公開在 GitHub 上絕無外洩風險。同時透過 GitHub Pages，實現了秒級部署、免伺服器費用、永久高可用性的目標。">
+    <!-- SLIDE 11: 系統導入效益評估 (Before vs After) -->
+    <div class="slide" data-notes="讓我們檢視系統導入的前後效益對比：在菜單豐富度上，從過去少數幾張紙變成 44 款商品、6 國語言全覆蓋；上架時間從數週縮短為 10 秒；現場夥伴徹底卸下『隨身翻譯機』的重擔，能全心投入烘焙指導；更重要的是，系統採用 LocalStorage 金鑰與 GitHub Pages 託管，資安零外洩，伺服器維護費為零。">
       <div class="header-bar">
-        <span class="project-tag">🛡️ 資安與維運</span>
-        <span class="slide-number">09 / 10</span>
+        <span class="project-tag">📊 效益評估</span>
+        <span class="slide-number">11 / 12</span>
       </div>
-      <h2 class="slide-title">嚴格資安審核與零成本 GitHub Pages 託管</h2>
-      <p class="slide-subtitle">確保公有雲原始碼完全透明公開的同時，具備企業級的資安與營運效益：</p>
-      <div class="grid-2">
-        <div class="glass-card">
-          <h3>🔒 零洩漏風險的 Client-Side 安全模型</h3>
-          <ul>
-            <li><strong>無 Hardcoded 金鑰</strong>：原始碼庫不包含任何私密 API Key。</li>
-            <li><strong>本機 LocalStorage 隔離</strong>：Gemini API Key 僅由管理者於自己瀏覽器輸入並鎖定於該裝置。</li>
-            <li><strong>純靜態前端架構</strong>：無後端伺服器或 SQL 資料庫，杜絕注入攻擊（SQL Injection）或資料庫外洩風險。</li>
-          </ul>
-        </div>
-        <div class="glass-card">
-          <h3>☁️ GitHub Pages 自動化雲端發布</h3>
-          <ul>
-            <li><strong>Git 規範化版本控制</strong>：主幹 <code>main</code> 分支管理。</li>
-            <li><strong>自動化開通部署</strong>：推送即發布，享有全球 CDN 與 HTTPS 憑證。</li>
-            <li><strong>維運成本 $0</strong>：無需負擔雲端虛擬機 (EC2/GCE) 或伺服器維護月費。</li>
-          </ul>
-        </div>
-      </div>
+      <h2 class="slide-title">系統導入效益評估 (Before vs. After)</h2>
+      <p class="slide-subtitle">從痛點到通點，AI 如何實質翻轉門市營運體驗與顧客滿意度：</p>
+      
+      <table class="custom-table" style="margin-top: 16px;">
+        <thead>
+          <tr>
+            <th style="width: 22%;">指標維度</th>
+            <th style="width: 38%; color: #f87171;">導入前 (傳統人工營運)</th>
+            <th style="width: 40%; color: #34d399;">導入後 (AI 智慧系統)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>菜單豐富度<br><small>(Menu Variety)</small></strong></td>
+            <td>僅限少數幾款特定英文食譜紙張</td>
+            <td><strong style="color: #34d399;">44 款商品、5 國語系完整覆蓋</strong></td>
+          </tr>
+          <tr>
+            <td><strong>上架營運成本<br><small>(Admin Cost)</small></strong></td>
+            <td>尋找人工翻譯曠日廢時，節慶短檔期難以負荷</td>
+            <td><strong style="color: #34d399;">輸入中文一鍵自動生成，10 秒即時上架</strong></td>
+          </tr>
+          <tr>
+            <td><strong>第一線員工負擔<br><small>(Staff Burden)</small></strong></td>
+            <td>充當人力翻譯機，疲於應付找工具與選品問題</td>
+            <td><strong style="color: #34d399;">顧客自主選品，專注於環境清潔與高價值指導</strong></td>
+          </tr>
+          <tr>
+            <td><strong>主機與資安成本<br><small>(DevOps & Security)</small></strong></td>
+            <td>需租用雲端後端伺服器與資料庫，有資安與被駭風險</td>
+            <td><strong style="color: #34d399;">純前端架構 + LocalStorage 金鑰，維運成本 $0</strong></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- SLIDE 10 -->
-    <div class="slide" data-notes="總結來說，這套系統以極低的維運成本，為『自己做烘焙聚樂部』搭建了一座連通國際顧客與現場營運的現代化橋樑。目前系統已正式在 GitHub Pages 上線運作。以上是我的報告，謝謝大家！">
+    <!-- SLIDE 12: 結語與成果展示 -->
+    <div class="slide" data-notes="最後，我想用這句話總結這次專案：『把複雜的語言處理交給後台 AI，把純粹的烘焙樂趣還給顧客，把寶貴的時間還給員工。』目前系統與線上簡報均已正式發布於 GitHub Pages。以上是我的報告，謝謝大家！">
       <div class="header-bar">
-        <span class="project-tag">🚀 專案成果</span>
-        <span class="slide-number">10 / 10</span>
+        <span class="project-tag">🚀 成果總結</span>
+        <span class="slide-number">12 / 12</span>
       </div>
-      <h2 class="slide-title">成果總結與線上展示 (Demo & Impact)</h2>
-      <p class="slide-subtitle">為「自己做烘焙聚樂部」打造無縫數位體驗，正式上線成果：</p>
-      <div class="grid-2">
-        <div class="glass-card">
-          <h3>📈 具體商業量化效益</h3>
-          <ul>
-            <li><strong>⏱️ 維護效率提升 90%</strong>：Excel 匯入後 AI 10 秒內完成 5 國語言產出。</li>
-            <li><strong>🌍 觀光客滿意度升級</strong>：日韓歐美東南亞旅客自助選單無障礙。</li>
-            <li><strong>📱 100% 裝置相容度</strong>：實體門市 iPad 與手機雙模式無死角。</li>
-          </ul>
+      <h2 class="slide-title">實現全自助化體驗的最後一哩路</h2>
+      <p class="slide-subtitle">專案成果展示與正式上線連結：</p>
+      
+      <div class="quote-box big">
+        “ 把複雜的語言處理交給後台 AI，<br>把純粹的烘焙樂趣還給顧客，<br>把寶貴的時間還給員工。”
+      </div>
+
+      <div class="grid-2" style="margin-top: 24px;">
+        <div class="links-grid">
+          <a href="https://steven0514.github.io/diy-baking-menu/" target="_blank" class="link-item">
+            <span>🍰 前台智能多語系菜單系統</span>
+            <span style="color: #ff9b6a;">點擊開啟 ↗</span>
+          </a>
+          <a href="https://steven0514.github.io/diy-baking-menu/admin.html" target="_blank" class="link-item">
+            <span>⚙️ 後台 Excel 雙向與 AI 上架管理</span>
+            <span style="color: #ff9b6a;">點擊開啟 ↗</span>
+          </a>
         </div>
-        <div class="glass-card">
-          <h3>🔗 系統正式上線網址</h3>
-          <div class="links-grid">
-            <a href="https://steven0514.github.io/diy-baking-menu/" target="_blank" class="link-item">
-              <span>🍰 前台智能菜單系統</span>
-              <span>點擊開啟 ↗</span>
-            </a>
-            <a href="https://steven0514.github.io/diy-baking-menu/admin.html" target="_blank" class="link-item">
-              <span>⚙️ AI 智慧多語系後台</span>
-              <span>點擊開啟 ↗</span>
-            </a>
-            <a href="https://github.com/steven0514/diy-baking-menu" target="_blank" class="link-item">
-              <span>📦 GitHub 原始碼儲存庫</span>
-              <span>查看 Code ↗</span>
-            </a>
-          </div>
+        <div class="links-grid">
+          <a href="https://steven0514.github.io/diy-baking-menu/presentation.html" target="_blank" class="link-item">
+            <span>📊 成果展演線上互動簡報</span>
+            <span style="color: #ff9b6a;">全螢幕投影 ↗</span>
+          </a>
+          <a href="https://github.com/steven0514/diy-baking-menu" target="_blank" class="link-item">
+            <span>📦 GitHub 原始碼開源儲存庫</span>
+            <span style="color: #ff9b6a;">查看 Code ↗</span>
+          </a>
         </div>
       </div>
     </div>
