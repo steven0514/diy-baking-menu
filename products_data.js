@@ -1,6 +1,6 @@
 // 自己做烘焙聚樂部 · 完整商品多語系數據庫
-// Version: v2026.09.16.1135
-window.PRODUCTS_VERSION = 'v2026.09.16.1135';
+// Version: v2026.09.16.1207
+window.PRODUCTS_VERSION = 'v2026.09.16.1207';
 window.DEFAULT_PRODUCTS = [
   {
     "id": 46,
@@ -50,7 +50,7 @@ window.DEFAULT_PRODUCTS = [
       "kaohsiung"
     ],
     "stores_rule": "供應 4 間門市 (精明、草悟道、台南Focus、高雄SKM)",
-    "status": "active",
+    "status": "draft",
     "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
   },
   {
