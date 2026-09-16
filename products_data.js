@@ -1,3 +1,4 @@
+window.PRODUCTS_VERSION = 'v2026.09.16.1015';
 window.DEFAULT_PRODUCTS = [
   {
     "id": 1,

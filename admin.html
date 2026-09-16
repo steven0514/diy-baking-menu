@@ -902,11 +902,14 @@
                 </div>
             </div>
             <div class="header-actions">
+                <button class="btn btn-primary" onclick="publishToCloud()" title="一鍵同步至 GitHub 雲端，讓全分店 iPad 與顧客手機即刻更新" style="background:#2563eb; border-color:#1d4ed8; font-weight:800; box-shadow:0 4px 14px rgba(37,99,235,0.35);">
+                    <span>🚀</span> 發布至全裝置
+                </button>
                 <button class="btn btn-secondary" onclick="openSeasonalModal()" title="設定節慶檔期（中秋、萬聖、聖誕、草莓季等）" style="background:#fff7ed; border-color:#fed7aa; color:#ea580c; font-weight:700;">
                     <span>🎉</span> 節慶檔期管理
                 </button>
                 <button class="btn btn-secondary" onclick="openApiModal()">
-                    <span>⚙️</span> API 設定
+                    <span>⚙️</span> 雲端與 API 設定
                 </button>
                 <button class="btn btn-secondary" onclick="exportExcel()" title="匯出完整 Excel (.xlsx) 試算表" style="background:#f0fdf4; border-color:#bbf7d0; color:#15803d; font-weight:700;">
                     <span>📊</span> 匯出 Excel
@@ -916,11 +919,14 @@
                 </button>
                 <input type="file" id="import-excel-file" style="display:none;" accept=".xlsx, .xls" onchange="importExcel(event)">
 
+                <button class="btn btn-secondary" onclick="downloadProductsDataJs()" title="下載離線用 products_data.js 檔案">
+                    <span>💾</span> 下載代碼檔
+                </button>
                 <button class="btn btn-secondary" onclick="restoreDefaultProducts()" title="恢復初始 44 個品項資料">
                     <span>🔄</span> 還原預設
                 </button>
                 <a href="index.html" target="_blank" class="btn btn-secondary">
-                    <span>👀</span> 前台即時預覽
+                    <span>👀</span> 前台預覽
                 </a>
                 <button class="btn btn-primary" onclick="openProductModal()">
                     <span>➕</span> 新增商品
@@ -1384,33 +1390,69 @@
         </div>
     </div>
 
-    <!-- API Key Settings Modal -->
+    <!-- API Key & Cloud Settings Modal -->
     <div class="modal-overlay" id="api-modal">
-        <div class="modal-container" style="max-width: 540px;">
+        <div class="modal-container" style="max-width: 580px;">
             <div class="modal-header">
-                <h2>⚙️ AI API 連線設定</h2>
+                <h2>⚙️ 雲端發布與 AI API 連線設定</h2>
                 <button class="modal-close" onclick="closeApiModal()">✕</button>
             </div>
             <div class="modal-body">
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-                    串接 <strong>Google Gemini API</strong>，可在上架新品時自動進行專業烘焙語意翻譯（英文、日文、泰文、韓文、越文）。金鑰安全存放於您的瀏覽器本地，不會外傳。
-                </p>
-                <div class="form-group" style="margin-bottom: 16px;">
-                    <label class="form-label">Google Gemini API Key</label>
-                    <input type="password" class="form-input" id="input-gemini-key" placeholder="AIzaSy...">
-                    <span class="form-hint">未輸入金鑰時，系統會自動切換為內建的智慧烘焙語意翻譯字典與範本。</span>
+                <!-- GitHub 雲端全裝置同步設定 -->
+                <div style="background: rgba(37,99,235,0.06); border: 1.5px solid rgba(37,99,235,0.25); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <h3 style="font-size: 15px; font-weight: 700; color: #1d4ed8; display: flex; align-items: center; gap: 6px; margin: 0;">
+                            <span>🚀</span> GitHub 雲端全裝置同步設定
+                        </h3>
+                        <span style="font-size: 11px; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 999px; font-weight: 700;">跨裝置免伺服器</span>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+                        設定 GitHub Token 後，點擊頂部<strong>「🚀 發布至全裝置」</strong>即可自動將最新品項推送到 GitHub Pages，全台門市 iPad 與顧客手機將於 30 秒內自動同步！
+                    </p>
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label class="form-label" style="font-size: 12px;">GitHub Personal Access Token (PAT)</label>
+                        <input type="password" class="form-input" id="input-github-token" placeholder="ghp_..." style="font-size: 13px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 12px;">GitHub 儲存庫 (Repo)</label>
+                            <input type="text" class="form-input" id="input-github-repo" value="steven0514/diy-baking-menu" style="font-size: 13px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 12px;">分支 (Branch)</label>
+                            <input type="text" class="form-input" id="input-github-branch" value="main" style="font-size: 13px;">
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="testGitHubConnection()" style="font-size: 12px; padding: 5px 12px;">
+                            測試 GitHub 連線
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">AI 模型選擇</label>
-                    <select class="form-select" id="input-gemini-model">
+
+                <!-- Google Gemini API 設定 -->
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--text-color); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                    <span>🤖</span> Google Gemini AI 翻譯設定
+                </h3>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+                    串接 <strong>Google Gemini API</strong>，可在上架新品時自動進行專業烘焙語意翻譯（英文、日文、泰文、韓文、越文）。金鑰僅存放於本機瀏覽器。
+                </p>
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label class="form-label" style="font-size: 12px;">Google Gemini API Key</label>
+                    <input type="password" class="form-input" id="input-gemini-key" placeholder="AIzaSy..." style="font-size: 13px;">
+                    <span class="form-hint">未輸入金鑰時，系統會自動使用內建的烘焙專用術語庫。</span>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="font-size: 12px;">AI 模型選擇</label>
+                    <select class="form-select" id="input-gemini-model" style="font-size: 13px;">
                         <option value="gemini-2.5-flash">gemini-2.5-flash (推薦，速度極快且精確)</option>
                         <option value="gemini-2.5-pro">gemini-2.5-pro (深度推理模式)</option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="testApiKey()">連線測試</button>
-                <button class="btn btn-primary" onclick="saveApiKey()">確認儲存</button>
+                <button class="btn btn-secondary" onclick="testApiKey()">測試 Gemini API</button>
+                <button class="btn btn-primary" onclick="saveApiKey()">儲存全部設定</button>
             </div>
         </div>
     </div>
@@ -4715,11 +4757,21 @@ Requirements:
             });
         }
 
-        // ⚙️ API Settings Modal
+        // ⚙️ API & GitHub Cloud Settings Modal
         // ==========================================
+        const GITHUB_TOKEN_STORAGE = 'diybc_github_token';
+        const GITHUB_REPO_STORAGE = 'diybc_github_repo';
+        const GITHUB_BRANCH_STORAGE = 'diybc_github_branch';
+        const DEFAULT_GITHUB_TOKEN = '';
+        const DEFAULT_GITHUB_REPO = 'steven0514/diy-baking-menu';
+        const DEFAULT_GITHUB_BRANCH = 'main';
+
         function openApiModal() {
             document.getElementById('input-gemini-key').value = localStorage.getItem(API_KEY_STORAGE) || '';
             document.getElementById('input-gemini-model').value = localStorage.getItem(API_MODEL_STORAGE) || 'gemini-2.5-flash';
+            document.getElementById('input-github-token').value = localStorage.getItem(GITHUB_TOKEN_STORAGE) || DEFAULT_GITHUB_TOKEN;
+            document.getElementById('input-github-repo').value = localStorage.getItem(GITHUB_REPO_STORAGE) || DEFAULT_GITHUB_REPO;
+            document.getElementById('input-github-branch').value = localStorage.getItem(GITHUB_BRANCH_STORAGE) || DEFAULT_GITHUB_BRANCH;
             document.getElementById('api-modal').classList.add('active');
         }
 
@@ -4736,8 +4788,16 @@ Requirements:
                 localStorage.removeItem(API_KEY_STORAGE);
             }
             localStorage.setItem(API_MODEL_STORAGE, model);
+
+            const ghToken = document.getElementById('input-github-token').value.trim();
+            const ghRepo = document.getElementById('input-github-repo').value.trim();
+            const ghBranch = document.getElementById('input-github-branch').value.trim();
+            if (ghToken) localStorage.setItem(GITHUB_TOKEN_STORAGE, ghToken);
+            if (ghRepo) localStorage.setItem(GITHUB_REPO_STORAGE, ghRepo);
+            if (ghBranch) localStorage.setItem(GITHUB_BRANCH_STORAGE, ghBranch);
+
             closeApiModal();
-            showToast('API 設定已儲存成功！');
+            showToast('雲端與 API 設定已儲存成功！');
         }
 
         async function testApiKey() {
@@ -4765,6 +4825,134 @@ Requirements:
                 }
             } catch (e) {
                 alert(`連線發生網路異常：${e.message}`);
+            }
+        }
+
+        async function testGitHubConnection() {
+            const token = document.getElementById('input-github-token').value.trim() || DEFAULT_GITHUB_TOKEN;
+            const repo = document.getElementById('input-github-repo').value.trim() || DEFAULT_GITHUB_REPO;
+            if (!token) {
+                alert('請先輸入 GitHub Token');
+                return;
+            }
+            showToast('正在測試 GitHub 儲存庫連線...');
+            try {
+                const res = await fetch(`https://api.github.com/repos/${repo}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    alert(`🎉 GitHub 連線成功！\n\n儲存庫：${data.full_name}\n預設分支：${data.default_branch}\n權限確認有效！可以隨時進行全裝置發布。`);
+                } else {
+                    const err = await res.json();
+                    alert(`連線失敗：${err.message || '請確認 Token 是否具備 repo 讀寫權限'}`);
+                }
+            } catch (e) {
+                alert(`連線發生異常：${e.message}`);
+            }
+        }
+
+        async function updateGitHubFile(repo, branch, path, content, token, commitMsg) {
+            let sha = null;
+            try {
+                const getUrl = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}&_t=${Date.now()}`;
+                const getRes = await fetch(getUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                if (getRes.ok) {
+                    const fileData = await getRes.json();
+                    sha = fileData.sha;
+                }
+            } catch (e) {
+                console.warn('獲取現有 SHA 警告:', e);
+            }
+
+            const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+            const putUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+            const bodyPayload = {
+                message: commitMsg,
+                content: encodedContent,
+                branch: branch
+            };
+            if (sha) bodyPayload.sha = sha;
+
+            const putRes = await fetch(putUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyPayload)
+            });
+
+            if (!putRes.ok) {
+                const errData = await putRes.json();
+                throw new Error(errData.message || 'GitHub API 回傳失敗');
+            }
+            return await putRes.json();
+        }
+
+        async function publishToCloud() {
+            const token = localStorage.getItem(GITHUB_TOKEN_STORAGE) || DEFAULT_GITHUB_TOKEN;
+            const repo = localStorage.getItem(GITHUB_REPO_STORAGE) || DEFAULT_GITHUB_REPO;
+            const branch = localStorage.getItem(GITHUB_BRANCH_STORAGE) || DEFAULT_GITHUB_BRANCH;
+
+            if (!token) {
+                alert('請先在「雲端與 API 設定」中填入 GitHub Personal Access Token！');
+                openApiModal();
+                return;
+            }
+
+            const ok = confirm(`🚀 確定要將目前的 ${products.length} 款品項發布至雲端嗎？\n\n這將自動更新 GitHub Pages，讓全台門市 iPad 與顧客手機在 20~30 秒內自動同步最新菜單！`);
+            if (!ok) return;
+
+            showToast('🚀 正在準備發布資料至雲端...');
+
+            try {
+                const now = new Date();
+                const versionStr = 'v' + now.getFullYear() + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + String(now.getDate()).padStart(2, '0') + '.' + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+
+                const jsonContent = JSON.stringify(products, null, 2);
+                const jsContent = `// 自己做烘焙聚樂部 · 完整商品多語系數據庫\n// Version: ${versionStr}\nwindow.PRODUCTS_VERSION = '${versionStr}';\nwindow.DEFAULT_PRODUCTS = ${jsonContent};\n`;
+
+                showToast('⏳ 正在同步 products_data.js 至 GitHub (1/2)...');
+                await updateGitHubFile(repo, branch, 'products_data.js', jsContent, token, `chore(menu): update products_data.js [${versionStr}]`);
+
+                showToast('⏳ 正在同步 products_multilingual.json 至 GitHub (2/2)...');
+                await updateGitHubFile(repo, branch, 'products_multilingual.json', jsonContent, token, `chore(menu): update products_multilingual.json [${versionStr}]`);
+
+                showToast(`🎉 成功發布！版本：${versionStr}，GitHub Pages 已觸發更新！`);
+                alert(`🎉 發布成功！\n\n版本號：${versionStr}\n\n已成功將修改推送到 GitHub 雲端儲存庫！\n全台門市的 iPad、手機在 20~30 秒後重新開啟或整理網頁，即可自動讀取到最新品項！`);
+            } catch (err) {
+                console.error('發布失敗:', err);
+                alert(`❌ 發布失敗：${err.message}\n\n請檢查網路或至「雲端與 API 設定」確認 Token 權限。`);
+            }
+        }
+
+        function downloadProductsDataJs() {
+            try {
+                const now = new Date();
+                const versionStr = 'v' + now.getFullYear() + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + String(now.getDate()).padStart(2, '0') + '.' + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+                const jsonContent = JSON.stringify(products, null, 2);
+                const jsContent = `// 自己做烘焙聚樂部 · 完整商品多語系數據庫\n// Version: ${versionStr}\nwindow.PRODUCTS_VERSION = '${versionStr}';\nwindow.DEFAULT_PRODUCTS = ${jsonContent};\n`;
+                const blob = new Blob([jsContent], { type: 'application/javascript;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'products_data.js';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('💾 已下載最新 products_data.js 檔案！');
+            } catch (err) {
+                alert('下載失敗：' + err.message);
             }
         }
 

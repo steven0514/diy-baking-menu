@@ -12,6 +12,7 @@
     const STORE_STORAGE_KEY = 'diybc_selected_store';
     const SEASONAL_STORAGE_KEY = 'diybc_seasonal_config';
     const PRODUCTS_DB_KEY = 'diybc_products_db';
+    const PRODUCTS_VERSION_KEY = 'diybc_products_version';
 
     // 12 間分店名單
     const storeList = [
@@ -398,18 +399,23 @@
         data() {
             // 讀取快取或預設品項
             let initialData = [];
+            const defaultVer = window.PRODUCTS_VERSION || '1.0.0';
+            const savedVer = localStorage.getItem(PRODUCTS_VERSION_KEY);
+
             if (window.DEFAULT_PRODUCTS && Array.isArray(window.DEFAULT_PRODUCTS)) {
                 initialData = window.DEFAULT_PRODUCTS;
             }
             try {
                 const saved = localStorage.getItem(PRODUCTS_DB_KEY);
-                if (saved) {
+                // 智慧版本驗證：只有版本相符時才使用本機快取；若版本更新，優先採用最新代碼庫數據！
+                if (saved && savedVer === defaultVer) {
                     const parsed = JSON.parse(saved);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         initialData = parsed;
                     }
                 } else if (initialData.length > 0) {
                     localStorage.setItem(PRODUCTS_DB_KEY, JSON.stringify(initialData));
+                    localStorage.setItem(PRODUCTS_VERSION_KEY, defaultVer);
                 }
             } catch (e) {
                 console.warn('讀取 localStorage 失敗:', e);
@@ -449,6 +455,7 @@
                 seasonalConfig: initSeasonal,
                 selectedProduct: null,
                 isModalOpen: false,
+                isSyncing: false,
                 storeList,
                 i18n
             };
@@ -844,16 +851,71 @@
                         console.error('即時同步節慶設定失敗:', err);
                     }
                 }
+            },
+            async checkRemoteUpdate(manual = false) {
+                try {
+                    if (manual) this.isSyncing = true;
+                    const res = await fetch(`products_multilingual.json?_t=${Date.now()}`);
+                    if (res.ok) {
+                        const remoteData = await res.json();
+                        if (Array.isArray(remoteData) && remoteData.length > 0) {
+                            const curStr = JSON.stringify(this.products);
+                            const remoteStr = JSON.stringify(remoteData);
+                            if (curStr !== remoteStr) {
+                                console.log('🔄 [Auto-Sync] 偵測到雲端菜單有更新，正在即時同步...');
+                                this.products = sanitizeProducts(remoteData);
+                                localStorage.setItem(PRODUCTS_DB_KEY, JSON.stringify(remoteData));
+                                localStorage.setItem(PRODUCTS_VERSION_KEY, Date.now().toString());
+                                if (this.selectedProduct) {
+                                    const updated = this.products.find(p => String(p.id) === String(this.selectedProduct.id));
+                                    if (updated) this.selectedProduct = updated;
+                                }
+                                if (manual) {
+                                    alert('✅ 菜單已成功同步為雲端最新版本！');
+                                }
+                            } else if (manual) {
+                                alert('✨ 目前已是最新版本菜單，無須更新！');
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.warn('雲端更新檢查跳過 (離線或本地模式):', err);
+                    if (manual) {
+                        alert('⚠️ 目前處於本機檔案或離線模式，已保留現有菜單。');
+                    }
+                } finally {
+                    if (manual) this.isSyncing = false;
+                }
             }
         },
         mounted() {
             document.title = this.t.title;
             window.addEventListener('keydown', this.onKeydown);
             window.addEventListener('storage', this.onStorage);
+
+            // 啟動時背景自動檢查遠端更新
+            this.checkRemoteUpdate(false);
+
+            // 當裝置（例如 iPad / 手機）從螢幕休眠或分頁切換回來時，自動同步
+            this.onVisibilityChange = () => {
+                if (document.visibilityState === 'visible') {
+                    this.checkRemoteUpdate(false);
+                }
+            };
+            document.addEventListener('visibilitychange', this.onVisibilityChange);
+
+            // 每 60 秒背景靜默同步一次 (針對門市 Kiosk 或 iPad 長時間常開狀態)
+            this._syncTimer = setInterval(() => {
+                this.checkRemoteUpdate(false);
+            }, 60000);
         },
         beforeUnmount() {
             window.removeEventListener('keydown', this.onKeydown);
             window.removeEventListener('storage', this.onStorage);
+            if (this.onVisibilityChange) {
+                document.removeEventListener('visibilitychange', this.onVisibilityChange);
+            }
+            if (this._syncTimer) clearInterval(this._syncTimer);
         }
     });
 
