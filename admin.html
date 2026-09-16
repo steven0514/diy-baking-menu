@@ -5327,9 +5327,21 @@ Requirements:
                     }
 
                     const allStoreIds = STORE_DEFINITIONS.map(s => s.id);
+                    const lookupPool = [
+                        ...(Array.isArray(products) ? products : []),
+                        ...(typeof window.DEFAULT_PRODUCTS !== 'undefined' && Array.isArray(window.DEFAULT_PRODUCTS) ? window.DEFAULT_PRODUCTS : [])
+                    ];
+
+                    function hasValidTranslations(p) {
+                        if (!p || !p.name || typeof p.name !== 'object') return false;
+                        const nameEn = p.name.en || '';
+                        const nameJa = p.name.ja || '';
+                        return Boolean((nameEn && nameEn.trim() !== '') || (nameJa && nameJa.trim() !== ''));
+                    }
+
                     const candidateProducts = [];
 
-                    // 初步解析中文資料列
+                    // 初步解析中文資料列並比對現有資料庫
                     rawRows.forEach((row, index) => {
                         const id = Number(row['商品編號'] || row['ID'] || row['id']) || (index + 1);
                         const nameZh = String(row['商品名稱'] || row['商品名稱(繁中)'] || row['名稱'] || '').trim();
@@ -5377,23 +5389,65 @@ Requirements:
                         const tag = String(row['活動標籤'] || '').trim() || null;
                         const statusStr = String(row['上架狀態'] || '').trim();
                         const status = (statusStr === '已下架' || statusStr === 'draft') ? 'draft' : 'active';
-                        const image = String(row['商品圖片URL'] || row['圖片'] || '').trim();
+                        const imageFromExcel = String(row['商品圖片URL'] || row['圖片'] || '').trim();
 
-                        candidateProducts.push({
-                            id: id,
-                            nameZh: nameZh,
-                            price: price,
-                            subZh: subZh,
-                            featZh: featZh,
-                            storageZh: storageZh,
-                            exp: expList,
-                            type: type,
-                            tag: tag,
-                            stores: storesList,
-                            stores_rule: computeStoreRuleSummary(storesList),
-                            status: status,
-                            image: image || 'https://diybcstorage.blob.core.windows.net/recipeimages/6c650785-5b4d-45bf-97c7-aa68565a0c02.jpg'
-                        });
+                        // 🔍 比對既有資料庫 (優先依 ID，次要依繁體中文品名)
+                        const existing = lookupPool.find(p => Number(p.id) === Number(id)) ||
+                                         lookupPool.find(p => getFieldText(p.name, 'zh').trim() === nameZh);
+
+                        if (existing && hasValidTranslations(existing)) {
+                            // ✅ 舊資料：直接沿用現有英、日、泰、韓、越語系翻譯，完全不需重新調用 AI 生成！
+                            const nameObj = { zh: nameZh };
+                            const subObj = { zh: subZh };
+                            const featObj = { zh: featZh };
+                            const storageObj = { zh: storageZh };
+
+                            ['en', 'ja', 'th', 'ko', 'vi'].forEach(lang => {
+                                nameObj[lang] = existing.name?.[lang] || nameZh;
+                                subObj[lang] = existing.subtitle?.[lang] || subZh;
+                                featObj[lang] = existing.features?.[lang] || featZh;
+                                storageObj[lang] = existing.storage?.[lang] || storageZh;
+                            });
+
+                            candidateProducts.push({
+                                id: id,
+                                nameZh: nameZh,
+                                subZh: subZh,
+                                featZh: featZh,
+                                storageZh: storageZh,
+                                name: nameObj,
+                                subtitle: subObj,
+                                features: featObj,
+                                storage: storageObj,
+                                price: price,
+                                exp: expList,
+                                type: type,
+                                tag: tag,
+                                stores: storesList,
+                                stores_rule: computeStoreRuleSummary(storesList),
+                                status: status,
+                                image: imageFromExcel || existing.image || 'https://diybcstorage.blob.core.windows.net/recipeimages/6c650785-5b4d-45bf-97c7-aa68565a0c02.jpg',
+                                needsAiTranslation: false
+                            });
+                        } else {
+                            // ✨ 新品項（或無既有翻譯）：標記為需由 AI 生成多語系
+                            candidateProducts.push({
+                                id: id,
+                                nameZh: nameZh,
+                                subZh: subZh,
+                                featZh: featZh,
+                                storageZh: storageZh,
+                                price: price,
+                                exp: expList,
+                                type: type,
+                                tag: tag,
+                                stores: storesList,
+                                stores_rule: computeStoreRuleSummary(storesList),
+                                status: status,
+                                image: imageFromExcel || (existing ? existing.image : '') || 'https://diybcstorage.blob.core.windows.net/recipeimages/6c650785-5b4d-45bf-97c7-aa68565a0c02.jpg',
+                                needsAiTranslation: true
+                            });
+                        }
                     });
 
                     if (candidateProducts.length === 0) {
@@ -5401,74 +5455,102 @@ Requirements:
                         return;
                     }
 
-                    const shouldProceed = confirm(`📋 成功解析 ${candidateProducts.length} 款商品（中文資料）！\n\n點擊「確定」將由 AI 自動同步翻譯生成 5 國語系 (EN / JA / TH / KO / VI) 並儲存更新商品庫。\n點擊「取消」保留現有資料。`);
+                    const itemsNeedingTranslation = candidateProducts.filter(item => item.needsAiTranslation);
+                    const newCount = itemsNeedingTranslation.length;
+                    const existingCount = candidateProducts.length - newCount;
+
+                    let confirmMsg = `📊 成功解析 Excel 試算表共 ${candidateProducts.length} 款商品！\n\n`;
+                    if (existingCount > 0) {
+                        confirmMsg += `✅ 已有舊資料：${existingCount} 款（直接沿用既有多語系翻譯，不重複生成，省時又省額度）\n`;
+                    }
+                    if (newCount > 0) {
+                        confirmMsg += `✨ 新增品項：${newCount} 款（將自動啟動 AI 為新品項生成 5 國語系）\n`;
+                    } else {
+                        confirmMsg += `⚡ 所有品項皆為既有資料，無須重新調用 AI，將直接秒速更新載入！\n`;
+                    }
+                    confirmMsg += `\n確定要執行匯入嗎？`;
+
+                    const shouldProceed = confirm(confirmMsg);
                     if (!shouldProceed) return;
 
-                    // 顯示 AI 批次翻譯進度視窗
-                    const progressModal = document.getElementById('import-progress-modal');
-                    const progressBar = document.getElementById('import-progress-bar');
-                    const progressCurrent = document.getElementById('import-progress-current');
-                    const progressPercent = document.getElementById('import-progress-percent');
-                    if (progressModal) progressModal.classList.add('active');
+                    // 若有新品項需要翻譯，顯示 AI 進度視窗
+                    if (newCount > 0) {
+                        const progressModal = document.getElementById('import-progress-modal');
+                        const progressBar = document.getElementById('import-progress-bar');
+                        const progressCurrent = document.getElementById('import-progress-current');
+                        const progressPercent = document.getElementById('import-progress-percent');
+                        const progressDesc = document.getElementById('import-progress-desc');
 
-                    const total = candidateProducts.length;
-                    const finalProducts = [];
+                        if (progressDesc) {
+                            progressDesc.textContent = `已保留 ${existingCount} 款舊品項翻譯，僅為 ${newCount} 款新品項調用 AI 翻譯`;
+                        }
+                        if (progressModal) progressModal.classList.add('active');
 
-                    // 逐品項執行 AI 多語系翻譯生成
-                    for (let i = 0; i < total; i++) {
-                        const item = candidateProducts[i];
-                        const pct = Math.round(((i + 1) / total) * 100);
+                        let translatedIndex = 0;
+                        for (const item of itemsNeedingTranslation) {
+                            translatedIndex++;
+                            const pct = Math.round((translatedIndex / newCount) * 100);
 
-                        if (progressCurrent) progressCurrent.textContent = `[${i + 1}/${total}] 正在為「${item.nameZh}」生成多語系...`;
-                        if (progressBar) progressBar.style.width = pct + '%';
-                        if (progressPercent) progressPercent.textContent = pct + '%';
+                            if (progressCurrent) progressCurrent.textContent = `[${translatedIndex}/${newCount}] 正在由 AI 翻譯新品項「${item.nameZh}」...`;
+                            if (progressBar) progressBar.style.width = pct + '%';
+                            if (progressPercent) progressPercent.textContent = pct + '%';
 
-                        const nameObj = { zh: item.nameZh };
-                        const subObj = { zh: item.subZh };
-                        const featObj = { zh: item.featZh };
-                        const storageObj = { zh: item.storageZh };
+                            const nameObj = { zh: item.nameZh };
+                            const subObj = { zh: item.subZh };
+                            const featObj = { zh: item.featZh };
+                            const storageObj = { zh: item.storageZh };
 
-                        try {
-                            const trans = await autoTranslateProduct({
-                                name: item.nameZh,
-                                subtitle: item.subZh,
-                                features: item.featZh,
-                                storage: item.storageZh
-                            });
+                            try {
+                                const trans = await autoTranslateProduct({
+                                    name: item.nameZh,
+                                    subtitle: item.subZh,
+                                    features: item.featZh,
+                                    storage: item.storageZh
+                                });
 
-                            ['en', 'ja', 'th', 'ko', 'vi'].forEach(lang => {
-                                nameObj[lang] = trans.name?.[lang] || item.nameZh;
-                                subObj[lang] = trans.subtitle?.[lang] || item.subZh;
-                                featObj[lang] = trans.features?.[lang] || item.featZh;
-                                storageObj[lang] = trans.storage?.[lang] || item.storageZh;
-                            });
-                        } catch (err) {
-                            console.warn(`Translation error on item #${item.id}:`, err);
-                            ['en', 'ja', 'th', 'ko', 'vi'].forEach(lang => {
-                                nameObj[lang] = item.nameZh;
-                                subObj[lang] = item.subZh;
-                                featObj[lang] = item.featZh;
-                                storageObj[lang] = item.storageZh;
-                            });
+                                ['en', 'ja', 'th', 'ko', 'vi'].forEach(lang => {
+                                    nameObj[lang] = trans.name?.[lang] || item.nameZh;
+                                    subObj[lang] = trans.subtitle?.[lang] || item.subZh;
+                                    featObj[lang] = trans.features?.[lang] || item.featZh;
+                                    storageObj[lang] = trans.storage?.[lang] || item.storageZh;
+                                });
+                            } catch (err) {
+                                console.warn(`Translation error on new item #${item.id}:`, err);
+                                ['en', 'ja', 'th', 'ko', 'vi'].forEach(lang => {
+                                    nameObj[lang] = item.nameZh;
+                                    subObj[lang] = item.subZh;
+                                    featObj[lang] = item.featZh;
+                                    storageObj[lang] = item.storageZh;
+                                });
+                            }
+
+                            item.name = nameObj;
+                            item.subtitle = subObj;
+                            item.features = featObj;
+                            item.storage = storageObj;
+                            item.needsAiTranslation = false;
                         }
 
-                        finalProducts.push({
-                            id: item.id,
-                            name: nameObj,
-                            price: item.price,
-                            price_display: `NT$ ${item.price}`,
-                            subtitle: subObj,
-                            features: featObj,
-                            storage: storageObj,
-                            exp: item.exp,
-                            type: item.type,
-                            tag: item.tag,
-                            stores: item.stores,
-                            stores_rule: item.stores_rule,
-                            status: item.status,
-                            image: item.image
-                        });
+                        if (progressModal) progressModal.classList.remove('active');
                     }
+
+                    // 組合最終商品清單
+                    const finalProducts = candidateProducts.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        price_display: `NT$ ${item.price}`,
+                        subtitle: item.subtitle,
+                        features: item.features,
+                        storage: item.storage,
+                        exp: item.exp,
+                        type: item.type,
+                        tag: item.tag,
+                        stores: item.stores,
+                        stores_rule: item.stores_rule,
+                        status: item.status,
+                        image: item.image
+                    }));
 
                     // 儲存並更新視圖
                     products = finalProducts;
@@ -5476,11 +5558,11 @@ Requirements:
                     renderTable();
                     updateStats();
 
-                    // 關閉進度視窗
-                    setTimeout(() => {
-                        if (progressModal) progressModal.classList.remove('active');
-                        showToast(`🎉 成功匯入 ${finalProducts.length} 款商品！AI 已同步翻譯並儲存全語系！`);
-                    }, 400);
+                    if (newCount > 0) {
+                        showToast(`🎉 成功匯入 ${finalProducts.length} 款商品！已為 ${newCount} 款新品項完成 AI 翻譯，其餘 ${existingCount} 款直接沿用舊資料！`);
+                    } else {
+                        showToast(`⚡ 成功更新 ${finalProducts.length} 款商品！已秒速沿用原有翻譯，未耗費任何 AI 時間與額度。`);
+                    }
 
                 } catch (err) {
                     console.error('Import Excel error:', err);
