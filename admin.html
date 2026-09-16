@@ -905,6 +905,9 @@
                 <button class="btn btn-primary" onclick="publishToCloud()" title="一鍵同步至 GitHub 雲端，讓全分店 iPad 與顧客手機即刻更新" style="background:#2563eb; border-color:#1d4ed8; font-weight:800; box-shadow:0 4px 14px rgba(37,99,235,0.35);">
                     <span>🚀</span> 發布至全裝置
                 </button>
+                <button class="btn btn-secondary" onclick="pullFromCloud(true)" title="從 GitHub 雲端拉取最新發布的商品菜單，同步至此裝置" style="background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; font-weight:700;">
+                    <span>☁️</span> 從雲端同步
+                </button>
                 <button class="btn btn-secondary" onclick="openSeasonalModal()" title="設定節慶檔期（中秋、萬聖、聖誕、草莓季等）" style="background:#fff7ed; border-color:#fed7aa; color:#ea580c; font-weight:700;">
                     <span>🎉</span> 節慶檔期管理
                 </button>
@@ -1459,6 +1462,9 @@
 
     <!-- Toast Notice -->
     <div class="toast" id="toast-msg"></div>
+
+    <!-- 引入獨立多語系菜單資料庫 (若已由雲端發布更新，將直接取得最新 window.DEFAULT_PRODUCTS) -->
+    <script src="products_data.js"></script>
     <script>
         // 直接內嵌 44 個官方基準品項，確保不依賴任何外部檔案或本機 file:// CORS，永不發生商品消失
         const initialProducts = [
@@ -3855,30 +3861,7 @@ Term: "${zhName}"`;
             return '';
         }
 
-        // 初始化載入
-        async function initApp() {
-            let loaded = [];
-            try {
-                const savedDb = localStorage.getItem(DB_KEY);
-                if (savedDb) {
-                    const parsed = JSON.parse(savedDb);
-                    if (Array.isArray(parsed) && parsed.length > 0) loaded = parsed;
-                }
-            } catch (e) {
-                console.error('Failed to parse saved DB', e);
-            }
-
-            // 確保系統永遠具備完整的 44 個品項庫，絕不為空！
-            if (loaded.length === 0) {
-                products = JSON.parse(JSON.stringify(initialProducts));
-            } else {
-                // 智慧合併補齊：保留使用者新增/編輯的品項，補齊所有官方預設品項
-                const loadedIds = new Set(loaded.map(p => Number(p.id)));
-                const missingDefaults = initialProducts.filter(dp => !loadedIds.has(Number(dp.id)));
-                products = [...loaded, ...JSON.parse(JSON.stringify(missingDefaults))];
-            }
-
-            // 防禦性數據清洗：防範使用者新增空欄位或舊快取資料格式不全導致的崩潰
+        function sanitizeAllProducts() {
             products.forEach(p => {
                 if (!p) return;
                 if (p.status === undefined) p.status = 'active';
@@ -3896,12 +3879,80 @@ Term: "${zhName}"`;
                 if (p.price === undefined || p.price === null || isNaN(Number(p.price))) p.price = 0;
                 if (!p.price_display) p.price_display = `NT$ ${p.price}`;
             });
+        }
 
+        // 從雲端拉取最新發布之品項資料庫
+        async function pullFromCloud(manual = false) {
+            try {
+                if (manual) showToast('☁️ 正在連線雲端檢查最新商品庫...');
+                const res = await fetch(`products_multilingual.json?_t=${Date.now()}`);
+                if (res.ok) {
+                    const cloudData = await res.json();
+                    if (Array.isArray(cloudData) && cloudData.length > 0) {
+                        const curHash = JSON.stringify(products);
+                        const cloudHash = JSON.stringify(cloudData);
+                        // 若資料有異動，或使用者手動點擊「從雲端同步」，立即覆蓋更新！
+                        if (curHash !== cloudHash || manual) {
+                            console.log(`☁️ [Cloud Sync] 已成功從雲端同步 ${cloudData.length} 款品項！`);
+                            products = cloudData;
+                            sanitizeAllProducts();
+                            saveToLocalStorage();
+                            renderTable();
+                            if (manual) {
+                                alert(`🎉 成功從雲端同步！\n\n目前共有 ${products.length} 款品項已就緒（包含新發布的品項）！`);
+                            } else {
+                                showToast(`☁️ 已自動從雲端載入最新 ${products.length} 款品項！`);
+                            }
+                            return true;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('雲端同步跳過 (離線或本地檔案模式):', err);
+                if (manual) {
+                    alert('⚠️ 目前處於本地檔案或離線環境，無法連線至雲端。');
+                }
+            }
+            return false;
+        }
+
+        // 初始化載入
+        async function initApp() {
+            let loaded = [];
+            try {
+                const savedDb = localStorage.getItem(DB_KEY);
+                if (savedDb) {
+                    const parsed = JSON.parse(savedDb);
+                    if (Array.isArray(parsed) && parsed.length > 0) loaded = parsed;
+                }
+            } catch (e) {
+                console.error('Failed to parse saved DB', e);
+            }
+
+            // 基準品項：優先採用 products_data.js 中的 window.DEFAULT_PRODUCTS (若已從雲端同步將包含新品項)
+            const baseProducts = (typeof window.DEFAULT_PRODUCTS !== 'undefined' && Array.isArray(window.DEFAULT_PRODUCTS) && window.DEFAULT_PRODUCTS.length > 0)
+                ? window.DEFAULT_PRODUCTS
+                : initialProducts;
+
+            if (loaded.length === 0) {
+                // 新裝置或首次開啟：直接載入最新基準品項
+                products = JSON.parse(JSON.stringify(baseProducts));
+            } else {
+                // 既有裝置：保留既有修改，並補齊基準品項
+                const loadedIds = new Set(loaded.map(p => Number(p.id)));
+                const missingDefaults = baseProducts.filter(dp => !loadedIds.has(Number(dp.id)));
+                products = [...loaded, ...JSON.parse(JSON.stringify(missingDefaults))];
+            }
+
+            sanitizeAllProducts();
             saveToLocalStorage();
             loadSeasonalConfig();
             updateStats();
             updateSortHeaders();
             renderTable();
+
+            // 🌟 自動非同步連線雲端拉取最新發布 (解決「在新裝置打開後台沒有新品項」問題)
+            pullFromCloud(false);
         }
 
         // 還原官方預設 44 個品項
