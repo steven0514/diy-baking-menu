@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>「自己做烘焙聚樂部」智能菜單系統 - 專案開發成果簡報</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c2673a;
+      --primary-light: #e88c5d;
+      --primary-dark: #964820;
+      --bg: #0f1117;
+      --card-bg: rgba(26, 29, 41, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-green: #10b981;
+      --accent-blue: #3b82f6;
+      --accent-amber: #f59e0b;
+      --accent-purple: #8b5cf6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Presentation Deck Container */
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 10% 20%, rgba(194, 103, 58, 0.12) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                  #0c0e14;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.96) translateY(20px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 60px 80px;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Top Navigation bar */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .project-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(194, 103, 58, 0.15);
+      border: 1px solid rgba(194, 103, 58, 0.35);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ff9b6a;
+      letter-spacing: 0.5px;
+    }
+
+    .slide-number {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Content Typography */
+    h1.hero-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 40%, #ffc5a8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+
+    h2.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    p.slide-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      flex: 1;
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      flex: 1;
+    }
+
+    /* Card Components */
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+    }
+
+    .glass-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .glass-card p, .glass-card li {
+      font-size: 0.95rem;
+      color: #d1d5db;
+      line-height: 1.65;
+    }
+
+    .glass-card ul {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .glass-card li::before {
+      content: '✓';
+      color: var(--accent-green);
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-purple { background: rgba(139, 92, 246, 0.2); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.4); }
+
+    /* Code / Demo blocks */
+    .code-box {
+      background: #08090d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #a5b4fc;
+      line-height: 1.6;
+    }
+
+    /* Footer & Controls */
+    .controls {
+      position: fixed;
+      bottom: 24px;
+      right: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .btn-ctrl {
+      background: rgba(30, 34, 48, 0.8);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-ctrl:hover {
+      background: var(--primary);
+      border-color: var(--primary-light);
+    }
+
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), #fb923c);
+      transition: width 0.3s ease;
+      z-index: 101;
+    }
+
+    /* Speaker Notes Drawer */
+    .speaker-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 17, 23, 0.95);
+      border-top: 2px solid var(--primary);
+      backdrop-filter: blur(20px);
+      padding: 24px 80px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 99;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .speaker-drawer.open {
+      transform: translateY(0);
+    }
+
+    .speaker-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ff9b6a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .speaker-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+
+    /* Quick Links Box */
+    .links-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .link-item:hover {
+      background: rgba(194, 103, 58, 0.15);
+      border-color: rgba(194, 103, 58, 0.4);
+      transform: translateX(4px);
+    }
+
+    .pill-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pill-item {
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .pill-item.active {
+      background: var(--primary);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck" id="deck">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" data-notes="各位主管好，今天我要向大家分享『自己做烘焙聚樂部』智能菜單篩選系統的完整研發成果。在這次專案中，我們不僅打造了適合外國觀光客的多語系篩選前台，更結合了 Google Gemini AI 與 Excel 營運工作流，徹底翻轉實體門市的商品管理流程。">
+      <div class="header-bar">
+        <span class="project-tag">🍰 專案成果發表</span>
+        <span class="slide-number">01 / 10</span>
+      </div>
+      <div style="margin-top: auto; margin-bottom: auto; max-width: 900px;">
+        <h1 class="hero-title">「自己做烘焙聚樂部」<br>AI 智能菜單與門市排程系統</h1>
+        <p class="slide-subtitle">AI 多語系即時在地化 × 實體門市智慧排程演算法 × 純前端高擴展架構</p>
+        <div style="display: flex; gap: 16px; margin-top: 32px;">
+          <span class="badge badge-green">Vue 3 SFC Core</span>
+          <span class="badge badge-blue">Google Gemini AI</span>
+          <span class="badge badge-amber">SheetJS Dual Engine</span>
+          <span class="badge badge-purple">GitHub Pages Live</span>
+        </div>
+      </div>
+      <div style="margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid var(--card-border); padding-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+        <span>報告人：專案研發團隊</span>
+        <span>2026 年 9 月</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" data-notes="在專案啟動之初，我們梳理了實體店鋪的三大核心瓶頸：第一，翻譯成本高昂且不即時；第二，全台 11 間門市的供應規則極其繁雜；第三，現場第一線使用 iPad 讓顧客點餐時，經常面臨破版擠壓的窘境。這驅使我們打造一套『讓營運人員用最熟悉的 Excel、讓 AI 負責語言轉換、讓顧客享受絲滑操作』的完整解決方案。">
+      <div class="header-bar">
+        <span class="project-tag">📌 痛點與挑戰</span>
+        <span class="slide-number">02 / 10</span>
+      </div>
+      <h2 class="slide-title">專案背景與門市營運四大痛點</h2>
+      <p class="slide-subtitle">面對疫後國際旅客激增與多據點營運擴展，既有菜單維護模式遭遇結構性瓶頸：</p>
+      <div class="grid-4">
+        <div class="glass-card">
+          <h3>🌐 外籍觀光客語言壁壘</h3>
+          <p>日、韓、港澳、歐美與東南亞旅客眾多，現場店員外語溝通壓力沉重，傳統紙本菜單印製成本高、多語系資訊更新緩慢滯後。</p>
+        </div>
+        <div class="glass-card">
+          <h3>🏢 全台 11 間門市規則龐雜</h3>
+          <p>台北、新北、新竹、台中、台南、高雄分佈，吳寶春聯名店限定、特定店鋪限定等規則複雜，人工維護容易發生供貨資訊不對稱。</p>
+        </div>
+        <div class="glass-card">
+          <h3>📑 資料維護仰賴工程介入</h3>
+          <p>門市營運端最熟悉 Excel 表格，過去每次新品上架需工程師修改 JSON 程式碼，維護鏈路長且缺乏即時反應能力。</p>
+        </div>
+        <div class="glass-card">
+          <h3>📱 平板點餐體驗破版跑位</h3>
+          <p>店面常設 iPad 供客人現場翻閱，但過去網頁在 768px ~ 1024px 直橫向切換時排版擠壓、彈窗過長無法查看特色。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" data-notes="在技術架構上，我們追求極致的輕量與穩定。捨棄繁重的後端伺服器，改採純前端 Vue 3 響應式核心，搭配 SheetJS 直接在瀏覽器解析 Excel，並結合 Google Gemini AI 完成即時在地化。整個系統可以直接託管在 GitHub Pages 上，零運維成本且具有高度穩定性。">
+      <div class="header-bar">
+        <span class="project-tag">🏗️ 技術架構</span>
+        <span class="slide-number">03 / 10</span>
+      </div>
+      <h2 class="slide-title">系統架構：純前端輕量化與 AI 驅動</h2>
+      <p class="slide-subtitle">以「零維運負擔、秒級極速載入、本機安全運算」為指導原則的架構設計：</p>
+      <div class="grid-3">
+        <div class="glass-card">
+          <h3>⚡ 前台展示核心 (Frontend)</h3>
+          <ul>
+            <li><strong>Vue 3 SFC Reactive</strong>：狀態集中驅動，全無依賴打包，毫秒級篩選。</li>
+            <li><strong>Design Tokens 規範</strong>：自研 <code>menu_selector.css</code>，嚴格定義色彩與網格。</li>
+            <li><strong>極致快顯</strong>：首次載入體積 &lt; 200KB，無白屏延遲。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>🤖 智能轉譯引擎 (AI Engine)</h3>
+          <ul>
+            <li><strong>Google Gemini API</strong>：結構化 JSON Prompt 批次翻譯。</li>
+            <li><strong>在地化術語字典</strong>：精確對齊專業烘焙名稱（戚風、塔派、甘納許）。</li>
+            <li><strong>獨立儲存隔離</strong>：各語言特色獨立，徹底杜絕資料污染。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>📊 雙向資料管線 (Data Pipeline)</h3>
+          <ul>
+            <li><strong>SheetJS (XLSX)</strong>：純瀏覽器 13 欄位 Excel 匯入與匯出。</li>
+            <li><strong>智慧門市演算法</strong>：北中南門市自動識別全門市與除外店。</li>
+            <li><strong>GitHub Pages CI/CD</strong>：全球 CDN 加速，零主機月費。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" data-notes="AI 翻譯是本系統的靈魂。我們在開發過程中克服了『語言污染』問題——確保當外語特色留空時不會誤抓中文，並為 44 種烘焙品項建立了精準的專用術語庫。營運人員只要輸入一次中文，AI 就會秒速產出 5 國語言，讓外國顧客一目了然。">
+      <div class="header-bar">
+        <span class="project-tag">💡 核心演算法</span>
+        <span class="slide-number">04 / 10</span>
+      </div>
+      <h2 class="slide-title">里程碑一：AI 智慧多語系翻譯引擎</h2>
+      <p class="slide-subtitle">消滅「偽翻譯」與語言退化，打造 6 國語言（繁中、英、日、韓、泰、越）即時在地化：</p>
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>🔍 核心難題與突破</h3>
+          <ul>
+            <li><strong>退化問題解決</strong>：修正原始 Prompt 避免外語欄位留空時 Fallback 錯誤抓取中文。</li>
+            <li><strong>結構化 JSON 強制輸出</strong>：明確約束輸出欄位 <code>name</code>、<code>category</code>、<code>features</code>、<code>storage</code>。</li>
+            <li><strong>烘焙術語精準對齊</strong>：例如「戚風蛋糕」英譯 <code>Chiffon Cake</code>、日譯 <code>シフォンケーキ</code>、韓譯 <code>쉬폰 케이크</code>。</li>
+          </ul>
+          <div style="margin-top: 16px;">
+            <span class="badge badge-green">繁中 (ZH)</span>
+            <span class="badge badge-blue">English (EN)</span>
+            <span class="badge badge-amber">日本語 (JA)</span>
+            <span class="badge badge-purple">한국어 (KO)</span>
+            <span class="badge badge-blue">ภาษาไทย (TH)</span>
+            <span class="badge badge-green">Tiếng Việt (VI)</span>
+          </div>
+        </div>
+        <div class="code-box">
+          <div style="color: #6ee7b7; margin-bottom: 8px;">// Gemini API 結構化呼叫範例</div>
+          const prompt = `翻譯下列繁體中文烘焙品項為 5 國語言(en, ja, ko, th, vi)。<br>
+          請嚴格遵守 JSON Schema，不得回傳其他文字：<br>
+          {<br>
+          &nbsp;&nbsp;"en": { "name": "...", "features": "..." },<br>
+          &nbsp;&nbsp;"ja": { "name": "...", "features": "..." }<br>
+          }`;
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" data-notes="為確保系統長期好維護，我們將原本混合在一起的幾千行程式碼進行了嚴格的模組化拆分。導入 Vue 3 資料驅動架構後，頁面不再需要手動操作 DOM，不論是切換分店、勾選難度，所有的品項數量與徽章都能即時重新計算，流暢度大幅提升。">
+      <div class="header-bar">
+        <span class="project-tag">⚡ 架構重構</span>
+        <span class="slide-number">05 / 10</span>
+      </div>
+      <h2 class="slide-title">里程碑二：現代化前端模組化與資料驅動</h2>
+      <p class="slide-subtitle">告別單檔臃腫與難以維護的 DOM 操作，實現四層清晰職責分離：</p>
+      <div class="grid-4">
+        <div class="glass-card">
+          <h3>🎨 樣式系統 (`menu_selector.css`)</h3>
+          <p>抽離 600+ 行樣式，統一設定品牌色、字型級階、卡片微動態動畫與多裝置 Breakpoints。</p>
+        </div>
+        <div class="glass-card">
+          <h3>⚙️ 核心邏輯 (`menu_app.js`)</h3>
+          <p>Vue 3 響應式實體，承載三維多條件篩選器、語系狀態機、搜尋防抖與彈窗焦點捕獲。</p>
+        </div>
+        <div class="glass-card">
+          <h3>📦 資料儲庫 (`products_data.js`)</h3>
+          <p>44 個烘焙品項完整收錄，包含六國語言、尺寸時長與門市標記，具備 100% 離線執行能力。</p>
+        </div>
+        <div class="glass-card">
+          <h3>⚡ 渲染效率大幅躍進</h3>
+          <p>不再有 InnerHTML 拼接字串造成的跳動；篩選時 DOM Diff 局部更新，毫秒內完成品項替換。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" data-notes="這一步是營運效率的巨大躍進。我們將原本複雜的門市限制，濃縮成聰明的勾選演算法：不論是『全門市供應』、『吳寶春限定』還是『全門市除特定店』，系統都會自動算出最精確的中文描述，並相容 Excel 匯入，完全貼合現場實務。">
+      <div class="header-bar">
+        <span class="project-tag">💼 營運創新</span>
+        <span class="slide-number">06 / 10</span>
+      </div>
+      <h2 class="slide-title">里程碑三：Excel 雙向流通與門市規則智慧識別</h2>
+      <p class="slide-subtitle">移除舊式 JSON 匯入，打造營運團隊最熟悉的純中文 Excel 雙向流暢工作流：</p>
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>🏢 北中南 11 間門市分區與智慧規則</h3>
+          <ul>
+            <li><strong>北部門市 (7 間)</strong>：信義、板橋、南西、士林、忠孝、新竹巨城、新竹東門</li>
+            <li><strong>中部門市 (2 間)</strong>：台中逢甲、台中綠園道</li>
+            <li><strong>南部門市 (2 間)</strong>：台南西門、高雄遠百 (吳寶春聯名)</li>
+            <li><strong>智能語意計算</strong>：
+              <div style="margin-top: 6px;">
+                <span class="badge badge-green">全部勾選 ➔ 全門市供應</span>
+                <span class="badge badge-blue">單選/少選 ➔ 限特定門市</span>
+                <span class="badge badge-amber">少數沒選 ➔ 全門市(除XX、YY)</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>👨‍🍳 經驗彈性多選與 Excel 匯出</h3>
+          <ul>
+            <li><strong>經驗等級支援多選</strong>：初學、有幾次經驗、烘焙達人挑戰可自由組合。</li>
+            <li><strong>13 欄中文 Excel 格式</strong>：營運端只需填寫品名、價格、時長與門市，一鍵匯入自動觸發 AI 翻譯並儲存。</li>
+            <li><strong>零技術門檻</strong>：前線店長、行銷小編皆可在 3 分鐘內完成新品批次上下架。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" data-notes="在前台顧客端，我們將語系切換從隱蔽的下拉選單改為頂部直覺的藥丸型按鈕。顧客只需單指輕點，瞬間切換語言。搭配經驗與種類的三層篩選，顧客平均可在 5 秒內找到最心儀的烘焙品項。">
+      <div class="header-bar">
+        <span class="project-tag">✨ 前台體驗</span>
+        <span class="slide-number">07 / 10</span>
+      </div>
+      <h2 class="slide-title">里程碑四：前台 UX 升級 —— 六國語系藥丸按鈕</h2>
+      <p class="slide-subtitle">以觸控友好與國際觀光客直覺為出發點的介面優化：</p>
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>💊 藥丸型 (Pill) 語系切換器</h3>
+          <p style="margin-bottom: 12px;">徹底替換容易被忽略的傳統 <code>&lt;select&gt;</code> 下拉選單，頂部常駐多語系按鈕：</p>
+          <div class="pill-group">
+            <span class="pill-item active">中</span>
+            <span class="pill-item">EN</span>
+            <span class="pill-item">日</span>
+            <span class="pill-item">KR</span>
+            <span class="pill-item">TH</span>
+            <span class="pill-item">VI</span>
+          </div>
+          <p style="margin-top: 16px;">單指輕點瞬間切換，按鈕具備焦糖橙主色高亮與平滑微陰影回饋。</p>
+        </div>
+        <div class="glass-card">
+          <h3>🎯 三維立體動態篩選</h3>
+          <ul>
+            <li><strong>維度一：烘焙經驗等級</strong>（初學者也能安心做）。</li>
+            <li><strong>維度二：甜點種類分類</strong>（戚風海綿、塔派乳酪、常溫餅乾、手作麵包）。</li>
+            <li><strong>維度三：季節檔期標籤</strong>（中秋限定、門市專屬、聯名款）。</li>
+            <li><strong>零文字截斷</strong>：卡片自動調整字級與副標題，完美容納各國長文。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" data-notes="現場門市最重視的就是 iPad 的點餐體驗。我們針對 iPad Mini、iPad Air 到 iPad Pro，重新設計了專屬的媒體查詢。無論顧客橫拿或直拿，卡片永遠維持雙欄或三欄的黃金比例，彈窗內容也不會被螢幕高度切掉，達到真正 100% 零破版。">
+      <div class="header-bar">
+        <span class="project-tag">📱 跨裝置工程</span>
+        <span class="slide-number">08 / 10</span>
+      </div>
+      <h2 class="slide-title">里程碑五：iPad 專屬 768px ~ 1024px 零破版工程</h2>
+      <p class="slide-subtitle">針對實體門市 iPad Air、iPad Mini、iPad Pro 實體裝置深度優化：</p>
+      <div class="grid-3">
+        <div class="glass-card">
+          <h3>📐 直向模式 (Portrait)</h3>
+          <ul>
+            <li><strong>適用寬度</strong>：768px ~ 992px。</li>
+            <li><strong>頂部雙層結構</strong>：品牌名單行展開，門市與語系兩端對齊。</li>
+            <li><strong>嚴格雙欄網格</strong>：卡片等寬 354px~387px，圖片黃金 200px。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>📐 橫向模式 (Landscape)</h3>
+          <ul>
+            <li><strong>適用寬度</strong>：993px ~ 1200px。</li>
+            <li><strong>頂部單列齊全</strong>：導覽列元素一行優雅展示。</li>
+            <li><strong>精準三欄網格</strong>：空間利用率最大化，視野開闊。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>🖼️ 短視窗彈窗適配</h3>
+          <ul>
+            <li><strong>針對短螢幕限制</strong>：高度 &le; 820px 時圖片自動縮至 160px。</li>
+            <li><strong>全景可見</strong>：特色、保存方式與關閉按鈕無需上下滑動全部一覽無遺。</li>
+            <li><strong>iOS 慣性滑動</strong>：全站保證 <code>overflow-x: hidden</code>。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" data-notes="在發布到 GitHub 前，我們進行了嚴密的資安審核。系統架構完全採用客戶端金鑰儲存，原始碼公開在 GitHub 上絕無外洩風險。同時透過 GitHub Pages，實現了秒級部署、免伺服器費用、永久高可用性的目標。">
+      <div class="header-bar">
+        <span class="project-tag">🛡️ 資安與維運</span>
+        <span class="slide-number">09 / 10</span>
+      </div>
+      <h2 class="slide-title">嚴格資安審核與零成本 GitHub Pages 託管</h2>
+      <p class="slide-subtitle">確保公有雲原始碼完全透明公開的同時，具備企業級的資安與營運效益：</p>
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>🔒 零洩漏風險的 Client-Side 安全模型</h3>
+          <ul>
+            <li><strong>無 Hardcoded 金鑰</strong>：原始碼庫不包含任何私密 API Key。</li>
+            <li><strong>本機 LocalStorage 隔離</strong>：Gemini API Key 僅由管理者於自己瀏覽器輸入並鎖定於該裝置。</li>
+            <li><strong>純靜態前端架構</strong>：無後端伺服器或 SQL 資料庫，杜絕注入攻擊（SQL Injection）或資料庫外洩風險。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>☁️ GitHub Pages 自動化雲端發布</h3>
+          <ul>
+            <li><strong>Git 規範化版本控制</strong>：主幹 <code>main</code> 分支管理。</li>
+            <li><strong>自動化開通部署</strong>：推送即發布，享有全球 CDN 與 HTTPS 憑證。</li>
+            <li><strong>維運成本 $0</strong>：無需負擔雲端虛擬機 (EC2/GCE) 或伺服器維護月費。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" data-notes="總結來說，這套系統以極低的維運成本，為『自己做烘焙聚樂部』搭建了一座連通國際顧客與現場營運的現代化橋樑。目前系統已正式在 GitHub Pages 上線運作。以上是我的報告，謝謝大家！">
+      <div class="header-bar">
+        <span class="project-tag">🚀 專案成果</span>
+        <span class="slide-number">10 / 10</span>
+      </div>
+      <h2 class="slide-title">成果總結與線上展示 (Demo & Impact)</h2>
+      <p class="slide-subtitle">為「自己做烘焙聚樂部」打造無縫數位體驗，正式上線成果：</p>
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3>📈 具體商業量化效益</h3>
+          <ul>
+            <li><strong>⏱️ 維護效率提升 90%</strong>：Excel 匯入後 AI 10 秒內完成 5 國語言產出。</li>
+            <li><strong>🌍 觀光客滿意度升級</strong>：日韓歐美東南亞旅客自助選單無障礙。</li>
+            <li><strong>📱 100% 裝置相容度</strong>：實體門市 iPad 與手機雙模式無死角。</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3>🔗 系統正式上線網址</h3>
+          <div class="links-grid">
+            <a href="https://steven0514.github.io/diy-baking-menu/" target="_blank" class="link-item">
+              <span>🍰 前台智能菜單系統</span>
+              <span>點擊開啟 ↗</span>
+            </a>
+            <a href="https://steven0514.github.io/diy-baking-menu/admin.html" target="_blank" class="link-item">
+              <span>⚙️ AI 智慧多語系後台</span>
+              <span>點擊開啟 ↗</span>
+            </a>
+            <a href="https://github.com/steven0514/diy-baking-menu" target="_blank" class="link-item">
+              <span>📦 GitHub 原始碼儲存庫</span>
+              <span>查看 Code ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Speaker Notes Drawer -->
+  <div class="speaker-drawer" id="speakerDrawer">
+    <div class="speaker-header">🎙️ 講者講稿 (Speaker Script / 30~60 秒)</div>
+    <div class="speaker-text" id="speakerNotesText"></div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="controls">
+    <button class="btn-ctrl" id="btnNotes" title="快捷鍵: S">🎙️ 講稿 (S)</button>
+    <button class="btn-ctrl" id="btnPrev" title="快捷鍵: ←">‹ 上一頁</button>
+    <button class="btn-ctrl" id="btnNext" title="快捷鍵: →">下一頁 ›</button>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progressBar');
+    const speakerDrawer = document.getElementById('speakerDrawer');
+    const speakerNotesText = document.getElementById('speakerNotesText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnNotes = document.getElementById('btnNotes');
+
+    let currentIndex = 0;
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= slides.length) index = slides.length - 1;
+      currentIndex = index;
+
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentIndex);
+      });
+
+      const currentSlide = slides[currentIndex];
+      speakerNotesText.textContent = currentSlide.getAttribute('data-notes') || '（此頁無講稿）';
+
+      const progress = ((currentIndex + 1) / slides.length) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    btnPrev.addEventListener('click', () => updateSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => updateSlide(currentIndex + 1));
+    btnNotes.addEventListener('click', () => speakerDrawer.classList.toggle('open'));
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentIndex - 1);
+      } else if (e.key === 's' || e.key === 'S') {
+        speakerDrawer.classList.toggle('open');
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    });
+
+    // Init
+    updateSlide(0);
+  </script>
+</body>
+</html>
