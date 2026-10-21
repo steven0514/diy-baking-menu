@@ -346,6 +346,13 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
+  // gviz 會把「看起來像日期」的欄位自動轉成 Date(年,月,日) 這種 JS 字面量塞進 v，
+  // 真正人看得懂的格式在 f（formatted）欄位，有的話要優先用它。
+  function gvizCell(c){
+    if(!c) return '';
+    if(c.f!=null) return String(c.f);
+    return c.v!=null ? String(c.v) : '';
+  }
   var jsonpSeq=0;
   function loadSheet(sheetId, tabName, withHeaders){
     return new Promise(function(resolve,reject){
@@ -362,7 +369,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         try{
           var rows=(res && res.table && res.table.rows)||[];
           var mapped=rows.map(function(r){
-            return (r.c||[]).map(function(c){ return c && c.v!=null ? String(c.v) : ''; });
+            return (r.c||[]).map(gvizCell);
           });
           if(withHeaders){
             var cols=(res && res.table && res.table.cols)||[];
