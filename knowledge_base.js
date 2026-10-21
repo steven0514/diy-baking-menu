@@ -53,7 +53,7 @@ window.KB_LANGS = [
 window.DEFAULT_KB = [
   // ── 器具位置（門市專屬，各店配置不同）──────────────────
   { id: 'tool-spatula-xinyi', store: ['xinyi'], cat: '器具位置',
-    q: ['刮刀在哪', '抹刀在哪裡', '矽膠刮刀', 'spatula'],
+    q: ['刮刀在哪', '抹刀在哪裡', '矽膠刮刀', '刮板', 'spatula', 'scraper'],
     a_zh: '刮刀在 A 區工具牆第二層，紅色握把那一排。', verified: true, updated: '2026-10-21', by: '系統預設' },
   { id: 'tool-bowl-xinyi', store: ['xinyi'], cat: '器具位置',
     q: ['工作盆在哪', '攪拌盆', 'mixing bowl', '鋼盆'],

@@ -46,6 +46,12 @@ main{flex:1; overflow-y:auto; padding:14px 12px 6px; display:flex; flex-directio
 .empty b{display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px}
 .empty code{background:rgba(255,255,255,.07); padding:1px 6px; border-radius:5px; font-size:.82rem}
 
+.setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:14px}
+.setup h3{font-size:.95rem; color:#fbbf24; margin-bottom:7px}
+.setup p{font-size:.82rem; color:#e5e7eb; line-height:1.65; margin-bottom:10px}
+.setup .srow{display:flex; gap:8px}
+.setup input{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:10px; padding:10px 11px; font-size:.9rem; min-width:0}
+.setup .warn-note{font-size:.76rem; color:#fca5a5; line-height:1.6; margin:10px 0 0}
 .turn{background:var(--surface); border:1px solid var(--border); border-radius:15px; overflow:hidden}
 .seg{padding:11px 14px}
 .seg + .seg{border-top:1px solid var(--border)}
@@ -410,15 +416,22 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     var old=card.querySelector('.seg.ans, .seg.wait, .seg.block');
     if(old) old.remove();
   }
-  function showWaiting(card, zhQuestion, policy){
+  // kind: 'policy' 強制轉店員 ／ 'miss' 知識庫沒有 ／ 'untranslated' 離線且無法翻譯
+  function showWaiting(card, zhQuestion, kind){
     clearReply(card);
-    var seg=el('div','seg '+(policy?'block':'wait'));
+    var seg=el('div','seg '+(kind==='policy'?'block':'wait'));
     var head=el('div','seg-head');
-    head.appendChild(el('span','role', policy?'必須由店員回答':'知識庫查無此題'));
+    head.appendChild(el('span','role',
+      kind==='policy' ? '必須由店員回答'
+      : kind==='untranslated' ? '離線模式無法翻譯這句'
+      : '知識庫查無此題'));
     seg.appendChild(head);
-    seg.appendChild(el('p','t-note', policy
-      ? '涉及過敏、飲食禁忌、金流或安全，系統不自動作答。請用中文回覆顧客。'
-      : '請用中文回答一次，系統會翻成顧客語言並寫回知識庫。'));
+    seg.appendChild(el('p','t-note',
+      kind==='policy'
+        ? '涉及過敏、飲食禁忌、金流或安全，系統不自動作答。請用中文回覆顧客。'
+      : kind==='untranslated'
+        ? '目前是離線示範模式，只有內建的 22 個問題有翻譯，其他語言一律不翻。店員看不懂顧客原文，請先在設定頁填入 Gemini 金鑰。仍可直接用中文回答，答案會存進知識庫。'
+        : '請用中文回答一次，系統會翻成顧客語言並寫回知識庫。'));
     card.appendChild(seg);
     scrollDown();
   }
@@ -442,6 +455,31 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     scrollDown();
   }
 
+  // 沒有金鑰時，在對話區最上方放一張可直接貼金鑰的引導卡
+  function showSetupCard(){
+    if(cfg().key || document.getElementById('setupCard')) return;
+    var c=el('div','setup'); c.id='setupCard';
+    c.appendChild(el('h3',null,'⚠️ 還沒設定 Gemini 金鑰，目前無法翻譯'));
+    c.appendChild(el('p',null,'現在是離線示範模式，只有內建的 22 個問題看得到翻譯。日文、印尼文等其他語言一律不會翻，店員也看不到中文，等於沒辦法回答。貼上金鑰就能即時翻譯任何語言。'));
+    var row=el('div','srow');
+    var inp=document.createElement('input');
+    inp.type='password'; inp.placeholder='貼上 Gemini API Key（AIzaSy...）';
+    inp.autocomplete='off';
+    var b=el('button','btn','開始使用'); b.type='button';
+    b.addEventListener('click',function(){
+      var v=inp.value.trim();
+      if(!v){inp.focus();return;}
+      localStorage.setItem(K_KEY,v);
+      c.remove(); refreshChips(); loadKb(cfg().store);
+      toast('金鑰已儲存，現在可以翻譯任何語言');
+    });
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter')b.click();});
+    row.appendChild(inp); row.appendChild(b);
+    c.appendChild(row);
+    c.appendChild(el('p','warn-note','貼上金鑰後仍連不上的話：用 Claude Artifact 連結開啟時，瀏覽器會擋掉所有對外呼叫，Gemini 與 Google Sheets 都連不到。請改用 GitHub Pages 網址。'));
+    log.insertBefore(c, log.firstChild);
+  }
+
   function customerPlaceholder(){
     return isAuto() ? '顧客說的話，任何語言都可以' : '顧客說的話（'+langInfo(cfg().lang).native+'）';
   }
@@ -453,6 +491,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
       inputBox.placeholder='例如：廁所在中間走道左轉';
       btnSend.textContent='回答'; btnSend.className='btn amber';
       saveRow.hidden=false;
+      setTimeout(function(){try{inputBox.focus();}catch(e){}},50);
     }else{
       hint.textContent= isAuto()
         ? '顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。'
@@ -604,7 +643,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         card.innerHTML='';
         var fresh=newTurnInto(card, r.q_src||text, same?null:(r.q_zh||''), name);
         if(r.need_staff){
-          showWaiting(card, r.q_zh||text, true);
+          showWaiting(card, r.q_zh||text, 'policy');
           state.pending={zh:r.q_zh||text, src:text, card:card, langName:name, langCode:code};
           setMode('staff', r.q_zh||text);
         }else if(r.hit && r.a_zh){
@@ -612,7 +651,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
           showAnswer(card, r.a_zh, same?null:r.a_src, code, {tag:'知識庫 '+(r.entry_id||''), tagClass:'kb'});
           if(!same && r.a_src && code) speak(r.a_src, code);
         }else{
-          showWaiting(card, r.q_zh||text, false);
+          showWaiting(card, r.q_zh||text, 'miss');
           state.pending={zh:r.q_zh||text, src:text, card:card, langName:name, langCode:code};
           setMode('staff', r.q_zh||text);
         }
@@ -620,17 +659,20 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
       }).catch(function(e){
         card.innerHTML='';
         newTurnInto(card, text, null, '連線失敗');
-        showWaiting(card, text, false);
+        showWaiting(card, text, 'miss');
         state.pending={zh:text, src:text, card:card, langName:state.lastLangName, langCode:state.lastSpeech};
         setMode('staff', text);
-        toast('Gemini 連線失敗：'+e.message, true);
+        var msg = /Failed to fetch|NetworkError|Load failed/i.test(e.message)
+          ? '連不到 Gemini。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 網址。'
+          : 'Gemini 連線失敗：'+e.message;
+        toast(msg, true);
       }).then(function(){setBusy(false);});
 
     }else{
       var m=offlineMatch(text);
       var card2=newTurn(text, m.translated?m.zh:null, '離線示範');
       if(m.entry && m.entry.needs_staff){
-        showWaiting(card2, m.zh, true);
+        showWaiting(card2, m.zh, 'policy');
         state.pending={zh:m.zh, src:text, card:card2, langName:null, langCode:null};
         setMode('staff', m.zh);
       }else if(m.entry){
@@ -645,7 +687,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         });
         if(d) speak(d.t,d.s);
       }else{
-        showWaiting(card2, m.zh, false);
+        showWaiting(card2, m.zh, m.translated ? 'miss' : 'untranslated');
         state.pending={zh:m.zh, src:text, card:card2, langName:null, langCode:null};
         setMode('staff', m.zh);
       }
@@ -748,6 +790,9 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     localStorage.setItem(K_SCRIPT,$('inScript').value.trim());
     modal.classList.remove('open');
     loadKb(cfg().store);
+    refreshChips();
+    if(cfg().key){ var sc=document.getElementById('setupCard'); if(sc) sc.remove(); }
+    else showSetupCard();
     toast('設定已儲存');
   }
   function exportKb(){
@@ -808,7 +853,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   });
   modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
   if('speechSynthesis' in window) window.speechSynthesis.getVoices();
-  if(!cfg().key) setTimeout(function(){toast('尚未設定 Gemini 金鑰，目前為離線示範模式',true);},700);
+  showSetupCard();
 })();
 </script>
 </body>
