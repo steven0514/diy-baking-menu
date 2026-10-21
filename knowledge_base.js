@@ -3,18 +3,23 @@
 // 理由：門市配置與規則會變動，維護 6 國語言的成本正是第一階段要消滅的問題。
 window.KB_VERSION = 'v2026.10.21.1';
 
+// 預設的 Google Sheets 知識庫（可在設定頁更換）
+window.KB_SHEET_ID = '1gupMBpy3l4ThAfNdMiwsWEvlG3_siWDWAODxolgXK18';
+window.KB_SHEET_COMMON = '共用';   // 全門市通用條目的分頁名稱
+
+// sheet 欄位對應 Google Sheets 的分頁名稱
 window.KB_STORES = [
-  { id: 'xinyi',     zh: '台北信義店' },
-  { id: 'nanxi',     zh: '台北南西店' },
-  { id: 'shilin',    zh: '台北士林店' },
-  { id: 'zhongxiao', zh: '台北忠孝店' },
-  { id: 'banqiao',   zh: '新北板橋店' },
-  { id: 'bigcity',   zh: '新竹巨城店' },
-  { id: 'dongmen',   zh: '新竹東門店' },
-  { id: 'fengjia',   zh: '台中逢甲店' },
-  { id: 'lvyuandao', zh: '台中綠園道店' },
-  { id: 'ximen',     zh: '台南西門店' },
-  { id: 'yuanfu',    zh: '高雄遠百店' }
+  { id: 'xinyi',     zh: '台北信義店',   sheet: '台北信義' },
+  { id: 'nanxi',     zh: '台北南西店',   sheet: '台北南西' },
+  { id: 'shilin',    zh: '台北士林店',   sheet: '台北士林' },
+  { id: 'zhongxiao', zh: '台北忠孝店',   sheet: '台北忠孝' },
+  { id: 'banqiao',   zh: '新北板橋店',   sheet: '新北板橋' },
+  { id: 'bigcity',   zh: '新竹巨城店',   sheet: '新竹巨城' },
+  { id: 'dongmen',   zh: '新竹東門店',   sheet: '新竹東門' },
+  { id: 'fengjia',   zh: '台中逢甲店',   sheet: '台中逢甲' },
+  { id: 'lvyuandao', zh: '台中綠園道店', sheet: '台中綠園道' },
+  { id: 'ximen',     zh: '台南西門店',   sheet: '台南西門' },
+  { id: 'yuanfu',    zh: '高雄遠百店',   sheet: '高雄遠百' }
 ];
 
 window.KB_LANGS = [

@@ -790,8 +790,9 @@
 
         <g>
           <rect x="230" y="270" width="230" height="72" rx="12" fill="rgba(139,92,246,0.18)" stroke="#8b5cf6" stroke-opacity="0.7"></rect>
-          <text x="345" y="298" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">本店知識庫</text>
-          <text x="345" y="321" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.8">答案只存中文・依門市過濾</text>
+          <text x="345" y="294" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">Google Sheets</text>
+          <text x="345" y="314" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.8">每間門市一個分頁</text>
+          <text x="345" y="331" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.8">答案只存中文</text>
         </g>
         <line x1="345" y1="268" x2="345" y2="164" stroke="currentColor" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#ra)"></line>
         <text x="358" y="218" fill="currentColor" font-size="11.5" opacity="0.85">全文塞入 prompt</text>
@@ -829,7 +830,7 @@
         </g>
 
         <path d="M 905 240 V 306 H 466" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#rb)"></path>
-        <text x="690" y="297" fill="#93c5fd" font-size="12.5" font-weight="700" text-anchor="middle">存回知識庫，下次同樣問題自動命中</text>
+        <text x="690" y="297" fill="#93c5fd" font-size="12.5" font-weight="700" text-anchor="middle">經 Apps Script 寫回門市分頁，下次自動命中</text>
 
         <g>
           <rect x="10" y="270" width="175" height="72" rx="11" fill="rgba(239,68,68,0.14)" stroke="#ef4444" stroke-opacity="0.6" stroke-dasharray="5 4"></rect>
@@ -868,36 +869,39 @@
     </div>
     <div class="grid-2">
       <div class="prompt-card">
-        <div class="prompt-head"><span>🗄️ 一筆知識庫條目的樣子</span><button class="btn-copy" type="button">複製</button></div>
-        <pre class="prompt-body">{
-  "id": "tool-spatula-xinyi",
-  "store": ["xinyi"],
-  "cat": "器具位置",
-  "q": ["刮刀在哪", "抹刀在哪裡", "spatula"],
-  "a_zh": "刮刀在 A 區工具牆第二層，紅色握把那一排。",
-  "needs_staff": false,
-  "verified": true,
-  "updated": "2026-10-21",
-  "by": "系統預設"
-}</pre>
+        <div class="prompt-head"><span>🗄️ Google Sheets 一列就是一筆條目</span><button class="btn-copy" type="button">複製</button></div>
+        <pre class="prompt-body">試算表 DIY_QA_RAG
+分頁：共用、台北信義、台北南西 …（每店一頁）
+
+欄位（8 欄）：
+id          tool-spatula-xinyi
+分類        器具位置
+問題關鍵詞  刮刀在哪、抹刀在哪裡、spatula
+中文答案    刮刀在 A 區工具牆第二層，紅色握把那一排。
+需店員      否
+已審核      是
+更新日期    2026-10-21
+建立者      系統預設
+
+店長直接在 Google Sheets 上維護，不必碰程式碼。</pre>
       </div>
       <div class="glass-card">
         <h3>🔁 店員新增的答案怎麼回到全門市</h3>
         <div class="table-wrap">
           <table class="custom-table">
-            <tr><th>做法</th><th>範圍</th><th>建議</th></tr>
-            <tr><td>存在手機瀏覽器</td><td class="dim">只有這支手機</td><td class="dim">試辦期可用</td></tr>
-            <tr><td>匯出 JSON，由後台提交 GitHub</td><td class="good">全門市共用</td><td class="good">建議這條</td></tr>
-            <tr><td>程式直接呼叫 GitHub API</td><td class="good">全門市即時</td><td class="dim">需發權杖，後期再做</td></tr>
+            <tr><th>做法</th><th>範圍</th><th>狀態</th></tr>
+            <tr><td>讀取 Google Sheets</td><td class="good">依門市分頁即時讀取</td><td class="good">已完成</td></tr>
+            <tr><td>Apps Script 寫回分頁</td><td class="good">全門市即時共用</td><td class="good">已完成</td></tr>
+            <tr><td>暫存手機瀏覽器</td><td class="dim">只有這支手機</td><td class="dim">沒設 Apps Script 時的備援</td></tr>
           </table>
         </div>
-        <p class="muted-note">中間這條跟你們現有的 Excel 上架流程一致：現場蒐集、店長審核、後台一次提交。後台已經有 GitHub 提交功能，不必重寫。</p>
+        <p class="muted-note">跟現有的 Excel 上架流程一致：現場蒐集、店長在試算表審核、全門市立刻生效。店員現場回答會自動寫成新的一列，「已審核」欄預設為否，等店長確認。</p>
       </div>
     </div>
   </div>
 
   <!-- 如何架設 -->
-  <div class="slide" data-notes="架設只有四步，而且第一步現在就已經做完了。第一步，檔案已經放進專案：interpreter.html 是口譯程式，knowledge_base.js 是知識庫，裡面已經有 22 筆種子條目。第二步，推上 GitHub Pages，因為 Gemini API 必須從正常網址呼叫，用 Artifact 連結會被瀏覽器安全政策擋掉。第三步，在手機上打開那個網址，點右上角齒輪貼上 Gemini 金鑰，金鑰只存在那支手機裡，而且跟後台共用同一組設定。第四步，花兩個小時把現場真正會被問到的問題補進知識庫，這一步最重要也最花時間，但只有店長和資深夥伴做得到，AI 代替不了。做完這四步，刮刀那段 demo 就是真的在跑，不是模擬。">
+  <div class="slide" data-notes="架設只有四步，而且第一步現在就已經做完了。第一步，檔案和試算表都已經建好了：口譯程式、Apps Script 寫回端點，還有一份叫 DIY_QA_RAG 的 Google Sheets，裡面有共用分頁加十一間門市分頁，已經填了二十二筆種子條目。第二步，推上 GitHub Pages，因為 Gemini API 和 Google Sheets 都必須從正常網址呼叫，用 Artifact 連結會被瀏覽器安全政策擋掉。第三步，在手機上打開那個網址，點右上角齒輪貼上 Gemini 金鑰，金鑰只存在那支手機裡，而且跟後台共用同一組設定。第四步，花兩個小時把現場真正會被問到的問題補進知識庫，這一步最重要也最花時間，但只有店長和資深夥伴做得到，AI 代替不了。做完這四步，刮刀那段 demo 就是真的在跑，不是模擬。">
     <div class="header-bar">
       <span class="project-tag">🔧 如何架設</span>
       <span class="slide-number">12 / 21</span>
@@ -910,7 +914,7 @@
         <div class="tl">
           <div class="tl-row">
             <div class="tl-when">第 1 步</div>
-            <div class="tl-what"><b>檔案已備妥（已完成）</b><br>interpreter.html 口譯程式、knowledge_base.js 知識庫（22 筆種子條目、11 間門市、20 種語言自動偵測）。</div>
+            <div class="tl-what"><b>檔案已備妥（已完成）</b><br>interpreter.html 口譯程式、google_apps_script.gs 寫回端點，以及 Google Sheets 知識庫 DIY_QA_RAG（共用＋11 間門市分頁，22 筆種子條目）。</div>
           </div>
           <div class="tl-row">
             <div class="tl-when">第 2 步</div>
@@ -918,11 +922,11 @@
           </div>
           <div class="tl-row">
             <div class="tl-when">第 3 步</div>
-            <div class="tl-what"><b>手機開啟並貼上金鑰</b><br>點右上角齒輪輸入 Gemini API Key。金鑰只存在那支手機，與後台管理系統共用同一組設定。</div>
+            <div class="tl-what"><b>手機開啟並完成三個設定</b><br>齒輪裡填 Gemini API Key、試算表 ID、Apps Script 網址。三項都只存在那支手機，金鑰與後台共用同一組。</div>
           </div>
           <div class="tl-row">
             <div class="tl-when">第 4 步</div>
-            <div class="tl-what"><b>補足現場真實問題（最關鍵）</b><br>花 2 小時把各店實際會被問到的器具位置與店規寫進知識庫。這一步只有店長和資深夥伴做得到。</div>
+            <div class="tl-what"><b>各店填自己的分頁（最關鍵）</b><br>每位店長花 2 小時，把自己店的器具位置與店規填進該店分頁。這一步只有店長和資深夥伴做得到，而且各店配置本來就不同。</div>
           </div>
         </div>
       </div>
@@ -934,6 +938,8 @@
               <tr><th>項目</th><th>選擇</th><th>理由</th></tr>
               <tr><td>模型</td><td>gemini-2.5-flash</td><td class="dim">現場要快，與後台同一組</td></tr>
               <tr><td>檢索</td><td>全文塞入 prompt</td><td class="dim">百筆內不需向量庫</td></tr>
+              <tr><td>知識庫</td><td class="good">Google Sheets</td><td class="dim">每店一分頁，店長直接編輯</td></tr>
+              <tr><td>寫回</td><td>Apps Script</td><td class="dim">免費，不需要伺服器</td></tr>
               <tr><td>後端</td><td class="good">不需要</td><td class="dim">純前端 + GitHub Pages</td></tr>
               <tr><td>顧客語言</td><td class="good">自動偵測</td><td class="dim">內建 20 種，店員不必先選</td></tr>
               <tr><td>語音輸入</td><td>瀏覽器聽寫</td><td class="dim">不支援時退回鍵盤輸入</td></tr>
