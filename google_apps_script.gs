@@ -9,10 +9,10 @@
  *    - 具有存取權的使用者：任何人
  * 4. 複製產生的 /exec 網址，貼進隨身口譯的設定頁「Apps Script 網址」
  *
- * 寫入一律走 GET（資料放在 ?payload= 參數），不要改回 POST：
- * Google 網頁應用程式的回應都會先 302 轉址到 script.googleusercontent.com，
- * 瀏覽器照規範會把 POST 轉成 GET 並把 body 整個丟掉，寫入永遠不會真的發生。
- * GET 本來就不受這個規則影響，所以讀取、寫入都用 GET 最穩。
+ * 前端寫入一律用 POST（text/plain，避開預檢請求）。回應會先 302 轉址到
+ * script.googleusercontent.com，瀏覽器不一定能跨網域讀到那個回應內容，
+ * 但資料在 302 發生前就已經由 doPost 同步寫進試算表了，寫入本身不受影響，
+ * 只是讀不讀得到「成功」訊息要看瀏覽器臉色（前端用 no-cors 容錯）。
  *
  * 這個端點支援幾種動作（都用 action 參數指定）：
  *   不帶 action 或 'append' → 新增或更新一列（同 id 覆蓋）
@@ -28,18 +28,10 @@
 
 var SECRET = '';   // 留空代表不檢查；要加強時填一組自訂字串
 
-function doGet(e) {
-  try {
-    if (e && e.parameter && e.parameter.payload) {
-      return handleRequest(e, JSON.parse(e.parameter.payload));
-    }
-    return reply({ ok: true, message: '隨身口譯知識庫寫回端點運作中' });
-  } catch (err) {
-    return reply({ ok: false, error: String(err) });
-  }
+function doGet() {
+  return reply({ ok: true, message: '隨身口譯知識庫寫回端點運作中' });
 }
 
-// 保留 doPost 以相容舊版前端快取；新版一律改走 doGet 的 ?payload=
 function doPost(e) {
   try {
     var body = JSON.parse(e.postData.contents);
