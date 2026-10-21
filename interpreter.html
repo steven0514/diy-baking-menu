@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>隨身口譯 · 自己做烘焙聚樂部</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#c2673a; --primary-light:#e88c5d;
+  --bg:#0c0e14; --surface:#161925; --surface-2:#1e2230;
+  --border:rgba(255,255,255,.09);
+  --text:#f3f4f6; --muted:#9ca3af;
+  --green:#10b981; --amber:#f59e0b; --red:#ef4444; --blue:#3b82f6;
+  --amber-soft:rgba(245,158,11,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans','Noto Sans TC','PingFang TC',sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100dvh; display:flex; flex-direction:column;
+  -webkit-text-size-adjust:100%;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary-light); outline-offset:2px}
+
+/* ── 頂欄 ── */
+header{
+  flex:0 0 auto; background:var(--surface); border-bottom:1px solid var(--border);
+  padding:max(8px,env(safe-area-inset-top)) 12px 8px;
+}
+.bar{display:flex; align-items:center; gap:8px}
+.brand{font-size:.95rem; font-weight:700; white-space:nowrap}
+.brand span{color:var(--primary-light)}
+.spacer{flex:1}
+.sel{
+  background:var(--surface-2); color:var(--text); border:1px solid var(--border);
+  border-radius:9px; padding:6px 8px; font-size:.8rem; font-weight:600; max-width:38vw;
+}
+.icon-btn{
+  background:var(--surface-2); color:var(--text); border:1px solid var(--border);
+  border-radius:9px; padding:6px 10px; font-size:.85rem;
+}
+.stats{display:flex; gap:6px; margin-top:7px; flex-wrap:wrap}
+.chip{
+  font-size:.68rem; font-weight:700; padding:3px 9px; border-radius:9999px;
+  background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border);
+  font-variant-numeric:tabular-nums;
+}
+.chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
+.chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
+
+/* ── 對話區 ── */
+main{flex:1; overflow-y:auto; padding:14px 12px 6px; display:flex; flex-direction:column; gap:14px}
+.empty{
+  margin:auto; text-align:center; color:var(--muted); font-size:.88rem; line-height:1.8; padding:20px; max-width:34ch;
+}
+.empty b{display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px}
+.turn{display:flex; flex-direction:column; gap:8px}
+.card{
+  border-radius:14px; border:1px solid var(--border); background:var(--surface);
+  padding:11px 13px; position:relative;
+}
+.card.q{border-left:3px solid var(--blue)}
+.card.a{border-left:3px solid var(--green)}
+.card.staff{border-left:3px solid var(--amber); background:var(--amber-soft)}
+.card-label{
+  font-size:.66rem; font-weight:700; letter-spacing:.6px; color:var(--muted);
+  display:flex; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;
+}
+.line{font-size:1rem; line-height:1.6; margin-bottom:3px}
+.line.native{color:#fff; font-weight:600}
+.line.zh{color:#cbd5e1; font-size:.92rem}
+.src{
+  margin-top:7px; font-size:.68rem; color:var(--muted);
+  display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+}
+.tag{padding:2px 7px; border-radius:6px; font-weight:700; font-size:.65rem}
+.tag.kb{background:rgba(16,185,129,.16); color:#6ee7b7}
+.tag.new{background:rgba(59,130,246,.16); color:#93c5fd}
+.tag.staff{background:var(--amber-soft); color:#fbbf24}
+.tag.demo{background:rgba(139,92,246,.16); color:#c4b5fd}
+.speak{
+  background:rgba(255,255,255,.07); border:1px solid var(--border); color:var(--text);
+  border-radius:8px; padding:3px 9px; font-size:.68rem; font-weight:700;
+}
+
+/* ── 底部操作 ── */
+footer{
+  flex:0 0 auto; background:var(--surface); border-top:1px solid var(--border);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+}
+.row{display:flex; gap:8px; align-items:stretch}
+.field{
+  flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:11px; padding:11px 12px; font-size:1rem; min-width:0;
+}
+.field::placeholder{color:#6b7280}
+.btn{
+  border:none; border-radius:11px; padding:11px 15px; font-size:.9rem; font-weight:700;
+  color:#fff; background:var(--primary); white-space:nowrap;
+}
+.btn:disabled{opacity:.45}
+.btn.mic{background:var(--blue); min-width:52px; font-size:1.1rem}
+.btn.mic.on{background:var(--red); animation:pulse 1s infinite}
+.btn.amber{background:var(--amber); color:#3a2503}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.btn.mic.on{animation:none}}
+.mode-hint{font-size:.74rem; color:var(--muted); margin-bottom:7px; line-height:1.5}
+.mode-hint.staff{color:#fbbf24; font-weight:700}
+.save-row{display:flex; align-items:center; gap:7px; margin-top:8px; font-size:.76rem; color:var(--muted)}
+.save-row input{width:16px; height:16px; accent-color:var(--primary)}
+
+/* ── 設定 ── */
+.modal{
+  position:fixed; inset:0; background:rgba(5,6,10,.9); z-index:50;
+  display:none; align-items:flex-end; justify-content:center;
+}
+.modal.open{display:flex}
+.sheet{
+  background:var(--surface); width:100%; max-width:520px; max-height:88dvh; overflow-y:auto;
+  border-radius:18px 18px 0 0; border:1px solid var(--border); padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+}
+.sheet h2{font-size:1.1rem; margin-bottom:4px}
+.sheet p.sub{font-size:.8rem; color:var(--muted); line-height:1.6; margin-bottom:14px}
+.fg{margin-bottom:13px}
+.fg label{display:block; font-size:.76rem; font-weight:700; color:#ffc5a8; margin-bottom:5px}
+.fg input,.fg select{
+  width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:10px; padding:10px 11px; font-size:.9rem;
+}
+.fg small{display:block; font-size:.72rem; color:var(--muted); margin-top:5px; line-height:1.5}
+.btn-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+.btn.ghost{background:var(--surface-2); border:1px solid var(--border); color:var(--text)}
+.toast{
+  position:fixed; left:50%; bottom:90px; transform:translate(-50%,12px);
+  background:var(--green); color:#04291d; font-weight:700; font-size:.82rem;
+  padding:8px 16px; border-radius:9999px; opacity:0; pointer-events:none;
+  transition:opacity .2s, transform .2s; z-index:60; max-width:88vw; text-align:center;
+}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+.toast.err{background:var(--red); color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">🍰 隨身<span>口譯</span></div>
+    <div class="spacer"></div>
+    <select class="sel" id="selStore" aria-label="目前門市"></select>
+    <select class="sel" id="selLang" aria-label="顧客語言"></select>
+    <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
+  </div>
+  <div class="stats">
+    <span class="chip" id="chipKb">知識庫 0 筆</span>
+    <span class="chip" id="chipHit">命中 0 / 0</span>
+    <span class="chip" id="chipMode">離線示範模式</span>
+  </div>
+</header>
+
+<main id="log">
+  <div class="empty" id="empty">
+    <b>讓顧客對著手機說話</b>
+    系統會同時顯示原文與中文，查得到就直接用母語回答；查不到就請你用中文回一次，之後它就記住了。
+  </div>
+</main>
+
+<footer>
+  <p class="mode-hint" id="hint">顧客模式：按麥克風或直接輸入顧客說的話。</p>
+  <div class="row">
+    <button class="btn mic" id="btnMic" aria-label="語音輸入">🎤</button>
+    <input class="field" id="inputBox" placeholder="例如：ไม้พายอยู่ที่ไหน" autocomplete="off">
+    <button class="btn" id="btnSend">送出</button>
+  </div>
+  <div class="save-row" id="saveRow" hidden>
+    <input type="checkbox" id="chkSave" checked>
+    <label for="chkSave">回答後存入知識庫，下次自動回答</label>
+  </div>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h2>設定</h2>
+    <p class="sub">金鑰只存在這支手機的瀏覽器裡，不會上傳。與後台管理系統共用同一組設定。</p>
+    <div class="fg">
+      <label for="inKey">Google Gemini API Key</label>
+      <input type="password" id="inKey" placeholder="AIzaSy...">
+      <small>留空則進入離線示範模式：只比對關鍵詞，僅內建幾句示範翻譯可用。<br><b style="color:#fbbf24">注意：</b>若此頁是用 Claude Artifact 連結開啟，外部 API 呼叫會被瀏覽器安全政策阻擋，AI 模式無法運作。要用 AI 模式請改開 GitHub Pages 網址或本機檔案。</small>
+    </div>
+    <div class="fg">
+      <label for="inModel">AI 模型</label>
+      <select id="inModel">
+        <option value="gemini-2.5-flash">gemini-2.5-flash（推薦，現場夠快）</option>
+        <option value="gemini-2.5-pro">gemini-2.5-pro（較慢，較會推理）</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>知識庫維護</label>
+      <div class="btn-row">
+        <button class="btn ghost" id="btnExport">匯出 JSON</button>
+        <button class="btn ghost" id="btnImport">匯入 JSON</button>
+        <button class="btn ghost" id="btnReset">清除本機新增</button>
+      </div>
+      <small id="kbInfo"></small>
+      <input type="file" id="fileImport" accept="application/json,.json" hidden>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btnSave">儲存並關閉</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="knowledge_base.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // 與後台管理系統共用同一組設定
+  var K_KEY = 'diybc_gemini_api_key', K_MODEL = 'diybc_gemini_model';
+  var K_LOCAL_KB = 'diybc_kb_local', K_STORE = 'diybc_itp_store', K_LANG = 'diybc_itp_lang';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var log = $('log'), empty = $('empty'), hint = $('hint'), inputBox = $('inputBox');
+  var btnSend = $('btnSend'), btnMic = $('btnMic'), saveRow = $('saveRow'), chkSave = $('chkSave');
+  var modal = $('modal'), toastEl = $('toast');
+
+  var state = {
+    mode: 'customer',   // customer | staff
+    pending: null,      // 未命中的問題，等店員回答
+    asked: 0, hit: 0,
+    busy: false
+  };
+
+  // ── 離線示範用語（沒有 API 金鑰時仍可跑完刮刀那段 demo）──
+  var DEMO_Q = {
+    'ไม้พายอยู่ที่ไหน': '刮刀在哪', 'ไม้พาย': '刮刀在哪',
+    'ชามผสมอยู่ที่ไหน': '工作盆在哪', 'ชามผสม': '工作盆在哪',
+    'อบกี่นาที': '烤箱怎麼預熱', 'ใช้เวลานานแค่ไหน': '戚風蛋糕要做多久',
+    'cái phới ở đâu': '刮刀在哪', 'where is the spatula': '刮刀在哪'
+  };
+  var DEMO_A = {
+    'tool-spatula-xinyi': { th: 'ไม้พายอยู่ที่ผนังอุปกรณ์โซน A ชั้นที่ 2 แถวด้ามจับสีแดงค่ะ', vi: 'Phới ở khu A, kệ tầng 2, hàng cán màu đỏ.', en: 'The spatula is on the tool wall in Zone A, second shelf, the red-handled row.' },
+    'tool-bowl-xinyi': { th: 'ชามผสมอยู่ชั้นล่างสุดของโซน A เป็นสเตนเลส กรุณาเลือกใบที่แห้งค่ะ', vi: 'Tô trộn ở kệ dưới cùng khu A, loại inox, xin lấy tô khô.', en: 'Mixing bowls are on the bottom shelf in Zone A. Please take a dry one.' },
+    'oven-preheat': { th: 'เปิดเตาอบ ตั้งอุณหภูมิ แล้วอุ่นไว้ 10 นาที ไฟดับคือพร้อมค่ะ', vi: 'Bật lò, đặt nhiệt độ và làm nóng 10 phút, đèn tắt là đạt.', en: 'Turn on the oven, set the temperature, preheat 10 minutes. Light off means ready.' },
+    'time-chiffon': { th: 'เค้กชิฟฟ่อนใช้เวลาประมาณ 90 นาที รวมอบและพักให้เย็นค่ะ', vi: 'Bánh chiffon mất khoảng 90 phút, gồm nướng và để nguội.', en: 'Chiffon cake takes about 90 minutes including baking and cooling.' }
+  };
+
+  // ── 知識庫 ──────────────────────────────────────────
+  function localKb() {
+    try { return JSON.parse(localStorage.getItem(K_LOCAL_KB) || '[]'); } catch (e) { return []; }
+  }
+  function saveLocalKb(arr) {
+    try { localStorage.setItem(K_LOCAL_KB, JSON.stringify(arr)); } catch (e) { toast('本機儲存失敗，請檢查瀏覽器設定', true); }
+  }
+  function allKb() { return (window.DEFAULT_KB || []).concat(localKb()); }
+  function kbForStore(store) {
+    return allKb().filter(function (e) { return e.store === 'ALL' || (Array.isArray(e.store) && e.store.indexOf(store) >= 0); });
+  }
+  function kbContext(store) {
+    return kbForStore(store).map(function (e) {
+      return e.id + ' | ' + (e.needs_staff ? '[需店員]' : '') + e.q.join('、') + ' | ' + e.a_zh;
+    }).join('\n');
+  }
+
+  // ── 設定 ────────────────────────────────────────────
+  function cfg() {
+    return {
+      key: localStorage.getItem(K_KEY) || '',
+      model: localStorage.getItem(K_MODEL) || 'gemini-2.5-flash',
+      store: localStorage.getItem(K_STORE) || 'xinyi',
+      lang: localStorage.getItem(K_LANG) || 'th'
+    };
+  }
+  function langInfo(id) {
+    var list = window.KB_LANGS || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return list[0];
+  }
+  function storeName(id) {
+    var list = window.KB_STORES || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i].zh;
+    return id;
+  }
+
+  // ── 畫面 ────────────────────────────────────────────
+  function toast(msg, isErr) {
+    toastEl.textContent = msg;
+    toastEl.className = 'toast show' + (isErr ? ' err' : '');
+    setTimeout(function () { toastEl.className = 'toast' + (isErr ? ' err' : ''); }, 2200);
+  }
+  function refreshChips() {
+    var c = cfg();
+    $('chipKb').textContent = '知識庫 ' + kbForStore(c.store).length + ' 筆（本店）';
+    $('chipHit').textContent = '命中 ' + state.hit + ' / ' + state.asked;
+    var m = $('chipMode');
+    if (c.key) { m.textContent = 'AI 模式 ・ ' + c.model.replace('gemini-', ''); m.className = 'chip ok'; }
+    else { m.textContent = '離線示範模式'; m.className = 'chip warn'; }
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function speakBtn(text, lang) {
+    var b = el('button', 'speak', '🔊 播放');
+    b.type = 'button';
+    b.addEventListener('click', function () { speak(text, lang); });
+    return b;
+  }
+  function addTurn() {
+    if (empty) empty.remove();
+    var t = el('div', 'turn');
+    log.appendChild(t);
+    return t;
+  }
+  function scrollDown() { log.scrollTop = log.scrollHeight; }
+
+  function renderQuestion(turn, srcText, zhText, langId) {
+    var c = el('div', 'card q');
+    var lbl = el('div', 'card-label');
+    lbl.appendChild(el('span', null, '顧客提問'));
+    lbl.appendChild(el('span', 'tag new', langInfo(langId).native));
+    c.appendChild(lbl);
+    c.appendChild(el('div', 'line native', srcText));
+    c.appendChild(el('div', 'line zh', zhText));
+    turn.appendChild(c);
+    scrollDown();
+  }
+  function renderAnswer(turn, zhText, srcText, langId, source) {
+    var c = el('div', 'card a');
+    var lbl = el('div', 'card-label');
+    lbl.appendChild(el('span', null, '回覆顧客'));
+    if (source.kind === 'kb') lbl.appendChild(el('span', 'tag kb', '知識庫 ' + source.id));
+    if (source.kind === 'staff') lbl.appendChild(el('span', 'tag staff', '店員回答'));
+    if (source.kind === 'demo') lbl.appendChild(el('span', 'tag demo', '離線示範'));
+    c.appendChild(lbl);
+    if (srcText) c.appendChild(el('div', 'line native', srcText));
+    c.appendChild(el('div', 'line zh', zhText));
+    var s = el('div', 'src');
+    if (srcText) s.appendChild(speakBtn(srcText, langInfo(langId).speech));
+    if (source.note) s.appendChild(el('span', null, source.note));
+    c.appendChild(s);
+    turn.appendChild(c);
+    scrollDown();
+  }
+  function renderStaffPrompt(turn, zhQuestion, reason) {
+    var c = el('div', 'card staff');
+    var lbl = el('div', 'card-label');
+    lbl.appendChild(el('span', null, reason === 'policy' ? '⚠️ 規定必須由店員回答' : '❓ 知識庫查無此題'));
+    c.appendChild(lbl);
+    c.appendChild(el('div', 'line zh', '顧客想問：' + zhQuestion));
+    c.appendChild(el('div', 'src', reason === 'policy'
+      ? '涉及過敏、飲食禁忌、金流或安全，系統不自動作答。'
+      : '請用中文回答一次，系統會翻成顧客語言並記住。'));
+    turn.appendChild(c);
+    scrollDown();
+  }
+
+  function setMode(mode, zhQuestion) {
+    state.mode = mode;
+    if (mode === 'staff') {
+      hint.textContent = '店員模式：請用中文回答「' + zhQuestion + '」';
+      hint.className = 'mode-hint staff';
+      inputBox.placeholder = '例如：刮刀在 A 區工具牆第二層';
+      btnSend.textContent = '回答';
+      btnSend.className = 'btn amber';
+      btnMic.hidden = true;
+      saveRow.hidden = false;
+    } else {
+      hint.textContent = '顧客模式：按麥克風或直接輸入顧客說的話。';
+      hint.className = 'mode-hint';
+      inputBox.placeholder = '例如：' + (langInfo(cfg().lang).id === 'th' ? 'ไม้พายอยู่ที่ไหน' : '顧客說的話');
+      btnSend.textContent = '送出';
+      btnSend.className = 'btn';
+      btnMic.hidden = false;
+      saveRow.hidden = true;
+    }
+    inputBox.value = '';
+  }
+
+  // ── 語音 ────────────────────────────────────────────
+  function speak(text, lang) {
+    if (!('speechSynthesis' in window)) { toast('此裝置不支援語音播放', true); return; }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      var voices = window.speechSynthesis.getVoices() || [];
+      for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang && voices[i].lang.replace('_', '-').indexOf(lang.split('-')[0]) === 0) { u.voice = voices[i]; break; }
+      }
+      if (!u.voice) toast('裝置缺少該語言語音包，改用文字顯示', true);
+      window.speechSynthesis.speak(u);
+    } catch (e) { toast('語音播放失敗', true); }
+  }
+
+  var recog = null, listening = false;
+  function initRecog() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { btnMic.disabled = true; btnMic.title = '此瀏覽器不支援語音輸入，請改用鍵盤聽寫'; return; }
+    recog = new SR();
+    recog.continuous = false;
+    recog.interimResults = false;
+    recog.onresult = function (e) {
+      var txt = e.results[0][0].transcript;
+      inputBox.value = txt;
+      submit();
+    };
+    recog.onerror = function () { toast('語音辨識失敗，請改用鍵盤輸入', true); };
+    recog.onend = function () { listening = false; btnMic.className = 'btn mic'; };
+  }
+  function toggleMic() {
+    if (!recog) return;
+    if (listening) { recog.stop(); return; }
+    recog.lang = state.mode === 'staff' ? 'zh-TW' : langInfo(cfg().lang).speech;
+    try { recog.start(); listening = true; btnMic.className = 'btn mic on'; }
+    catch (e) { toast('無法啟動麥克風', true); }
+  }
+
+  // ── Gemini ──────────────────────────────────────────
+  function callGemini(prompt) {
+    var c = cfg();
+    return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + c.model + ':generateContent?key=' + encodeURIComponent(c.key), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: 'application/json', temperature: 0.2 }
+      })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (data) {
+      return JSON.parse(data.candidates[0].content.parts[0].text);
+    });
+  }
+
+  function askPrompt(utterance) {
+    var c = cfg(), L = langInfo(c.lang);
+    return [
+      '你是台灣「自己做烘焙聚樂部」' + storeName(c.store) + '的現場口譯與問答助理。',
+      '顧客語言：' + L.zh + '（' + L.id + '）。',
+      '',
+      '【本店知識庫】每行格式為「id | 問題關鍵詞 | 中文答案」：',
+      kbContext(c.store),
+      '',
+      '【顧客這句話】「' + utterance + '」',
+      '',
+      '只輸出 JSON，欄位如下：',
+      '{',
+      '  "q_src": 顧客原句，修正明顯的語音辨識錯字，保持原語言,',
+      '  "q_zh": 這句話的繁體中文翻譯,',
+      '  "hit": true 或 false,',
+      '  "entry_id": 命中的知識庫 id；未命中填 null,',
+      '  "a_zh": 命中時填該筆中文答案（語句可微調得自然，但地點、數字、品名、規則一字不可改）；未命中填 null,',
+      '  "a_src": 命中時把 a_zh 翻成顧客語言；未命中填 null,',
+      '  "need_staff": true 或 false',
+      '}',
+      '',
+      '規則：',
+      '1. 知識庫沒有的，hit 一律 false，絕對不可自行編造地點、數字、時間或店規。',
+      '2. 問題涉及過敏、飲食禁忌、身體不適、受傷、價格、退費、折扣時，need_staff 填 true 且 hit 填 false。',
+      '3. 命中標示 [需店員] 的條目時，need_staff 填 true 且 hit 填 false。',
+      '4. 術語固定：工作盆 Mixing bowl、刮刀與抹刀 Spatula、廚房紙巾 Paper towel、打發到硬性發泡 whip to stiff peaks。',
+      '5. 翻譯語氣親切、句子短，適合現場口說。'
+    ].join('\n');
+  }
+
+  function staffPrompt(zhQuestion, zhAnswer) {
+    var L = langInfo(cfg().lang);
+    return [
+      '你是台灣烘焙教室的現場口譯助理。顧客語言：' + L.zh + '（' + L.id + '）。',
+      '顧客的問題（中文）：「' + zhQuestion + '」',
+      '店員的回答（中文）：「' + zhAnswer + '」',
+      '',
+      '只輸出 JSON：',
+      '{',
+      '  "a_src": 把店員回答翻成顧客語言，語氣親切、句子短、適合口說,',
+      '  "a_zh": 把店員回答整理成通順完整的中文，地點、數字與規則不可更動,',
+      '  "q_keywords": 3 到 5 個中文關鍵詞陣列，供日後比對同樣的問題',
+      '}',
+      '不要加任何說明文字。'
+    ].join('\n');
+  }
+
+  // ── 離線比對 ────────────────────────────────────────
+  function offlineMatch(text) {
+    var c = cfg(), raw = String(text).trim(), low = raw.toLowerCase();
+    var zh = DEMO_Q[raw] || DEMO_Q[low] || null;
+    var probe = (zh || raw).toLowerCase();
+    var list = kbForStore(c.store), best = null;
+    for (var i = 0; i < list.length; i++) {
+      for (var j = 0; j < list[i].q.length; j++) {
+        var k = String(list[i].q[j]).toLowerCase();
+        if (probe.indexOf(k) >= 0 || k.indexOf(probe) >= 0) { best = list[i]; break; }
+      }
+      if (best) break;
+    }
+    return { zh: zh || raw, entry: best };
+  }
+
+  // ── 主流程 ──────────────────────────────────────────
+  function handleCustomer(text) {
+    var c = cfg(), turn = addTurn();
+    state.asked++;
+    if (c.key) {
+      setBusy(true);
+      callGemini(askPrompt(text)).then(function (r) {
+        renderQuestion(turn, r.q_src || text, r.q_zh || '（翻譯失敗）', c.lang);
+        if (r.need_staff) {
+          renderStaffPrompt(turn, r.q_zh || text, 'policy');
+          state.pending = { zh: r.q_zh || text, turn: turn };
+          setMode('staff', r.q_zh || text);
+        } else if (r.hit && r.a_zh) {
+          state.hit++;
+          renderAnswer(turn, r.a_zh, r.a_src, c.lang, { kind: 'kb', id: r.entry_id || '—' });
+          if (r.a_src) speak(r.a_src, langInfo(c.lang).speech);
+        } else {
+          renderStaffPrompt(turn, r.q_zh || text, 'miss');
+          state.pending = { zh: r.q_zh || text, turn: turn };
+          setMode('staff', r.q_zh || text);
+        }
+        refreshChips();
+      }).catch(function (e) {
+        renderQuestion(turn, text, '（AI 無法連線，已轉店員模式）', c.lang);
+        renderStaffPrompt(turn, text, 'miss');
+        state.pending = { zh: text, turn: turn };
+        setMode('staff', text);
+        toast('Gemini 連線失敗：' + e.message, true);
+      }).then(function () { setBusy(false); });
+    } else {
+      var m = offlineMatch(text);
+      renderQuestion(turn, text, m.zh, c.lang);
+      if (m.entry && m.entry.needs_staff) {
+        renderStaffPrompt(turn, m.zh, 'policy');
+        state.pending = { zh: m.zh, turn: turn };
+        setMode('staff', m.zh);
+      } else if (m.entry) {
+        state.hit++;
+        var demo = DEMO_A[m.entry.id] && DEMO_A[m.entry.id][c.lang];
+        renderAnswer(turn, m.entry.a_zh, demo || null, c.lang, {
+          kind: 'demo', note: demo ? '離線示範翻譯' : '離線模式無此句翻譯，請設定 API 金鑰'
+        });
+        if (demo) speak(demo, langInfo(c.lang).speech);
+      } else {
+        renderStaffPrompt(turn, m.zh, 'miss');
+        state.pending = { zh: m.zh, turn: turn };
+        setMode('staff', m.zh);
+      }
+      refreshChips();
+    }
+  }
+
+  function handleStaff(text) {
+    var c = cfg(), p = state.pending;
+    if (!p) { setMode('customer'); return; }
+    var wantSave = chkSave.checked;
+    if (c.key) {
+      setBusy(true);
+      callGemini(staffPrompt(p.zh, text)).then(function (r) {
+        finishStaff(p, r.a_zh || text, r.a_src, r.q_keywords, wantSave);
+      }).catch(function (e) {
+        finishStaff(p, text, null, null, wantSave);
+        toast('翻譯失敗，已保留中文：' + e.message, true);
+      }).then(function () { setBusy(false); });
+    } else {
+      finishStaff(p, text, null, null, wantSave);
+    }
+  }
+
+  function finishStaff(p, zhAnswer, srcAnswer, keywords, wantSave) {
+    var c = cfg();
+    renderAnswer(p.turn, zhAnswer, srcAnswer, c.lang, {
+      kind: 'staff',
+      note: wantSave ? '已存入本店知識庫' : '未存入知識庫'
+    });
+    if (srcAnswer) speak(srcAnswer, langInfo(c.lang).speech);
+    if (wantSave) {
+      var arr = localKb();
+      arr.push({
+        id: 'local-' + Date.now(),
+        store: [c.store],
+        cat: '店員現場新增',
+        q: (keywords && keywords.length ? keywords : [p.zh]),
+        a_zh: zhAnswer,
+        verified: false,
+        updated: new Date().toISOString().slice(0, 10),
+        by: '店員現場新增'
+      });
+      saveLocalKb(arr);
+      toast('已存入知識庫，下次會自動回答');
+    }
+    state.pending = null;
+    setMode('customer');
+    refreshChips();
+  }
+
+  function setBusy(b) {
+    state.busy = b;
+    btnSend.disabled = b;
+    btnSend.textContent = b ? '處理中…' : (state.mode === 'staff' ? '回答' : '送出');
+  }
+
+  function submit() {
+    if (state.busy) return;
+    var text = inputBox.value.trim();
+    if (!text) { inputBox.focus(); return; }
+    inputBox.value = '';
+    if (state.mode === 'staff') handleStaff(text); else handleCustomer(text);
+  }
+
+  // ── 設定面板 ────────────────────────────────────────
+  function openSettings() {
+    var c = cfg();
+    $('inKey').value = c.key;
+    $('inModel').value = c.model;
+    $('kbInfo').textContent = '內建 ' + (window.DEFAULT_KB || []).length + ' 筆，本機新增 ' + localKb().length + ' 筆。匯出的 JSON 可由後台管理系統提交回 GitHub，讓全門市共用。';
+    modal.classList.add('open');
+  }
+  function saveSettings() {
+    localStorage.setItem(K_KEY, $('inKey').value.trim());
+    localStorage.setItem(K_MODEL, $('inModel').value);
+    modal.classList.remove('open');
+    refreshChips();
+    toast('設定已儲存');
+  }
+  function exportKb() {
+    var data = JSON.stringify(localKb(), null, 2);
+    var blob = new Blob([data], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'kb_local_' + cfg().store + '_' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    toast('已匯出 ' + localKb().length + ' 筆');
+  }
+  function importKb(file) {
+    var r = new FileReader();
+    r.onload = function () {
+      try {
+        var arr = JSON.parse(r.result);
+        if (!Array.isArray(arr)) throw new Error('格式不是陣列');
+        saveLocalKb(localKb().concat(arr));
+        refreshChips(); openSettings();
+        toast('已匯入 ' + arr.length + ' 筆');
+      } catch (e) { toast('匯入失敗：' + e.message, true); }
+    };
+    r.readAsText(file);
+  }
+
+  // ── 初始化 ──────────────────────────────────────────
+  function initSelects() {
+    var c = cfg();
+    (window.KB_STORES || []).forEach(function (s) {
+      var o = document.createElement('option');
+      o.value = s.id; o.textContent = s.zh;
+      if (s.id === c.store) o.selected = true;
+      $('selStore').appendChild(o);
+    });
+    (window.KB_LANGS || []).forEach(function (l) {
+      var o = document.createElement('option');
+      o.value = l.id; o.textContent = l.native;
+      if (l.id === c.lang) o.selected = true;
+      $('selLang').appendChild(o);
+    });
+  }
+
+  initSelects();
+  initRecog();
+  setMode('customer');
+  refreshChips();
+
+  btnSend.addEventListener('click', submit);
+  btnMic.addEventListener('click', toggleMic);
+  inputBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); });
+  $('selStore').addEventListener('change', function (e) { localStorage.setItem(K_STORE, e.target.value); refreshChips(); });
+  $('selLang').addEventListener('change', function (e) { localStorage.setItem(K_LANG, e.target.value); setMode(state.mode, state.pending ? state.pending.zh : ''); refreshChips(); });
+  $('btnSettings').addEventListener('click', openSettings);
+  $('btnSave').addEventListener('click', saveSettings);
+  modal.addEventListener('click', function (e) { if (e.target === modal) modal.classList.remove('open'); });
+  $('btnExport').addEventListener('click', exportKb);
+  $('btnImport').addEventListener('click', function () { $('fileImport').click(); });
+  $('fileImport').addEventListener('change', function (e) { if (e.target.files[0]) importKb(e.target.files[0]); e.target.value = ''; });
+  $('btnReset').addEventListener('click', function () {
+    if (!confirm('確定清除本機新增的 ' + localKb().length + ' 筆知識庫？內建條目不受影響。')) return;
+    saveLocalKb([]); refreshChips(); openSettings(); toast('已清除本機新增條目');
+  });
+  if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+})();
+</script>
+</body>
+</html>
