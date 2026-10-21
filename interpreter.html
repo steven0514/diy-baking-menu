@@ -159,21 +159,22 @@ footer{
     <span class="chip" id="chipKb">知識庫 0 筆</span>
     <span class="chip" id="chipHit">命中 0 / 0</span>
     <span class="chip" id="chipMode">離線示範模式</span>
+    <span class="chip" id="chipLang">語言自動偵測</span>
   </div>
 </header>
 
 <main id="log">
   <div class="empty" id="empty">
     <b>讓顧客對著手機說話</b>
-    系統會同時顯示原文與中文，查得到就直接用母語回答；查不到就請你用中文回一次，之後它就記住了。
+    不限語言。系統自動判斷顧客說哪一國話，同時顯示原文與中文；查得到就直接用他的母語回答，查不到就請你用中文回一次，之後它就記住了。
   </div>
 </main>
 
 <footer>
-  <p class="mode-hint" id="hint">顧客模式：按麥克風或直接輸入顧客說的話。</p>
+  <p class="mode-hint" id="hint">顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。</p>
   <div class="row">
     <button class="btn mic" id="btnMic" aria-label="語音輸入">🎤</button>
-    <input class="field" id="inputBox" placeholder="例如：ไม้พายอยู่ที่ไหน" autocomplete="off">
+    <input class="field" id="inputBox" placeholder="顧客說的話，任何語言都可以" autocomplete="off">
     <button class="btn" id="btnSend">送出</button>
   </div>
   <div class="save-row" id="saveRow" hidden>
@@ -197,6 +198,7 @@ footer{
         <option value="gemini-2.5-flash">gemini-2.5-flash（推薦，現場夠快）</option>
         <option value="gemini-2.5-pro">gemini-2.5-pro（較慢，較會推理）</option>
       </select>
+      <small>語言不需要事先設定。頂端語言選單保持「自動偵測」時，顧客說哪一國話，系統就用哪一國話回答；需要固定成某一種語言時才手動指定。</small>
     </div>
     <div class="fg">
       <label>知識庫維護</label>
@@ -230,25 +232,45 @@ footer{
   var btnSend = $('btnSend'), btnMic = $('btnMic'), saveRow = $('saveRow'), chkSave = $('chkSave');
   var modal = $('modal'), toastEl = $('toast');
 
+  var AUTO = { id: 'auto', zh: '自動偵測', native: '🌐 自動偵測', speech: 'en-US' };
+
   var state = {
-    mode: 'customer',   // customer | staff
-    pending: null,      // 未命中的問題，等店員回答
+    mode: 'customer',     // customer | staff
+    pending: null,        // 未命中的問題，等店員回答
     asked: 0, hit: 0,
-    busy: false
+    busy: false,
+    lastSpeech: null,     // 最近一次偵測到的語音代碼，供麥克風與朗讀使用
+    lastLangName: null
   };
 
-  // ── 離線示範用語（沒有 API 金鑰時仍可跑完刮刀那段 demo）──
+  // ── 離線示範用語（沒有金鑰時仍可跑完刮刀那段 demo）──
   var DEMO_Q = {
     'ไม้พายอยู่ที่ไหน': '刮刀在哪', 'ไม้พาย': '刮刀在哪',
     'ชามผสมอยู่ที่ไหน': '工作盆在哪', 'ชามผสม': '工作盆在哪',
     'อบกี่นาที': '烤箱怎麼預熱', 'ใช้เวลานานแค่ไหน': '戚風蛋糕要做多久',
-    'cái phới ở đâu': '刮刀在哪', 'where is the spatula': '刮刀在哪'
+    'cái phới ở đâu': '刮刀在哪', 'where is the spatula': '刮刀在哪',
+    'di mana spatula': '刮刀在哪', 'nasaan ang spatula': '刮刀在哪'
   };
   var DEMO_A = {
-    'tool-spatula-xinyi': { th: 'ไม้พายอยู่ที่ผนังอุปกรณ์โซน A ชั้นที่ 2 แถวด้ามจับสีแดงค่ะ', vi: 'Phới ở khu A, kệ tầng 2, hàng cán màu đỏ.', en: 'The spatula is on the tool wall in Zone A, second shelf, the red-handled row.' },
-    'tool-bowl-xinyi': { th: 'ชามผสมอยู่ชั้นล่างสุดของโซน A เป็นสเตนเลส กรุณาเลือกใบที่แห้งค่ะ', vi: 'Tô trộn ở kệ dưới cùng khu A, loại inox, xin lấy tô khô.', en: 'Mixing bowls are on the bottom shelf in Zone A. Please take a dry one.' },
-    'oven-preheat': { th: 'เปิดเตาอบ ตั้งอุณหภูมิ แล้วอุ่นไว้ 10 นาที ไฟดับคือพร้อมค่ะ', vi: 'Bật lò, đặt nhiệt độ và làm nóng 10 phút, đèn tắt là đạt.', en: 'Turn on the oven, set the temperature, preheat 10 minutes. Light off means ready.' },
-    'time-chiffon': { th: 'เค้กชิฟฟ่อนใช้เวลาประมาณ 90 นาที รวมอบและพักให้เย็นค่ะ', vi: 'Bánh chiffon mất khoảng 90 phút, gồm nướng và để nguội.', en: 'Chiffon cake takes about 90 minutes including baking and cooling.' }
+    'tool-spatula-xinyi': {
+      th: { t: 'ไม้พายอยู่ที่ผนังอุปกรณ์โซน A ชั้นที่ 2 แถวด้ามจับสีแดงค่ะ', s: 'th-TH' },
+      vi: { t: 'Phới ở khu A, kệ tầng 2, hàng cán màu đỏ.', s: 'vi-VN' },
+      en: { t: 'The spatula is on the tool wall in Zone A, second shelf, the red-handled row.', s: 'en-US' },
+      id: { t: 'Spatula ada di dinding alat Zona A, rak kedua, baris gagang merah.', s: 'id-ID' }
+    },
+    'tool-bowl-xinyi': {
+      th: { t: 'ชามผสมอยู่ชั้นล่างสุดของโซน A เป็นสเตนเลส กรุณาเลือกใบที่แห้งค่ะ', s: 'th-TH' },
+      vi: { t: 'Tô trộn ở kệ dưới cùng khu A, loại inox, xin lấy tô khô.', s: 'vi-VN' },
+      en: { t: 'Mixing bowls are on the bottom shelf in Zone A. Please take a dry one.', s: 'en-US' }
+    },
+    'oven-preheat': {
+      th: { t: 'เปิดเตาอบ ตั้งอุณหภูมิ แล้วอุ่นไว้ 10 นาที ไฟดับคือพร้อมค่ะ', s: 'th-TH' },
+      en: { t: 'Turn on the oven, set the temperature, preheat 10 minutes. Light off means ready.', s: 'en-US' }
+    },
+    'time-chiffon': {
+      th: { t: 'เค้กชิฟฟ่อนใช้เวลาประมาณ 90 นาที รวมอบและพักให้เย็นค่ะ', s: 'th-TH' },
+      en: { t: 'Chiffon cake takes about 90 minutes including baking and cooling.', s: 'en-US' }
+    }
   };
 
   // ── 知識庫 ──────────────────────────────────────────
@@ -256,11 +278,14 @@ footer{
     try { return JSON.parse(localStorage.getItem(K_LOCAL_KB) || '[]'); } catch (e) { return []; }
   }
   function saveLocalKb(arr) {
-    try { localStorage.setItem(K_LOCAL_KB, JSON.stringify(arr)); } catch (e) { toast('本機儲存失敗，請檢查瀏覽器設定', true); }
+    try { localStorage.setItem(K_LOCAL_KB, JSON.stringify(arr)); }
+    catch (e) { toast('本機儲存失敗，請檢查瀏覽器設定', true); }
   }
   function allKb() { return (window.DEFAULT_KB || []).concat(localKb()); }
   function kbForStore(store) {
-    return allKb().filter(function (e) { return e.store === 'ALL' || (Array.isArray(e.store) && e.store.indexOf(store) >= 0); });
+    return allKb().filter(function (e) {
+      return e.store === 'ALL' || (Array.isArray(e.store) && e.store.indexOf(store) >= 0);
+    });
   }
   function kbContext(store) {
     return kbForStore(store).map(function (e) {
@@ -274,25 +299,28 @@ footer{
       key: localStorage.getItem(K_KEY) || '',
       model: localStorage.getItem(K_MODEL) || 'gemini-2.5-flash',
       store: localStorage.getItem(K_STORE) || 'xinyi',
-      lang: localStorage.getItem(K_LANG) || 'th'
+      lang: localStorage.getItem(K_LANG) || 'auto'
     };
   }
   function langInfo(id) {
+    if (!id || id === 'auto') return AUTO;
     var list = window.KB_LANGS || [];
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
-    return list[0];
+    return AUTO;
   }
   function storeName(id) {
     var list = window.KB_STORES || [];
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i].zh;
     return id;
   }
+  function isAuto() { return cfg().lang === 'auto'; }
+  function isChinese(code) { return !!code && String(code).toLowerCase().indexOf('zh') === 0; }
 
   // ── 畫面 ────────────────────────────────────────────
   function toast(msg, isErr) {
     toastEl.textContent = msg;
     toastEl.className = 'toast show' + (isErr ? ' err' : '');
-    setTimeout(function () { toastEl.className = 'toast' + (isErr ? ' err' : ''); }, 2200);
+    setTimeout(function () { toastEl.className = 'toast' + (isErr ? ' err' : ''); }, 2400);
   }
   function refreshChips() {
     var c = cfg();
@@ -301,6 +329,16 @@ footer{
     var m = $('chipMode');
     if (c.key) { m.textContent = 'AI 模式 ・ ' + c.model.replace('gemini-', ''); m.className = 'chip ok'; }
     else { m.textContent = '離線示範模式'; m.className = 'chip warn'; }
+    var d = $('chipLang');
+    if (isAuto()) {
+      d.hidden = false;
+      d.textContent = state.lastLangName ? '偵測到 ' + state.lastLangName : '語言自動偵測';
+      d.className = state.lastLangName ? 'chip ok' : 'chip';
+    } else {
+      d.hidden = false;
+      d.textContent = '指定 ' + langInfo(c.lang).zh;
+      d.className = 'chip';
+    }
   }
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -308,43 +346,44 @@ footer{
     if (text != null) n.textContent = text;
     return n;
   }
-  function speakBtn(text, lang) {
+  function speakBtn(text, speech) {
     var b = el('button', 'speak', '🔊 播放');
     b.type = 'button';
-    b.addEventListener('click', function () { speak(text, lang); });
+    b.addEventListener('click', function () { speak(text, speech); });
     return b;
   }
   function addTurn() {
-    if (empty) empty.remove();
+    if (empty && empty.parentNode) empty.remove();
     var t = el('div', 'turn');
     log.appendChild(t);
     return t;
   }
   function scrollDown() { log.scrollTop = log.scrollHeight; }
 
-  function renderQuestion(turn, srcText, zhText, langId) {
+  function renderQuestion(turn, srcText, zhText, langLabel, sameLang) {
     var c = el('div', 'card q');
     var lbl = el('div', 'card-label');
     lbl.appendChild(el('span', null, '顧客提問'));
-    lbl.appendChild(el('span', 'tag new', langInfo(langId).native));
+    if (langLabel) lbl.appendChild(el('span', 'tag new', langLabel));
     c.appendChild(lbl);
     c.appendChild(el('div', 'line native', srcText));
-    c.appendChild(el('div', 'line zh', zhText));
+    if (!sameLang) c.appendChild(el('div', 'line zh', zhText));
     turn.appendChild(c);
     scrollDown();
   }
-  function renderAnswer(turn, zhText, srcText, langId, source) {
+  function renderAnswer(turn, zhText, srcText, speech, source) {
     var c = el('div', 'card a');
     var lbl = el('div', 'card-label');
     lbl.appendChild(el('span', null, '回覆顧客'));
     if (source.kind === 'kb') lbl.appendChild(el('span', 'tag kb', '知識庫 ' + source.id));
     if (source.kind === 'staff') lbl.appendChild(el('span', 'tag staff', '店員回答'));
     if (source.kind === 'demo') lbl.appendChild(el('span', 'tag demo', '離線示範'));
+    if (source.lang) lbl.appendChild(el('span', 'tag new', source.lang));
     c.appendChild(lbl);
     if (srcText) c.appendChild(el('div', 'line native', srcText));
     c.appendChild(el('div', 'line zh', zhText));
     var s = el('div', 'src');
-    if (srcText) s.appendChild(speakBtn(srcText, langInfo(langId).speech));
+    if (srcText && speech) s.appendChild(speakBtn(srcText, speech));
     if (source.note) s.appendChild(el('span', null, source.note));
     c.appendChild(s);
     turn.appendChild(c);
@@ -363,6 +402,11 @@ footer{
     scrollDown();
   }
 
+  function customerPlaceholder() {
+    if (isAuto()) return '顧客說的話，任何語言都可以';
+    var L = langInfo(cfg().lang);
+    return '顧客說的話（' + L.native + '）';
+  }
   function setMode(mode, zhQuestion) {
     state.mode = mode;
     if (mode === 'staff') {
@@ -371,55 +415,58 @@ footer{
       inputBox.placeholder = '例如：刮刀在 A 區工具牆第二層';
       btnSend.textContent = '回答';
       btnSend.className = 'btn amber';
-      btnMic.hidden = true;
       saveRow.hidden = false;
     } else {
-      hint.textContent = '顧客模式：按麥克風或直接輸入顧客說的話。';
+      hint.textContent = isAuto()
+        ? '顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。'
+        : '顧客模式：按麥克風或直接輸入顧客說的話。';
       hint.className = 'mode-hint';
-      inputBox.placeholder = '例如：' + (langInfo(cfg().lang).id === 'th' ? 'ไม้พายอยู่ที่ไหน' : '顧客說的話');
+      inputBox.placeholder = customerPlaceholder();
       btnSend.textContent = '送出';
       btnSend.className = 'btn';
-      btnMic.hidden = false;
       saveRow.hidden = true;
     }
     inputBox.value = '';
   }
 
   // ── 語音 ────────────────────────────────────────────
-  function speak(text, lang) {
+  function speak(text, speech) {
     if (!('speechSynthesis' in window)) { toast('此裝置不支援語音播放', true); return; }
     try {
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = lang;
+      u.lang = speech;
+      var base = String(speech).split('-')[0];
       var voices = window.speechSynthesis.getVoices() || [];
       for (var i = 0; i < voices.length; i++) {
-        if (voices[i].lang && voices[i].lang.replace('_', '-').indexOf(lang.split('-')[0]) === 0) { u.voice = voices[i]; break; }
+        var vl = (voices[i].lang || '').replace('_', '-');
+        if (vl.split('-')[0] === base) { u.voice = voices[i]; break; }
       }
-      if (!u.voice) toast('裝置缺少該語言語音包，改用文字顯示', true);
+      if (!u.voice) toast('裝置沒有該語言的語音包，僅顯示文字', true);
       window.speechSynthesis.speak(u);
     } catch (e) { toast('語音播放失敗', true); }
   }
 
   var recog = null, listening = false;
+  function micLang() {
+    if (state.mode === 'staff') return 'zh-TW';
+    if (!isAuto()) return langInfo(cfg().lang).speech;
+    return state.lastSpeech || 'en-US';
+  }
   function initRecog() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { btnMic.disabled = true; btnMic.title = '此瀏覽器不支援語音輸入，請改用鍵盤聽寫'; return; }
+    if (!SR) { btnMic.disabled = true; btnMic.title = '此瀏覽器不支援語音輸入，請改用手機鍵盤的聽寫'; return; }
     recog = new SR();
     recog.continuous = false;
     recog.interimResults = false;
-    recog.onresult = function (e) {
-      var txt = e.results[0][0].transcript;
-      inputBox.value = txt;
-      submit();
-    };
+    recog.onresult = function (e) { inputBox.value = e.results[0][0].transcript; submit(); };
     recog.onerror = function () { toast('語音辨識失敗，請改用鍵盤輸入', true); };
     recog.onend = function () { listening = false; btnMic.className = 'btn mic'; };
   }
   function toggleMic() {
     if (!recog) return;
     if (listening) { recog.stop(); return; }
-    recog.lang = state.mode === 'staff' ? 'zh-TW' : langInfo(cfg().lang).speech;
+    recog.lang = micLang();
     try { recog.start(); listening = true; btnMic.className = 'btn mic on'; }
     catch (e) { toast('無法啟動麥克風', true); }
   }
@@ -435,7 +482,7 @@ footer{
         generationConfig: { responseMimeType: 'application/json', temperature: 0.2 }
       })
     }).then(function (res) {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ' ' + t.slice(0, 120)); });
       return res.json();
     }).then(function (data) {
       return JSON.parse(data.candidates[0].content.parts[0].text);
@@ -443,10 +490,13 @@ footer{
   }
 
   function askPrompt(utterance) {
-    var c = cfg(), L = langInfo(c.lang);
+    var c = cfg(), auto = isAuto(), L = langInfo(c.lang);
+    var langRule = auto
+      ? '顧客語言：未指定，請你自己從這句話判斷。顧客可能說世界上任何一種語言。'
+      : '顧客語言：' + L.zh + '（' + L.id + '，語音代碼 ' + L.speech + '）。不論顧客用什麼語言提問，一律用這個語言回覆。';
     return [
       '你是台灣「自己做烘焙聚樂部」' + storeName(c.store) + '的現場口譯與問答助理。',
-      '顧客語言：' + L.zh + '（' + L.id + '）。',
+      langRule,
       '',
       '【本店知識庫】每行格式為「id | 問題關鍵詞 | 中文答案」：',
       kbContext(c.store),
@@ -455,6 +505,8 @@ footer{
       '',
       '只輸出 JSON，欄位如下：',
       '{',
+      '  "lang_name": 顧客使用語言的中文名稱，例如「印尼語」「西班牙語」,',
+      '  "lang_code": 該語言的 BCP-47 代碼，例如 th-TH、vi-VN、id-ID、es-ES、ar-SA,',
       '  "q_src": 顧客原句，修正明顯的語音辨識錯字，保持原語言,',
       '  "q_zh": 這句話的繁體中文翻譯,',
       '  "hit": true 或 false,',
@@ -468,15 +520,16 @@ footer{
       '1. 知識庫沒有的，hit 一律 false，絕對不可自行編造地點、數字、時間或店規。',
       '2. 問題涉及過敏、飲食禁忌、身體不適、受傷、價格、退費、折扣時，need_staff 填 true 且 hit 填 false。',
       '3. 命中標示 [需店員] 的條目時，need_staff 填 true 且 hit 填 false。',
-      '4. 術語固定：工作盆 Mixing bowl、刮刀與抹刀 Spatula、廚房紙巾 Paper towel、打發到硬性發泡 whip to stiff peaks。',
-      '5. 翻譯語氣親切、句子短，適合現場口說。'
+      '4. 顧客若使用繁體或簡體中文，lang_code 填 zh-TW，a_src 與 a_zh 內容相同即可。',
+      '5. 術語固定：工作盆 Mixing bowl、刮刀與抹刀 Spatula、廚房紙巾 Paper towel、打發到硬性發泡 whip to stiff peaks。',
+      '6. 翻譯語氣親切、句子短，適合現場口說。'
     ].join('\n');
   }
 
-  function staffPrompt(zhQuestion, zhAnswer) {
-    var L = langInfo(cfg().lang);
+  function staffPrompt(zhQuestion, zhAnswer, langName, langCode) {
     return [
-      '你是台灣烘焙教室的現場口譯助理。顧客語言：' + L.zh + '（' + L.id + '）。',
+      '你是台灣烘焙教室的現場口譯助理。',
+      '顧客使用的語言是：' + (langName || '未知') + '（' + (langCode || '請自行判斷') + '）。',
       '顧客的問題（中文）：「' + zhQuestion + '」',
       '店員的回答（中文）：「' + zhAnswer + '」',
       '',
@@ -486,7 +539,7 @@ footer{
       '  "a_zh": 把店員回答整理成通順完整的中文，地點、數字與規則不可更動,',
       '  "q_keywords": 3 到 5 個中文關鍵詞陣列，供日後比對同樣的問題',
       '}',
-      '不要加任何說明文字。'
+      '顧客語言若是中文，a_src 與 a_zh 相同即可。不要加任何說明文字。'
     ].join('\n');
   }
 
@@ -510,48 +563,59 @@ footer{
   function handleCustomer(text) {
     var c = cfg(), turn = addTurn();
     state.asked++;
+
     if (c.key) {
       setBusy(true);
       callGemini(askPrompt(text)).then(function (r) {
-        renderQuestion(turn, r.q_src || text, r.q_zh || '（翻譯失敗）', c.lang);
+        var code = r.lang_code || (isAuto() ? null : langInfo(c.lang).speech);
+        var name = r.lang_name || (isAuto() ? '未知語言' : langInfo(c.lang).zh);
+        if (code) { state.lastSpeech = code; state.lastLangName = name; }
+        var same = isChinese(code);
+
+        renderQuestion(turn, r.q_src || text, r.q_zh || '（翻譯失敗）', name, same);
+
         if (r.need_staff) {
           renderStaffPrompt(turn, r.q_zh || text, 'policy');
-          state.pending = { zh: r.q_zh || text, turn: turn };
+          state.pending = { zh: r.q_zh || text, turn: turn, langName: name, langCode: code };
           setMode('staff', r.q_zh || text);
         } else if (r.hit && r.a_zh) {
           state.hit++;
-          renderAnswer(turn, r.a_zh, r.a_src, c.lang, { kind: 'kb', id: r.entry_id || '—' });
-          if (r.a_src) speak(r.a_src, langInfo(c.lang).speech);
+          renderAnswer(turn, r.a_zh, same ? null : r.a_src, code, { kind: 'kb', id: r.entry_id || '—', lang: name });
+          if (!same && r.a_src && code) speak(r.a_src, code);
         } else {
           renderStaffPrompt(turn, r.q_zh || text, 'miss');
-          state.pending = { zh: r.q_zh || text, turn: turn };
+          state.pending = { zh: r.q_zh || text, turn: turn, langName: name, langCode: code };
           setMode('staff', r.q_zh || text);
         }
         refreshChips();
       }).catch(function (e) {
-        renderQuestion(turn, text, '（AI 無法連線，已轉店員模式）', c.lang);
+        renderQuestion(turn, text, '（AI 無法連線，已轉店員模式）', null, true);
         renderStaffPrompt(turn, text, 'miss');
-        state.pending = { zh: text, turn: turn };
+        state.pending = { zh: text, turn: turn, langName: state.lastLangName, langCode: state.lastSpeech };
         setMode('staff', text);
         toast('Gemini 連線失敗：' + e.message, true);
       }).then(function () { setBusy(false); });
+
     } else {
       var m = offlineMatch(text);
-      renderQuestion(turn, text, m.zh, c.lang);
+      var fallbackLang = isAuto() ? 'th' : cfg().lang;
+      renderQuestion(turn, text, m.zh, '離線模式', false);
       if (m.entry && m.entry.needs_staff) {
         renderStaffPrompt(turn, m.zh, 'policy');
-        state.pending = { zh: m.zh, turn: turn };
+        state.pending = { zh: m.zh, turn: turn, langName: null, langCode: null };
         setMode('staff', m.zh);
       } else if (m.entry) {
         state.hit++;
-        var demo = DEMO_A[m.entry.id] && DEMO_A[m.entry.id][c.lang];
-        renderAnswer(turn, m.entry.a_zh, demo || null, c.lang, {
-          kind: 'demo', note: demo ? '離線示範翻譯' : '離線模式無此句翻譯，請設定 API 金鑰'
+        var bank = DEMO_A[m.entry.id] || {};
+        var demo = bank[fallbackLang] || bank.en || null;
+        renderAnswer(turn, m.entry.a_zh, demo ? demo.t : null, demo ? demo.s : null, {
+          kind: 'demo',
+          note: demo ? '離線示範翻譯' : '離線模式沒有這句的翻譯，設定 API 金鑰後即支援所有語言'
         });
-        if (demo) speak(demo, langInfo(c.lang).speech);
+        if (demo) speak(demo.t, demo.s);
       } else {
         renderStaffPrompt(turn, m.zh, 'miss');
-        state.pending = { zh: m.zh, turn: turn };
+        state.pending = { zh: m.zh, turn: turn, langName: null, langCode: null };
         setMode('staff', m.zh);
       }
       refreshChips();
@@ -564,7 +628,7 @@ footer{
     var wantSave = chkSave.checked;
     if (c.key) {
       setBusy(true);
-      callGemini(staffPrompt(p.zh, text)).then(function (r) {
+      callGemini(staffPrompt(p.zh, text, p.langName, p.langCode)).then(function (r) {
         finishStaff(p, r.a_zh || text, r.a_src, r.q_keywords, wantSave);
       }).catch(function (e) {
         finishStaff(p, text, null, null, wantSave);
@@ -577,11 +641,13 @@ footer{
 
   function finishStaff(p, zhAnswer, srcAnswer, keywords, wantSave) {
     var c = cfg();
-    renderAnswer(p.turn, zhAnswer, srcAnswer, c.lang, {
+    var same = isChinese(p.langCode);
+    renderAnswer(p.turn, zhAnswer, same ? null : srcAnswer, p.langCode, {
       kind: 'staff',
+      lang: p.langName || null,
       note: wantSave ? '已存入本店知識庫' : '未存入知識庫'
     });
-    if (srcAnswer) speak(srcAnswer, langInfo(c.lang).speech);
+    if (!same && srcAnswer && p.langCode) speak(srcAnswer, p.langCode);
     if (wantSave) {
       var arr = localKb();
       arr.push({
@@ -595,7 +661,7 @@ footer{
         by: '店員現場新增'
       });
       saveLocalKb(arr);
-      toast('已存入知識庫，下次會自動回答');
+      toast('已存入知識庫，之後任何語言問同一題都會自動命中');
     }
     state.pending = null;
     setMode('customer');
@@ -621,7 +687,9 @@ footer{
     var c = cfg();
     $('inKey').value = c.key;
     $('inModel').value = c.model;
-    $('kbInfo').textContent = '內建 ' + (window.DEFAULT_KB || []).length + ' 筆，本機新增 ' + localKb().length + ' 筆。匯出的 JSON 可由後台管理系統提交回 GitHub，讓全門市共用。';
+    $('kbInfo').textContent = '內建 ' + (window.DEFAULT_KB || []).length + ' 筆，本機新增 ' + localKb().length
+      + ' 筆。知識庫答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆就等於 '
+      + (window.KB_LANGS || []).length + ' 種語言同時支援。';
     modal.classList.add('open');
   }
   function saveSettings() {
@@ -664,11 +732,16 @@ footer{
       if (s.id === c.store) o.selected = true;
       $('selStore').appendChild(o);
     });
+    var sel = $('selLang');
+    var auto = document.createElement('option');
+    auto.value = 'auto'; auto.textContent = '🌐 自動偵測';
+    if (c.lang === 'auto') auto.selected = true;
+    sel.appendChild(auto);
     (window.KB_LANGS || []).forEach(function (l) {
       var o = document.createElement('option');
       o.value = l.id; o.textContent = l.native;
       if (l.id === c.lang) o.selected = true;
-      $('selLang').appendChild(o);
+      sel.appendChild(o);
     });
   }
 
@@ -681,7 +754,12 @@ footer{
   btnMic.addEventListener('click', toggleMic);
   inputBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); });
   $('selStore').addEventListener('change', function (e) { localStorage.setItem(K_STORE, e.target.value); refreshChips(); });
-  $('selLang').addEventListener('change', function (e) { localStorage.setItem(K_LANG, e.target.value); setMode(state.mode, state.pending ? state.pending.zh : ''); refreshChips(); });
+  $('selLang').addEventListener('change', function (e) {
+    localStorage.setItem(K_LANG, e.target.value);
+    state.lastSpeech = null; state.lastLangName = null;
+    setMode(state.mode, state.pending ? state.pending.zh : '');
+    refreshChips();
+  });
   $('btnSettings').addEventListener('click', openSettings);
   $('btnSave').addEventListener('click', saveSettings);
   modal.addEventListener('click', function (e) { if (e.target === modal) modal.classList.remove('open'); });

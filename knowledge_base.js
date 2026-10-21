@@ -18,11 +18,29 @@ window.KB_STORES = [
 ];
 
 window.KB_LANGS = [
-  { id: 'th', zh: '泰語',    native: 'ไทย',        speech: 'th-TH' },
-  { id: 'vi', zh: '越南語',  native: 'Tiếng Việt', speech: 'vi-VN' },
-  { id: 'en', zh: '英語',    native: 'English',    speech: 'en-US' },
-  { id: 'ja', zh: '日語',    native: '日本語',      speech: 'ja-JP' },
-  { id: 'ko', zh: '韓語',    native: '한국어',      speech: 'ko-KR' }
+  // 東南亞（在台主要客群與移工語言）
+  { id: 'th',    zh: '泰語',       native: 'ไทย',              speech: 'th-TH' },
+  { id: 'vi',    zh: '越南語',     native: 'Tiếng Việt',       speech: 'vi-VN' },
+  { id: 'id',    zh: '印尼語',     native: 'Bahasa Indonesia', speech: 'id-ID' },
+  { id: 'tl',    zh: '菲律賓語',   native: 'Tagalog',          speech: 'fil-PH' },
+  { id: 'ms',    zh: '馬來語',     native: 'Bahasa Melayu',    speech: 'ms-MY' },
+  { id: 'my',    zh: '緬甸語',     native: 'မြန်မာ',              speech: 'my-MM' },
+  { id: 'km',    zh: '柬埔寨語',   native: 'ភាសាខ្មែរ',            speech: 'km-KH' },
+  // 東北亞與英語系
+  { id: 'en',    zh: '英語',       native: 'English',          speech: 'en-US' },
+  { id: 'ja',    zh: '日語',       native: '日本語',            speech: 'ja-JP' },
+  { id: 'ko',    zh: '韓語',       native: '한국어',            speech: 'ko-KR' },
+  { id: 'yue',   zh: '粵語',       native: '粵語',              speech: 'zh-HK' },
+  // 歐美與其他觀光客
+  { id: 'es',    zh: '西班牙語',   native: 'Español',          speech: 'es-ES' },
+  { id: 'fr',    zh: '法語',       native: 'Français',         speech: 'fr-FR' },
+  { id: 'de',    zh: '德語',       native: 'Deutsch',          speech: 'de-DE' },
+  { id: 'it',    zh: '義大利語',   native: 'Italiano',         speech: 'it-IT' },
+  { id: 'pt',    zh: '葡萄牙語',   native: 'Português',        speech: 'pt-BR' },
+  { id: 'ru',    zh: '俄語',       native: 'Русский',          speech: 'ru-RU' },
+  { id: 'ar',    zh: '阿拉伯語',   native: 'العربية',           speech: 'ar-SA' },
+  { id: 'hi',    zh: '印地語',     native: 'हिन्दी',              speech: 'hi-IN' },
+  { id: 'tr',    zh: '土耳其語',   native: 'Türkçe',           speech: 'tr-TR' }
 ];
 
 // store: 'ALL' 代表全門市通用；陣列代表只適用於特定門市
