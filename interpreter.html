@@ -331,7 +331,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
   var jsonpSeq=0;
-  function loadSheet(sheetId, tabName){
+  function loadSheet(sheetId, tabName, withHeaders){
     return new Promise(function(resolve,reject){
       var cb='kbcb_'+(++jsonpSeq)+'_'+Date.now();
       var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
@@ -345,9 +345,15 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         if(done) return; done=true;
         try{
           var rows=(res && res.table && res.table.rows)||[];
-          resolve(rows.map(function(r){
+          var mapped=rows.map(function(r){
             return (r.c||[]).map(function(c){ return c && c.v!=null ? String(c.v) : ''; });
-          }));
+          });
+          if(withHeaders){
+            var cols=(res && res.table && res.table.cols)||[];
+            resolve({ headers: cols.map(function(c){ return (c.label||'').trim(); }), rows: mapped });
+          } else {
+            resolve(mapped);
+          }
         }catch(e){ reject(e); }
         cleanup();
       };
@@ -376,6 +382,36 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       });
     });
     return out;
+  }
+
+  function loadConfig(){
+    // 從 Google Sheets 「設定」分頁讀取 API Key 和模型名稱
+    // 支援兩種排版：
+    //   橫式：第1列是欄位名稱（gemini_api_key、gemini_model），第2列是值
+    //   直式：A 欄是 key，B 欄是 value，一列一組
+    var c=cfg();
+    if(!c.sheet) return Promise.resolve();  // 沒設定試算表，用 localStorage 的設定
+    return loadSheet(c.sheet, '設定', true).then(function(result){
+      var config={};
+      var headers=result.headers||[], rows=result.rows||[];
+      // 橫式：欄位名稱當 key，第一筆資料列當 value
+      var firstRow=rows[0]||[];
+      headers.forEach(function(h,i){
+        var val=(firstRow[i]||'').trim();
+        if(h && val) config[h]=val;
+      });
+      // 直式：每一列的 A/B 欄當 key/value（和橫式同時支援，後者優先）
+      rows.forEach(function(r){
+        var key=(r[0]||'').trim(), val=(r[1]||'').trim();
+        if(key && val) config[key]=val;
+      });
+      if(config.gemini_api_key){ localStorage.setItem(K_KEY, config.gemini_api_key); }
+      if(config.gemini_model){ localStorage.setItem(K_MODEL, config.gemini_model); }
+      return config;
+    }).catch(function(e){
+      // 「設定」分頁不存在時無須報錯，繼續用 localStorage 的設定
+      return {};
+    });
   }
 
   function loadKb(storeId, silent){
@@ -446,8 +482,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     });
   }
   function appendToSheet(entry){
+    var c=cfg();
+    var targetSheet = '_待審_'+c.store;  // 寫到待審分頁，不是正式分頁
     return postScript({
-      sheet: entry.sheet || storeInfo(cfg().store).sheet,
+      sheet: targetSheet,
       row: [entry.id, entry.cat, entry.q.join('、'), entry.a_zh,
             entry.needs_staff?'是':'否', entry.verified?'是':'否', entry.updated, entry.by]
     });
@@ -1253,14 +1291,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       var noteEl=p.card.querySelector('.seg.ans .t-note');
       if(c.script){
         appendToSheet(entry).then(function(){
-          if(noteEl) noteEl.textContent='已寫回 Google Sheets「'+storeInfo(c.store).sheet+'」分頁';
-          toast('已寫回 Google Sheets');
+          if(noteEl) noteEl.textContent='已提交到 Google Sheets「_待審_'+c.store+'」分頁，等待後台核准';
+          toast('已提交待審');
         }).catch(function(e){
           if(noteEl) noteEl.textContent='已存在本機，寫回試算表失敗：'+e.message;
           toast('寫回試算表失敗，已存在本機：'+e.message, true);
         });
       }else{
-        if(noteEl) noteEl.textContent='已存在本機知識庫（未設定 Apps Script，尚未寫回試算表）';
+        if(noteEl) noteEl.textContent='已存在本機知識庫（未設定 Apps Script，尚未上傳）';
         toast('已存入本機，下次同樣問題自動命中');
       }
     }
@@ -1302,7 +1340,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     toast('已移除，知識庫剩 '+kbNow().length+' 筆');
 
     // 試算表裡的資料要連帶刪掉，否則下次重新載入又會回來
-    var sheetName = (found && found.sheet) || storeInfo(cfg().store).sheet;
+    // 店員新增的條目寫到 _待審_${storeId} 分頁
+    var c=cfg();
+    var sheetName = isLocal ? '_待審_'+c.store : ((found && found.sheet) || storeInfo(c.store).sheet);
     var inSheet = !isLocal && state.kbSource.indexOf('Sheets')>=0;
     if(!isLocal && !inSheet){
       note.textContent='這筆是內建示範資料，已在這台手機擋掉。下次顧客再問同樣的問題，系統會重新請你回答。';
@@ -1421,7 +1461,11 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   initSelects(); initRecog(); setMode('customer'); refreshChips();
-  loadKb(cfg().store, true);
+  loadConfig().then(function(){
+    loadKb(cfg().store, true);
+  }).catch(function(){
+    loadKb(cfg().store, true);
+  });
 
   btnSend.addEventListener('click',submit);
   btnMic.addEventListener('click',toggleMic);
