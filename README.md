@@ -38,7 +38,13 @@
 ├── products_multilingual.json  # 完整多語系商品資料庫 JSON
 ├── vue.global.prod.js          # Vue 3 核心庫（離線支援）
 ├── xlsx.full.min.js            # SheetJS Excel 解析庫（離線支援）
-└── admin.html                  # 智慧後台上架管理系統
+├── admin.html                  # 智慧後台上架管理系統
+│
+├── interpreter.html            # 隨身口譯（店員手機用，含 RAG 問答與寫回）
+├── knowledge_base.js           # 口譯知識庫：門市清單、語言清單、預設問答
+├── google_apps_script.gs       # 寫回 Google Sheets 的端點，貼進試算表的 Apps Script
+├── presentation_mobile_ai.html # 手機 AI 服務動線簡報
+└── AI_手機演示腳本.md           # 現場演示用的提示詞與流程小抄
 ```
 
 ---
@@ -58,3 +64,29 @@
    - 點擊 **Save**。
 5. 稍等約 1~2 分鐘，即可透過專屬網址瀏覽成果：
    `https://<您的GitHub帳號>.github.io/<儲存庫名稱>/`
+
+### 部署後的各頁網址
+
+| 用途 | 網址 | 給誰用 |
+|---|---|---|
+| 多語系菜單 | `/` | 顧客 |
+| 隨身口譯 | `/interpreter.html` | 店員手機 |
+| 後台上架管理 | `/admin.html` | 店長 |
+| 簡報 | `/presentation_mobile_ai.html` | 報告用 |
+
+### 為什麼一定要部署，不能只用本機檔案
+
+- **麥克風**：瀏覽器只在 https 或 `http://localhost` 下允許錄音。用 `file://` 或區網 IP（如 `http://192.168.1.5:8000`）開啟時，語音輸入一定失效。GitHub Pages 是 https，所以可用。
+- **QR 碼**：門市現場要讓店員掃碼即開，需要一個公開網址。
+- **Claude Artifact 連結不適用**：Artifact 的安全政策會擋掉所有對外呼叫，Gemini 與 Google Sheets 都連不到，只能跑離線示範。
+
+### 隨身口譯首次設定（部署完成後在手機上做一次）
+
+1. 開 `/interpreter.html` → 右上角 ⚙️
+2. 貼上 Gemini API Key（到 [Google AI Studio](https://aistudio.google.com/apikey) 免費申請）
+3. 按「🔄 偵測可用模型」
+4. 貼上知識庫試算表 ID，試算表需設為「知道連結的任何人可以檢視」
+5. 依 `google_apps_script.gs` 開頭的步驟部署 Apps Script，把 `/exec` 網址貼進來，按「🔌 測試這個網址」
+6. 按「🩺 連線診斷」與「🎤 語音測試」各跑一次確認
+
+金鑰只存在該支手機的瀏覽器裡，不會上傳，也不會進版本庫。
