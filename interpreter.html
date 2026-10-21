@@ -100,6 +100,16 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
 .mini{background:rgba(255,255,255,.07); border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:4px 10px; font-size:.7rem; font-weight:700; white-space:nowrap}
 .mini:hover{color:#fff}
 .row{display:flex; gap:8px; align-items:stretch}
+.staff-banner{display:none; align-items:center; gap:8px; margin-bottom:8px; padding:8px 11px;
+  background:rgba(245,158,11,.16); border:1px solid rgba(245,158,11,.5); border-radius:11px}
+.staff-banner.on{display:flex}
+.staff-banner .sb-txt{flex:1; font-size:.8rem; color:#fde68a; line-height:1.5}
+.staff-banner .sb-txt b{color:#fff; display:block; font-size:.86rem; margin-bottom:2px}
+.staff-banner .sb-skip{background:rgba(255,255,255,.1); border:1px solid var(--border); color:#fde68a;
+  border-radius:8px; padding:5px 11px; font-size:.72rem; font-weight:700; white-space:nowrap}
+body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.07)}
+.fixbtn{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.4); color:#fca5a5;
+  border-radius:8px; padding:3px 9px; font-size:.68rem; font-weight:700; margin-left:6px}
 .field{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:11px; padding:11px 12px; font-size:1rem; min-width:0}
 .field::placeholder{color:#6b7280}
 .btn{border:none; border-radius:11px; padding:11px 15px; font-size:.9rem; font-weight:700; color:#fff; background:var(--primary); white-space:nowrap}
@@ -162,6 +172,10 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   <div class="hintbar">
     <p class="mode-hint" id="hint">顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。</p>
     <button class="mini" id="btnClear">🗑️ 清除對話</button>
+  </div>
+  <div class="staff-banner" id="staffBanner">
+    <span class="sb-txt"><b>現在輪到你回答</b><span id="sbQ"></span></span>
+    <button class="sb-skip" id="btnSkip" type="button">跳過</button>
   </div>
   <div class="row">
     <button class="btn mic" id="btnMic" aria-label="語音輸入">🎤</button>
@@ -476,6 +490,13 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
       b.addEventListener('click',function(){speak(srcText,speech);});
       head.appendChild(b);
     }
+    // 現場新增的條目可能存錯，給一個當場刪掉的出口
+    if(opt.entryId && String(opt.entryId).indexOf('local-')===0){
+      var fb=el('button','fixbtn','✏️ 答案不對');
+      fb.type='button';
+      fb.addEventListener('click',function(){ fixLocalEntry(opt.entryId, card); });
+      head.appendChild(fb);
+    }
     seg.appendChild(head);
     if(srcText) seg.appendChild(el('p','t-src',srcText));
     seg.appendChild(el('p', srcText?'t-zh':'t-src', zhText));
@@ -758,13 +779,18 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   function setMode(mode, zhQuestion){
     state.mode=mode;
     if(mode==='staff'){
-      hint.textContent='店員模式：請用中文回答「'+zhQuestion+'」';
+      hint.textContent='請輸入「答案」，不是問題。系統會翻給顧客並記住。';
       hint.className='mode-hint staff';
-      inputBox.placeholder='例如：廁所在中間走道左轉';
-      btnSend.textContent='回答'; btnSend.className='btn amber';
+      inputBox.placeholder='用中文寫出答案，例如：擠花袋在 C 區抽屜';
+      btnSend.textContent='送出答案'; btnSend.className='btn amber';
       saveRow.hidden=false;
+      $('staffBanner').classList.add('on');
+      $('sbQ').textContent='顧客問的是：「'+zhQuestion+'」';
+      document.body.classList.add('staff');
       setTimeout(function(){try{inputBox.focus();}catch(e){}},50);
     }else{
+      $('staffBanner').classList.remove('on');
+      document.body.classList.remove('staff');
       hint.textContent= isAuto()
         ? '顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。'
         : '顧客模式：按麥克風或直接輸入顧客說的話。';
@@ -1022,7 +1048,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
           setMode('staff', r.q_zh||text);
         }else if(r.hit && r.a_zh){
           state.hit++;
-          showAnswer(card, r.a_zh, same?null:r.a_src, code, {tag:'知識庫 '+(r.entry_id||''), tagClass:'kb'});
+          showAnswer(card, r.a_zh, same?null:r.a_src, code, {tag:'知識庫 '+(r.entry_id||''), tagClass:'kb', entryId:r.entry_id, lang:name});
           if(!same && r.a_src && code) speak(r.a_src, code, {quiet:true});
         }else{
           showWaiting(card, r.q_zh||text, 'miss');
@@ -1052,7 +1078,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         var fb=isAuto()?'en':cfg().lang;
         var d=bank[fb]||bank.en||bank[Object.keys(bank)[0]]||null;
         showAnswer(card2, m.entry.a_zh, d?d.t:null, d?d.s:null, {
-          tag: m.zhInput?'本店知識庫':'離線示範', tagClass: m.zhInput?'kb':'demo',
+          tag: m.zhInput?'本店知識庫':'離線示範', tagClass: m.zhInput?'kb':'demo', entryId: m.entry.id,
           // 顧客講中文時本來就不需要翻譯，不要顯示缺翻譯的提示
           note: m.zhInput ? null
               : d ? '離線示範翻譯，設定 Gemini 金鑰後改為即時翻譯所有語言'
@@ -1081,9 +1107,27 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     return seg;
   }
 
+  function normalize(t){ return String(t||'').replace(/[\s　。，、．,.!！?？~～]/g,'').toLowerCase(); }
+  function looksLikeQuestion(t){
+    var x=String(t||'').trim();
+    return /[?？]$/.test(x) || /^(請問|哪裡|在哪|怎麼|如何|有沒有|可不可以|多少錢|幾點)/.test(x);
+  }
+
   function handleStaff(text){
     var c=cfg(), p=state.pending;
     if(!p){setMode('customer');return;}
+
+    // 防呆：把問題當成答案存進去，會讓系統之後用問題回答問題
+    var same = normalize(text)===normalize(p.zh);
+    if(same || looksLikeQuestion(text)){
+      var why = same ? '你輸入的和顧客的問題一模一樣。' : '你輸入的看起來是一個問題，不是答案。';
+      if(!confirm(why+'\n\n「'+text+'」\n\n存進知識庫後，下次顧客問同樣的問題，系統就會用這句話當答案回覆。\n\n按「取消」回去改寫成答案，按「確定」仍要照原樣送出。')){
+        inputBox.value=text;
+        setTimeout(function(){try{inputBox.focus();}catch(e){}},50);
+        return;
+      }
+    }
+
     var wantSave=chkSave.checked;
     if(c.key){
       setBusy(true);
@@ -1133,6 +1177,39 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     state.pending=null;
     setMode('customer');
     refreshChips();
+  }
+
+  function fixLocalEntry(id, card){
+    var arr=localKb(), found=null;
+    for(var i=0;i<arr.length;i++) if(arr[i].id===id){found=arr[i];break;}
+    if(!found){ toast('這筆不在本機，可能已寫回 Google Sheets，請到試算表刪除', true); return; }
+    if(!confirm('要刪掉這筆現場新增的答案嗎？\n\n問題關鍵詞：'+found.q.join('、')+'\n目前答案：'+found.a_zh+'\n\n刪掉後下次再問同樣問題會重新請你回答。')) return;
+    saveLocalKb(arr.filter(function(e){return e.id!==id;}));
+    refreshChips();
+    clearReply(card);
+    var seg=el('div','seg wait');
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role','已刪除這筆答案'));
+    seg.appendChild(head);
+    seg.appendChild(el('p','t-note','下次顧客再問同樣的問題，系統會重新請你回答。若這筆已寫回 Google Sheets，請另外到試算表刪除該列。'));
+    card.appendChild(seg);
+    toast('已刪除，知識庫剩 '+kbNow().length+' 筆');
+  }
+
+  function skipAnswer(){
+    var p=state.pending;
+    if(p && p.card){
+      clearReply(p.card);
+      var seg=el('div','seg wait');
+      var head=el('div','seg-head');
+      head.appendChild(el('span','role','未回答'));
+      seg.appendChild(head);
+      seg.appendChild(el('p','t-note','這一題跳過了，沒有存進知識庫。'));
+      p.card.appendChild(seg);
+    }
+    state.pending=null;
+    setMode('customer');
+    toast('已跳過，沒有存進知識庫');
   }
 
   function setBusy(b){
@@ -1211,6 +1288,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   btnSend.addEventListener('click',submit);
   btnMic.addEventListener('click',toggleMic);
   $('btnClear').addEventListener('click',clearConversation);
+  $('btnSkip').addEventListener('click',skipAnswer);
   inputBox.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
   $('selStore').addEventListener('change',function(e){
     localStorage.setItem(K_STORE,e.target.value); loadKb(e.target.value);
