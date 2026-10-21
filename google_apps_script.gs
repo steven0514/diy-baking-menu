@@ -55,6 +55,31 @@ function doPost(e) {
       return reply({ ok: false, error: '分頁 ' + sheetName + ' 裡找不到 id ' + id });
     }
 
+    // 核准待審條目，從 _待審_X 移到正式分頁
+    if (action === 'approve') {
+      var id = String(body.id || '').trim();
+      var targetSheet = String(body.targetSheet || '').trim();
+      if (!id || !targetSheet) return reply({ ok: false, error: '需要指定 id 和 targetSheet' });
+      var approveSheet = ss.getSheetByName(sheetName);
+      var formalSheet = ss.getSheetByName(targetSheet);
+      if (!approveSheet) return reply({ ok: false, error: '找不到待審分頁 ' + sheetName });
+      if (!formalSheet) return reply({ ok: false, error: '找不到正式分頁 ' + targetSheet });
+
+      var last = approveSheet.getLastRow();
+      if (last < 2) return reply({ ok: false, error: '待審分頁沒有資料列' });
+      var col = approveSheet.getRange(1, 1, last, 1).getValues();
+      var rowIdx = -1;
+      for (var i = 1; i < col.length; i++) {
+        if (String(col[i][0]).trim() === id) { rowIdx = i; break; }
+      }
+      if (rowIdx < 0) return reply({ ok: false, error: '待審分頁裡找不到 id ' + id });
+
+      var rowData = approveSheet.getRange(rowIdx + 1, 1, 1, approveSheet.getLastColumn()).getValues()[0];
+      formalSheet.appendRow(rowData);
+      approveSheet.deleteRow(rowIdx + 1);
+      return reply({ ok: true, action: 'approve', id: id, approved: true });
+    }
+
     if (!row || !row.length) return reply({ ok: false, error: '沒有資料' });
 
     var sh = ss.getSheetByName(sheetName);
