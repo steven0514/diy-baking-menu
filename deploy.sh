@@ -18,6 +18,7 @@ FILES=(
   products_multilingual.json
   vue.global.prod.js
   interpreter.html
+  interpreter_admin.html
   knowledge_base.js
   presentation_mobile_ai.html
   presentation.html

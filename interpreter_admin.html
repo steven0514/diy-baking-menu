@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>待審核准後台 · 自己做烘焙聚樂部</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#c2673a; --primary-light:#e88c5d;
+  --bg:#0c0e14; --surface:#161925; --surface-2:#1e2230;
+  --border:rgba(255,255,255,.09);
+  --text:#f3f4f6; --muted:#9ca3af;
+  --green:#10b981; --amber:#f59e0b; --red:#ef4444; --blue:#3b82f6;
+  --amber-soft:rgba(245,158,11,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans','Noto Sans TC','PingFang TC',sans-serif;
+  background:var(--bg); color:var(--text);
+  min-height:100dvh; -webkit-text-size-adjust:100%;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary-light); outline-offset:2px}
+
+header{position:sticky; top:0; z-index:10; background:var(--surface); border-bottom:1px solid var(--border);
+  padding:max(10px,env(safe-area-inset-top)) 14px 10px}
+.bar{display:flex; align-items:center; gap:8px}
+.brand{font-size:1rem; font-weight:700; white-space:nowrap}
+.brand span{color:var(--primary-light)}
+.spacer{flex:1}
+.icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:7px 11px; font-size:.85rem; font-weight:600}
+.stats{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap}
+.chip{font-size:.7rem; font-weight:700; padding:3px 9px; border-radius:9999px; background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); font-variant-numeric:tabular-nums}
+.chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
+.chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
+
+main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-direction:column; gap:18px}
+
+.setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:16px}
+.setup h3{font-size:1rem; color:#fbbf24; margin-bottom:8px}
+.setup p{font-size:.86rem; color:#e5e7eb; line-height:1.7; margin-bottom:10px}
+
+.empty{margin:40px auto; text-align:center; color:var(--muted); font-size:.9rem; line-height:1.85; max-width:34ch}
+.empty b{display:block; color:var(--text); font-size:1.1rem; margin-bottom:8px}
+
+.store-section h2{font-size:.95rem; font-weight:700; color:#e5e7eb; display:flex; align-items:center; gap:8px; margin-bottom:10px}
+.store-count{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:9999px; background:var(--amber-soft); color:#fbbf24; border:1px solid rgba(245,158,11,.35)}
+
+.card{background:var(--surface); border:1px solid var(--border); border-radius:15px; padding:14px; margin-bottom:12px}
+.card-head{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:9px}
+.tag{padding:2px 7px; border-radius:6px; font-weight:700; font-size:.68rem; background:rgba(255,255,255,.08); color:var(--muted)}
+.tag.staff{background:var(--amber-soft); color:#fbbf24}
+.card-kw{font-size:.76rem; color:var(--muted); margin-bottom:8px; line-height:1.5}
+.card textarea{width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:11px; padding:11px 12px; font-size:.92rem; line-height:1.6; min-height:70px; resize:vertical}
+.card-meta{font-size:.74rem; color:var(--muted); margin-top:8px}
+.card-actions{display:flex; gap:8px; margin-top:11px}
+.btn{border:none; border-radius:11px; padding:10px 15px; font-size:.85rem; font-weight:700; color:#fff; flex:1}
+.btn:disabled{opacity:.45}
+.btn.approve{background:var(--green)}
+.btn.reject{background:rgba(239,68,68,.16); color:#fca5a5; border:1px solid rgba(239,68,68,.4)}
+.btn.reject.confirm{background:var(--red); color:#fff}
+.card-msg{font-size:.78rem; margin-top:8px; line-height:1.5; display:none}
+.card-msg.show{display:block}
+.card-msg.ok{color:#86efac}
+.card-msg.err{color:#fca5a5}
+
+.loading{text-align:center; color:var(--muted); font-size:.85rem; padding:30px 0}
+
+/* ── 設定 ── */
+.modal{position:fixed; inset:0; background:rgba(5,6,10,.9); z-index:50; display:none; align-items:flex-end; justify-content:center}
+.modal.open{display:flex}
+.sheet{background:var(--surface); width:100%; max-width:480px; max-height:88dvh; overflow-y:auto;
+  border-radius:20px 20px 0 0; padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+.sheet h2{font-size:1.1rem; margin-bottom:6px}
+.sheet .sub{font-size:.8rem; color:var(--muted); line-height:1.6; margin-bottom:16px}
+.field-label{font-size:.82rem; font-weight:700; color:#ffc5a8; margin:14px 0 7px}
+.field-label:first-of-type{margin-top:0}
+.sheet input{width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:11px; padding:11px 12px; font-size:.9rem}
+.sheet .hint{font-size:.76rem; color:var(--muted); line-height:1.6; margin-top:7px}
+.sheet .close{width:100%; margin-top:18px; background:var(--primary); border:none; color:#fff;
+  border-radius:11px; padding:12px; font-size:.92rem; font-weight:700}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">🍰 待審<span>核准</span>後台</div>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄 重新整理</button>
+    <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main id="main">
+  <div class="loading">載入中…</div>
+</main>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h2>設定</h2>
+    <p class="sub">跟「隨身口譯」共用同一組設定，只存在這支裝置的瀏覽器裡。</p>
+
+    <div class="field-label">Google Sheets 知識庫 ID</div>
+    <input id="inSheet" placeholder="貼試算表網址中 /d/ 和 /edit 中間那一串">
+    <p class="hint">試算表必須設為「知道連結的任何人可以檢視」，程式才讀得到。</p>
+
+    <div class="field-label">寫回用的 Apps Script 網址</div>
+    <input id="inScript" placeholder="https://script.google.com/macros/s/.../exec">
+    <p class="hint">核准、刪除都要靠這個網址寫回試算表，沒填就只能看、不能操作。</p>
+
+    <button class="close" id="btnCloseModal">儲存並關閉</button>
+  </div>
+</div>
+
+<script src="knowledge_base.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var K_SHEET='diybc_kb_sheet_id', K_SCRIPT='diybc_kb_script_url';
+  var $=function(id){return document.getElementById(id);};
+  var mainEl=$('main'), statsEl=$('stats'), modal=$('modal');
+
+  function cfg(){
+    return {
+      sheet: localStorage.getItem(K_SHEET) || (window.KB_SHEET_ID||''),
+      script: localStorage.getItem(K_SCRIPT) || ''
+    };
+  }
+  function storeInfo(id){
+    var l=window.KB_STORES||[];
+    for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i];
+    return null;
+  }
+
+  // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
+  var jsonpSeq=0;
+  function loadSheetRows(sheetId, tabName){
+    return new Promise(function(resolve,reject){
+      var cb='admcb_'+(++jsonpSeq)+'_'+Date.now();
+      var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
+            +'/gviz/tq?tqx=out:json;responseHandler:'+cb
+            +'&sheet='+encodeURIComponent(tabName)+'&headers=1&_t='+Date.now();
+      var tag=document.createElement('script');
+      var done=false;
+      var timer=setTimeout(function(){ if(!done){done=true; cleanup(); reject(new Error('讀取逾時')); } },10000);
+      function cleanup(){ clearTimeout(timer); try{delete window[cb];}catch(e){window[cb]=undefined;} if(tag.parentNode) tag.parentNode.removeChild(tag); }
+      window[cb]=function(res){
+        if(done) return; done=true;
+        try{
+          var rows=(res && res.table && res.table.rows)||[];
+          resolve(rows.map(function(r){
+            return (r.c||[]).map(function(c){ return c && c.v!=null ? String(c.v) : ''; });
+          }));
+        }catch(e){ reject(e); }
+        cleanup();
+      };
+      tag.onerror=function(){ if(!done){done=true; cleanup(); reject(new Error('無法連線到試算表')); } };
+      tag.src=url;
+      document.head.appendChild(tag);
+    });
+  }
+
+  // 列出試算表實際存在的分頁名稱。不能用 gviz 判斷分頁存不存在——
+  // 查詢不存在的分頁名稱時，gviz 會默默回傳別的分頁內容。
+  function loadSheetNames(){
+    var c=cfg();
+    if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    return fetch(c.script+'?action=sheets&_t='+Date.now())
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(data){
+        if(!data.ok) throw new Error(data.error||'讀取分頁清單失敗');
+        return data.sheets||[];
+      });
+  }
+
+  function postScript(payload){
+    var c=cfg();
+    if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var body=JSON.stringify(payload);
+    return fetch(c.script, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: body
+    }).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    }).then(function(text){
+      var data;
+      try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
+      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      return data;
+    }).catch(function(){
+      return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
+        .then(function(){ return { ok:true, unconfirmed:true }; });
+    });
+  }
+
+  function rowsToEntries(rows){
+    return rows.map(function(r){
+      var id=(r[0]||'').trim(), a=(r[3]||'').trim();
+      if(!id || !a) return null;
+      return {
+        id:id,
+        cat:(r[1]||'').trim(),
+        q:(r[2]||'').trim(),
+        a_zh:a,
+        needs_staff:/^(是|true|yes|y|1)$/i.test((r[4]||'').trim()),
+        updated:(r[6]||'').trim(),
+        by:(r[7]||'').trim()
+      };
+    }).filter(Boolean);
+  }
+
+  // ── 畫面 ──────────────────────────────────────────
+  function el(tag, cls, text){
+    var e=document.createElement(tag);
+    if(cls) e.className=cls;
+    if(text!=null) e.textContent=text;
+    return e;
+  }
+
+  function renderSetupPrompt(missing){
+    mainEl.innerHTML='';
+    var box=el('div','setup');
+    box.appendChild(el('h3',null,'⚠️ 還沒設定'+missing));
+    var p=el('p',null,'核准後台需要跟「隨身口譯」一樣的試算表 ID 和 Apps Script 網址，按右上角 ⚙️ 設定。');
+    box.appendChild(p);
+    mainEl.appendChild(box);
+  }
+
+  function renderStats(groups, loading){
+    statsEl.innerHTML='';
+    if(loading){ statsEl.appendChild(el('span','chip','載入中…')); return; }
+    var total=groups.reduce(function(n,g){return n+g.entries.length;},0);
+    statsEl.appendChild(el('span','chip '+(total>0?'warn':'ok'), '待審 '+total+' 筆'));
+    statsEl.appendChild(el('span','chip', groups.length+' 間門市有資料'));
+  }
+
+  function renderGroups(groups){
+    mainEl.innerHTML='';
+    var total=groups.reduce(function(n,g){return n+g.entries.length;},0);
+    if(total===0){
+      var empty=el('div','empty');
+      empty.appendChild(el('b',null,'🎉 目前沒有待審項目'));
+      empty.appendChild(el('div',null,'店員在現場回答新問題後，會出現在這裡等待核准。'));
+      mainEl.appendChild(empty);
+      return;
+    }
+    groups.forEach(function(g){
+      if(!g.entries.length) return;
+      var section=el('section','store-section');
+      var h2=el('h2');
+      h2.appendChild(document.createTextNode(g.store.zh));
+      h2.appendChild(el('span','store-count', g.entries.length+' 筆'));
+      section.appendChild(h2);
+      g.entries.forEach(function(entry){
+        section.appendChild(renderCard(g, entry));
+      });
+      mainEl.appendChild(section);
+    });
+  }
+
+  function renderCard(group, entry){
+    var card=el('div','card');
+    card.dataset.id=entry.id;
+
+    var head=el('div','card-head');
+    head.appendChild(el('span','tag', entry.cat||'未分類'));
+    if(entry.needs_staff) head.appendChild(el('span','tag staff','需店員'));
+    card.appendChild(head);
+
+    if(entry.q) card.appendChild(el('div','card-kw','顧客問法：'+entry.q));
+
+    var ta=document.createElement('textarea');
+    ta.value=entry.a_zh;
+    card.appendChild(ta);
+
+    var meta=el('div','card-meta', (entry.by?entry.by+' · ':'')+(entry.updated||''));
+    card.appendChild(meta);
+
+    var msg=el('div','card-msg');
+    var actions=el('div','card-actions');
+
+    var btnApprove=el('button','btn approve','✓ 核准');
+    var btnReject=el('button','btn reject','不採用');
+    actions.appendChild(btnApprove);
+    actions.appendChild(btnReject);
+    card.appendChild(actions);
+    card.appendChild(msg);
+
+    function setMsg(text, isErr){
+      msg.textContent=text;
+      msg.className='card-msg show '+(isErr?'err':'ok');
+    }
+    function setBusy(busy){
+      btnApprove.disabled=busy; btnReject.disabled=busy; ta.disabled=busy;
+    }
+
+    btnApprove.addEventListener('click', function(){
+      setBusy(true); setMsg('處理中…');
+      var edited=ta.value.trim();
+      var writeBack = edited!==entry.a_zh
+        ? postScript({ sheet:group.pendingSheet, row:[entry.id, entry.cat, entry.q, edited,
+            entry.needs_staff?'是':'否', '否', entry.updated, entry.by] })
+        : Promise.resolve();
+      writeBack
+        .then(function(){
+          return postScript({ action:'approve', sheet:group.pendingSheet, targetSheet:group.store.sheet, id:entry.id });
+        })
+        .then(function(){
+          card.style.opacity='.5';
+          setMsg('✓ 已核准，移到正式分頁「'+group.store.sheet+'」');
+          setTimeout(function(){ removeCard(group, entry.id); }, 600);
+        })
+        .catch(function(e){
+          setBusy(false);
+          setMsg('✕ 核准失敗：'+e.message, true);
+        });
+    });
+
+    var rejectArmed=false;
+    btnReject.addEventListener('click', function(){
+      if(!rejectArmed){
+        rejectArmed=true;
+        btnReject.textContent='再按一次確認刪除';
+        btnReject.classList.add('confirm');
+        setTimeout(function(){ rejectArmed=false; btnReject.textContent='不採用'; btnReject.classList.remove('confirm'); }, 4000);
+        return;
+      }
+      setBusy(true); setMsg('刪除中…');
+      postScript({ action:'delete', sheet:group.pendingSheet, id:entry.id })
+        .then(function(){
+          card.style.opacity='.5';
+          setMsg('已刪除');
+          setTimeout(function(){ removeCard(group, entry.id); }, 400);
+        })
+        .catch(function(e){
+          setBusy(false);
+          setMsg('✕ 刪除失敗：'+e.message, true);
+        });
+    });
+
+    return card;
+  }
+
+  var state={ groups:[] };
+
+  function removeCard(group, id){
+    group.entries = group.entries.filter(function(e){ return e.id!==id; });
+    renderGroups(state.groups);
+    renderStats(state.groups, false);
+  }
+
+  function loadAll(){
+    var c=cfg();
+    var missing=[];
+    if(!c.sheet) missing.push('試算表 ID');
+    if(!c.script) missing.push('Apps Script 網址');
+    if(missing.length){ renderSetupPrompt('「'+missing.join('、')+'」'); renderStats([], false); return; }
+
+    mainEl.innerHTML='<div class="loading">載入中…</div>';
+    renderStats([], true);
+
+    loadSheetNames().then(function(names){
+      var stores=window.KB_STORES||[];
+      var pendingSheets=names.filter(function(n){ return n.indexOf('_待審_')===0; });
+      var jobs=pendingSheets.map(function(sheetName){
+        var storeId=sheetName.replace('_待審_','');
+        var store=storeInfo(storeId);
+        if(!store) return Promise.resolve(null); // 未知店代號，略過
+        return loadSheetRows(c.sheet, sheetName).then(function(rows){
+          return { store:store, pendingSheet:sheetName, entries: rowsToEntries(rows) };
+        }).catch(function(){ return null; });
+      });
+      return Promise.all(jobs);
+    }).then(function(groups){
+      groups=groups.filter(Boolean).filter(function(g){ return g.entries.length>0; });
+      groups.sort(function(a,b){ return b.entries.length - a.entries.length; });
+      state.groups=groups;
+      renderGroups(groups);
+      renderStats(groups, false);
+    }).catch(function(e){
+      mainEl.innerHTML='';
+      var box=el('div','setup');
+      box.appendChild(el('h3',null,'✕ 載入失敗'));
+      box.appendChild(el('p',null,e.message+'。確認「設定」裡的試算表 ID 跟 Apps Script 網址都對，且 Apps Script 已部署為「任何人」可存取。'));
+      mainEl.appendChild(box);
+      renderStats([], false);
+    });
+  }
+
+  // ── 設定面板 ──────────────────────────────────────
+  function openModal(){
+    $('inSheet').value=cfg().sheet;
+    $('inScript').value=cfg().script;
+    modal.classList.add('open');
+  }
+  function closeModal(){
+    localStorage.setItem(K_SHEET, $('inSheet').value.trim());
+    localStorage.setItem(K_SCRIPT, $('inScript').value.trim());
+    modal.classList.remove('open');
+    loadAll();
+  }
+
+  $('btnSettings').addEventListener('click', openModal);
+  $('btnCloseModal').addEventListener('click', closeModal);
+  $('btnRefresh').addEventListener('click', loadAll);
+
+  loadAll();
+})();
+</script>
+</body>
+</html>

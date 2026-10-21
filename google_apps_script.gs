@@ -19,6 +19,10 @@
  *   action:'delete'         → 刪掉指定 id 那一列（店員按「答案不對」時用）
  *   action:'approve'        → 把待審分頁的一列移到正式分頁（後台核准時用）
  *
+ * 另外 doGet 支援 ?action=sheets，回傳試算表目前所有分頁名稱（唯讀，後台核准頁用
+ * 來判斷哪些 _待審_<店代號> 分頁真的存在 —— gviz 查詢不存在的分頁名稱時會默默
+ * 回傳別的分頁內容，不能拿來判斷分頁存不存在，所以才加這個端點）。
+ *
  * 改過這份程式碼後要重新「部署」→「管理部署作業」→ 編輯 → 版本選「新版本」，
  * 否則線上跑的還是舊版。
  *
@@ -28,7 +32,12 @@
 
 var SECRET = '';   // 留空代表不檢查；要加強時填一組自訂字串
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.action === 'sheets') {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var names = ss.getSheets().map(function (s) { return s.getName(); });
+    return reply({ ok: true, sheets: names });
+  }
   return reply({ ok: true, message: '隨身口譯知識庫寫回端點運作中' });
 }
 
