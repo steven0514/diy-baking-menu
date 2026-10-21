@@ -178,10 +178,11 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
 
     <div class="fg">
       <label for="inModel">AI 模型</label>
-      <select id="inModel">
-        <option value="gemini-2.5-flash">gemini-2.5-flash（推薦，現場夠快）</option>
-        <option value="gemini-2.5-pro">gemini-2.5-pro（較慢，較會推理）</option>
-      </select>
+      <select id="inModel"></select>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn ghost" id="btnModels">🔄 偵測可用模型</button>
+      </div>
+      <small id="modelNote">Google 會淘汰舊模型，清單由你的金鑰實際可用的模型決定。填好金鑰後按上面的按鈕重新偵測。</small>
       <small>語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</small>
     </div>
 
@@ -465,6 +466,81 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
 
   // Google 目前發出的金鑰有兩種前綴：舊的 AIza…、新的 AQ.…
   // 格式會再變，所以只做最低限度檢查，真正的驗證交給連線診斷實際打一次 API
+  // ── 可用模型查詢（Google 會淘汰模型，不寫死在程式裡）────────
+  var FALLBACK_MODELS=['gemini-2.5-flash','gemini-2.0-flash'];
+
+  function listModels(key){
+    return fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':key}})
+      .then(function(r){
+        if(!r.ok) return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,100));});
+        return r.json();
+      }).then(function(d){
+        return (d.models||[])
+          .filter(function(m){
+            return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0;
+          })
+          .map(function(m){ return String(m.name||'').replace(/^models\//,''); })
+          .filter(Boolean);
+      });
+  }
+
+  // 現場要快，所以優先 flash；同系列取版本號較新的
+  function rankModel(id){
+    var score=0;
+    if(/flash/i.test(id)) score+=100;
+    if(/lite/i.test(id)) score-=30;
+    if(/pro/i.test(id)) score+=20;
+    if(/(preview|exp|experimental)/i.test(id)) score-=50;
+    if(/(vision|embedding|aqa|tts|image|audio)/i.test(id)) score-=500;
+    var v=id.match(/(\d+)\.(\d+)/);
+    if(v) score += parseInt(v[1],10)*10 + parseInt(v[2],10);
+    return score;
+  }
+  function pickBest(list){
+    var best=null, bs=-1e9;
+    list.forEach(function(m){ var s=rankModel(m); if(s>bs){bs=s; best=m;} });
+    return best;
+  }
+  function fillModelSelect(list, selected){
+    var sel=$('inModel');
+    sel.innerHTML='';
+    list.slice().sort(function(a,b){return rankModel(b)-rankModel(a);}).forEach(function(m){
+      var o=document.createElement('option');
+      o.value=m; o.textContent=m;
+      if(m===selected) o.selected=true;
+      sel.appendChild(o);
+    });
+    if(selected && list.indexOf(selected)<0){
+      var o2=document.createElement('option');
+      o2.value=selected; o2.textContent=selected+'（目前設定，清單中沒有）';
+      o2.selected=true; sel.insertBefore(o2, sel.firstChild);
+    }
+  }
+  function detectModels(quiet){
+    var c=cfg();
+    if(!c.key){ $('modelNote').textContent='請先填入金鑰再偵測模型。'; return Promise.resolve(); }
+    $('modelNote').textContent='偵測中…';
+    return listModels(c.key).then(function(list){
+      if(!list.length) throw new Error('沒有可用於對話的模型');
+      fillModelSelect(list, c.model);
+      var note='你的金鑰可用 '+list.length+' 個模型。';
+      if(list.indexOf(c.model)<0){
+        var best=pickBest(list);
+        localStorage.setItem(K_MODEL,best);
+        fillModelSelect(list,best);
+        note+='原本設定的 '+c.model+' 不可用，已自動換成 '+best+'。';
+        refreshChips();
+      }
+      $('modelNote').textContent=note;
+      if(!quiet) toast('已更新可用模型清單');
+      return list;
+    }).catch(function(e){
+      fillModelSelect(FALLBACK_MODELS, c.model);
+      $('modelNote').textContent='偵測失敗（'+e.message+'）。清單為預設值，可能已被 Google 淘汰。';
+      if(!quiet) toast('偵測模型失敗：'+e.message, true);
+    });
+  }
+
   function looksLikeGeminiKey(k){ return /^[A-Za-z0-9._\-]{20,}$/.test(k); }
 
   function runDiagnostics(){
@@ -495,6 +571,8 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         fix.textContent='兩項都連不上，表示這個頁面被禁止對外連線。最常見原因是用 Claude Artifact 連結開啟。請改用 GitHub Pages 網址，或在電腦上執行 python3 -m http.server 8000 後開 http://localhost:8000/interpreter.html';
       }else if(results.sheet==='fail'){
         fix.textContent='只有試算表讀不到。請確認試算表已設為「知道連結的任何人可以檢視」，以及分頁名稱與設定的門市相符。';
+      }else if(results.gemini==='model'){
+        fix.textContent='金鑰沒問題，但原本設定的模型不可用，已自動換成可用的模型。直接再試一次即可。';
       }else if(results.gemini==='fail'){
         fix.textContent='只有 Gemini 連不上。請確認金鑰正確、未過期，且該金鑰已啟用 Generative Language API。';
       }else{
@@ -514,7 +592,22 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     if(c.key){
       fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':c.key}})
         .then(function(r){
-          if(r.ok){ geminiLine.textContent='Gemini API：✅ 金鑰有效，可以連線'; results.gemini='ok'; }
+          if(r.ok){
+            return r.json().then(function(d){
+              var usable=(d.models||[]).filter(function(m){
+                return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0;
+              }).map(function(m){return String(m.name||'').replace(/^models\//,'');});
+              var ok = usable.indexOf(c.model)>=0;
+              geminiLine.textContent='Gemini API：✅ 金鑰有效，可用模型 '+usable.length+' 個'
+                + (ok ? '，目前設定的 '+c.model+' 可用' : '，⚠️ 目前設定的 '+c.model+' 不在清單中');
+              results.gemini = ok ? 'ok' : 'model';
+              if(!ok){
+                var best=pickBest(usable);
+                if(best){ localStorage.setItem(K_MODEL,best); refreshChips();
+                  line('已自動改用可用模型：'+best); }
+              }
+            });
+          }
           else { return r.text().then(function(t){
             geminiLine.textContent='Gemini API：❌ HTTP '+r.status+' '+t.slice(0,90);
             results.gemini='fail';
@@ -630,6 +723,18 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   }
 
   // ── Gemini ────────────────────────────────────────
+  function explainGeminiError(msg){
+    if(/no longer available|not found|404/i.test(msg))
+      return '模型「'+cfg().model+'」已不開放使用。請開設定頁按「偵測可用模型」，系統會自動換成可用的模型。';
+    if(/Failed to fetch|NetworkError|Load failed/i.test(msg))
+      return '連不到 Gemini。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 或本機伺服器網址。';
+    if(/API key not valid|401|403/i.test(msg))
+      return '金鑰無效或未啟用 Generative Language API，請到 Google AI Studio 確認。';
+    if(/429|quota|RESOURCE_EXHAUSTED/i.test(msg))
+      return '已達免費額度上限，請稍後再試或改用其他金鑰。';
+    return 'Gemini 連線失敗：'+msg;
+  }
+
   function callGemini(prompt){
     var c=cfg();
     // 金鑰走 x-goog-api-key 標頭，不放在網址上（網址會被各層紀錄留存）
@@ -743,10 +848,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         showWaiting(card, text, 'miss');
         state.pending={zh:text, src:text, card:card, langName:state.lastLangName, langCode:state.lastSpeech};
         setMode('staff', text);
-        var msg = /Failed to fetch|NetworkError|Load failed/i.test(e.message)
-          ? '連不到 Gemini。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 網址。'
-          : 'Gemini 連線失敗：'+e.message;
-        toast(msg, true);
+        toast(explainGeminiError(e.message), true);
       }).then(function(){setBusy(false);});
 
     }else{
@@ -799,7 +901,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
         finishStaff(p, r.a_zh||text, r.a_src, r.q_keywords, wantSave);
       }).catch(function(e){
         finishStaff(p, text, null, null, wantSave);
-        toast('翻譯失敗，已保留中文：'+e.message, true);
+        toast('翻譯失敗，已保留中文。'+explainGeminiError(e.message), true);
       }).then(function(){setBusy(false);});
     }else{
       finishStaff(p, text, null, null, wantSave);
@@ -860,6 +962,8 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     var c=cfg();
     $('inKey').value=c.key; $('inModel').value=c.model;
     $('inSheet').value=c.sheet; $('inScript').value=c.script;
+    fillModelSelect(FALLBACK_MODELS, c.model);
+    if(c.key) detectModels(true);
     $('kbInfo').textContent='目前載入 '+kbNow().length+' 筆（來源：'+state.kbSource+'），其中本機新增 '+localKb().length
       +' 筆。答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆等於 '+(window.KB_LANGS||[]).length+' 種語言同時支援。';
     modal.classList.add('open');
@@ -928,6 +1032,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   });
   $('btnSettings').addEventListener('click',openSettings);
   $('btnSave').addEventListener('click',saveSettings);
+  $('btnModels').addEventListener('click',function(){detectModels(false);});
   $('btnDiag').addEventListener('click',runDiagnostics);
   $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});
   $('btnExport').addEventListener('click',exportKb);

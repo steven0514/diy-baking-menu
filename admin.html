@@ -5605,5 +5605,29 @@ Requirements:
         </div>
     </div>
 
+<script>
+// 相容性修補：Google 會淘汰模型，若本機已存著清單中沒有的模型名稱，
+// 就把它補成一個選項，避免開啟設定時被下拉選單悄悄改回已淘汰的預設值。
+// 隨身口譯（interpreter.html）的「偵測可用模型」會寫入同一組設定，兩邊共用。
+(function () {
+  function sync() {
+    var sel = document.getElementById('input-gemini-model');
+    if (!sel) return;
+    var saved = localStorage.getItem('diybc_gemini_model');
+    if (!saved) return;
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === saved) { sel.value = saved; return; }
+    }
+    var o = document.createElement('option');
+    o.value = saved;
+    o.textContent = saved + '（目前使用中）';
+    sel.insertBefore(o, sel.firstChild);
+    sel.value = saved;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync);
+  else sync();
+  document.addEventListener('click', function () { setTimeout(sync, 60); }, true);
+})();
+</script>
 </body>
 </html>
