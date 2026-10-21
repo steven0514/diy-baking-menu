@@ -127,7 +127,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 .btn.amber{background:var(--amber); color:#3a2503}
 @keyframes pulse{50%{opacity:.6}}
 @media (prefers-reduced-motion:reduce){.btn.mic.on{animation:none}}
-.save-row{display:flex; align-items:center; gap:7px; margin-top:8px; font-size:.76rem; color:var(--muted)}
+.save-row{display:none}
 .save-row input{width:16px; height:16px; accent-color:var(--primary)}
 
 /* ── 設定 ── */
@@ -277,11 +277,27 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   var $=function(id){return document.getElementById(id);};
   var log=$('log'), empty=$('empty'), hint=$('hint'), inputBox=$('inputBox');
-  var btnSend=$('btnSend'), btnMic=$('btnMic'), saveRow=$('saveRow'), chkSave=$('chkSave');
+  var btnSend=$('btnSend'), btnMic=$('btnMic'), chkSave=$('chkSave');
   var modal=$('modal'), toastEl=$('toast');
 
   var AUTO={id:'auto', zh:'自動偵測', native:'🌐 自動偵測', speech:'en-US'};
   var DEMO=window.KB_DEMO_I18N||{};
+
+  // 店員在頂端選定「顧客語言」（不是自動偵測）時，面向顧客的介面文字跟著切換，
+  // 讓顧客看得懂怎麼操作。店員自己用的（答案輸入、店員提示）維持中文不受影響。
+  var UI_I18N={
+    en:{ title:'Speak into the phone', body:'We’ll translate and reply in your language.',
+         hint:'Tap the microphone and speak, or type your message.', placeholder:'Speak or type here', send:'Send' },
+    ja:{ title:'スマホに向かって話してください', body:'あなたの言語で翻訳してお答えします。',
+         hint:'マイクをタップして話すか、直接入力してください。', placeholder:'ここで話すか入力してください', send:'送信' },
+    ko:{ title:'휴대폰에 대고 말씀해 주세요', body:'고객님의 언어로 번역하여 답변해 드립니다.',
+         hint:'마이크를 누르고 말하거나 직접 입력해 주세요.', placeholder:'여기에 말하거나 입력하세요', send:'전송' },
+    th:{ title:'พูดใส่โทรศัพท์ได้เลยค่ะ', body:'เราจะแปลและตอบกลับเป็นภาษาของคุณค่ะ',
+         hint:'แตะไมโครโฟนเพื่อพูด หรือพิมพ์ข้อความ', placeholder:'พูดหรือพิมพ์ที่นี่', send:'ส่ง' },
+    vi:{ title:'Hãy nói vào điện thoại', body:'Chúng tôi sẽ dịch và trả lời bằng ngôn ngữ của bạn.',
+         hint:'Nhấn micro để nói hoặc nhập văn bản.', placeholder:'Nói hoặc nhập ở đây', send:'Gửi' }
+  };
+  function uiI18n(){ return !isAuto() && UI_I18N[cfg().lang]; }
 
   var state={
     mode:'customer', pending:null, asked:0, hit:0, busy:false,
@@ -468,7 +484,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
     var body=JSON.stringify(payload);
-    // text/plain 可避開預檢請求；若仍被跨網域擋下，改用 no-cors 讓寫入照樣送達
+    // 用 POST 送資料本身沒問題（Apps Script 會先同步處理完 doPost 才回應）。
+    // 麻煩的只有「讀回確認訊息」：回應會先 302 轉址到 script.googleusercontent.com，
+    // 該網址不一定允許跨網域讀取。讀不到時改用 no-cors：資料照樣送達並寫入，
+    // 只是瀏覽器看不到回應內容，所以用 unconfirmed 標記讓呼叫端知道無法 100% 確認。
     return fetch(c.script, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
@@ -476,9 +495,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     }).then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
       return r.text();
+    }).then(function(text){
+      var data;
+      try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
+      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      return data;
     }).catch(function(){
       return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
-        .then(function(){ return 'sent-no-cors'; });
+        .then(function(){ return { ok:true, unconfirmed:true }; });
     });
   }
   function appendToSheet(entry){
@@ -520,17 +544,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var saved=localStorage.getItem(K_SCRIPT);
     localStorage.setItem(K_SCRIPT,u);
     postScript({ sheet:'_連線測試', row:['test-'+Date.now(),'連線測試','測試','這是一筆測試資料，可以直接刪掉','否','否',today(),'隨身口譯連線測試'] })
-      .then(function(r){
-        if(r==='sent-no-cors'){
-          box.className='msg'; 
+      .then(function(data){
+        if(data.unconfirmed){
+          box.className='msg';
           box.textContent='△ 已送出，但瀏覽器不讓我讀取回應。請到試算表看有沒有多一個「_連線測試」分頁；有就代表成功。';
-          return;
+        }else{
+          box.className='msg ok';
+          box.textContent='✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。';
         }
-        var ok=/"ok"\s*:\s*true/.test(r);
-        box.className='msg '+(ok?'ok':'err');
-        box.textContent= ok
-          ? '✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。'
-          : '✕ 端點有回應但拒絕寫入：'+r.slice(0,160);
       })
       .catch(function(e){
         box.className='msg err';
@@ -901,7 +922,21 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   function customerPlaceholder(){
-    return isAuto() ? '顧客說的話，任何語言都可以' : '顧客說的話（'+langInfo(cfg().lang).native+'）';
+    if(isAuto()) return '顧客說的話，任何語言都可以';
+    var t=uiI18n();
+    return t ? t.placeholder : '顧客說的話（'+langInfo(cfg().lang).native+'）';
+  }
+  // 選定特定顧客語言時（非自動偵測），把「空白狀態」的操作說明也換成該語言，
+  // 顧客不懂中文一樣看得懂怎麼用。只在尚未開始對話（empty 還在畫面上）時看得到。
+  function updateEmptyIntro(){
+    if(!empty) return;
+    var t=uiI18n();
+    empty.innerHTML = t
+      ? '<b>'+t.title+'</b>'+t.body
+      : '<b>讓顧客對著手機說話</b>'
+        +'不限語言。系統自動判斷顧客說哪一國話，同時顯示原文與中文。<br>'
+        +'查得到就直接用他的母語回答；查不到會請你用中文回一次，然後寫回 Google Sheets。<br>'
+        +'試試看輸入 <code>where is the toilet</code>';
   }
   function setMode(mode, zhQuestion){
     state.mode=mode;
@@ -910,7 +945,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       hint.className='mode-hint staff';
       inputBox.placeholder='用中文寫出答案，例如：擠花袋在 C 區抽屜';
       btnSend.textContent='送出答案'; btnSend.className='btn amber';
-      saveRow.hidden=false;
       $('staffBanner').classList.add('on');
       $('sbQ').textContent='顧客問的是：「'+zhQuestion+'」';
       document.body.classList.add('staff');
@@ -918,13 +952,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     }else{
       $('staffBanner').classList.remove('on');
       document.body.classList.remove('staff');
-      hint.textContent= isAuto()
+      var t=uiI18n();
+      hint.textContent = isAuto()
         ? '顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。'
-        : '顧客模式：按麥克風或直接輸入顧客說的話。';
+        : (t ? t.hint : '顧客模式：按麥克風或直接輸入顧客說的話。');
       hint.className='mode-hint';
       inputBox.placeholder=customerPlaceholder();
-      btnSend.textContent='送出'; btnSend.className='btn';
-      saveRow.hidden=true;
+      btnSend.textContent = t ? t.send : '送出'; btnSend.className='btn';
+      updateEmptyIntro();
     }
     inputBox.value='';
   }
@@ -1290,8 +1325,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
       var noteEl=p.card.querySelector('.seg.ans .t-note');
       if(c.script){
-        appendToSheet(entry).then(function(){
-          if(noteEl) noteEl.textContent='已提交到 Google Sheets「_待審_'+c.store+'」分頁，等待後台核准';
+        appendToSheet(entry).then(function(data){
+          if(noteEl) noteEl.textContent = data.unconfirmed
+            ? '已送出到 Google Sheets「_待審_'+c.store+'」分頁，但無法讀取確認訊息，請留意試算表是否有這筆'
+            : '已提交到 Google Sheets「_待審_'+c.store+'」分頁，等待後台核准';
           toast('已提交待審');
         }).catch(function(e){
           if(noteEl) noteEl.textContent='已存在本機，寫回試算表失敗：'+e.message;
@@ -1354,14 +1391,12 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       return;
     }
     note.textContent='正在從 Google Sheets 刪除…';
-    deleteFromSheet(sheetName, id).then(function(r){
-      if(r==='sent-no-cors'){
+    deleteFromSheet(sheetName, id).then(function(data){
+      if(data.unconfirmed){
         note.textContent='刪除指令已送出，但瀏覽器不讓我讀取回應，請到試算表「'+sheetName+'」分頁確認編號 '+id+' 那列已不在。';
-      }else if(/"ok"\s*:\s*true/.test(r)){
+      }else{
         note.textContent='已從 Google Sheets「'+sheetName+'」分頁刪除。';
         toast('已從試算表刪除');
-      }else{
-        note.textContent='已在這台手機擋掉，但試算表回報失敗：'+String(r).slice(0,120)+'。請手動刪除「'+sheetName+'」分頁編號 '+id+' 那列。';
       }
       scrollDown();
     }).catch(function(e){
