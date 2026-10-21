@@ -467,18 +467,18 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   function postScript(payload){
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
-    var body=JSON.stringify(payload);
-    // text/plain 可避開預檢請求；若仍被跨網域擋下，改用 no-cors 讓寫入照樣送達
-    return fetch(c.script, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: body
-    }).then(function(r){
+    // 一律用 GET：Apps Script 網頁應用程式的回應都會先 302 轉址，
+    // 瀏覽器照規範會把 POST 轉成 GET 並把 body 整個丟掉，寫入永遠不會真的發生。
+    // GET 不受這條規則影響，資料改放在網址參數，讀寫都穩。
+    var url = c.script + (c.script.indexOf('?')>=0?'&':'?') + 'payload=' + encodeURIComponent(JSON.stringify(payload));
+    return fetch(url).then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
       return r.text();
-    }).catch(function(){
-      return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
-        .then(function(){ return 'sent-no-cors'; });
+    }).then(function(text){
+      var data;
+      try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
+      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      return data;
     });
   }
   function appendToSheet(entry){
@@ -520,17 +520,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var saved=localStorage.getItem(K_SCRIPT);
     localStorage.setItem(K_SCRIPT,u);
     postScript({ sheet:'_連線測試', row:['test-'+Date.now(),'連線測試','測試','這是一筆測試資料，可以直接刪掉','否','否',today(),'隨身口譯連線測試'] })
-      .then(function(r){
-        if(r==='sent-no-cors'){
-          box.className='msg'; 
-          box.textContent='△ 已送出，但瀏覽器不讓我讀取回應。請到試算表看有沒有多一個「_連線測試」分頁；有就代表成功。';
-          return;
-        }
-        var ok=/"ok"\s*:\s*true/.test(r);
-        box.className='msg '+(ok?'ok':'err');
-        box.textContent= ok
-          ? '✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。'
-          : '✕ 端點有回應但拒絕寫入：'+r.slice(0,160);
+      .then(function(){
+        box.className='msg ok';
+        box.textContent='✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。';
       })
       .catch(function(e){
         box.className='msg err';
@@ -1354,15 +1346,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       return;
     }
     note.textContent='正在從 Google Sheets 刪除…';
-    deleteFromSheet(sheetName, id).then(function(r){
-      if(r==='sent-no-cors'){
-        note.textContent='刪除指令已送出，但瀏覽器不讓我讀取回應，請到試算表「'+sheetName+'」分頁確認編號 '+id+' 那列已不在。';
-      }else if(/"ok"\s*:\s*true/.test(r)){
-        note.textContent='已從 Google Sheets「'+sheetName+'」分頁刪除。';
-        toast('已從試算表刪除');
-      }else{
-        note.textContent='已在這台手機擋掉，但試算表回報失敗：'+String(r).slice(0,120)+'。請手動刪除「'+sheetName+'」分頁編號 '+id+' 那列。';
-      }
+    deleteFromSheet(sheetName, id).then(function(){
+      note.textContent='已從 Google Sheets「'+sheetName+'」分頁刪除。';
+      toast('已從試算表刪除');
       scrollDown();
     }).catch(function(e){
       note.textContent='已在這台手機擋掉，但刪不掉試算表那列（'+e.message+'）。請到「'+sheetName+'」分頁手動刪除編號 '+id+' 那列。';

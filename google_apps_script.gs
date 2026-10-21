@@ -9,12 +9,18 @@
  *    - 具有存取權的使用者：任何人
  * 4. 複製產生的 /exec 網址，貼進隨身口譯的設定頁「Apps Script 網址」
  *
- * 這個端點支援兩種動作：
- *   不帶 action      → 新增或更新一列（同 id 覆蓋）
- *   action:'delete'  → 刪掉指定 id 那一列（店員按「答案不對」時用）
+ * 寫入一律走 GET（資料放在 ?payload= 參數），不要改回 POST：
+ * Google 網頁應用程式的回應都會先 302 轉址到 script.googleusercontent.com，
+ * 瀏覽器照規範會把 POST 轉成 GET 並把 body 整個丟掉，寫入永遠不會真的發生。
+ * GET 本來就不受這個規則影響，所以讀取、寫入都用 GET 最穩。
+ *
+ * 這個端點支援幾種動作（都用 action 參數指定）：
+ *   不帶 action 或 'append' → 新增或更新一列（同 id 覆蓋）
+ *   action:'delete'         → 刪掉指定 id 那一列（店員按「答案不對」時用）
+ *   action:'approve'        → 把待審分頁的一列移到正式分頁（後台核准時用）
  *
  * 改過這份程式碼後要重新「部署」→「管理部署作業」→ 編輯 → 版本選「新版本」，
- * 否則線上跑的還是舊版，刪除功能不會生效。
+ * 否則線上跑的還是舊版。
  *
  * 安全提醒：這個端點任何人都能寫入。只放現場問答，不要放個資或金鑰。
  * 需要更嚴格時，在下方 SECRET 填一組通行碼，並在前端設定頁網址後面加上 ?token=你的通行碼
@@ -22,13 +28,33 @@
 
 var SECRET = '';   // 留空代表不檢查；要加強時填一組自訂字串
 
+function doGet(e) {
+  try {
+    if (e && e.parameter && e.parameter.payload) {
+      return handleRequest(e, JSON.parse(e.parameter.payload));
+    }
+    return reply({ ok: true, message: '隨身口譯知識庫寫回端點運作中' });
+  } catch (err) {
+    return reply({ ok: false, error: String(err) });
+  }
+}
+
+// 保留 doPost 以相容舊版前端快取；新版一律改走 doGet 的 ?payload=
 function doPost(e) {
+  try {
+    var body = JSON.parse(e.postData.contents);
+    return handleRequest(e, body);
+  } catch (err) {
+    return reply({ ok: false, error: String(err) });
+  }
+}
+
+function handleRequest(e, body) {
   try {
     if (SECRET && (!e.parameter || e.parameter.token !== SECRET)) {
       return reply({ ok: false, error: 'token 不正確' });
     }
 
-    var body = JSON.parse(e.postData.contents);
     var sheetName = String(body.sheet || '').trim();
     var row = body.row;
     var action = String(body.action || 'append');
@@ -107,10 +133,6 @@ function doPost(e) {
   } catch (err) {
     return reply({ ok: false, error: String(err) });
   }
-}
-
-function doGet() {
-  return reply({ ok: true, message: '隨身口譯知識庫寫回端點運作中' });
 }
 
 function reply(obj) {
