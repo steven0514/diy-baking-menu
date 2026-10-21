@@ -9,6 +9,13 @@
  *    - 具有存取權的使用者：任何人
  * 4. 複製產生的 /exec 網址，貼進隨身口譯的設定頁「Apps Script 網址」
  *
+ * 這個端點支援兩種動作：
+ *   不帶 action      → 新增或更新一列（同 id 覆蓋）
+ *   action:'delete'  → 刪掉指定 id 那一列（店員按「答案不對」時用）
+ *
+ * 改過這份程式碼後要重新「部署」→「管理部署作業」→ 編輯 → 版本選「新版本」，
+ * 否則線上跑的還是舊版，刪除功能不會生效。
+ *
  * 安全提醒：這個端點任何人都能寫入。只放現場問答，不要放個資或金鑰。
  * 需要更嚴格時，在下方 SECRET 填一組通行碼，並在前端設定頁網址後面加上 ?token=你的通行碼
  */
@@ -24,11 +31,32 @@ function doPost(e) {
     var body = JSON.parse(e.postData.contents);
     var sheetName = String(body.sheet || '').trim();
     var row = body.row;
+    var action = String(body.action || 'append');
 
     if (!sheetName) return reply({ ok: false, error: '沒有指定分頁名稱' });
-    if (!row || !row.length) return reply({ ok: false, error: '沒有資料' });
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    // 店員按「答案不對」時，把那一列從試算表刪掉
+    if (action === 'delete') {
+      var id = String(body.id || '').trim();
+      if (!id) return reply({ ok: false, error: '沒有指定要刪除的 id' });
+      var target = ss.getSheetByName(sheetName);
+      if (!target) return reply({ ok: false, error: '找不到分頁 ' + sheetName });
+      var last = target.getLastRow();
+      if (last < 2) return reply({ ok: false, error: '分頁沒有資料列' });
+      var col = target.getRange(1, 1, last, 1).getValues();
+      for (var d = col.length - 1; d >= 1; d--) {
+        if (String(col[d][0]).trim() === id) {
+          target.deleteRow(d + 1);
+          return reply({ ok: true, sheet: sheetName, mode: 'deleted', id: id });
+        }
+      }
+      return reply({ ok: false, error: '分頁 ' + sheetName + ' 裡找不到 id ' + id });
+    }
+
+    if (!row || !row.length) return reply({ ok: false, error: '沒有資料' });
+
     var sh = ss.getSheetByName(sheetName);
 
     // 分頁不存在就自動建立並補上標題列

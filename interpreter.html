@@ -108,6 +108,14 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
 .staff-banner .sb-skip{background:rgba(255,255,255,.1); border:1px solid var(--border); color:#fde68a;
   border-radius:8px; padding:5px 11px; font-size:.72rem; font-weight:700; white-space:nowrap}
 body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.07)}
+.msg{display:none}
+.msg.ok,.msg.err,.msg:not(:empty){display:block; line-height:1.55}
+.msg.ok{color:#86efac}
+.msg.err{color:#fca5a5}
+.howto{margin:8px 0 0; padding-left:20px; font-size:.76rem; color:var(--muted); line-height:1.75}
+.howto li{margin-bottom:4px}
+.howto code{background:rgba(255,255,255,.08); padding:1px 5px; border-radius:4px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.9em}
+.howto b{color:#fde68a}
 .fixbtn{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.4); color:#fca5a5;
   border-radius:8px; padding:3px 9px; font-size:.68rem; font-weight:700; margin-left:6px}
 .field{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:11px; padding:11px 12px; font-size:1rem; min-width:0}
@@ -220,7 +228,20 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     <div class="fg">
       <label for="inScript">寫回用的 Apps Script 網址（選填）</label>
       <input type="text" id="inScript" placeholder="https://script.google.com/macros/s/.../exec">
-      <small>填了之後，店員現場回答會直接寫進 Google Sheets 的門市分頁。留空則只存在這支手機，可用下方匯出再人工貼上。</small>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn ghost" id="btnTestScript">🔌 測試這個網址</button>
+        <button class="btn ghost" id="btnScriptHelp">怎麼拿到這個網址？</button>
+      </div>
+      <small id="scriptMsg" class="msg"></small>
+      <small>填了之後，店員現場回答會直接寫進 Google Sheets 的門市分頁，按「答案不對」也會連帶刪掉試算表那一列。留空則只存在這支手機，可用下方匯出再人工貼上。</small>
+      <ol id="scriptHelp" class="howto" hidden>
+        <li>打開知識庫試算表 → 上方「擴充功能」→「Apps Script」。</li>
+        <li>把專案裡 <code>google_apps_script.gs</code> 的內容整份貼進去，蓋掉原本的 <code>myFunction</code>，按存檔。</li>
+        <li>右上角「部署」→「新增部署作業」→ 左邊齒輪選「網頁應用程式」。</li>
+        <li><b>執行身分：我</b>。<b>具有存取權的使用者：任何人</b>。這一步選錯就會連不上。</li>
+        <li>按「部署」，第一次會要你授權，一路按「允許」。</li>
+        <li>複製那串結尾是 <code>/exec</code> 的網址貼到上面，再按「測試這個網址」。</li>
+      </ol>
     </div>
 
     <div class="fg">
@@ -231,6 +252,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         <button class="btn ghost" id="btnReload">重新載入</button>
         <button class="btn ghost" id="btnExport">匯出 JSON</button>
         <button class="btn ghost" id="btnReset">清除本機新增</button>
+        <button class="btn ghost" id="btnUnhide">恢復已移除</button>
       </div>
       <small id="kbInfo"></small>
     </div>
@@ -251,6 +273,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   var K_KEY='diybc_gemini_api_key', K_MODEL='diybc_gemini_model';
   var K_SHEET='diybc_kb_sheet_id', K_SCRIPT='diybc_kb_script_url';
   var K_LOCAL='diybc_kb_local', K_STORE='diybc_itp_store', K_LANG='diybc_itp_lang';
+  var K_HIDE='diybc_kb_hidden';
 
   var $=function(id){return document.getElementById(id);};
   var log=$('log'), empty=$('empty'), hint=$('hint'), inputBox=$('inputBox');
@@ -289,12 +312,22 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     return AUTO;
   }
   function isAuto(){return cfg().lang==='auto';}
+  function langList(){
+    return (window.KB_LANGS||[]).map(function(l){return l.zh;}).join('、');
+  }
   function isChinese(c){return !!c && String(c).toLowerCase().indexOf('zh')===0;}
   function today(){return new Date().toISOString().slice(0,10);}
 
   // ── 本機新增 ──────────────────────────────────────
   function localKb(){try{return JSON.parse(localStorage.getItem(K_LOCAL)||'[]');}catch(e){return [];}}
   function saveLocalKb(a){try{localStorage.setItem(K_LOCAL,JSON.stringify(a));}catch(e){toast('本機儲存失敗',true);}}
+  // 試算表或內建的條目不能從這支程式刪掉，改為記在封存清單，載入時跳過
+  function hiddenIds(){try{return JSON.parse(localStorage.getItem(K_HIDE)||'[]');}catch(e){return [];}}
+  function saveHidden(a){try{localStorage.setItem(K_HIDE,JSON.stringify(a));}catch(e){}}
+  function hideId(id){
+    var a=hiddenIds();
+    if(a.indexOf(id)<0){a.push(id); saveHidden(a);}
+  }
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
   var jsonpSeq=0;
@@ -324,7 +357,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     });
   }
 
-  function rowsToEntries(rows, store){
+  function rowsToEntries(rows, store, sheetName){
     var out=[];
     rows.forEach(function(r){
       var id=(r[0]||'').trim(), qs=(r[2]||'').trim(), a=(r[3]||'').trim();
@@ -332,6 +365,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       out.push({
         id:id,
         store:store,
+        sheet:sheetName||'',
         cat:(r[1]||'').trim(),
         q:qs.split(/[、,，;；]/).map(function(x){return x.trim();}).filter(Boolean),
         a_zh:a,
@@ -355,8 +389,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     ]).then(function(res){
       if(res[0]===null && res[1]===null) throw new Error('兩個分頁都讀不到');
       var kb=[]
-        .concat(res[0]?rowsToEntries(res[0],'ALL'):[])
-        .concat(res[1]?rowsToEntries(res[1],[storeId]):[]);
+        .concat(res[0]?rowsToEntries(res[0],'ALL',window.KB_SHEET_COMMON):[])
+        .concat(res[1]?rowsToEntries(res[1],[storeId],st.sheet):[]);
       if(!kb.length) throw new Error('試算表沒有資料');
       state.kb=kb; state.kbSource='Google Sheets';
       refreshChips();
@@ -375,12 +409,17 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     refreshChips();
   }
   function kbNow(){
-    var storeId=cfg().store;
+    var storeId=cfg().store, hid=hiddenIds();
     var base=state.kb||[];
     var mine=localKb().filter(function(e){
       return e.store==='ALL' || (Array.isArray(e.store)&&e.store.indexOf(storeId)>=0);
     });
-    return base.concat(mine);
+    return base.concat(mine).filter(function(e){ return hid.indexOf(e.id)<0; });
+  }
+  function findEntry(id){
+    var all=(state.kb||[]).concat(localKb());
+    for(var i=0;i<all.length;i++) if(String(all[i].id)===String(id)) return all[i];
+    return null;
   }
   function kbContext(){
     return kbNow().map(function(e){
@@ -389,14 +428,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   // ── Google Sheets 寫回 ─────────────────────────────
-  function appendToSheet(entry){
+  function postScript(payload){
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
-    var payload={
-      sheet: storeInfo(c.store).sheet,
-      row: [entry.id, entry.cat, entry.q.join('、'), entry.a_zh,
-            entry.needs_staff?'是':'否', entry.verified?'是':'否', entry.updated, entry.by]
-    };
     var body=JSON.stringify(payload);
     // text/plain 可避開預檢請求；若仍被跨網域擋下，改用 no-cors 讓寫入照樣送達
     return fetch(c.script, {
@@ -410,6 +444,61 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return 'sent-no-cors'; });
     });
+  }
+  function appendToSheet(entry){
+    return postScript({
+      sheet: entry.sheet || storeInfo(cfg().store).sheet,
+      row: [entry.id, entry.cat, entry.q.join('、'), entry.a_zh,
+            entry.needs_staff?'是':'否', entry.verified?'是':'否', entry.updated, entry.by]
+    });
+  }
+  function deleteFromSheet(sheetName, id){
+    return postScript({ action:'delete', sheet: sheetName, id: id });
+  }
+
+  // 常見的貼錯：貼了編輯器網址、貼了 /dev 測試網址、網址後面少了 /exec
+  function scriptUrlProblem(u){
+    u=String(u||'').trim();
+    if(!u) return '還沒填寫網址。';
+    if(!/^https:\/\//.test(u)) return '網址要以 https:// 開頭。';
+    if(/docs\.google\.com/.test(u))
+      return '這是試算表本身的網址，不是 Apps Script 的網址。請在試算表按「擴充功能 → Apps Script」，部署後再複製那串結尾是 /exec 的網址。';
+    if(/\/edit/.test(u) || /script\.google\.com\/(home|u\/\d+\/home)/.test(u))
+      return '這是 Apps Script 編輯器的網址，不是部署後的網址。請按右上角「部署」→「管理部署作業」，複製裡面的「網頁應用程式」網址。';
+    if(/\/dev(\?|$)/.test(u))
+      return '這是 /dev 測試網址，只有你自己登入時能用。請改用結尾為 /exec 的網址。';
+    if(!/\/macros\//.test(u))
+      return '網址看起來不是 Apps Script 網頁應用程式，正確的會長得像 https://script.google.com/macros/s/AKfy…/exec';
+    if(!/\/exec(\?|$)/.test(u))
+      return '網址結尾要是 /exec。';
+    return null;
+  }
+  function testScript(){
+    var u=$('inScript').value.trim();
+    var box=$('scriptMsg');
+    var bad=scriptUrlProblem(u);
+    if(bad){ box.className='msg err'; box.textContent='✕ '+bad; return; }
+    box.className='msg'; box.textContent='測試中…正在寫入一筆測試資料到「_連線測試」分頁';
+    var saved=localStorage.getItem(K_SCRIPT);
+    localStorage.setItem(K_SCRIPT,u);
+    postScript({ sheet:'_連線測試', row:['test-'+Date.now(),'連線測試','測試','這是一筆測試資料，可以直接刪掉','否','否',today(),'隨身口譯連線測試'] })
+      .then(function(r){
+        if(r==='sent-no-cors'){
+          box.className='msg'; 
+          box.textContent='△ 已送出，但瀏覽器不讓我讀取回應。請到試算表看有沒有多一個「_連線測試」分頁；有就代表成功。';
+          return;
+        }
+        var ok=/"ok"\s*:\s*true/.test(r);
+        box.className='msg '+(ok?'ok':'err');
+        box.textContent= ok
+          ? '✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。'
+          : '✕ 端點有回應但拒絕寫入：'+r.slice(0,160);
+      })
+      .catch(function(e){
+        box.className='msg err';
+        box.textContent='✕ 連不上：'+e.message+'。最常見的原因是部署時「具有存取權的使用者」沒有選「任何人」。';
+      })
+      .then(function(){ if(saved===null) localStorage.removeItem(K_SCRIPT); else localStorage.setItem(K_SCRIPT,saved); });
   }
 
   // ── 畫面 ──────────────────────────────────────────
@@ -490,11 +579,11 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       b.addEventListener('click',function(){speak(srcText,speech);});
       head.appendChild(b);
     }
-    // 現場新增的條目可能存錯，給一個當場刪掉的出口
-    if(opt.entryId && String(opt.entryId).indexOf('local-')===0){
+    // 任何命中的條目都可能存錯，給一個當場移除的出口
+    if(opt.entryId){
       var fb=el('button','fixbtn','✏️ 答案不對');
       fb.type='button';
-      fb.addEventListener('click',function(){ fixLocalEntry(opt.entryId, card); });
+      fb.addEventListener('click',function(){ removeEntry(opt.entryId, card); });
       head.appendChild(fb);
     }
     seg.appendChild(head);
@@ -964,7 +1053,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     return [
       '你是台灣「自己做烘焙聚樂部」'+storeInfo(c.store).zh+'的現場口譯與問答助理。',
       isAuto()
-        ? '顧客語言：未指定，請你自己從這句話判斷。顧客可能說世界上任何一種語言。'
+        ? '顧客語言：未指定，請你自己從這句話判斷。現場常見的是 '+langList()+'，若都不是就照實判斷，不要硬套。'
         : '顧客語言：'+L.zh+'（'+L.id+'，語音代碼 '+L.speech+'）。一律用這個語言回覆。',
       '',
       '【本店知識庫】每行格式為「id | 問題關鍵詞 | 中文答案」：',
@@ -1076,7 +1165,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         state.hit++;
         var bank=DEMO[m.entry.id]||{};
         var fb=isAuto()?'en':cfg().lang;
-        var d=bank[fb]||bank.en||bank[Object.keys(bank)[0]]||null;
+        // 顧客講中文或指定中文時不需要翻譯，否則會莫名冒出一行英文
+        var d=(m.zhInput||fb==='zh')?null:(bank[fb]||bank.en||bank[Object.keys(bank)[0]]||null);
         showAnswer(card2, m.entry.a_zh, d?d.t:null, d?d.s:null, {
           tag: m.zhInput?'本店知識庫':'離線示範', tagClass: m.zhInput?'kb':'demo', entryId: m.entry.id,
           // 顧客講中文時本來就不需要翻譯，不要顯示缺翻譯的提示
@@ -1179,21 +1269,65 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     refreshChips();
   }
 
-  function fixLocalEntry(id, card){
-    var arr=localKb(), found=null;
-    for(var i=0;i<arr.length;i++) if(arr[i].id===id){found=arr[i];break;}
-    if(!found){ toast('這筆不在本機，可能已寫回 Google Sheets，請到試算表刪除', true); return; }
-    if(!confirm('要刪掉這筆現場新增的答案嗎？\n\n問題關鍵詞：'+found.q.join('、')+'\n目前答案：'+found.a_zh+'\n\n刪掉後下次再問同樣問題會重新請你回答。')) return;
-    saveLocalKb(arr.filter(function(e){return e.id!==id;}));
+  function removeEntry(id, card){
+    id=String(id||'').trim();
+    if(!id){ toast('這筆沒有編號，無法定位，請到試算表處理', true); return; }
+
+    var arr=localKb(), idx=-1;
+    for(var i=0;i<arr.length;i++) if(String(arr[i].id)===id){ idx=i; break; }
+    var isLocal = idx>=0;
+    var found = isLocal ? arr[idx] : findEntry(id);
+
+    var desc = found
+      ? '問題關鍵詞：'+found.q.join('、')+'\n目前答案：'+found.a_zh
+      : '編號：'+id;
+    var where = isLocal ? '這是現場新增、只存在這台手機的答案。'
+              : found ? '這筆來自知識庫，不是這台手機新增的。'
+                      : '找不到這筆的內容，但還是可以把它擋掉。';
+    if(!confirm('要移除這筆答案嗎？\n\n'+desc+'\n\n'+where+'\n移除後下次再問同樣的問題，系統會重新請你回答。')) return;
+
+    if(isLocal){ arr.splice(idx,1); saveLocalKb(arr); }
+    hideId(id);
     refreshChips();
+
     clearReply(card);
     var seg=el('div','seg wait');
     var head=el('div','seg-head');
-    head.appendChild(el('span','role','已刪除這筆答案'));
+    head.appendChild(el('span','role','已移除這筆答案'));
     seg.appendChild(head);
-    seg.appendChild(el('p','t-note','下次顧客再問同樣的問題，系統會重新請你回答。若這筆已寫回 Google Sheets，請另外到試算表刪除該列。'));
+    var note=el('p','t-note','下次顧客再問同樣的問題，系統會重新請你回答。');
+    seg.appendChild(note);
     card.appendChild(seg);
-    toast('已刪除，知識庫剩 '+kbNow().length+' 筆');
+    scrollDown();
+    toast('已移除，知識庫剩 '+kbNow().length+' 筆');
+
+    // 試算表裡的資料要連帶刪掉，否則下次重新載入又會回來
+    var sheetName = (found && found.sheet) || storeInfo(cfg().store).sheet;
+    var inSheet = !isLocal && state.kbSource.indexOf('Sheets')>=0;
+    if(!isLocal && !inSheet){
+      note.textContent='這筆是內建示範資料，已在這台手機擋掉。下次顧客再問同樣的問題，系統會重新請你回答。';
+      return;
+    }
+    if(!cfg().script){
+      // 沒設定寫回端點時，現場新增的那筆根本沒上傳過，不要嚇人說試算表還有
+      if(!isLocal) note.textContent='已在這台手機擋掉。這筆還留在 Google Sheets「'+sheetName+'」分頁（編號 '+id+'），請到試算表刪除該列，否則其他手機還是會用到。';
+      return;
+    }
+    note.textContent='正在從 Google Sheets 刪除…';
+    deleteFromSheet(sheetName, id).then(function(r){
+      if(r==='sent-no-cors'){
+        note.textContent='刪除指令已送出，但瀏覽器不讓我讀取回應，請到試算表「'+sheetName+'」分頁確認編號 '+id+' 那列已不在。';
+      }else if(/"ok"\s*:\s*true/.test(r)){
+        note.textContent='已從 Google Sheets「'+sheetName+'」分頁刪除。';
+        toast('已從試算表刪除');
+      }else{
+        note.textContent='已在這台手機擋掉，但試算表回報失敗：'+String(r).slice(0,120)+'。請手動刪除「'+sheetName+'」分頁編號 '+id+' 那列。';
+      }
+      scrollDown();
+    }).catch(function(e){
+      note.textContent='已在這台手機擋掉，但刪不掉試算表那列（'+e.message+'）。請到「'+sheetName+'」分頁手動刪除編號 '+id+' 那列。';
+      scrollDown();
+    });
   }
 
   function skipAnswer(){
@@ -1231,8 +1365,12 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     $('inSheet').value=c.sheet; $('inScript').value=c.script;
     fillModelSelect(FALLBACK_MODELS, c.model);
     if(c.key) detectModels(true);
+    var hid=hiddenIds().length;
     $('kbInfo').textContent='目前載入 '+kbNow().length+' 筆（來源：'+state.kbSource+'），其中本機新增 '+localKb().length
-      +' 筆。答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆等於 '+(window.KB_LANGS||[]).length+' 種語言同時支援。';
+      +' 筆'+(hid?'，已移除 '+hid+' 筆':'')
+      +'。答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆等於 '+(window.KB_LANGS||[]).length+' 種語言同時支援。';
+    $('scriptMsg').textContent=''; $('scriptMsg').className='msg';
+    $('scriptHelp').hidden=true;
     modal.classList.add('open');
   }
   function saveSettings(){
@@ -1305,6 +1443,16 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   $('btnSpeechTest').addEventListener('click',runSpeechTest);
   $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});
   $('btnExport').addEventListener('click',exportKb);
+  $('btnTestScript').addEventListener('click',testScript);
+  $('btnScriptHelp').addEventListener('click',function(){
+    var h=$('scriptHelp'); h.hidden=!h.hidden;
+  });
+  $('btnUnhide').addEventListener('click',function(){
+    var n=hiddenIds().length;
+    if(!n){ toast('沒有被移除的條目'); return; }
+    if(!confirm('要恢復被「答案不對」移除的 '+n+' 筆嗎？\n已經從 Google Sheets 刪掉的那幾筆不會回來。')) return;
+    saveHidden([]); refreshChips(); openSettings(); toast('已恢復 '+n+' 筆');
+  });
   $('btnReset').addEventListener('click',function(){
     if(!confirm('確定清除本機新增的 '+localKb().length+' 筆？已寫回 Google Sheets 的不受影響。')) return;
     saveLocalKb([]); refreshChips(); openSettings(); toast('已清除本機新增條目');
