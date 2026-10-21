@@ -52,6 +52,11 @@ main{flex:1; overflow-y:auto; padding:14px 12px 6px; display:flex; flex-directio
 .setup .srow{display:flex; gap:8px}
 .setup input{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:10px; padding:10px 11px; font-size:.9rem; min-width:0}
 .setup .warn-note{font-size:.76rem; color:#fca5a5; line-height:1.6; margin:10px 0 0}
+.diag{background:var(--surface-2); border:1px solid var(--border); border-radius:15px; padding:14px}
+.diag h3{font-size:.95rem; margin-bottom:9px; color:#ffc5a8}
+.diag .dl{font-size:.8rem; line-height:1.7; color:#d1d5db; word-break:break-all}
+.diag .dl b{color:#fff}
+.diag .fix{margin-top:10px; padding-top:9px; border-top:1px solid var(--border); font-size:.8rem; color:#fbbf24; line-height:1.65}
 .turn{background:var(--surface); border:1px solid var(--border); border-radius:15px; overflow:hidden}
 .seg{padding:11px 14px}
 .seg + .seg{border-top:1px solid var(--border)}
@@ -193,6 +198,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     <div class="fg">
       <label>知識庫</label>
       <div class="btn-row">
+        <button class="btn ghost" id="btnDiag">🩺 連線診斷</button>
         <button class="btn ghost" id="btnReload">重新載入</button>
         <button class="btn ghost" id="btnExport">匯出 JSON</button>
         <button class="btn ghost" id="btnReset">清除本機新增</button>
@@ -455,6 +461,69 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     scrollDown();
   }
 
+  function looksLikeGeminiKey(k){ return /^AIza[0-9A-Za-z_\-]{20,}$/.test(k); }
+
+  function runDiagnostics(){
+    modal.classList.remove('open');
+    if(empty && empty.parentNode) empty.remove();
+    var c=cfg();
+    var box=el('div','diag');
+    box.appendChild(el('h3',null,'🩺 連線診斷'));
+    var dl=el('div','dl'); box.appendChild(dl);
+    var fix=el('div','fix'); box.appendChild(fix);
+    log.appendChild(box); scrollDown();
+
+    function line(t){ var p=el('p',null,t); dl.appendChild(p); scrollDown(); return p; }
+
+    var proto=location.protocol, host=location.hostname||'（無）';
+    line('開啟方式：'+proto+'//'+host);
+    line('試算表 ID：'+(c.sheet?c.sheet.slice(0,12)+'…':'未設定'));
+    line('金鑰：'+(c.key ? (looksLikeGeminiKey(c.key)?'格式正確（AIza 開頭）':'⚠️ 格式不像 Gemini 金鑰，Gemini 金鑰應以 AIza 開頭') : '未設定'));
+
+    var sheetLine=line('Google Sheets：測試中…');
+    var geminiLine=line('Gemini API：'+(c.key?'測試中…':'略過，未設定金鑰'));
+    var results={sheet:null, gemini:c.key?null:'skip'};
+
+    function verdict(){
+      if(results.sheet===null || results.gemini===null) return;
+      var blocked = results.sheet==='fail' && (results.gemini==='fail');
+      if(blocked){
+        fix.textContent='兩項都連不上，表示這個頁面被禁止對外連線。最常見原因是用 Claude Artifact 連結開啟。請改用 GitHub Pages 網址，或在電腦上執行 python3 -m http.server 8000 後開 http://localhost:8000/interpreter.html';
+      }else if(results.sheet==='fail'){
+        fix.textContent='只有試算表讀不到。請確認試算表已設為「知道連結的任何人可以檢視」，以及分頁名稱與設定的門市相符。';
+      }else if(results.gemini==='fail'){
+        fix.textContent='只有 Gemini 連不上。請確認金鑰正確、未過期，且該金鑰已啟用 Generative Language API。';
+      }else{
+        fix.textContent='兩項都正常，可以直接使用。';
+      }
+      scrollDown();
+    }
+
+    loadSheet(c.sheet, window.KB_SHEET_COMMON||'共用').then(function(rows){
+      sheetLine.textContent='Google Sheets：✅ 讀到共用分頁 '+rows.length+' 列';
+      results.sheet='ok';
+    }).catch(function(e){
+      sheetLine.textContent='Google Sheets：❌ '+e.message;
+      results.sheet='fail';
+    }).then(verdict);
+
+    if(c.key){
+      fetch('https://generativelanguage.googleapis.com/v1beta/models?key='+encodeURIComponent(c.key))
+        .then(function(r){
+          if(r.ok){ geminiLine.textContent='Gemini API：✅ 金鑰有效，可以連線'; results.gemini='ok'; }
+          else { return r.text().then(function(t){
+            geminiLine.textContent='Gemini API：❌ HTTP '+r.status+' '+t.slice(0,90);
+            results.gemini='fail';
+          }); }
+        })
+        .catch(function(e){
+          geminiLine.textContent='Gemini API：❌ 無法連線（'+e.message+'）';
+          results.gemini='fail';
+        })
+        .then(verdict);
+    } else { verdict(); }
+  }
+
   // 沒有金鑰時，在對話區最上方放一張可直接貼金鑰的引導卡
   function showSetupCard(){
     if(cfg().key || document.getElementById('setupCard')) return;
@@ -469,6 +538,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     b.addEventListener('click',function(){
       var v=inp.value.trim();
       if(!v){inp.focus();return;}
+      if(!looksLikeGeminiKey(v) && !confirm('這串不像 Gemini 金鑰（應以 AIza 開頭）。仍要儲存嗎？')) return;
       localStorage.setItem(K_KEY,v);
       c.remove(); refreshChips(); loadKb(cfg().store);
       toast('金鑰已儲存，現在可以翻譯任何語言');
@@ -784,7 +854,9 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     modal.classList.add('open');
   }
   function saveSettings(){
-    localStorage.setItem(K_KEY,$('inKey').value.trim());
+    var kv=$('inKey').value.trim();
+    if(kv && !looksLikeGeminiKey(kv) && !confirm('這串不像 Gemini 金鑰（應以 AIza 開頭）。仍要儲存嗎？')) return;
+    localStorage.setItem(K_KEY,kv);
     localStorage.setItem(K_MODEL,$('inModel').value);
     localStorage.setItem(K_SHEET,$('inSheet').value.trim());
     localStorage.setItem(K_SCRIPT,$('inScript').value.trim());
@@ -845,6 +917,7 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
   });
   $('btnSettings').addEventListener('click',openSettings);
   $('btnSave').addEventListener('click',saveSettings);
+  $('btnDiag').addEventListener('click',runDiagnostics);
   $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});
   $('btnExport').addEventListener('click',exportKb);
   $('btnReset').addEventListener('click',function(){
