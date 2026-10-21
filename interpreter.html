@@ -251,27 +251,8 @@ footer{
     'cái phới ở đâu': '刮刀在哪', 'where is the spatula': '刮刀在哪',
     'di mana spatula': '刮刀在哪', 'nasaan ang spatula': '刮刀在哪'
   };
-  var DEMO_A = {
-    'tool-spatula-xinyi': {
-      th: { t: 'ไม้พายอยู่ที่ผนังอุปกรณ์โซน A ชั้นที่ 2 แถวด้ามจับสีแดงค่ะ', s: 'th-TH' },
-      vi: { t: 'Phới ở khu A, kệ tầng 2, hàng cán màu đỏ.', s: 'vi-VN' },
-      en: { t: 'The spatula is on the tool wall in Zone A, second shelf, the red-handled row.', s: 'en-US' },
-      id: { t: 'Spatula ada di dinding alat Zona A, rak kedua, baris gagang merah.', s: 'id-ID' }
-    },
-    'tool-bowl-xinyi': {
-      th: { t: 'ชามผสมอยู่ชั้นล่างสุดของโซน A เป็นสเตนเลส กรุณาเลือกใบที่แห้งค่ะ', s: 'th-TH' },
-      vi: { t: 'Tô trộn ở kệ dưới cùng khu A, loại inox, xin lấy tô khô.', s: 'vi-VN' },
-      en: { t: 'Mixing bowls are on the bottom shelf in Zone A. Please take a dry one.', s: 'en-US' }
-    },
-    'oven-preheat': {
-      th: { t: 'เปิดเตาอบ ตั้งอุณหภูมิ แล้วอุ่นไว้ 10 นาที ไฟดับคือพร้อมค่ะ', s: 'th-TH' },
-      en: { t: 'Turn on the oven, set the temperature, preheat 10 minutes. Light off means ready.', s: 'en-US' }
-    },
-    'time-chiffon': {
-      th: { t: 'เค้กชิฟฟ่อนใช้เวลาประมาณ 90 นาที รวมอบและพักให้เย็นค่ะ', s: 'th-TH' },
-      en: { t: 'Chiffon cake takes about 90 minutes including baking and cooling.', s: 'en-US' }
-    }
-  };
+  // 離線示範翻譯取自 knowledge_base.js，AI 模式不使用
+  var DEMO_A = window.KB_DEMO_I18N || {};
 
   // ── 知識庫 ──────────────────────────────────────────
   function localKb() {
@@ -556,7 +537,10 @@ footer{
       }
       if (best) break;
     }
-    return { zh: zh || raw, entry: best };
+    // 命中時用條目的標準中文問法當翻譯，避免原文與中文兩行重複。
+    // 需轉店員的條目是靠關鍵詞比中的，關鍵詞不成句，所以保留原文交給店員判讀。
+    var usable = best && !best.needs_staff;
+    return { zh: zh || (usable ? best.q[0] : raw), entry: best, translated: !!(zh || usable) };
   }
 
   // ── 主流程 ──────────────────────────────────────────
@@ -598,8 +582,8 @@ footer{
 
     } else {
       var m = offlineMatch(text);
-      var fallbackLang = isAuto() ? 'th' : cfg().lang;
-      renderQuestion(turn, text, m.zh, '離線模式', false);
+      var fallbackLang = isAuto() ? 'en' : cfg().lang;
+      renderQuestion(turn, text, m.zh, '離線示範', !m.translated);
       if (m.entry && m.entry.needs_staff) {
         renderStaffPrompt(turn, m.zh, 'policy');
         state.pending = { zh: m.zh, turn: turn, langName: null, langCode: null };
@@ -607,10 +591,11 @@ footer{
       } else if (m.entry) {
         state.hit++;
         var bank = DEMO_A[m.entry.id] || {};
-        var demo = bank[fallbackLang] || bank.en || null;
+        var demo = bank[fallbackLang] || bank.en || bank[Object.keys(bank)[0]] || null;
         renderAnswer(turn, m.entry.a_zh, demo ? demo.t : null, demo ? demo.s : null, {
           kind: 'demo',
-          note: demo ? '離線示範翻譯' : '離線模式沒有這句的翻譯，設定 API 金鑰後即支援所有語言'
+          lang: demo ? null : undefined,
+          note: demo ? '離線示範翻譯，設定金鑰後改為即時翻譯所有語言' : '離線模式沒有這句的翻譯，設定 API 金鑰後即支援所有語言'
         });
         if (demo) speak(demo.t, demo.s);
       } else {
@@ -771,6 +756,11 @@ footer{
     saveLocalKb([]); refreshChips(); openSettings(); toast('已清除本機新增條目');
   });
   if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+  if (!cfg().key) {
+    setTimeout(function () {
+      toast('尚未設定 API 金鑰，目前為離線示範模式，只有內建問題看得到翻譯', true);
+    }, 600);
+  }
 })();
 </script>
 </body>

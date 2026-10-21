@@ -124,3 +124,82 @@ window.DEFAULT_KB = [
     q: ['燙到', '割到', '受傷', '不舒服', 'burn', 'cut', 'hurt'],
     a_zh: '顧客表示受傷或身體不適，請店員立即到場處理並依門市安全流程回報。', verified: true, updated: '2026-10-21', by: '系統預設' }
 ];
+
+// ── 離線示範翻譯（僅在沒有 API 金鑰時使用）────────────────────
+// AI 模式不會讀這份資料，答案一律即時翻譯。
+// 這份只是為了讓沒設定金鑰的人（例如用分享連結打開）也能看到完整的雙語畫面。
+window.KB_DEMO_I18N = {
+  'tool-spatula-xinyi': {
+    en: { t: 'The spatula is on the tool wall in Zone A, second shelf, the row with red handles.', s: 'en-US' },
+    th: { t: 'ไม้พายอยู่ที่ผนังอุปกรณ์โซน A ชั้นที่ 2 แถวด้ามจับสีแดงค่ะ', s: 'th-TH' },
+    vi: { t: 'Phới ở khu A, kệ tầng 2, hàng cán màu đỏ.', s: 'vi-VN' },
+    id: { t: 'Spatula ada di dinding alat Zona A, rak kedua, baris gagang merah.', s: 'id-ID' }
+  },
+  'tool-bowl-xinyi': {
+    en: { t: 'Mixing bowls are on the bottom shelf of Zone A, the stainless steel stack. Please take a dry one.', s: 'en-US' },
+    th: { t: 'ชามผสมอยู่ชั้นล่างสุดของโซน A เป็นสเตนเลส กรุณาเลือกใบที่แห้งค่ะ', s: 'th-TH' },
+    vi: { t: 'Tô trộn ở kệ dưới cùng khu A, loại inox, xin lấy tô khô.', s: 'vi-VN' }
+  },
+  'tool-whisk-xinyi': {
+    en: { t: 'Hand whisks hang on the first shelf in Zone A. The stand mixer is on the right side of your workbench.', s: 'en-US' }
+  },
+  'tool-scale-xinyi': {
+    en: { t: 'The scale and measuring cups are at the weighing counter in Zone B, one set shared per workbench.', s: 'en-US' }
+  },
+  'tool-piping-xinyi': {
+    en: { t: 'Piping bags and tips are in the drawer at the decorating counter in Zone C. Please return used tips to the recycling box.', s: 'en-US' }
+  },
+  'tool-papertowel': {
+    en: { t: 'Paper towels are on the wall rack at the side of each workbench.', s: 'en-US' },
+    th: { t: 'กระดาษทิชชู่อยู่ที่ที่แขวนด้านข้างโต๊ะทำงานทุกตัวค่ะ', s: 'th-TH' }
+  },
+  'oven-preheat': {
+    en: { t: 'Turn on the oven, set the temperature, and preheat for 10 minutes. When the panel light goes out, it is ready.', s: 'en-US' },
+    th: { t: 'เปิดเตาอบ ตั้งอุณหภูมิ แล้วอุ่นไว้ 10 นาที ไฟดับคือพร้อมค่ะ', s: 'th-TH' },
+    vi: { t: 'Bật lò, đặt nhiệt độ và làm nóng 10 phút, đèn tắt là đạt.', s: 'vi-VN' }
+  },
+  'oven-help': {
+    en: { t: 'A staff member always handles putting things in and out of the oven. Please raise your hand and we will come right over. Please do not open the oven door yourself.', s: 'en-US' }
+  },
+  'mixer-speed': {
+    en: { t: 'Start the mixer on low. Use medium-high for whipping egg whites. Do not start at top speed or it will splash.', s: 'en-US' }
+  },
+  'time-chiffon': {
+    en: { t: 'A chiffon cake takes about 90 minutes including baking and cooling. After baking it must cool upside down before unmolding.', s: 'en-US' },
+    th: { t: 'เค้กชิฟฟ่อนใช้เวลาประมาณ 90 นาที รวมอบและพักให้เย็นค่ะ', s: 'th-TH' },
+    vi: { t: 'Bánh chiffon mất khoảng 90 phút, gồm nướng và để nguội.', s: 'vi-VN' }
+  },
+  'stiff-peaks': {
+    en: { t: 'When you lift the whisk and the peak stands straight without drooping, that is stiff peaks. You can stop.', s: 'en-US' },
+    th: { t: 'ยกหัวตีขึ้นแล้วยอดตั้งแข็งไม่ตก คือตีได้ที่แล้วค่ะ หยุดได้เลย', s: 'th-TH' }
+  },
+  'deflate-fix': {
+    en: { t: 'For slight deflating, add a small spoon of fresh egg white and fold on low for 10 seconds. If it has separated badly, please raise your hand for a staff member.', s: 'en-US' }
+  },
+  'takeaway-box': {
+    en: { t: 'Yes, you can take it with you. We provide a carry box when you finish. Please ask the counter if you need a cooler bag.', s: 'en-US' },
+    th: { t: 'นำกลับได้ค่ะ เสร็จแล้วเรามีกล่องให้ ถ้าต้องการถุงเก็บความเย็นแจ้งที่เคาน์เตอร์ได้เลยค่ะ', s: 'th-TH' }
+  },
+  'keep-days': {
+    en: { t: 'Chiffon and cheese cakes should be refrigerated and eaten within 3 days. Cookies keep 7 days sealed at room temperature.', s: 'en-US' },
+    th: { t: 'ชิฟฟ่อนและชีสเค้กเก็บในตู้เย็น ทานภายใน 3 วันค่ะ คุกกี้เก็บในภาชนะปิดสนิทได้ 7 วัน', s: 'th-TH' }
+  },
+  'hotel-carry': {
+    en: { t: 'At room temperature, please refrigerate within 2 hours. In summer, if you will be out more than an hour, please add a cooler bag.', s: 'en-US' }
+  },
+  'wifi': {
+    en: { t: 'The Wi-Fi name and password are on the small sign at the side of each workbench.', s: 'en-US' }
+  },
+  'restroom-xinyi': {
+    en: { t: 'For the restroom, turn left as you exit the shop, then go to the end, it is on the right-hand side.', s: 'en-US' },
+    th: { t: 'ห้องน้ำออกจากร้านแล้วเลี้ยวซ้าย เดินไปสุดทาง อยู่ทางขวามือค่ะ', s: 'th-TH' },
+    vi: { t: 'Nhà vệ sinh: ra khỏi cửa hàng rẽ trái, đi đến cuối, bên tay phải.', s: 'vi-VN' },
+    id: { t: 'Toilet: keluar toko belok kiri, jalan sampai ujung, ada di sebelah kanan.', s: 'id-ID' }
+  },
+  'wash-hands': {
+    en: { t: 'The sink is at the entrance of the work area. Please wash and dry your hands before you start.', s: 'en-US' }
+  },
+  'photo-ok': {
+    en: { t: 'Photos and video are welcome. Feel free to shoot your own bake, but please avoid other customers.', s: 'en-US' }
+  }
+};
