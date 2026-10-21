@@ -20,7 +20,8 @@
 body{
   font-family:'Plus Jakarta Sans','Noto Sans TC','PingFang TC',sans-serif;
   background:var(--bg); color:var(--text);
-  height:100dvh; display:flex; flex-direction:column; -webkit-text-size-adjust:100%;
+  height:100dvh; min-height:100dvh; overflow:hidden;
+  display:flex; flex-direction:column; -webkit-text-size-adjust:100%;
 }
 button,input,select,textarea{font-family:inherit}
 button{cursor:pointer}
@@ -41,8 +42,10 @@ header{flex:0 0 auto; background:var(--surface); border-bottom:1px solid var(--b
 .chip.bad{background:rgba(239,68,68,.16); color:#fca5a5; border-color:rgba(239,68,68,.35)}
 
 /* ── 對話區：一次問答就是一張卡 ── */
-main{flex:1; overflow-y:auto; padding:14px 12px 6px; display:flex; flex-direction:column; gap:12px}
-.empty{margin:auto; text-align:center; color:var(--muted); font-size:.88rem; line-height:1.85; padding:20px; max-width:34ch}
+/* min-height:0 不可省略：flex 子元素預設 min-height:auto，會撐到內容高度而不出現捲軸 */
+main{flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+     padding:14px 12px 6px; display:flex; flex-direction:column; gap:12px}
+.empty{margin:auto; flex:0 0 auto; text-align:center; color:var(--muted); font-size:.88rem; line-height:1.85; padding:20px; max-width:34ch}
 .empty b{display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px}
 .empty code{background:rgba(255,255,255,.07); padding:1px 6px; border-radius:5px; font-size:.82rem}
 
@@ -57,7 +60,8 @@ main{flex:1; overflow-y:auto; padding:14px 12px 6px; display:flex; flex-directio
 .diag .dl{font-size:.8rem; line-height:1.7; color:#d1d5db; word-break:break-all}
 .diag .dl b{color:#fff}
 .diag .fix{margin-top:10px; padding-top:9px; border-top:1px solid var(--border); font-size:.8rem; color:#fbbf24; line-height:1.65}
-.turn{background:var(--surface); border:1px solid var(--border); border-radius:15px; overflow:hidden}
+.turn{background:var(--surface); border:1px solid var(--border); border-radius:15px; overflow:hidden; flex:0 0 auto}
+.setup,.diag{flex:0 0 auto}
 .seg{padding:11px 14px}
 .seg + .seg{border-top:1px solid var(--border)}
 .seg.ask{border-left:3px solid var(--blue)}
@@ -404,7 +408,12 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     setChip('chipHit','命中 '+state.hit+' / '+state.asked,'');
   }
   function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
-  function scrollDown(){log.scrollTop=log.scrollHeight;}
+  function scrollDown(){
+    // 等版面算完再捲，否則讀到的 scrollHeight 還是舊值
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ log.scrollTop=log.scrollHeight; });
+    });
+  }
 
   function newTurn(srcText, zhText, langLabel){
     if(empty && empty.parentNode) empty.remove();
