@@ -171,7 +171,9 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     <div class="fg">
       <label for="inKey">Google Gemini API Key</label>
       <input type="password" id="inKey" placeholder="AIzaSy...">
-      <small>這是翻譯與語意比對的引擎，<b>沒有填就只能跑離線示範</b>。<br>注意：用 Claude Artifact 連結開啟時，瀏覽器安全政策會擋掉所有對外呼叫，請改用 GitHub Pages 網址。</small>
+      <small>這是翻譯與語意比對的引擎，<b>沒有填就只能跑離線示範</b>。<br>
+      還沒有金鑰？到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:#93c5fd">Google AI Studio</a> 用 Google 帳號登入，點 Create API key 即可免費取得，格式是 AIzaSy 開頭。<br>
+      注意：用 Claude Artifact 連結開啟時，瀏覽器安全政策會擋掉所有對外呼叫，請改用 GitHub Pages 網址。</small>
     </div>
 
     <div class="fg">
@@ -530,6 +532,12 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
     var c=el('div','setup'); c.id='setupCard';
     c.appendChild(el('h3',null,'⚠️ 還沒設定 Gemini 金鑰，目前無法翻譯'));
     c.appendChild(el('p',null,'現在是離線示範模式，只有內建的 22 個問題看得到翻譯。日文、印尼文等其他語言一律不會翻，店員也看不到中文，等於沒辦法回答。貼上金鑰就能即時翻譯任何語言。'));
+    var how=el('p',null,'還沒有金鑰？到 Google AI Studio 用 Google 帳號登入，點 Create API key 即可免費取得：');
+    var a=document.createElement('a');
+    a.href='https://aistudio.google.com/apikey'; a.target='_blank'; a.rel='noopener';
+    a.style.color='#93c5fd'; a.textContent='aistudio.google.com/apikey';
+    how.appendChild(a);
+    c.appendChild(how);
     var row=el('div','srow');
     var inp=document.createElement('input');
     inp.type='password'; inp.placeholder='貼上 Gemini API Key（AIzaSy...）';
