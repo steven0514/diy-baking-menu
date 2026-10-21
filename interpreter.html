@@ -331,7 +331,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
   var jsonpSeq=0;
-  function loadSheet(sheetId, tabName){
+  function loadSheet(sheetId, tabName, withHeaders){
     return new Promise(function(resolve,reject){
       var cb='kbcb_'+(++jsonpSeq)+'_'+Date.now();
       var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
@@ -345,9 +345,15 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         if(done) return; done=true;
         try{
           var rows=(res && res.table && res.table.rows)||[];
-          resolve(rows.map(function(r){
+          var mapped=rows.map(function(r){
             return (r.c||[]).map(function(c){ return c && c.v!=null ? String(c.v) : ''; });
-          }));
+          });
+          if(withHeaders){
+            var cols=(res && res.table && res.table.cols)||[];
+            resolve({ headers: cols.map(function(c){ return (c.label||'').trim(); }), rows: mapped });
+          } else {
+            resolve(mapped);
+          }
         }catch(e){ reject(e); }
         cleanup();
       };
@@ -380,11 +386,21 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   function loadConfig(){
     // 從 Google Sheets 「設定」分頁讀取 API Key 和模型名稱
-    // 分頁結構：第1列 key，第2列 value
+    // 支援兩種排版：
+    //   橫式：第1列是欄位名稱（gemini_api_key、gemini_model），第2列是值
+    //   直式：A 欄是 key，B 欄是 value，一列一組
     var c=cfg();
     if(!c.sheet) return Promise.resolve();  // 沒設定試算表，用 localStorage 的設定
-    return loadSheet(c.sheet, '設定').then(function(rows){
+    return loadSheet(c.sheet, '設定', true).then(function(result){
       var config={};
+      var headers=result.headers||[], rows=result.rows||[];
+      // 橫式：欄位名稱當 key，第一筆資料列當 value
+      var firstRow=rows[0]||[];
+      headers.forEach(function(h,i){
+        var val=(firstRow[i]||'').trim();
+        if(h && val) config[h]=val;
+      });
+      // 直式：每一列的 A/B 欄當 key/value（和橫式同時支援，後者優先）
       rows.forEach(function(r){
         var key=(r[0]||'').trim(), val=(r[1]||'').trim();
         if(key && val) config[key]=val;
