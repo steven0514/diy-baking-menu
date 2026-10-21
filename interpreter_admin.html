@@ -142,6 +142,13 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   }
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
+  // gviz 會把「看起來像日期」的欄位自動轉成 Date(年,月,日) 這種 JS 字面量塞進 v，
+  // 真正人看得懂的格式在 f（formatted）欄位，有的話要優先用它。
+  function gvizCell(c){
+    if(!c) return '';
+    if(c.f!=null) return String(c.f);
+    return c.v!=null ? String(c.v) : '';
+  }
   var jsonpSeq=0;
   function loadSheetRows(sheetId, tabName){
     return new Promise(function(resolve,reject){
@@ -158,7 +165,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
         try{
           var rows=(res && res.table && res.table.rows)||[];
           resolve(rows.map(function(r){
-            return (r.c||[]).map(function(c){ return c && c.v!=null ? String(c.v) : ''; });
+            return (r.c||[]).map(gvizCell);
           }));
         }catch(e){ reject(e); }
         cleanup();
@@ -308,11 +315,10 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     btnApprove.addEventListener('click', function(){
       setBusy(true); setMsg('處理中…');
       var edited=ta.value.trim();
-      var writeBack = edited!==entry.a_zh
-        ? postScript({ sheet:group.pendingSheet, row:[entry.id, entry.cat, entry.q, edited,
-            entry.needs_staff?'是':'否', '否', entry.updated, entry.by] })
-        : Promise.resolve();
-      writeBack
+      // 核准前一律先把「已審核」標成是（順便存下可能被編輯過的答案），
+      // 這樣正式分頁拿到的那一列才會正確標示為已審核，不管店員有沒有動過文字。
+      postScript({ sheet:group.pendingSheet, row:[entry.id, entry.cat, entry.q, edited,
+          entry.needs_staff?'是':'否', '是', entry.updated, entry.by] })
         .then(function(){
           return postScript({ action:'approve', sheet:group.pendingSheet, targetSheet:group.store.sheet, id:entry.id });
         })
