@@ -199,7 +199,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 <div class="modal" id="modal">
   <div class="sheet">
     <h2>設定</h2>
-    <p class="sub">試算表、寫回網址、Gemini 金鑰、AI 模型都已經固定好，不會因為手滑改到。這幾項都從 Google Sheets「設定」分頁自動讀取；要換模型請到後台核准頁（interpreter_admin.html）設定。</p>
+    <p class="sub">試算表、寫回網址都已經固定好，不會因為手滑改到。Gemini 金鑰只存在後端（Apps Script），這個頁面跟網址裡都看不到；要設定金鑰或換模型請到後台核准頁（interpreter_admin.html）。</p>
     <p class="sub">語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</p>
 
     <div class="fg">
@@ -228,9 +228,13 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 (function () {
   'use strict';
 
-  var K_KEY='diybc_gemini_api_key', K_MODEL='diybc_gemini_model';
+  var K_MODEL='diybc_gemini_model';
   var K_LOCAL='diybc_kb_local', K_STORE='diybc_itp_store', K_LANG='diybc_itp_lang';
   var K_HIDE='diybc_kb_hidden';
+
+  // 舊版把 Gemini 金鑰明碼存在每台裝置的 localStorage，現在金鑰只留在後端，
+  // 這裡順手清掉殘留的那份，免得舊裝置上一直留著可被讀取的明碼。
+  try{ localStorage.removeItem('diybc_gemini_api_key'); }catch(e){}
 
   var $=function(id){return document.getElementById(id);};
   var log=$('log'), empty=$('empty'), hint=$('hint'), inputBox=$('inputBox');
@@ -259,13 +263,13 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   var state={
     mode:'customer', pending:null, asked:0, hit:0, busy:false,
     lastSpeech:null, lastLangName:null,
-    kb:null, kbSource:'內建', kbStore:null
+    kb:null, kbSource:'內建', kbStore:null,
+    hasKey:false  // Gemini 金鑰是否已在後端設定，金鑰本身不會出現在前端
   };
 
   // ── 設定 ──────────────────────────────────────────
   function cfg(){
     return {
-      key: localStorage.getItem(K_KEY)||'',
       model: localStorage.getItem(K_MODEL)||'gemini-2.5-flash',
       sheet: window.KB_SHEET_ID||'',       // 寫死在 knowledge_base.js，不給前端改
       script: window.KB_SCRIPT_URL||'',    // 同上
@@ -365,32 +369,38 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   function loadConfig(){
-    // 從 Google Sheets 「設定」分頁讀取 API Key 和模型名稱
+    // 從 Google Sheets 「設定」分頁讀取模型名稱（非機密，Gemini 金鑰不走這條路）。
     // 支援兩種排版：
-    //   橫式：第1列是欄位名稱（gemini_api_key、gemini_model），第2列是值
+    //   橫式：第1列是欄位名稱（gemini_model），第2列是值
     //   直式：A 欄是 key，B 欄是 value，一列一組
     var c=cfg();
-    if(!c.sheet) return Promise.resolve();  // 沒設定試算表，用 localStorage 的設定
-    return loadSheet(c.sheet, '設定', true).then(function(result){
+    var sheetPromise = !c.sheet ? Promise.resolve({}) : loadSheet(c.sheet, '設定', true).then(function(result){
       var config={};
       var headers=result.headers||[], rows=result.rows||[];
-      // 橫式：欄位名稱當 key，第一筆資料列當 value
       var firstRow=rows[0]||[];
       headers.forEach(function(h,i){
         var val=(firstRow[i]||'').trim();
         if(h && val) config[h]=val;
       });
-      // 直式：每一列的 A/B 欄當 key/value（和橫式同時支援，後者優先）
       rows.forEach(function(r){
         var key=(r[0]||'').trim(), val=(r[1]||'').trim();
         if(key && val) config[key]=val;
       });
-      if(config.gemini_api_key){ localStorage.setItem(K_KEY, config.gemini_api_key); }
       if(config.gemini_model){ localStorage.setItem(K_MODEL, config.gemini_model); }
       return config;
     }).catch(function(e){
       // 「設定」分頁不存在時無須報錯，繼續用 localStorage 的設定
       return {};
+    });
+    return Promise.all([sheetPromise, checkGeminiKey()]).then(function(r){ return r[0]; });
+  }
+
+  // Gemini 金鑰只存在 Apps Script 後端，前端只問得到「有沒有設定」，問不到內容。
+  function checkGeminiKey(){
+    return postScript({action:'hasSecret'}).then(function(d){
+      state.hasKey = !!(d && d.hasKey);
+    }).catch(function(){
+      state.hasKey=false;
     });
   }
 
@@ -462,9 +472,12 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     }).then(function(text){
       var data;
       try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
-      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
       return data;
-    }).catch(function(){
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
       return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
@@ -489,10 +502,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     setTimeout(function(){toastEl.className='toast'+(isErr?' err':'');},2600);
   }
   function refreshChips(){
-    var c=cfg(), bm=$('brandModel');
+    var bm=$('brandModel');
     // 模型名稱（例如 3.5-flash-lite）不顯示，字太長在手機上會把頂部列擠到換行。
     // 只在離線示範模式才提示，這才是店員真正需要知道的狀態。
-    if(c.key){ bm.textContent=''; bm.className='brand-model'; }
+    if(state.hasKey){ bm.textContent=''; bm.className='brand-model'; }
     else { bm.textContent='（離線示範）'; bm.className='brand-model bad'; }
   }
   function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
@@ -592,8 +605,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     return best;
   }
 
-  function looksLikeGeminiKey(k){ return /^[A-Za-z0-9._\-]{20,}$/.test(k); }
-
   function runDiagnostics(){
     modal.classList.remove('open');
     if(empty && empty.parentNode) empty.remove();
@@ -609,11 +620,11 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var proto=location.protocol, host=location.hostname||'（無）';
     line('開啟方式：'+proto+'//'+host);
     line('試算表 ID：'+(c.sheet?c.sheet.slice(0,12)+'…':'未設定'));
-    line('金鑰：'+(c.key ? '已填入 '+c.key.length+' 字元（'+c.key.slice(0,4)+'…），有效性由下方實際連線判定' : '未設定'));
+    line('Gemini 金鑰：'+(state.hasKey ? '後端已設定（內容不會出現在前端）' : '尚未設定'));
 
     var sheetLine=line('Google Sheets：測試中…');
-    var geminiLine=line('Gemini API：'+(c.key?'測試中…':'略過，未設定金鑰'));
-    var results={sheet:null, gemini:c.key?null:'skip'};
+    var geminiLine=line('Gemini API：測試中…');
+    var results={sheet:null, gemini:null};
 
     function verdict(){
       if(results.sheet===null || results.gemini===null) return;
@@ -622,10 +633,12 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         fix.textContent='兩項都連不上，表示這個頁面被禁止對外連線。最常見原因是用 Claude Artifact 連結開啟。請改用 GitHub Pages 網址，或在電腦上執行 python3 -m http.server 8000 後開 http://localhost:8000/interpreter.html';
       }else if(results.sheet==='fail'){
         fix.textContent='只有試算表讀不到。請確認試算表已設為「知道連結的任何人可以檢視」，以及分頁名稱與設定的門市相符。';
+      }else if(results.gemini==='skip'){
+        fix.textContent='尚未設定 Gemini 金鑰，請聯絡管理員到後台核准頁（interpreter_admin.html）設定一次，所有分店共用。';
       }else if(results.gemini==='model'){
         fix.textContent='金鑰沒問題，但原本設定的模型不可用，已自動換成可用的模型。直接再試一次即可。';
       }else if(results.gemini==='fail'){
-        fix.textContent='只有 Gemini 連不上。請確認金鑰正確、未過期，且該金鑰已啟用 Generative Language API。';
+        fix.textContent='只有 Gemini 連不上。請聯絡管理員到後台核准頁確認金鑰正確、未過期，且已啟用 Generative Language API。';
       }else{
         fix.textContent='兩項都正常，可以直接使用。';
       }
@@ -640,36 +653,31 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       results.sheet='fail';
     }).then(verdict);
 
-    if(c.key){
-      fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':c.key}})
-        .then(function(r){
-          if(r.ok){
-            return r.json().then(function(d){
-              var usable=(d.models||[]).filter(function(m){
-                return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0;
-              }).map(function(m){return String(m.name||'').replace(/^models\//,'');});
-              var ok = usable.indexOf(c.model)>=0;
-              geminiLine.textContent='Gemini API：✅ 金鑰有效，可用模型 '+usable.length+' 個'
-                + (ok ? '，目前設定的 '+c.model+' 可用' : '，⚠️ 目前設定的 '+c.model+' 不在清單中');
-              results.gemini = ok ? 'ok' : 'model';
-              if(!ok){
-                var best=pickBest(usable);
-                if(best){ localStorage.setItem(K_MODEL,best); refreshChips();
-                  line('已自動改用可用模型：'+best); }
-              }
-            });
-          }
-          else { return r.text().then(function(t){
-            geminiLine.textContent='Gemini API：❌ HTTP '+r.status+' '+t.slice(0,90);
-            results.gemini='fail';
-          }); }
-        })
-        .catch(function(e){
-          geminiLine.textContent='Gemini API：❌ 無法連線（'+e.message+'）';
-          results.gemini='fail';
-        })
-        .then(verdict);
-    } else { verdict(); }
+    postScript({action:'listModels'}).then(function(d){
+      if(d && d.unconfirmed){
+        geminiLine.textContent='Gemini API：⚠️ 已送出但讀不到回應，無法確認';
+        results.gemini='fail';
+        return;
+      }
+      var usable=d.models||[];
+      var ok = usable.indexOf(c.model)>=0;
+      geminiLine.textContent='Gemini API：✅ 金鑰有效，可用模型 '+usable.length+' 個'
+        + (ok ? '，目前設定的 '+c.model+' 可用' : '，⚠️ 目前設定的 '+c.model+' 不在清單中');
+      results.gemini = ok ? 'ok' : 'model';
+      if(!ok){
+        var best=pickBest(usable);
+        if(best){ localStorage.setItem(K_MODEL,best); refreshChips();
+          line('已自動改用可用模型：'+best); }
+      }
+    }).catch(function(e){
+      if(/尚未設定 Gemini 金鑰/.test(e.message)){
+        geminiLine.textContent='Gemini API：略過，'+e.message;
+        results.gemini='skip';
+      } else {
+        geminiLine.textContent='Gemini API：❌ '+e.message;
+        results.gemini='fail';
+      }
+    }).then(verdict);
   }
 
   // ── 語音與麥克風測試面板 ──────────────────────────
@@ -751,35 +759,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     });
   }
 
-  // 沒有金鑰時，在對話區最上方放一張可直接貼金鑰的引導卡
+  // 沒有金鑰時，在對話區最上方放一張提示卡。金鑰只能由管理員在後台設定一次，
+  // 全店共用；店員端不開放貼金鑰，避免金鑰散落在每個人的裝置上。
   function showSetupCard(){
-    if(cfg().key || document.getElementById('setupCard')) return;
+    if(state.hasKey || document.getElementById('setupCard')) return;
     var c=el('div','setup'); c.id='setupCard';
     c.appendChild(el('h3',null,'⚠️ 還沒設定 Gemini 金鑰，目前無法翻譯'));
-    c.appendChild(el('p',null,'現在是離線示範模式，只有內建的 22 個問題看得到翻譯。日文、印尼文等其他語言一律不會翻，店員也看不到中文，等於沒辦法回答。貼上金鑰就能即時翻譯任何語言。'));
-    var how=el('p',null,'還沒有金鑰？到 Google AI Studio 用 Google 帳號登入，點 Create API key 即可免費取得：');
-    var a=document.createElement('a');
-    a.href='https://aistudio.google.com/apikey'; a.target='_blank'; a.rel='noopener';
-    a.style.color='#93c5fd'; a.textContent='aistudio.google.com/apikey';
-    how.appendChild(a);
-    c.appendChild(how);
-    var row=el('div','srow');
-    var inp=document.createElement('input');
-    inp.type='password'; inp.placeholder='貼上 Gemini API Key（AQ. 或 AIzaSy 開頭）';
-    inp.autocomplete='off';
-    var b=el('button','btn','開始使用'); b.type='button';
-    b.addEventListener('click',function(){
-      var v=inp.value.trim();
-      if(!v){inp.focus();return;}
-      if(!looksLikeGeminiKey(v) && !confirm('這串看起來太短或含有空白，可能不是完整的金鑰。仍要儲存嗎？')) return;
-      localStorage.setItem(K_KEY,v);
-      c.remove(); refreshChips(); loadKb(cfg().store);
-      toast('金鑰已儲存，現在可以翻譯任何語言');
-    });
-    inp.addEventListener('keydown',function(e){if(e.key==='Enter')b.click();});
-    row.appendChild(inp); row.appendChild(b);
-    c.appendChild(row);
-    c.appendChild(el('p','warn-note','貼上金鑰後仍連不上的話：用 Claude Artifact 連結開啟時，瀏覽器會擋掉所有對外呼叫，Gemini 與 Google Sheets 都連不到。請改用 GitHub Pages 網址。'));
+    c.appendChild(el('p',null,'現在是離線示範模式，只有內建的 22 個問題看得到翻譯。日文、印尼文等其他語言一律不會翻，店員也看不到中文，等於沒辦法回答。'));
+    c.appendChild(el('p',null,'金鑰只能由管理員在後台核准頁（interpreter_admin.html）設定一次，所有分店共用，店員不需要也不應該自己貼金鑰。'));
     log.insertBefore(c, log.firstChild);
   }
 
@@ -1005,29 +992,27 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     catch(e){ toast('無法啟動麥克風：'+e.message, true); }
   }
 
-  // ── Gemini ────────────────────────────────────────
+  // ── Gemini（透過 Apps Script 代呼，金鑰全程不經過前端）──
   function explainGeminiError(msg){
     if(/no longer available|not found|404/i.test(msg))
-      return '模型「'+cfg().model+'」已不開放使用。請開設定頁按「偵測可用模型」，系統會自動換成可用的模型。';
+      return '模型「'+cfg().model+'」已不開放使用。請聯絡管理員到後台核准頁按「🔄 重新偵測」，系統會自動換成可用的模型。';
     if(/Failed to fetch|NetworkError|Load failed/i.test(msg))
-      return '連不到 Gemini。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 或本機伺服器網址。';
+      return '連不到知識庫後端。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 或本機伺服器網址。';
     if(/API key not valid|401|403/i.test(msg))
-      return '金鑰無效或未啟用 Generative Language API，請到 Google AI Studio 確認。';
+      return '金鑰無效或未啟用 Generative Language API，請聯絡管理員到後台核准頁重新設定。';
     if(/429|quota|RESOURCE_EXHAUSTED/i.test(msg))
-      return '已達免費額度上限，請稍後再試或改用其他金鑰。';
+      return '已達免費額度上限，請稍後再試或聯絡管理員換一組金鑰。';
+    if(/尚未設定 Gemini 金鑰/.test(msg))
+      return '尚未設定 Gemini 金鑰，請聯絡管理員到後台核准頁設定。';
     return 'Gemini 連線失敗：'+msg;
   }
 
   function callGemini(prompt){
     var c=cfg();
-    // 金鑰走 x-goog-api-key 標頭，不放在網址上（網址會被各層紀錄留存）
-    return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+c.model+':generateContent',{
-      method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':c.key},
-      body:JSON.stringify({contents:[{parts:[{text:prompt}]}], generationConfig:{responseMimeType:'application/json', temperature:0.2}})
-    }).then(function(r){
-      if(!r.ok) return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,120));});
-      return r.json();
-    }).then(function(d){ return JSON.parse(d.candidates[0].content.parts[0].text); });
+    return postScript({ action:'generate', prompt: prompt, model: c.model }).then(function(d){
+      if(d.unconfirmed) throw new Error('已送出但讀不到回應，無法確認翻譯結果');
+      return JSON.parse(d.text);
+    });
   }
 
   function askPrompt(utterance){
@@ -1103,7 +1088,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var c=cfg();
     state.asked++;
 
-    if(c.key){
+    if(state.hasKey){
       var card=newTurn(text,'翻譯中…', isAuto()?'判斷語言中':langInfo(c.lang).zh);
       setBusy(true);
       callGemini(askPrompt(text)).then(function(r){
@@ -1201,7 +1186,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     }
 
     var wantSave=chkSave.checked;
-    if(c.key){
+    if(state.hasKey){
       setBusy(true);
       callGemini(staffPrompt(p.zh,text,p.langName,p.langCode)).then(function(r){
         finishStaff(p, r.a_zh||text, r.a_src, r.q_keywords, wantSave);

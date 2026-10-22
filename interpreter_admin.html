@@ -45,7 +45,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 .model-card h2{font-size:.9rem; font-weight:700; color:#ffc5a8; margin-bottom:6px}
 .model-card .sub{font-size:.78rem; color:var(--muted); line-height:1.6; margin-bottom:11px}
 .model-row{display:flex; gap:8px; flex-wrap:wrap}
-.model-row select{flex:1 1 160px; min-width:140px; background:var(--surface); border:1px solid var(--border);
+.model-row select, .model-row input{flex:1 1 160px; min-width:140px; background:var(--surface); border:1px solid var(--border);
   color:var(--text); border-radius:10px; padding:9px 10px; font-size:.84rem}
 .model-row .btn{flex:0 0 auto; padding:9px 13px; font-size:.82rem}
 .model-row .btn.ghost{background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text)}
@@ -92,13 +92,19 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     <div class="brand">🍰 <span id="brandStore">待核准後台</span></div>
     <div class="stats" id="stats"></div>
     <div class="spacer"></div>
+    <a class="icon-btn" href="admin.html" target="_blank" aria-label="商品菜單後台" title="商品菜單後台" style="display:inline-flex;align-items:center;text-decoration:none">🧁</a>
     <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄</button>
   </div>
 </header>
 
 <section class="model-card" id="modelCard">
-  <h2>AI 模型</h2>
-  <p class="sub">所有門市共用這一個設定，寫回 Google Sheets「設定」分頁，店員端會自動讀到。避免在店員端開放選擇，省得選到不支援或昂貴的模型。</p>
+  <h2>AI 模型與金鑰</h2>
+  <p class="sub">所有門市共用這一組設定。Gemini 金鑰只存在 Apps Script 後端（Script Properties），不會出現在試算表、網頁原始碼或網址裡；貼上儲存後連這個頁面自己也讀不回內容，只能覆蓋重設。</p>
+  <div class="model-row">
+    <input type="password" id="geminiKeyInput" placeholder="貼上 Gemini API Key" autocomplete="off">
+    <button class="btn" id="btnSaveKey">儲存金鑰</button>
+  </div>
+  <p class="model-msg" id="keyMsg"></p>
   <div class="model-row">
     <select id="modelSelect"><option value="">載入中…</option></select>
     <button class="btn ghost" id="btnDetectModels">🔄 重新偵測</button>
@@ -224,9 +230,12 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     }).then(function(text){
       var data;
       try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
-      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
       return data;
-    }).catch(function(){
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
       return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
@@ -245,18 +254,12 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     if(v) score += parseInt(v[1],10)*10 + parseInt(v[2],10);
     return score;
   }
-  function listModels(key){
-    return fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':key}})
-      .then(function(r){
-        if(!r.ok) return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,100));});
-        return r.json();
-      }).then(function(d){
-        return (d.models||[])
-          .filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0; })
-          .map(function(m){ return String(m.name||'').replace(/^models\//,''); })
-          .filter(Boolean)
-          .sort(function(a,b){ return rankModel(b)-rankModel(a); });
-      });
+  // 偵測模型清單改走 Apps Script 代呼，金鑰留在後端，前端拿到的只是模型名稱（非機密）。
+  function listModels(){
+    return postScript({action:'listModels'}).then(function(d){
+      if(d.unconfirmed) throw new Error('已送出但讀不到回應，無法確認模型清單');
+      return (d.models||[]).slice().sort(function(a,b){ return rankModel(b)-rankModel(a); });
+    });
   }
   function fillModelSelect(list, selected){
     var sel=$('modelSelect');
@@ -276,17 +279,40 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   function setModelMsg(text, cls){
     var m=$('modelMsg'); m.textContent=text; m.className='model-msg'+(cls?' '+cls:'');
   }
-  var currentGeminiKey='';
+  function setKeyMsg(text, cls){
+    var m=$('keyMsg'); m.textContent=text; m.className='model-msg'+(cls?' '+cls:'');
+  }
+  function checkKeyStatus(){
+    return postScript({action:'hasSecret'}).then(function(d){
+      if(d.unconfirmed){ setKeyMsg('已送出但讀不到回應，無法確認金鑰狀態。'); return; }
+      setKeyMsg(d.hasKey ? '目前已設定金鑰（存在後端，看不到內容）。' : '⚠️ 尚未設定金鑰，店員端無法翻譯。', d.hasKey?'ok':'err');
+    }).catch(function(e){
+      setKeyMsg('讀取金鑰狀態失敗：'+e.message, 'err');
+    });
+  }
+  function saveKey(){
+    var inp=$('geminiKeyInput');
+    var v=inp.value.trim();
+    if(!v){ setKeyMsg('請先貼上金鑰再按儲存。', 'err'); return; }
+    if(!/^[A-Za-z0-9._-]{20,}$/.test(v) && !confirm('這串看起來太短或含有空白，可能不是完整的金鑰。仍要儲存嗎？')) return;
+    setKeyMsg('儲存中…');
+    postScript({ action:'setSecret', key:'gemini_api_key', value:v })
+      .then(function(data){
+        inp.value='';
+        if(data.unconfirmed){
+          setKeyMsg('△ 已送出，但瀏覽器讀不到回應，請按「重新偵測」確認金鑰是否生效。');
+        }else{
+          setKeyMsg('✓ 金鑰已儲存到後端，店員端重新整理後生效。', 'ok');
+        }
+        return detectModels($('modelSelect').value);
+      })
+      .catch(function(e){ setKeyMsg('✕ 儲存失敗：'+e.message, 'err'); });
+  }
   function initModelCard(){
     setModelMsg('載入中…');
+    checkKeyStatus();
     loadConfigSheet().then(function(config){
-      currentGeminiKey=config.gemini_api_key||'';
       var curModel=config.gemini_model||'';
-      if(!currentGeminiKey){
-        fillModelSelect(curModel?[curModel]:[], curModel);
-        setModelMsg('「設定」分頁沒有 gemini_api_key，無法偵測可用模型清單。', 'err');
-        return;
-      }
       fillModelSelect(curModel?[curModel]:[], curModel);
       setModelMsg('目前設定：'+(curModel||'（未設定）')+'。偵測中…');
       return detectModels(curModel);
@@ -295,9 +321,8 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     });
   }
   function detectModels(curModel){
-    if(!currentGeminiKey){ setModelMsg('沒有金鑰，無法偵測。', 'err'); return; }
     setModelMsg('偵測中…');
-    return listModels(currentGeminiKey).then(function(list){
+    return listModels().then(function(list){
       if(!list.length) throw new Error('沒有可用於對話的模型');
       fillModelSelect(list, curModel || list[0]);
       setModelMsg('可用模型 '+list.length+' 個，選好後按「儲存」。');
@@ -526,6 +551,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   $('btnRefresh').addEventListener('click', loadAll);
   $('btnDetectModels').addEventListener('click', function(){ detectModels($('modelSelect').value); });
   $('btnSaveModel').addEventListener('click', saveModel);
+  $('btnSaveKey').addEventListener('click', saveKey);
 
   // AI 模型是全門市共用的設定，只有沒帶 ?store= 的總覽網址能看到、能改；
   // 個別門市的網址完全不顯示這塊，連文字說明都不該看到「所有門市」字樣。
