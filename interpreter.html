@@ -32,19 +32,11 @@ header{flex:0 0 auto; background:var(--surface); border-bottom:1px solid var(--b
 .bar{display:flex; align-items:center; gap:8px}
 .brand{font-size:.95rem; font-weight:700; white-space:nowrap}
 .brand span{color:var(--primary-light)}
+.brand .brand-model{font-size:.68rem; font-weight:700; color:var(--muted); margin-left:2px}
+.brand .brand-model.bad{color:#fca5a5}
 .spacer{flex:1}
 .sel{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:6px 8px; font-size:.8rem; font-weight:600; max-width:34vw}
 .icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:6px 10px; font-size:.85rem}
-.stats{display:flex; gap:6px; margin-top:7px; flex-wrap:wrap}
-.chip{font-size:.68rem; font-weight:700; padding:3px 9px; border-radius:9999px; background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); font-variant-numeric:tabular-nums}
-.chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
-.chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
-.chip.bad{background:rgba(239,68,68,.16); color:#fca5a5; border-color:rgba(239,68,68,.35)}
-/* 頂端只留這顆 chip，跟著裝置的深色/淺色主題切換：深色模式黑底白字，淺色模式白底黑字 */
-#chipMode{background:#000; color:#fff; border-color:#000}
-@media (prefers-color-scheme: light){
-  #chipMode{background:#fff; color:#000; border-color:#000}
-}
 
 /* ── 對話區：一次問答就是一張卡 ── */
 /* min-height:0 不可省略：flex 子元素預設 min-height:auto，會撐到內容高度而不出現捲軸 */
@@ -163,14 +155,11 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
 <header>
   <div class="bar">
-    <div class="brand">🍰 隨身<span>口譯</span></div>
+    <div class="brand">🍰 隨身<span>口譯</span><span class="brand-model" id="brandModel"></span></div>
     <div class="spacer"></div>
     <select class="sel" id="selStore" aria-label="目前門市"></select>
     <select class="sel" id="selLang" aria-label="顧客語言"></select>
     <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
-  </div>
-  <div class="stats">
-    <span class="chip" id="chipMode">離線示範模式</span>
   </div>
 </header>
 
@@ -499,11 +488,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     toastEl.className='toast show'+(isErr?' err':'');
     setTimeout(function(){toastEl.className='toast'+(isErr?' err':'');},2600);
   }
-  function setChip(id,text,cls){ var e=$(id); e.textContent=text; e.className='chip'+(cls?' '+cls:''); }
   function refreshChips(){
-    var c=cfg();
-    if(c.key) setChip('chipMode','AI 模式 ・ '+c.model.replace('gemini-',''),'ok');
-    else setChip('chipMode','離線示範模式','bad');
+    var c=cfg(), bm=$('brandModel');
+    if(c.key){ bm.textContent='（'+c.model.replace('gemini-','')+'）'; bm.className='brand-model'; }
+    else { bm.textContent='（離線示範）'; bm.className='brand-model bad'; }
   }
   function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
   function scrollDown(){
