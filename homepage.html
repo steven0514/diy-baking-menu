@@ -23,13 +23,20 @@
                 <span>DIY Baking Club · 自己做烘焙聚樂部</span>
             </div> -->
             <div class="top-controls">
-                <div class="control-item">
-                    <label for="store-select" class="control-label">{{ t.store_label }}</label>
-                    <select id="store-select" class="custom-select" v-model="currentStore">
-                        <option v-for="st in storeList" :key="st.id" :value="st.id">
-                            {{ st[currentLang] || st.zh }}
-                        </option>
-                    </select>
+                <div class="control-row">
+                    <div class="control-item">
+                        <label for="store-select" class="control-label">{{ t.store_label }}</label>
+                        <select id="store-select" class="custom-select" v-model="currentStore">
+                            <option v-for="st in storeList" :key="st.id" :value="st.id">
+                                {{ st[currentLang] || st.zh }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="control-item sync-control-wrap">
+                        <button type="button" class="sync-btn" @click="checkRemoteUpdate(true)" :title="isSyncing ? '同步中...' : '檢查雲端最新菜單更新'" aria-label="檢查雲端菜單更新">
+                            <span :class="{ 'spin-icon': isSyncing }">🔄</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="control-item lang-control-wrap">
                     <span class="control-label">{{ t.lang_label }}</span>
@@ -40,11 +47,6 @@
                             {{ lang.label }}
                         </button>
                     </div>
-                </div>
-                <div class="control-item sync-control-wrap">
-                    <button type="button" class="sync-btn" @click="checkRemoteUpdate(true)" :title="isSyncing ? '同步中...' : '檢查雲端最新菜單更新'" aria-label="檢查雲端菜單更新">
-                        <span :class="{ 'spin-icon': isSyncing }">🔄</span>
-                    </button>
                 </div>
             </div>
         </div>

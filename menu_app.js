@@ -461,8 +461,21 @@
             };
         },
         computed: {
+            // 選了非中文語言時，所有介面文字自動附上中文提示，
+            // 讓只看得懂中文的店員也能理解顧客畫面上寫的是什麼、知道怎麼協助。
+            // 例：「1. 製菓経験 (1. 您的烘焙經驗)」。經驗/品相的選項按鈕跟商品卡片上的
+            // 經驗、品項徽章也是從這份字典取字，一併受惠不用另外處理。
             t() {
-                return this.i18n[this.currentLang] || this.i18n.zh;
+                const current = this.i18n[this.currentLang] || this.i18n.zh;
+                if (this.currentLang === 'zh') return current;
+                const zh = this.i18n.zh;
+                const merged = {};
+                Object.keys(current).forEach(key => {
+                    const val = current[key];
+                    const zhVal = zh[key];
+                    merged[key] = (zhVal && zhVal !== val) ? `${val} (${zhVal})` : val;
+                });
+                return merged;
             },
             seasonalTagKey() {
                 return this.seasonalConfig?.tagKey || 'mid_autumn';
@@ -663,39 +676,51 @@
                 this.filters.type = null;
                 this.filters.tag = null;
             },
+            // 非中文語言時，在翻譯後面附上中文原文，店員才看得懂顧客畫面上寫的是什麼。
+            // 若譯文裡已經包含中文（有人手動附過），就不要重複加。
+            withZhHint(text, zhText) {
+                if (this.currentLang === 'zh') return text;
+                if (!text || !zhText) return text;
+                if (text.includes(zhText)) return text;
+                return `${text} (${zhText})`;
+            },
             getLocalizedName(p) {
                 if (!p || !p.name) return '';
                 if (typeof p.name === 'string') return p.name;
                 const val = p.name[this.currentLang];
-                if (val && typeof val === 'string' && val.trim() !== '') return val;
+                const zhVal = p.name.zh || '';
+                if (val && typeof val === 'string' && val.trim() !== '') return this.withZhHint(val, zhVal);
                 // 若外語未設定名稱，退回中文名稱避免商品卡片無標題
-                return p.name.zh || Object.values(p.name)[0] || '';
+                return zhVal || Object.values(p.name)[0] || '';
             },
             getLocalizedSub(p) {
                 if (!p || !p.subtitle) return '';
                 if (typeof p.subtitle === 'string') return (this.currentLang === 'zh' ? p.subtitle : '');
+                const zhVal = p.subtitle.zh || '';
                 if (p.subtitle[this.currentLang] !== undefined) {
-                    return p.subtitle[this.currentLang] || '';
+                    return this.withZhHint(p.subtitle[this.currentLang] || '', zhVal);
                 }
-                return this.currentLang === 'zh' ? (p.subtitle.zh || '') : '';
+                return this.currentLang === 'zh' ? zhVal : '';
             },
             getLocalizedFeatures(p) {
                 if (!p || !p.features) return '';
                 if (typeof p.features === 'string') return (this.currentLang === 'zh' ? p.features : '');
-                // 若英語等外語留空，絕不抓取中文內容！
+                const zhVal = p.features.zh || '';
+                // 若英語等外語留空，絕不抓取中文內容！（withZhHint 對空字串會直接原樣回傳，不會補中文）
                 if (p.features[this.currentLang] !== undefined) {
-                    return p.features[this.currentLang] || '';
+                    return this.withZhHint(p.features[this.currentLang] || '', zhVal);
                 }
-                return this.currentLang === 'zh' ? (p.features.zh || '') : '';
+                return this.currentLang === 'zh' ? zhVal : '';
             },
             getLocalizedStorage(p) {
                 if (!p || !p.storage) return '';
                 if (typeof p.storage === 'string') return (this.currentLang === 'zh' ? p.storage : '');
-                // 若英語等外語留空，絕不抓取中文內容！
+                const zhVal = p.storage.zh || '';
+                // 若英語等外語留空，絕不抓取中文內容！（withZhHint 對空字串會直接原樣回傳，不會補中文）
                 if (p.storage[this.currentLang] !== undefined) {
-                    return p.storage[this.currentLang] || '';
+                    return this.withZhHint(p.storage[this.currentLang] || '', zhVal);
                 }
-                return this.currentLang === 'zh' ? (p.storage.zh || '') : '';
+                return this.currentLang === 'zh' ? zhVal : '';
             },
             getLocalizedText(obj) {
                 if (!obj) return '';
