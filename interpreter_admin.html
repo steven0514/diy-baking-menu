@@ -149,6 +149,19 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i];
     return null;
   }
+  // 待審分頁命名跟正式分頁一致，用中文店名（_待審_台北信義），在試算表上一眼就看得懂
+  // 是哪一間店。早期版本用的是店代號（_待審_xinyi），反查時一併認，免得舊分頁變孤兒。
+  function pendingSheetName(storeId){
+    var st=storeInfo(storeId);
+    return '_待審_'+((st && st.sheet) || storeId);
+  }
+  function storeByPendingSheet(sheetName){
+    var key=sheetName.replace('_待審_','').trim();
+    var l=window.KB_STORES||[];
+    for(var i=0;i<l.length;i++) if(l[i].sheet===key) return l[i];
+    for(var j=0;j<l.length;j++) if(l[j].id===key) return l[j];
+    return null;
+  }
 
   // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
   // gviz 會把「看起來像日期」的欄位自動轉成 Date(年,月,日) 這種 JS 字面量塞進 v，
@@ -530,11 +543,15 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 
     loadSheetNames().then(function(names){
       var pendingSheets=names.filter(function(n){ return n.indexOf('_待審_')===0; });
-      if(LOCKED_STORE_ID) pendingSheets=pendingSheets.filter(function(n){ return n==='_待審_'+LOCKED_STORE_ID; });
+      if(LOCKED_STORE_ID){
+        pendingSheets=pendingSheets.filter(function(n){
+          var st=storeByPendingSheet(n);
+          return !!st && st.id===LOCKED_STORE_ID;
+        });
+      }
       var jobs=pendingSheets.map(function(sheetName){
-        var storeId=sheetName.replace('_待審_','');
-        var store=storeInfo(storeId);
-        if(!store) return Promise.resolve(null); // 未知店代號，略過
+        var store=storeByPendingSheet(sheetName);
+        if(!store) return Promise.resolve(null); // 認不出是哪一間店，略過
         return loadSheetRows(c.sheet, sheetName).then(function(rows){
           return { store:store, pendingSheet:sheetName, entries: rowsToEntries(rows) };
         }).catch(function(){ return null; });
