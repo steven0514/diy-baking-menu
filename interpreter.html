@@ -368,39 +368,16 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     return out;
   }
 
+  // 設定一律跟後端拿，不再讀試算表的「設定」分頁。
+  // 金鑰只回報「有沒有設定」，模型名稱不是機密所以直接給，拿來顯示與送出翻譯請求。
   function loadConfig(){
-    // 從 Google Sheets 「設定」分頁讀取模型名稱（非機密，Gemini 金鑰不走這條路）。
-    // 支援兩種排版：
-    //   橫式：第1列是欄位名稱（gemini_model），第2列是值
-    //   直式：A 欄是 key，B 欄是 value，一列一組
-    var c=cfg();
-    var sheetPromise = !c.sheet ? Promise.resolve({}) : loadSheet(c.sheet, '設定', true).then(function(result){
-      var config={};
-      var headers=result.headers||[], rows=result.rows||[];
-      var firstRow=rows[0]||[];
-      headers.forEach(function(h,i){
-        var val=(firstRow[i]||'').trim();
-        if(h && val) config[h]=val;
-      });
-      rows.forEach(function(r){
-        var key=(r[0]||'').trim(), val=(r[1]||'').trim();
-        if(key && val) config[key]=val;
-      });
-      if(config.gemini_model){ localStorage.setItem(K_MODEL, config.gemini_model); }
-      return config;
-    }).catch(function(e){
-      // 「設定」分頁不存在時無須報錯，繼續用 localStorage 的設定
-      return {};
-    });
-    return Promise.all([sheetPromise, checkGeminiKey()]).then(function(r){ return r[0]; });
-  }
-
-  // Gemini 金鑰只存在 Apps Script 後端，前端只問得到「有沒有設定」，問不到內容。
-  function checkGeminiKey(){
     return postScript({action:'hasSecret'}).then(function(d){
       state.hasKey = !!(d && d.hasKey);
+      if(d && d.model) localStorage.setItem(K_MODEL, d.model);
+      return d || {};
     }).catch(function(){
       state.hasKey=false;
+      return {};
     });
   }
 

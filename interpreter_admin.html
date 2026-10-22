@@ -129,10 +129,13 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   var $=function(id){return document.getElementById(id);};
   var mainEl=$('main'), statsEl=$('stats');
 
-  // 每間門市各自一個網址，例如 interpreter_admin.html?store=xinyi，
+  // 每間門市各自一個網址，例如 interpreter_admin.html?store=台北信義，
   // 只給該門市自己送出待審，不會混到其他店的狀況，其他店長也看不到。
   // 不帶這個參數就是總覽模式，列出所有有待審資料的門市（給要看全局的人用）。
-  var LOCKED_STORE_ID=(new URLSearchParams(location.search).get('store')||'').trim();
+  //
+  // 網址用中文店名，店長不用背英文代號。舊的 ?store=xinyi 也還認得，發出去的舊連結
+  // 不會突然失效。中文在網址列會被編碼成 %XX，但 URLSearchParams 會自動解回來。
+  var STORE_PARAM=(new URLSearchParams(location.search).get('store')||'').trim();
 
   function cfg(){
     return {
@@ -140,11 +143,19 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
       script: window.KB_SCRIPT_URL||''     // 同上
     };
   }
-  function storeInfo(id){
+  // 中文店名（台北信義）、含「店」字的全名（台北信義店）、英文代號（xinyi）都查得到
+  function storeInfo(key){
+    var k=String(key||'').trim();
+    if(!k) return null;
     var l=window.KB_STORES||[];
-    for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i];
+    for(var i=0;i<l.length;i++) if(l[i].sheet===k) return l[i];
+    for(var j=0;j<l.length;j++) if(l[j].zh===k) return l[j];
+    for(var m=0;m<l.length;m++) if(l[m].id===k) return l[m];
     return null;
   }
+  // 網址參數對應到的門市（找不到就是 null，代表網址打錯）
+  var LOCKED_STORE=storeInfo(STORE_PARAM);
+  var LOCKED_STORE_ID=LOCKED_STORE ? LOCKED_STORE.id : STORE_PARAM;
   // 待審分頁命名跟正式分頁一致，用中文店名（_待審_台北信義），在試算表上一眼就看得懂
   // 是哪一間店。早期版本用的是店代號（_待審_xinyi），反查時一併認，免得舊分頁變孤兒。
   function pendingSheetName(storeId){
@@ -428,11 +439,13 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     if(!c.script) missing.push('Apps Script 網址');
     if(missing.length){ renderSetupPrompt('「'+missing.join('、')+'」'); renderStats([], false); return; }
 
-    if(LOCKED_STORE_ID && !storeInfo(LOCKED_STORE_ID)){
+    if(STORE_PARAM && !LOCKED_STORE){
       mainEl.innerHTML='';
       var badBox=el('div','setup');
-      badBox.appendChild(el('h3',null,'✕ 網址裡的門市代號不對'));
-      badBox.appendChild(el('p',null,'網址參數 store='+LOCKED_STORE_ID+' 不是任何一間門市的代號，請確認拼字（例如 xinyi、nanxi、shilin…），或去掉 ?store= 看全部門市。'));
+      badBox.appendChild(el('h3',null,'✕ 網址裡的門市名稱不對'));
+      badBox.appendChild(el('p',null,'網址參數 store='+STORE_PARAM+' 找不到對應門市。請用中文店名，例如 ?store=台北信義、?store=新竹巨城，或去掉 ?store= 看全部門市。'));
+      var names=(window.KB_STORES||[]).map(function(s){ return s.sheet; }).join('、');
+      if(names) badBox.appendChild(el('p',null,'目前可用的門市：'+names));
       mainEl.appendChild(badBox);
       renderStats([], false);
       return;
