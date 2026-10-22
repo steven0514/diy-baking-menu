@@ -5096,7 +5096,7 @@ Requirements:
                 }, true);
 
                 const detail = (result.results || [])
-                    .map(r => `${r.ok ? '✅' : '❌'} ${r.path}${r.ok ? ' (' + r.commit + ')' : '：' + r.error}`)
+                    .map(r => `${r.ok ? '✅' : '❌'} [${r.branch}] ${r.path}${r.ok ? ' (' + r.commit + ')' : '：' + r.error}`)
                     .join('\n');
 
                 showToast(`🎉 成功發布！版本：${versionStr}，GitHub Pages 已觸發更新！`);
