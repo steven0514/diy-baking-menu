@@ -1,6 +1,6 @@
 // 自己做烘焙聚樂部 · 完整商品多語系數據庫
-// Version: v2026.09.16.1309
-window.PRODUCTS_VERSION = 'v2026.09.16.1309';
+// Version: v2026.10.22.1615
+window.PRODUCTS_VERSION = 'v2026.10.22.1615';
 window.DEFAULT_PRODUCTS = [
   {
     "id": 1,
