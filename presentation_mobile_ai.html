@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手機 AI 服務動線</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c2673a;
+      --primary-light: #e88c5d;
+      --primary-dark: #964820;
+      --bg: #0c0e14;
+      --card-bg: rgba(22, 25, 37, 0.88);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-green: #10b981;
+      --accent-blue: #3b82f6;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --social: #ec4899;
+      --social-soft: rgba(236, 72, 153, 0.16);
+      --mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', 'PingFang TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 10% 15%, rgba(194, 103, 58, 0.14) 0%, transparent 45%),
+                  radial-gradient(circle at 92% 88%, rgba(236, 72, 153, 0.10) 0%, transparent 45%),
+                  #090a0f;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97) translateY(14px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 42px 64px 72px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .slide.active { opacity: 1; pointer-events: auto; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide { transition: none; }
+    }
+
+    /* ---------- header ---------- */
+    .header-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+      flex: 0 0 auto;
+    }
+    .project-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px;
+      background: rgba(194, 103, 58, 0.15);
+      border: 1px solid rgba(194, 103, 58, 0.35);
+      border-radius: 9999px;
+      font-size: 0.82rem; font-weight: 700; color: #ff9b6a; letter-spacing: 0.5px;
+    }
+    .project-tag.pink {
+      background: var(--social-soft);
+      border-color: rgba(236, 72, 153, 0.4);
+      color: #f9a8d4;
+    }
+    .slide-number { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    h1.hero-title {
+      font-size: 2.9rem; font-weight: 900; line-height: 1.22;
+      background: linear-gradient(135deg, #ffffff 42%, #ffc5a8 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #fff;
+      margin-bottom: 14px; text-wrap: balance;
+    }
+    h2.slide-title {
+      font-size: 1.95rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 12px; text-wrap: balance;
+    }
+    p.slide-subtitle { font-size: 1.02rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; max-width: 78ch; }
+
+    /* ---------- layout ---------- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; flex: 1; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; flex: 1; }
+    .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; flex: 1; }
+    .grid-demo { display: grid; grid-template-columns: 300px 1fr; gap: 26px; flex: 1; align-items: start; }
+    .stack { display: flex; flex-direction: column; gap: 16px; flex: 1; min-width: 0; }
+
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px; padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; min-width: 0;
+    }
+    .glass-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+    }
+    .glass-card.danger::before { background: linear-gradient(90deg, var(--accent-red), transparent); }
+    .glass-card.success::before { background: linear-gradient(90deg, var(--accent-green), transparent); }
+    .glass-card.social::before { background: linear-gradient(90deg, var(--social), transparent); }
+    .glass-card.flat::before { display: none; }
+
+    .glass-card h3 {
+      font-size: 1.12rem; font-weight: 700; color: #fff; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .glass-card h4 { font-size: 0.95rem; font-weight: 700; color: #ffc5a8; margin-bottom: 6px; }
+    .glass-card p, .glass-card li { font-size: 0.92rem; color: #d1d5db; line-height: 1.62; }
+    .glass-card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .glass-card li::before { content: '✓'; color: var(--accent-green); font-weight: bold; margin-right: 8px; }
+    .glass-card.danger li::before { content: '✕'; color: var(--accent-red); }
+    .glass-card.neutral li::before { content: '•'; color: var(--primary-light); }
+    strong.hl { color: #fff; font-weight: 700; }
+    .muted-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; line-height: 1.55; }
+
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; margin-right: 6px; }
+    .badge-green { background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid rgba(16,185,129,0.4); }
+    .badge-blue { background: rgba(59,130,246,0.2); color: #60a5fa; border: 1px solid rgba(59,130,246,0.4); }
+    .badge-amber { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid rgba(245,158,11,0.4); }
+    .badge-red { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.4); }
+    .badge-purple { background: rgba(139,92,246,0.2); color: #a78bfa; border: 1px solid rgba(139,92,246,0.4); }
+    .badge-pink { background: var(--social-soft); color: #f9a8d4; border: 1px solid rgba(236,72,153,0.4); }
+
+    /* ---------- step rail ---------- */
+    .step-rail { display: flex; gap: 6px; margin-bottom: 18px; flex: 0 0 auto; overflow-x: auto; padding-bottom: 2px; }
+    .rail-item {
+      flex: 1; min-width: 92px; text-align: center;
+      padding: 7px 6px; border-radius: 10px;
+      background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.78rem; font-weight: 600; color: #6b7280; white-space: nowrap;
+    }
+    .rail-item .rn { display: block; font-size: 0.66rem; font-variant-numeric: tabular-nums; opacity: 0.7; }
+    .rail-item.done { color: #9ca3af; border-color: rgba(194,103,58,0.22); }
+    .rail-item.on {
+      background: rgba(194,103,58,0.22); border-color: var(--primary); color: #ffd3b8;
+      box-shadow: 0 0 0 1px rgba(194,103,58,0.35);
+    }
+    .rail-item.goal { border-style: dashed; border-color: rgba(236,72,153,0.45); color: #f9a8d4; }
+    .rail-item.on.goal { background: var(--social-soft); border-style: solid; border-color: var(--social); color: #fbcfe8; box-shadow: 0 0 22px rgba(236,72,153,0.3); }
+
+    /* ---------- phone mock ---------- */
+    .phone {
+      width: 290px; max-width: 100%;
+      border: 9px solid #23262f; border-radius: 34px;
+      background: #0f1218; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+      display: flex; flex-direction: column;
+    }
+    .ph-top {
+      height: 26px; background: #16191f; display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-size: 0.62rem; color: #6b7280; font-weight: 600; letter-spacing: 0.4px;
+    }
+    .ph-top::before { content: ''; width: 46px; height: 7px; border-radius: 9999px; background: #0b0d11; }
+    .ph-app {
+      padding: 7px 12px; font-size: 0.72rem; font-weight: 700; color: #e5e7eb;
+      border-bottom: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.03);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .ph-body { padding: 12px; display: flex; flex-direction: column; gap: 9px; }
+    .bub { max-width: 86%; padding: 8px 11px; border-radius: 13px; font-size: 0.76rem; line-height: 1.5; }
+    .bub.me { align-self: flex-end; background: rgba(194,103,58,0.26); border: 1px solid rgba(194,103,58,0.4); color: #ffe3d2; border-bottom-right-radius: 4px; }
+    .bub.ai { align-self: flex-start; background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.08); color: #e5e7eb; border-bottom-left-radius: 4px; }
+    .bub.ai.pink { background: var(--social-soft); border-color: rgba(236,72,153,0.35); color: #fce7f3; }
+    .bub .lang { display: block; font-size: 0.6rem; font-weight: 700; color: #9ca3af; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .bub .cam { display: block; font-size: 0.62rem; color: #9ca3af; margin-top: 4px; }
+    .ph-photo {
+      align-self: center; width: 100%; height: 74px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(194,103,58,0.4), rgba(236,72,153,0.25));
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fde8dc; gap: 6px;
+    }
+    .ph-voice { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 16px 0 10px; }
+    .ph-voice i { display: block; width: 4px; border-radius: 9999px; background: var(--primary-light); }
+    .phone-cap { font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; line-height: 1.55; }
+
+    /* ---------- prompt card ---------- */
+    .prompt-card {
+      background: #0b0d13; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+      overflow: hidden; display: flex; flex-direction: column; min-width: 0;
+    }
+    .prompt-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 8px 12px; background: rgba(255,255,255,0.045); border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .prompt-head span { font-size: 0.74rem; font-weight: 700; color: #ffc5a8; letter-spacing: 0.6px; }
+    .btn-copy {
+      font-family: inherit; font-size: 0.7rem; font-weight: 700; cursor: pointer;
+      background: rgba(194,103,58,0.2); border: 1px solid rgba(194,103,58,0.45);
+      color: #ffd3b8; padding: 4px 11px; border-radius: 7px; transition: background 0.2s, color 0.2s;
+    }
+    .btn-copy:hover { background: var(--primary); color: #fff; }
+    .btn-copy:focus-visible, .btn-ctrl:focus-visible, .toc-item:focus-visible, .link-item:focus-visible { outline: 2px solid var(--primary-light); outline-offset: 2px; }
+    pre.prompt-body {
+      margin: 0; padding: 12px 14px; font-family: var(--mono); font-size: 0.775rem; line-height: 1.62;
+      color: #d8dee9; white-space: pre-wrap; word-break: break-word; overflow-x: auto; max-height: 100%;
+    }
+    pre.prompt-body b { color: #ffc5a8; font-weight: 700; }
+
+    /* ---------- tables ---------- */
+    .table-wrap { overflow-x: auto; width: 100%; }
+    .custom-table { width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; }
+    .custom-table th, .custom-table td { padding: 11px 14px; text-align: left; font-size: 0.88rem; vertical-align: top; }
+    .custom-table th { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+    .custom-table td { border-bottom: 1px solid rgba(255,255,255,0.04); color: #e5e7eb; }
+    .custom-table td.num { font-variant-numeric: tabular-nums; }
+    .custom-table .dim { color: #9ca3af; }
+    .custom-table .good { color: #6ee7b7; font-weight: 600; }
+
+    .quote-box {
+      border-left: 4px solid var(--primary); padding: 13px 18px;
+      background: rgba(194,103,58,0.1); border-radius: 0 12px 12px 0;
+      font-style: italic; color: #ffc5a8; font-size: 1rem; line-height: 1.6;
+    }
+    .quote-box.big {
+      font-size: 1.45rem; border-left: none; border-top: 4px solid var(--social);
+      padding: 24px 30px; background: rgba(236,72,153,0.08); color: #fde7f3;
+      text-align: center; border-radius: 16px; line-height: 1.75; font-style: normal; font-weight: 700;
+    }
+
+    figure { margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    figure svg { width: 100%; max-width: 100%; height: auto; color: #e5e7eb; }
+    figcaption { font-size: 0.82rem; color: var(--text-muted); text-align: center; line-height: 1.55; }
+
+    /* ---------- timeline ---------- */
+    .tl { display: flex; flex-direction: column; gap: 10px; }
+    .tl-row { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: start; }
+    .tl-when {
+      font-size: 0.78rem; font-weight: 700; color: #ffd3b8; text-align: right;
+      padding-top: 2px; font-variant-numeric: tabular-nums;
+    }
+    .tl-what { font-size: 0.88rem; color: #d1d5db; line-height: 1.6; border-left: 2px solid rgba(194,103,58,0.4); padding-left: 14px; }
+    .tl-what b { color: #fff; }
+
+    /* ---------- demo run sheet ---------- */
+    .run { display: flex; flex-direction: column; gap: 8px; }
+    .run-row { display: grid; grid-template-columns: 74px 128px 1fr; gap: 12px; align-items: center;
+      padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 11px; }
+    .run-row.goal { background: var(--social-soft); border-color: rgba(236,72,153,0.35); }
+    .run-t { font-family: var(--mono); font-size: 0.8rem; color: #ffc5a8; font-variant-numeric: tabular-nums; }
+    .run-k { font-size: 0.85rem; font-weight: 700; color: #fff; }
+    .run-v { font-size: 0.83rem; color: #d1d5db; line-height: 1.5; }
+
+    .links-grid { display: flex; flex-direction: column; gap: 9px; }
+    .link-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 11px 16px; background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+      color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 600;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .link-item:hover { background: rgba(194,103,58,0.15); border-color: rgba(194,103,58,0.4); transform: translateX(4px); }
+    .link-item small { color: var(--text-muted); font-weight: 500; }
+
+    .cover-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .pill-item { padding: 5px 13px; border-radius: 9999px; background: rgba(255,255,255,0.07); font-size: 0.8rem; font-weight: 600; color: #e5e7eb; }
+    .pill-item.on { background: var(--primary); color: #fff; }
+    .pill-item.pink { background: var(--social-soft); color: #f9a8d4; border: 1px solid rgba(236,72,153,0.35); }
+
+    /* ---------- controls ---------- */
+    .controls { position: fixed; bottom: 16px; right: 26px; display: flex; align-items: center; gap: 8px; z-index: 100; }
+    .btn-ctrl {
+      background: rgba(26,30,42,0.9); border: 1px solid var(--card-border); color: #fff;
+      padding: 7px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+      font-family: inherit; display: flex; align-items: center; gap: 6px; transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-ctrl:hover { background: var(--primary); border-color: var(--primary-light); }
+    .progress-bar { position: fixed; bottom: 0; left: 0; height: 4px; width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--social)); transition: width 0.3s ease; z-index: 101; }
+
+    .speaker-drawer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(12,14,20,0.97); border-top: 2px solid var(--primary);
+      padding: 18px 64px 26px; transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); z-index: 99; max-height: 42vh; overflow-y: auto;
+    }
+    .speaker-drawer.open { transform: translateY(0); }
+    .speaker-header { font-size: 0.74rem; font-weight: 700; color: #ff9b6a; letter-spacing: 1px; margin-bottom: 6px; }
+    .speaker-text { font-size: 1rem; line-height: 1.75; color: #e5e7eb; }
+
+    .toc {
+      position: fixed; inset: 0; background: rgba(6,7,11,0.96); z-index: 120;
+      padding: 48px 64px; overflow-y: auto; display: none;
+    }
+    .toc.open { display: block; }
+    .toc h3 { font-size: 1.3rem; color: #fff; margin-bottom: 18px; }
+    .toc-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .toc-item {
+      display: flex; gap: 10px; align-items: baseline; text-align: left;
+      padding: 10px 14px; border-radius: 11px; cursor: pointer; font-family: inherit;
+      background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.07); color: #e5e7eb; font-size: 0.88rem;
+    }
+    .toc-item:hover { background: rgba(194,103,58,0.18); border-color: rgba(194,103,58,0.4); }
+    .toc-item b { color: #ffc5a8; font-variant-numeric: tabular-nums; font-size: 0.78rem; }
+
+    .toast {
+      position: fixed; bottom: 70px; left: 50%; transform: translate(-50%, 14px);
+      background: var(--accent-green); color: #04291d; font-weight: 700; font-size: 0.85rem;
+      padding: 8px 18px; border-radius: 9999px; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s; z-index: 130;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ---------- phone / tablet ---------- */
+    @media (max-width: 1100px) {
+      .grid-demo { grid-template-columns: 250px 1fr; gap: 18px; }
+      .phone { width: 100%; }
+    }
+    @media (max-width: 860px) {
+      .slide { padding: 18px 16px 84px; }
+      h1.hero-title { font-size: 1.85rem; }
+      h2.slide-title { font-size: 1.3rem; }
+      p.slide-subtitle { font-size: 0.92rem; margin-bottom: 14px; }
+      .grid-2, .grid-3, .grid-4, .grid-demo { grid-template-columns: 1fr; gap: 14px; }
+      .phone { width: 100%; max-width: 330px; margin: 0 auto; }
+      .rail-item { min-width: 84px; font-size: 0.72rem; }
+      .run-row { grid-template-columns: 62px 1fr; }
+      .run-row .run-v { grid-column: 1 / -1; }
+      .tl-row { grid-template-columns: 1fr; gap: 4px; }
+      .tl-when { text-align: left; }
+      .tl-what { padding-left: 12px; }
+      .toc { padding: 28px 18px; }
+      .toc-list { grid-template-columns: 1fr; }
+      .speaker-drawer { padding: 14px 18px 22px; }
+      .controls { bottom: 10px; right: 10px; left: 10px; justify-content: space-between; }
+      .btn-ctrl { padding: 9px 12px; font-size: 0.8rem; }
+      .quote-box.big { font-size: 1.1rem; padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 封面 -->
+  <div class="slide active" data-notes="各位主管好。上一次的報告，我們解決了『看得懂』：44 款商品、6 國語系的平板菜單已經上線。但現場還留著兩個洞：第一線的對話還是靠店員硬撐，而顧客最感動的那一刻，沒有被留下來。今天這份報告要講的是，不用買新設備、不用再開發系統，只用一支手機加上 ChatGPT 與 Claude，怎麼把接待到社群分享這六個環節串起來，同時改善內部管理效率與外籍顧客的服務體驗。整份報告的終點，是『社群分享』。">
+    <div class="header-bar">
+      <span class="project-tag pink">📱 第二階段提案</span>
+      <span class="slide-number">01 / 21</span>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; max-width: 1000px;">
+      <h1 class="hero-title">一支手機，把語言成本<br>變成社群資產</h1>
+      <p class="slide-subtitle" style="font-size:1.15rem;">「自己做烘焙聚樂部」內部管理效率與外籍顧客服務體驗升級<br>以店員手機為操作中心，用 ChatGPT 與 Claude 串起接待到社群分享的六步動線。</p>
+      <div class="quote-box" style="max-width:760px;">上一階段解決了「看得懂菜單」。這一階段要解決「說得通、記得住、傳得出去」。</div>
+      <div class="cover-meta">
+        <span class="pill-item on">零硬體採購</span>
+        <span class="pill-item">ChatGPT 語音 ・ 相機</span>
+        <span class="pill-item">Claude 文件整理</span>
+        <span class="pill-item">接軌既有多語系菜單</span>
+        <span class="pill-item pink">終點：社群分享</span>
+      </div>
+      <p class="muted-note" style="margin-top:24px;">報告單位：專案開發團隊　｜　2026 年 10 月　｜　承接 9/8 現場調研與第一階段上線成果</p>
+    </div>
+  </div>
+
+  <!-- 02 現況 -->
+  <div class="slide" data-notes="先回顧第一階段。我們已經上線的部分是確定有效的：44 款商品全解鎖、六國語系、11 間門市規則、店長填中文 Excel 十秒生成五國語言。但這套系統本質上是『單向資訊』。顧客看完菜單還是有問題要問，過敏和宗教飲食還是要講，烘焙過程卡住還是要找人，蛋糕做完也還是不知道怎麼寫貼文。所以第一階段解決了入口，剩下的三個缺口都在『現場的對話』和『體驗的出口』。">
+    <div class="header-bar">
+      <span class="project-tag">📍 企業現況</span>
+      <span class="slide-number">02 / 21</span>
+    </div>
+    <h2 class="slide-title">第一階段已補上「入口」，現場還留著三個缺口</h2>
+    <p class="slide-subtitle">多語系菜單系統已上線運作，顧客能自己看懂選項。但菜單是單向資訊，服務現場是雙向對話。</p>
+    <div class="grid-2">
+      <div class="glass-card success">
+        <h3>✅ 已經上線的成果（第一階段）</h3>
+        <ul>
+          <li><strong class="hl">44 款商品全解鎖</strong>，不再是紙本閹割版英文菜單</li>
+          <li><strong class="hl">6 國語系</strong>：繁中 / English / 日本語 / 한국어 / ไทย / Tiếng Việt</li>
+          <li><strong class="hl">店長填中文 Excel，10 秒生成 5 國語言</strong>，上架不再等人工翻譯</li>
+          <li><strong class="hl">全台 11 間門市</strong>供應規則自動判讀，北中南分區防呆</li>
+          <li><strong class="hl">純前端＋GitHub Pages</strong>，伺服器與維運成本為零</li>
+        </ul>
+        <p class="muted-note">烘焙術語已校正：工作盆 Mixing bowl、抹刀 Spatula、廚房紙巾 Paper towel。</p>
+      </div>
+      <div class="glass-card danger">
+        <h3>⚠️ 菜單解決不了的三件事</h3>
+        <ul>
+          <li><strong class="hl">看懂了，還是得問。</strong>「這個要做多久」「可以帶回飯店嗎」「烤箱怎麼開」都是即時對話，菜單答不了。</li>
+          <li><strong class="hl">特殊需求沒有欄位可放。</strong>堅果過敏、不吃豬肉、乳糖不耐，全靠現場口頭傳達，廚房沒有紀錄。</li>
+          <li><strong class="hl">體驗結束就結束了。</strong>蛋糕完成是情緒最高點，但顧客不會寫中文貼文，也不知道要標註哪間門市。</li>
+        </ul>
+        <p class="muted-note">9/8 現場調研：外籍顧客進店後平均仍花 15～20 分鐘在確認與比手畫腳；尖峰時一位夥伴要顧 16～20 位顧客。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 痛點 -->
+  <div class="slide" data-notes="把缺口拆成兩個命題。左邊是內部管理效率：交接班靠口頭與紙本，知識留在資深夥伴腦袋裡，新人訓練沒有標準，檔期文案每次重做。右邊是外籍顧客服務體驗：進店確認冗長、特殊需求講不清、DIY 卡住要排隊等人教、做完了沒有出口。這兩件事看起來是兩個部門的問題，其實是同一條動線的兩面：同一段對話，對顧客是體驗，對店員是工時。">
+    <div class="header-bar">
+      <span class="project-tag">⚠️ 痛點盤點</span>
+      <span class="slide-number">03 / 21</span>
+    </div>
+    <h2 class="slide-title">兩個命題，其實是同一條動線的兩面</h2>
+    <p class="slide-subtitle">同一段現場對話，對顧客是「體驗卡關」，對門市是「工時被吃掉」。因此解法必須同時處理兩端。</p>
+    <div class="grid-2">
+      <div class="glass-card danger">
+        <h3>🏪 內部管理效率（店長與夥伴）</h3>
+        <ul>
+          <li><strong class="hl">交接班靠口頭與紙條</strong>：晚班的缺料、設備異常、客訴，第二天早班常常是「聽說」。</li>
+          <li><strong class="hl">現場知識綁在資深夥伴身上</strong>：烤箱預熱、器具位置、常見失敗救援，沒有寫下來。</li>
+          <li><strong class="hl">新人訓練沒有標準</strong>：面對外籍客的應對能力，全看個人外語程度。</li>
+          <li><strong class="hl">檔期行銷重複勞動</strong>：中秋、萬聖、聖誕、草莓季每檔 3～4 週，文案與外語說明每次從零開始。</li>
+        </ul>
+      </div>
+      <div class="glass-card danger">
+        <h3>🧑‍🦱 外籍顧客服務體驗</h3>
+        <ul>
+          <li><strong class="hl">進店確認冗長</strong>：15～20 分鐘花在菜單確認與比手畫腳，體驗從等待開始。</li>
+          <li><strong class="hl">特殊需求講不清</strong>：過敏、宗教飲食、乳糖不耐，顧客不確定店家有沒有聽懂，店家也不確定有沒有漏。</li>
+          <li><strong class="hl">DIY 過程卡住要等人</strong>：「打發到這樣可以了嗎」只能舉手等夥伴過來。</li>
+          <li><strong class="hl">最感動的一刻沒有出口</strong>：成品拍了照，但寫不出貼文、不知道標註誰，門市等於白做了一次口碑。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 原因 -->
+  <div class="slide" data-notes="為什麼第一階段的系統沒有一次解決？四個結構性原因。第一，菜單是靜態內容，現場是動態協商，資料庫查不到『現在這一桌的問題』。第二，特殊需求本質上不是選項欄位，是一段需要來回確認的對話。第三，現場知識沒有被寫下來的工具，口述交接的成本比寫下來低，所以永遠不會被寫下來。第四，顧客體驗沒有被設計出口，情緒最高點之後是結帳，而不是分享。要解這四件事，需要的是一個能聽、能看、能寫的即時介面，剛好就是店員口袋裡的手機。">
+    <div class="header-bar">
+      <span class="project-tag">🔍 原因分析</span>
+      <span class="slide-number">04 / 21</span>
+    </div>
+    <h2 class="slide-title">四個結構性原因：不是菜單做得不夠好</h2>
+    <p class="slide-subtitle">第一階段補的是「資訊供給」。剩下的缺口全部屬於「即時互動」與「知識留存」，這是另一類工具的工作。</p>
+    <div class="grid-4">
+      <div class="glass-card neutral">
+        <h3>① 靜態內容 ✕ 動態協商</h3>
+        <p>菜單能回答「有什麼」，不能回答「我這樣可以嗎」。現場 80% 的提問是情境題，資料庫裡本來就沒有答案。</p>
+      </div>
+      <div class="glass-card neutral">
+        <h3>② 特殊需求不是欄位，是對話</h3>
+        <p>「堅果過敏＋不吃豬肉＋乳糖不耐」的組合無法窮舉成勾選項，必須靠來回確認，而且要留下雙方都看得懂的紀錄。</p>
+      </div>
+      <div class="glass-card neutral">
+        <h3>③ 知識沒有被寫下來的工具</h3>
+        <p>口頭交接只要 30 秒，打字要 15 分鐘。在成本差距這麼大的情況下，紀錄永遠不會發生，知識就隨人員流動消失。</p>
+      </div>
+      <div class="glass-card neutral">
+        <h3>④ 體驗沒有設計出口</h3>
+        <p>蛋糕完成是情緒最高點，但動線設計成「完成 → 結帳 → 離店」。最有價值的口碑時刻沒有被收斂成內容。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 解法主張 -->
+  <div class="slide" data-notes="我們的主張是：不要再開發新系統，直接把店員手上的手機變成現場的 AI 工作站。理由有三個。第一，零硬體零開發，今天下班前就能開始用，不必等上架流程。第二，手機同時具備三種輸入：語音用在接待與溝通，相機用在看菜單、看麵糊狀態、看成品，文字用在需要留存的特殊需求與交接班。第三，分工清楚：ChatGPT 負責即時的語音與拍照問答，Claude 負責需要結構的長文整理，像廚房工作卡、交接班日誌、六語系貼文。最重要的是，術語表和後台的 AI 翻譯共用同一份，線上菜單和現場口譯講的是同一組名詞。">
+    <div class="header-bar">
+      <span class="project-tag">⚡ 解法主張</span>
+      <span class="slide-number">05 / 21</span>
+    </div>
+    <h2 class="slide-title">不開發新系統：把店員的手機變成現場 AI 工作站</h2>
+    <p class="slide-subtitle">現場缺的不是另一套軟體，是一個能聽、能看、能寫的即時介面。這個介面已經在每位夥伴的口袋裡。</p>
+    <div class="grid-3">
+      <div class="glass-card">
+        <h3>🎙️ 語音：接待與即時溝通</h3>
+        <p>ChatGPT 語音模式，手機放桌上雙向口譯。夥伴講中文、顧客講泰語，各自聽到自己的語言。</p>
+        <p class="muted-note">用在步驟 1 接待、步驟 3 跨語言溝通。現場吵雜時搭配藍牙小喇叭。</p>
+      </div>
+      <div class="glass-card">
+        <h3>📷 相機：看菜單、看狀態、看成品</h3>
+        <p>拍平板菜單產生母語推薦；拍蛋白霜判斷幾分發；拍成品生成貼文。顧客不必描述，直接給 AI 看。</p>
+        <p class="muted-note">用在步驟 2 點餐、步驟 5 DIY、步驟 6 社群分享。</p>
+      </div>
+      <div class="glass-card">
+        <h3>⌨️ 文字：需要留存的就打字</h3>
+        <p>過敏與宗教需求、交接班日誌、檔期文案，用 Claude 產出結構化文件，可截圖存檔、可貼進群組。</p>
+        <p class="muted-note">用在步驟 4 特殊需求確認與班後管理。有紀錄才可追溯。</p>
+      </div>
+    </div>
+    <div class="glass-card flat" style="margin-top:16px;">
+      <h3>🔗 與既有系統的接點</h3>
+      <p>現場口譯使用的烘焙術語表，與後台一鍵 AI 翻譯共用同一份對照（工作盆 Mixing bowl、抹刀 Spatula、廚房紙巾 Paper towel、打發 whip to stiff peaks）。<strong class="hl">線上菜單與現場對話講同一組名詞</strong>，顧客不會看到兩種翻譯。現場高頻問答每月回灌後台詞彙表，系統越用越準。</p>
+    </div>
+  </div>
+
+  <!-- 06 流程總覽 -->
+  <div class="slide" data-notes="這是完整的六步動線。接待、點餐、AI 跨語言溝通、特殊需求確認、DIY 蛋糕，最後是社群分享。每一步底下標的是手機用哪一種輸入，箭頭上標的是交給下一步的東西。請特別看最後這條虛線：社群分享不是流程的結束，而是把新的外籍顧客帶回第一步。顧客看到同鄉的貼文、帶著菜單連結來預約，接待的時間自然就短了。所以社群分享是整條動線的終點，也是下一輪的起點。">
+    <div class="header-bar">
+      <span class="project-tag pink">🧭 動線總覽</span>
+      <span class="slide-number">06 / 21</span>
+    </div>
+    <h2 class="slide-title">六步動線：每一步都在為「社群分享」鋪路</h2>
+    <p class="slide-subtitle">手機全程同一台。每一步輸出的東西，剛好是下一步的輸入；最後一步把新客帶回第一步。</p>
+    <figure style="flex:1; justify-content:center;">
+      <svg viewBox="0 0 1180 310" role="img" aria-label="六步服務動線：接待、點餐、跨語言溝通、特殊需求確認、DIY 蛋糕、社群分享，最後由社群分享帶新客回到接待">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+          </marker>
+          <marker id="arp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ec4899"></path>
+          </marker>
+        </defs>
+
+        <g fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.55">
+          <line x1="172" y1="105" x2="203" y2="105" marker-end="url(#ar)"></line>
+          <line x1="372" y1="105" x2="403" y2="105" marker-end="url(#ar)"></line>
+          <line x1="572" y1="105" x2="603" y2="105" marker-end="url(#ar)"></line>
+          <line x1="772" y1="105" x2="803" y2="105" marker-end="url(#ar)"></line>
+          <line x1="972" y1="105" x2="1003" y2="105" marker-end="url(#ar)"></line>
+        </g>
+        <g fill="currentColor" font-size="11" text-anchor="middle" opacity="0.8">
+          <text x="187" y="90">人數・需求</text>
+          <text x="387" y="90">選定品項</text>
+          <text x="587" y="90">現場問答</text>
+          <text x="787" y="90">確認卡</text>
+          <text x="987" y="90">成品照</text>
+        </g>
+
+        <g>
+          <rect x="12" y="104" width="160" height="88" rx="12" fill="rgba(194,103,58,0.14)" stroke="currentColor" stroke-opacity="0.35"></rect>
+          <text x="92" y="128" fill="#ffc5a8" font-size="11" font-weight="700" text-anchor="middle">STEP 1</text>
+          <text x="92" y="151" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">接待</text>
+          <text x="92" y="174" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.75">🎙️ 語音・20 秒</text>
+        </g>
+        <g>
+          <rect x="212" y="104" width="160" height="88" rx="12" fill="rgba(194,103,58,0.14)" stroke="currentColor" stroke-opacity="0.35"></rect>
+          <text x="292" y="128" fill="#ffc5a8" font-size="11" font-weight="700" text-anchor="middle">STEP 2</text>
+          <text x="292" y="151" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">點餐</text>
+          <text x="292" y="174" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.75">📷 拍菜單推薦</text>
+        </g>
+        <g>
+          <rect x="412" y="104" width="160" height="88" rx="12" fill="rgba(194,103,58,0.14)" stroke="currentColor" stroke-opacity="0.35"></rect>
+          <text x="492" y="128" fill="#ffc5a8" font-size="11" font-weight="700" text-anchor="middle">STEP 3</text>
+          <text x="492" y="151" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">跨語言溝通</text>
+          <text x="492" y="174" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.75">🎙️ 雙向口譯</text>
+        </g>
+        <g>
+          <rect x="612" y="104" width="160" height="88" rx="12" fill="rgba(194,103,58,0.14)" stroke="currentColor" stroke-opacity="0.35"></rect>
+          <text x="692" y="128" fill="#ffc5a8" font-size="11" font-weight="700" text-anchor="middle">STEP 4</text>
+          <text x="692" y="151" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">特殊需求確認</text>
+          <text x="692" y="174" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.75">⌨️ 文字留存</text>
+        </g>
+        <g>
+          <rect x="812" y="104" width="160" height="88" rx="12" fill="rgba(194,103,58,0.14)" stroke="currentColor" stroke-opacity="0.35"></rect>
+          <text x="892" y="128" fill="#ffc5a8" font-size="11" font-weight="700" text-anchor="middle">STEP 5</text>
+          <text x="892" y="151" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">DIY 蛋糕</text>
+          <text x="892" y="174" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.75">📷 拍狀態即問</text>
+        </g>
+        <g>
+          <rect x="1012" y="98" width="160" height="100" rx="12" fill="rgba(236,72,153,0.18)" stroke="#ec4899" stroke-width="2"></rect>
+          <text x="1092" y="124" fill="#f9a8d4" font-size="11" font-weight="700" text-anchor="middle">STEP 6・終點</text>
+          <text x="1092" y="150" fill="#fce7f3" font-size="16" font-weight="700" text-anchor="middle">社群分享</text>
+          <text x="1092" y="174" fill="#f9a8d4" font-size="11" text-anchor="middle">6 語系貼文・標註門市</text>
+        </g>
+
+        <path d="M 1092 198 V 258 Q 1092 272 1078 272 H 106 Q 92 272 92 258 V 200" fill="none" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="7 6" marker-end="url(#arp)"></path>
+        <text x="592" y="294" fill="#f9a8d4" font-size="12.5" font-weight="700" text-anchor="middle">新客看到同鄉的貼文 → 帶著菜單連結預約進店（接待時間自然變短）</text>
+      </svg>
+      <figcaption>六步動線與回路：步驟 1 到 5 的每一次 AI 介入，都在累積步驟 6 要用的素材；步驟 6 的貼文則成為下一組顧客的入店理由。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 07 STEP 1 接待 -->
+  <div class="slide" data-notes="步驟一，接待。現場動作很簡單：顧客進門，夥伴從口袋拿出手機，打開 ChatGPT 的語音模式，先在設定裡貼上這段口譯指令，然後就正常講中文。重點是這段指令的第二條：不要解釋、不要加註，直接講翻譯後的那句話。沒有這條，AI 會開始說『好的，以下是泰語翻譯』，現場聽起來非常卡。第三條要求句子短、語氣親切，因為這是口說不是寫作。效益是接待的前三十秒不再靠比手畫腳，顧客一進門就被用母語招呼，第一印象就定下來了。">
+    <div class="header-bar">
+      <span class="project-tag">🎙️ 步驟 1 ／ 6</span>
+      <span class="slide-number">07 / 21</span>
+    </div>
+    <h2 class="slide-title">接待：進門三十秒內用母語招呼</h2>
+    <div class="step-rail">
+      <span class="rail-item on"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">ChatGPT ・ 語音模式</div>
+          <div class="ph-app">🎙️ 語音對話中</div>
+          <div class="ph-body">
+            <div class="ph-voice">
+              <i style="height:14px"></i><i style="height:26px"></i><i style="height:38px"></i><i style="height:22px"></i><i style="height:44px"></i><i style="height:18px"></i><i style="height:30px"></i><i style="height:12px"></i>
+            </div>
+            <div class="bub me"><span class="lang">夥伴（中文）</span>歡迎光臨！請問有預約嗎？幾位呢？</div>
+            <div class="bub ai"><span class="lang">手機外放（泰語）</span>ยินดีต้อนรับค่ะ! มีการจองไว้หรือเปล่าคะ มากี่ท่านคะ</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：拿出手機 → 開語音模式 → 正常講中文，手機直接外放顧客的語言。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 接待口譯指令（貼在語音模式的自訂指令）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">你是台灣「自己做烘焙聚樂部」門市的接待口譯員。
+規則：
+1. 我說中文時，你只輸出泰語；對方說泰語時，你只輸出繁體中文。
+2. 不要解釋、不要加註、不要說「以下是翻譯」，直接講翻譯後的那一句話。
+3. 語氣親切，句子短，適合現場口說，不要書面語。
+4. 人名、品名、門市名保留原文不翻。
+5. 聽不清楚時，用對方語言問一次「可以再說一次嗎」。
+現在開始，對方語言是泰語。</pre>
+        </div>
+        <div class="glass-card success">
+          <h3>🎯 展示重點與效益</h3>
+          <ul>
+            <li><strong class="hl">第 2 條是關鍵</strong>：少了它，AI 會先說「好的，以下是泰語翻譯」，現場節奏立刻斷掉。</li>
+            <li><strong class="hl">把語言切換做成兩句話</strong>：要換越南語，只要說「改成越南語」，不必重設。</li>
+            <li><strong class="hl">第一印象被母語接住</strong>，顧客不必先經歷一段尷尬的比手畫腳。</li>
+          </ul>
+          <p class="muted-note">現場吵雜時接藍牙小喇叭；夥伴戴一邊耳機可避免互相干擾。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 STEP 2 點餐 -->
+  <div class="slide" data-notes="步驟二，點餐。這一步直接接上我們第一階段的平板菜單：夥伴用手機拍下平板畫面，連同這一桌的條件丟給 AI，請它用顧客的母語推薦三款。請注意兩個設計。第一，格式要求保留中文原名，因為夥伴要對得上 POS 和現場標示，不然推薦完了沒人知道是哪一款。第二，最後一行明確禁止推薦圖片上沒有的品項，這是防止 AI 自己發明甜點。效益是選品從十五分鐘壓縮到幾分鐘，而且推薦理由是針對這一桌的條件，不是罐頭文案。">
+    <div class="header-bar">
+      <span class="project-tag">📷 步驟 2 ／ 6</span>
+      <span class="slide-number">08 / 21</span>
+    </div>
+    <h2 class="slide-title">點餐：拍下平板菜單，給這一桌的母語推薦</h2>
+    <div class="step-rail">
+      <span class="rail-item done"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item on"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">ChatGPT ・ 相機</div>
+          <div class="ph-app">📷 已附上菜單照片</div>
+          <div class="ph-body">
+            <div class="ph-photo">🖼️ 平板菜單截圖</div>
+            <div class="bub ai"><span class="lang">越南語輸出</span>1. Bánh chiffon dâu（草莓戚風）｜Dễ｜90 phút<br>2. Bánh quy bơ（奶油餅乾）｜Dễ｜60 phút<br>3. Tart phô mai（乳酪塔）｜Vừa｜100 phút<br>Bạn muốn chọn món nào?</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：手機拍平板菜單 → 輸入這一桌的條件 → 把手機轉給顧客看母語推薦。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 點餐推薦指令（附上菜單照片）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">附圖是我們門市的 DIY 烘焙菜單（平板畫面）。
+這一桌的條件：2 位越南籍顧客、第一次做烘焙、
+希望 90 分鐘內完成、想帶回飯店當伴手禮。
+
+請用越南語輸出：
+1. 推薦 3 款，每款一行，格式為
+   「品名（中文原名）｜難度｜製作時間｜推薦理由（15 字內）」
+2. 最後一句問他們想選哪一款。
+
+限制：
+- 只能推薦圖片上出現的品項，不要自己發明。
+- 中文原名務必保留，夥伴要用它對 POS 與現場標示。
+- 不確定的資訊就說不確定，不要猜測價格。</pre>
+        </div>
+        <div class="glass-card success">
+          <h3>🎯 展示重點與效益</h3>
+          <ul>
+            <li><strong class="hl">保留中文原名</strong>：顧客看母語、夥伴對中文，兩邊同時成立，不會點完沒人知道是哪一款。</li>
+            <li><strong class="hl">禁止超出圖片範圍</strong>：避免 AI 推薦我們沒有的甜點，這是現場最容易出事的地方。</li>
+            <li><strong class="hl">推薦理由針對這一桌</strong>：時間、經驗、要不要帶走，都是真實決策條件。</li>
+          </ul>
+          <p class="muted-note">銜接第一階段：平板菜單已有 6 語系，拍照只是把「清單」變成「針對你的建議」。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 STEP 3 跨語言溝通 -->
+  <div class="slide" data-notes="步驟三，AI 跨語言溝通，這是整條動線最省工時的一段。把手機放在桌上，夥伴和顧客輪流說話，AI 兩邊互譯。這裡最重要的設計是術語鎖定：我們把工作盆、抹刀、廚房紙巾、打發這些現場名詞直接寫進指令，強迫 AI 使用和線上菜單一致的翻譯。上一階段我們已經發現機器直譯會把工作盆翻成 Working bowl、抹刀翻成 Wing，顧客根本找不到東西。現在線上和現場共用同一份術語表。效益是夥伴不再被綁在單一桌，一個人可以同時顧更多組客人。">
+    <div class="header-bar">
+      <span class="project-tag">🔄 步驟 3 ／ 6</span>
+      <span class="slide-number">09 / 21</span>
+    </div>
+    <h2 class="slide-title">跨語言溝通：手機放桌上，夥伴就能走開</h2>
+    <div class="step-rail">
+      <span class="rail-item done"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item done"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item on"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">ChatGPT ・ 桌上口譯</div>
+          <div class="ph-app">🔄 雙向翻譯中・術語已鎖定</div>
+          <div class="ph-body">
+            <div class="bub ai"><span class="lang">顧客（泰語）</span>ชามผสมอยู่ที่ไหนคะ</div>
+            <div class="bub me"><span class="lang">翻給夥伴（中文）</span>請問工作盆在哪裡？</div>
+            <div class="bub me"><span class="lang">夥伴（中文）</span>在你左手邊第二層，不鏽鋼的那個。</div>
+            <div class="bub ai"><span class="lang">翻給顧客（泰語）</span>อยู่ชั้นที่สองด้านซ้ายมือค่ะ อันสเตนเลส（Mixing bowl）</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：手機平放桌面 → 雙方輪流說話 → 夥伴可以離桌去處理別組客人。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 桌上雙向口譯指令（含術語鎖定）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">接下來我會把手機放在桌上，我和顧客輪流說話。
+你的任務：
+- 聽到中文就翻成泰語講出來
+- 聽到泰語就翻成繁體中文講出來
+- 聽到「暫停」就停止翻譯，等我說「繼續」
+
+專有名詞一律固定使用這組對照，不要自己換字：
+工作盆 = Mixing bowl
+抹刀 = Spatula
+廚房紙巾 = Paper towel
+打發到硬性發泡 = whip to stiff peaks
+戚風蛋糕 = Chiffon cake
+隔水加熱 = double boiler
+
+遇到數字（溫度、分鐘、層數）請重複一次確認。</pre>
+        </div>
+        <div class="glass-card success">
+          <h3>🎯 展示重點與效益</h3>
+          <ul>
+            <li><strong class="hl">術語鎖定解決上一階段的舊傷</strong>：不再出現 Working bowl、Kitchen tissue 這類顧客找不到東西的翻譯。</li>
+            <li><strong class="hl">夥伴從「隨身翻譯機」變回烘焙指導</strong>：手機留在桌上，人可以去處理其他組。</li>
+            <li><strong class="hl">數字重複確認</strong>：溫度與時間講錯會毀掉一整個蛋糕，所以強制覆述。</li>
+          </ul>
+          <p class="muted-note">尖峰時一位夥伴要顧 16～20 位顧客，這一步直接釋放的就是那段被綁住的工時。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAG 架構 -->
+  <div class="slide" data-notes="這是隨身口譯實際怎麼運作。顧客用任何語言問刮刀在哪，系統自己判斷他說的是哪一國話，店員不必先選語言。手機把本店知識庫全文連同問題送進 Gemini，一次呼叫同時做三件事：翻譯、檢索、作答。注意是一次呼叫不是三次，因為現場等不起三趟往返。如果知識庫裡有這題，系統直接用中泰雙語顯示並念出來，店員完全不用介入。如果沒有，畫面轉成琥珀色請店員用中文回一次，系統翻成泰語念出來，同時把這題存回知識庫，下次同樣的問題就自動命中。還有第三條路：問題如果涉及過敏、金流或安全，不管知識庫有沒有，一律強制轉店員，這是寫死的規則。">
+    <div class="header-bar">
+      <span class="project-tag">🧠 步驟 3 深入</span>
+      <span class="slide-number">10 / 21</span>
+    </div>
+    <h2 class="slide-title">隨身口譯怎麼運作：一次呼叫，三種結果</h2>
+    <p class="slide-subtitle">翻譯、檢索、作答在同一次 API 呼叫完成。現場等不起三趟往返，所以不拆成三步。</p>
+    <figure style="flex:1; justify-content:center;">
+      <svg viewBox="0 0 1180 380" role="img" aria-label="隨身口譯架構：顧客提問與本店知識庫一起送進 Gemini 單次呼叫，命中就雙語作答，未命中或涉及安全金流則轉店員回答並把答案存回知識庫">
+        <defs>
+          <marker id="ra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+          </marker>
+          <marker id="rg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"></path>
+          </marker>
+          <marker id="rb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"></path>
+          </marker>
+        </defs>
+
+        <g>
+          <rect x="10" y="60" width="175" height="80" rx="11" fill="rgba(59,130,246,0.16)" stroke="#3b82f6" stroke-opacity="0.6"></rect>
+          <text x="97" y="86" fill="currentColor" font-size="15" font-weight="700" text-anchor="middle">顧客提問</text>
+          <text x="97" y="107" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.8">任何語言皆可</text>
+          <text x="97" y="126" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.8">Di mana spatula?</text>
+        </g>
+        <line x1="187" y1="100" x2="226" y2="100" stroke="currentColor" stroke-width="1.6" marker-end="url(#ra)"></line>
+
+        <g>
+          <rect x="230" y="40" width="230" height="120" rx="12" fill="rgba(194,103,58,0.2)" stroke="var(--primary)" stroke-width="2"></rect>
+          <text x="345" y="70" fill="#ffd3b8" font-size="12" font-weight="700" text-anchor="middle">Gemini 單次呼叫</text>
+          <text x="345" y="95" fill="currentColor" font-size="13" text-anchor="middle">① 翻成中文</text>
+          <text x="345" y="117" fill="currentColor" font-size="13" text-anchor="middle">② 比對知識庫</text>
+          <text x="345" y="139" fill="currentColor" font-size="13" text-anchor="middle">③ 產生雙語答案</text>
+        </g>
+
+        <g>
+          <rect x="230" y="270" width="230" height="72" rx="12" fill="rgba(139,92,246,0.18)" stroke="#8b5cf6" stroke-opacity="0.7"></rect>
+          <text x="345" y="294" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">Google Sheets</text>
+          <text x="345" y="314" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.8">每間門市一個分頁</text>
+          <text x="345" y="331" fill="currentColor" font-size="11" text-anchor="middle" opacity="0.8">答案只存中文</text>
+        </g>
+        <line x1="345" y1="268" x2="345" y2="164" stroke="currentColor" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#ra)"></line>
+        <text x="358" y="218" fill="currentColor" font-size="11.5" opacity="0.85">全文塞入 prompt</text>
+        <text x="358" y="236" fill="currentColor" font-size="11.5" opacity="0.85">約 730 tokens</text>
+
+        <line x1="462" y1="88" x2="536" y2="58" stroke="#10b981" stroke-width="2" marker-end="url(#rg)"></line>
+        <text x="500" y="46" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle">命中</text>
+        <line x1="462" y1="124" x2="536" y2="180" stroke="#f59e0b" stroke-width="2" marker-end="url(#ra)" style="color:#f59e0b"></line>
+        <text x="492" y="166" fill="#fbbf24" font-size="11.5" font-weight="700" text-anchor="middle">未命中</text>
+
+        <g>
+          <rect x="540" y="20" width="210" height="76" rx="11" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-opacity="0.6"></rect>
+          <text x="645" y="48" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">直接雙語作答</text>
+          <text x="645" y="71" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.8">店員完全不介入</text>
+        </g>
+        <line x1="752" y1="58" x2="796" y2="58" stroke="#10b981" stroke-width="2" marker-end="url(#rg)"></line>
+        <g>
+          <rect x="800" y="20" width="210" height="76" rx="11" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-opacity="0.6"></rect>
+          <text x="905" y="48" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">原文與中文同時顯示</text>
+          <text x="905" y="71" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.8">並以顧客母語朗讀</text>
+        </g>
+
+        <g>
+          <rect x="540" y="150" width="210" height="88" rx="11" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-opacity="0.65"></rect>
+          <text x="645" y="178" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">轉店員模式</text>
+          <text x="645" y="200" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.85">畫面變琥珀色</text>
+          <text x="645" y="221" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.85">顯示中文問題</text>
+        </g>
+        <line x1="752" y1="194" x2="796" y2="194" stroke="#f59e0b" stroke-width="2" marker-end="url(#ra)" style="color:#f59e0b"></line>
+        <g>
+          <rect x="800" y="150" width="210" height="88" rx="11" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-opacity="0.65"></rect>
+          <text x="905" y="178" fill="currentColor" font-size="14" font-weight="700" text-anchor="middle">店員用中文回答</text>
+          <text x="905" y="200" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.85">系統翻成顧客語言並朗讀</text>
+          <text x="905" y="221" fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.85">同時存回知識庫</text>
+        </g>
+
+        <path d="M 905 240 V 306 H 466" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#rb)"></path>
+        <text x="690" y="297" fill="#93c5fd" font-size="12.5" font-weight="700" text-anchor="middle">經 Apps Script 寫回門市分頁，下次自動命中</text>
+
+        <g>
+          <rect x="10" y="270" width="175" height="72" rx="11" fill="rgba(239,68,68,0.14)" stroke="#ef4444" stroke-opacity="0.6" stroke-dasharray="5 4"></rect>
+          <text x="97" y="297" fill="#fca5a5" font-size="12.5" font-weight="700" text-anchor="middle">強制轉店員</text>
+          <text x="97" y="319" fill="#fca5a5" font-size="11" text-anchor="middle">過敏・金流・安全</text>
+        </g>
+        <path d="M 187 300 H 215 V 190 H 536" fill="none" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ra)" style="color:#ef4444"></path>
+      </svg>
+      <figcaption>三條路徑：命中直接作答、未命中轉店員並學習、涉及安全與金流一律強制轉店員。顧客語言由系統自動判斷，店員不必先選。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 知識庫設計 -->
+  <div class="slide" data-notes="知識庫的設計有三個關鍵決定。第一，不要建向量資料庫。我們實測一間門市 22 筆條目送進 prompt 只有 730 tokens，就算成長到三百筆也才一萬 tokens，Flash 模型完全吃得下。直接全文塞入比向量檢索更精確、更好稽核，而且零額外建置。等超過三百筆再考慮向量化。第二，答案只存中文，外語在問的當下才翻譯。因為刮刀的位置會變、規則會改，如果每筆都維護六國語言，就又回到第一階段那個維護成本的老問題。第三，條目要綁門市，因為十一間店的器具位置本來就不一樣，信義店的 A 區不等於板橋店的 A 區。回寫有三條路，建議先用最右邊那條，跟你們現有的 Excel 上架流程一致。">
+    <div class="header-bar">
+      <span class="project-tag">🗄️ 知識庫設計</span>
+      <span class="slide-number">11 / 21</span>
+    </div>
+    <h2 class="slide-title">三個關鍵決定：不建向量庫、只存中文、綁定門市</h2>
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="glass-card success">
+        <h3>① 不要建向量資料庫</h3>
+        <p>實測信義店 22 筆條目送進 prompt 只有 <strong class="hl">約 730 tokens</strong>。就算成長到 300 筆也才一萬 tokens，Flash 完全吃得下。</p>
+        <p class="muted-note">全文塞入比向量檢索更精確、更好稽核、零建置成本。超過 300 筆再考慮向量化。</p>
+      </div>
+      <div class="glass-card success">
+        <h3>② 答案只存繁體中文</h3>
+        <p>外語在顧客問的當下才翻譯。刮刀位置會變、店規會改，<strong class="hl">每筆維護多國語言就是第一階段那個老問題</strong>。</p>
+        <p class="muted-note">店員只用中文維護，<strong class="hl">新增一筆等於 6 種語言同時支援</strong>，這是整套設計能長期活下去的原因。</p>
+      </div>
+      <div class="glass-card success">
+        <h3>③ 條目綁定門市</h3>
+        <p>11 間店器具位置不同，信義店的 A 區不等於板橋店的 A 區。條目標 <strong class="hl">ALL 或特定門市</strong>，檢索前先過濾。</p>
+        <p class="muted-note">實測：信義店 22 筆、板橋店 16 筆，通用條目兩邊共用。</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="prompt-card">
+        <div class="prompt-head"><span>🗄️ Google Sheets 一列就是一筆條目</span><button class="btn-copy" type="button">複製</button></div>
+        <pre class="prompt-body">試算表 DIY_QA_RAG
+分頁：共用、台北信義、台北南西 …（每店一頁）
+
+欄位（8 欄）：
+id          tool-spatula-xinyi
+分類        器具位置
+問題關鍵詞  刮刀在哪、抹刀在哪裡、spatula
+中文答案    刮刀在 A 區工具牆第二層，紅色握把那一排。
+需店員      否
+已審核      是
+更新日期    2026-10-21
+建立者      系統預設
+
+店長直接在 Google Sheets 上維護，不必碰程式碼。</pre>
+      </div>
+      <div class="glass-card">
+        <h3>🔁 店員新增的答案怎麼回到全門市</h3>
+        <div class="table-wrap">
+          <table class="custom-table">
+            <tr><th>做法</th><th>範圍</th><th>狀態</th></tr>
+            <tr><td>讀取 Google Sheets</td><td class="good">依門市分頁即時讀取</td><td class="good">已完成</td></tr>
+            <tr><td>Apps Script 寫回分頁</td><td class="good">全門市即時共用</td><td class="good">已完成</td></tr>
+            <tr><td>暫存手機瀏覽器</td><td class="dim">只有這支手機</td><td class="dim">沒設 Apps Script 時的備援</td></tr>
+          </table>
+        </div>
+        <p class="muted-note">跟現有的 Excel 上架流程一致：現場蒐集、店長在試算表審核、全門市立刻生效。店員現場回答會自動寫成新的一列，「已審核」欄預設為否，等店長確認。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 如何架設 -->
+  <div class="slide" data-notes="架設只有四步，而且第一步現在就已經做完了。第一步，檔案和試算表都已經建好了：口譯程式、Apps Script 寫回端點，還有一份叫 DIY_QA_RAG 的 Google Sheets，裡面有共用分頁加十一間門市分頁，已經填了二十二筆種子條目。第二步，推上 GitHub Pages，因為 Gemini API 和 Google Sheets 都必須從正常網址呼叫，用 Artifact 連結會被瀏覽器安全政策擋掉。第三步，在手機上打開那個網址，點右上角齒輪貼上 Gemini 金鑰，金鑰只存在那支手機裡，而且跟後台共用同一組設定。第四步，花兩個小時把現場真正會被問到的問題補進知識庫，這一步最重要也最花時間，但只有店長和資深夥伴做得到，AI 代替不了。做完這四步，刮刀那段 demo 就是真的在跑，不是模擬。">
+    <div class="header-bar">
+      <span class="project-tag">🔧 如何架設</span>
+      <span class="slide-number">12 / 21</span>
+    </div>
+    <h2 class="slide-title">四步架設，不需要後端伺服器</h2>
+    <p class="slide-subtitle">沿用第一階段的純前端架構：GitHub Pages 託管、金鑰存在手機本機、與後台共用同一組設定。</p>
+    <div class="grid-2">
+      <div class="glass-card flat">
+        <h3>🪜 架設步驟</h3>
+        <div class="tl">
+          <div class="tl-row">
+            <div class="tl-when">第 1 步</div>
+            <div class="tl-what"><b>檔案已備妥（已完成）</b><br>interpreter.html 口譯程式、google_apps_script.gs 寫回端點，以及 Google Sheets 知識庫 DIY_QA_RAG（共用＋11 間門市分頁，22 筆種子條目）。</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-when">第 2 步</div>
+            <div class="tl-what"><b>推上 GitHub Pages</b><br>Gemini API 必須從正常網址呼叫。Artifact 連結會被瀏覽器安全政策阻擋，只能跑離線示範模式。</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-when">第 3 步</div>
+            <div class="tl-what"><b>手機開啟並完成三個設定</b><br>齒輪裡填 Gemini API Key、試算表 ID、Apps Script 網址。三項都只存在那支手機，金鑰與後台共用同一組。</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-when">第 4 步</div>
+            <div class="tl-what"><b>各店填自己的分頁（最關鍵）</b><br>每位店長花 2 小時，把自己店的器具位置與店規填進該店分頁。這一步只有店長和資深夥伴做得到，而且各店配置本來就不同。</div>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass-card">
+          <h3>🧩 技術選擇與理由</h3>
+          <div class="table-wrap">
+            <table class="custom-table">
+              <tr><th>項目</th><th>選擇</th><th>理由</th></tr>
+              <tr><td>模型</td><td>gemini-2.5-flash</td><td class="dim">現場要快，與後台同一組</td></tr>
+              <tr><td>檢索</td><td>全文塞入 prompt</td><td class="dim">百筆內不需向量庫</td></tr>
+              <tr><td>知識庫</td><td class="good">Google Sheets</td><td class="dim">每店一分頁，店長直接編輯</td></tr>
+              <tr><td>寫回</td><td>Apps Script</td><td class="dim">免費，不需要伺服器</td></tr>
+              <tr><td>後端</td><td class="good">不需要</td><td class="dim">純前端 + GitHub Pages</td></tr>
+              <tr><td>顧客語言</td><td class="good">自動偵測</td><td class="dim">中英日韓泰越，店員不必先選</td></tr>
+              <tr><td>語音輸入</td><td>瀏覽器聽寫</td><td class="dim">不支援時退回鍵盤輸入</td></tr>
+              <tr><td>語音輸出</td><td>系統語音合成</td><td class="dim">缺語音包時只顯示文字</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="glass-card danger">
+          <h3>⚠️ 三個必須先知道的限制</h3>
+          <ul>
+            <li><strong class="hl">知識庫沒有的，系統不會瞎猜。</strong>prompt 寫死禁止編造地點與數字，查不到就一定轉店員。</li>
+            <li><strong class="hl">過敏、金流、安全一律強制轉店員</strong>，即使知識庫裡有答案也不自動回覆。</li>
+            <li><strong class="hl">朗讀要看裝置有沒有語音包。</strong>文字翻譯支援所有語言，但手機沒裝該語言語音包時只顯示文字不朗讀，示範前先測要用的那幾種。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 STEP 4 特殊需求 -->
+  <div class="slide" data-notes="步驟四，特殊需求確認，這一步最重要的不是翻譯，是留下紀錄。做法是把顧客的原句直接貼進 Claude，請它同時產出兩份東西：一份給顧客看的英文確認卡，最後一行要他回答 Yes 或 No；一份給廚房和夥伴看的中文工作卡，列出禁用原料、可用的替代品、交叉污染注意事項。替代品只准列我們店內真的有的東西，這點一定要寫進指令。還有一條鐵則：需要主管判斷的項目要標星號，而且過敏與宗教飲食一律由店長覆核後才執行，AI 只負責產草稿。這是責任界線，報告時一定要講清楚。">
+    <div class="header-bar">
+      <span class="project-tag">⌨️ 步驟 4 ／ 6</span>
+      <span class="slide-number">13 / 21</span>
+    </div>
+    <h2 class="slide-title">特殊需求確認：一次對話，產出兩份可留存的卡</h2>
+    <div class="step-rail">
+      <span class="rail-item done"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item done"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item done"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item on"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">Claude ・ 需求確認</div>
+          <div class="ph-app">⌨️ 產出雙語工作卡</div>
+          <div class="ph-body">
+            <div class="bub me"><span class="lang">貼上顧客原句</span>I'm allergic to tree nuts, and we don't eat pork. One of us is lactose intolerant.</div>
+            <div class="bub ai"><span class="lang">A. 給顧客確認（英文）</span>We will: use a nut-free prep area, replace butter cream with plant-based cream, and skip all pork gelatin toppings. Please confirm: Yes / No</div>
+            <div class="bub ai"><span class="lang">B. 給廚房（中文）</span>★禁用：各類堅果、豬源明膠、含乳鮮奶油<br>替代：豆漿、植物性鮮奶油<br>★交叉污染：裝飾區共用夾具需更換</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：顧客原句貼進手機 → 顧客端確認 Yes → 中文工作卡截圖存檔並交廚房。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 特殊需求雙卡指令（可留存紀錄）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">顧客原話：「I'm allergic to tree nuts, and we don't eat pork.
+One of us is lactose intolerant.」
+
+請輸出兩段，標題固定：
+【A. 給顧客確認的卡 - 用顧客的語言】
+逐條寫出我們會怎麼處理，語句簡短；
+最後一行請他回答 Yes 或 No 確認無誤。
+
+【B. 給廚房與夥伴的中文工作卡】
+1. 禁用原料清單
+2. 可用的替代品（只列我們店內有的：豆漿、
+   植物性鮮奶油、香草精）
+3. 交叉污染注意事項（共用器具、烤盤、裝飾區）
+4. 需要店長判斷的項目前面加 ★
+
+限制：不確定的成分不要假設安全，直接標 ★ 待確認。
+語氣務實，不要行銷用語。</pre>
+        </div>
+        <div class="glass-card danger">
+          <h3>🚨 責任界線（必須寫進 SOP）</h3>
+          <ul>
+            <li><strong class="hl">AI 只產草稿，店長覆核後才執行。</strong>過敏與宗教飲食涉及健康與信仰，不接受自動化決策。</li>
+            <li><strong class="hl">替代品只准列店內實際備有的</strong>，否則現場無法執行，顧客期待落空。</li>
+            <li><strong class="hl">雙卡都要留存</strong>：顧客確認的 Yes 與中文工作卡截圖，是事後追溯的唯一依據。</li>
+          </ul>
+          <p class="muted-note">這一步同時改善兩端：顧客第一次清楚知道店家真的聽懂了；門市第一次有了特殊需求的書面紀錄。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 STEP 5 DIY -->
+  <div class="slide" data-notes="步驟五，DIY 蛋糕製作過程。這一步的核心是把『舉手等夥伴過來』換成『拍照立刻問』。顧客做到蛋白霜那一關，不確定打發夠了沒有，直接拍照問手機，AI 用母語告訴他現在是濕性、中性還是乾性發泡，還要打多久，下一步做什麼。而且要求如果看起來打過頭了，直接講怎麼補救，因為現場最怕的就是卡在那裡等人。這一步解掉的是等待焦慮，也同時把資深夥伴腦袋裡的救援知識變成人人可用的即時回答。">
+    <div class="header-bar">
+      <span class="project-tag">🥣 步驟 5 ／ 6</span>
+      <span class="slide-number">14 / 21</span>
+    </div>
+    <h2 class="slide-title">DIY 蛋糕：把「舉手等人」換成「拍照就問」</h2>
+    <div class="step-rail">
+      <span class="rail-item done"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item done"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item done"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item done"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item on"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">ChatGPT ・ 相機</div>
+          <div class="ph-app">🥣 拍蛋白霜狀態</div>
+          <div class="ph-body">
+            <div class="ph-photo">🖼️ 打發中的蛋白霜</div>
+            <div class="bub ai"><span class="lang">泰語回覆</span>ตอนนี้ตั้งยอดอ่อน（濕性發泡）<br>ตีต่ออีก 1-2 นาที จนยอดตั้งแข็ง<br>ขั้นต่อไป: แบ่งใส่เนื้อเค้ก 3 ครั้ง</div>
+            <div class="bub me"><span class="lang">顧客追問</span>打過頭了怎麼辦？</div>
+            <div class="bub ai"><span class="lang">泰語回覆</span>เติมไข่ขาวสด 1 ช้อน แล้วตีเบา ๆ 10 วินาที</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：顧客自己拍、自己問、自己繼續做。夥伴只在被標星號的關卡才需要到場。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 製作過程即問即答指令（附上現場照片）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">附圖是我現在的蛋白霜狀態，我正在做戚風蛋糕。
+
+請用泰語簡短回答，分三行：
+1. 現在打到幾分發（濕性／中性／乾性發泡）
+2. 還要再打多久，或是該停了
+3. 下一步要做什麼（一句話）
+
+如果看起來已經打過頭或消泡了，直接說怎麼補救，
+不要只說「失敗了」。
+每行不超過 20 個字，我在現場邊做邊看。</pre>
+        </div>
+        <div class="glass-card success">
+          <h3>🎯 展示重點與效益</h3>
+          <ul>
+            <li><strong class="hl">等待焦慮歸零</strong>：不用舉手排隊，當下就知道該停還是該繼續。</li>
+            <li><strong class="hl">救援知識人人可用</strong>：消泡、裂頂、回縮的處理方式，原本只在資深夥伴腦袋裡。</li>
+            <li><strong class="hl">成功率提高，就有照片可拍</strong>：這一步直接決定步驟 6 有沒有素材。</li>
+          </ul>
+          <p class="muted-note">安全界線：烤箱操作、刀具、熱鍋等有風險的步驟，SOP 規定仍由夥伴到場協助，不交給手機。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 STEP 6 社群分享 -->
+  <div class="slide" data-notes="步驟六，社群分享，這是整份報告的最終目的。顧客蛋糕做好了，拍一張照，手機一鍵產出六種語言的貼文，包含第一人稱心得、該語言常用的標籤、固定的門市標籤，還有門市帳號與地點標註。語氣要求自然像真人，不要像廣告，這很重要，因為廣告文案發出去沒有人會相信。現場的收斂動作是出餐檯放一個 QR 碼，掃進去是多語系菜單和門市社群帳號，顧客照片一拍、貼文一貼，門市就被標註了。前面五個步驟省下來的時間和建立的好感，到這一步才真正變成可以帶來新客的資產。">
+    <div class="header-bar">
+      <span class="project-tag pink">🎉 步驟 6 ／ 6 ・最終目的</span>
+      <span class="slide-number">15 / 21</span>
+    </div>
+    <h2 class="slide-title">社群分享：把最感動的那一刻，變成六種語言的內容</h2>
+    <div class="step-rail">
+      <span class="rail-item done"><span class="rn">STEP 1</span>接待</span>
+      <span class="rail-item done"><span class="rn">STEP 2</span>點餐</span>
+      <span class="rail-item done"><span class="rn">STEP 3</span>跨語言溝通</span>
+      <span class="rail-item done"><span class="rn">STEP 4</span>特殊需求</span>
+      <span class="rail-item done"><span class="rn">STEP 5</span>DIY 蛋糕</span>
+      <span class="rail-item on goal"><span class="rn">STEP 6</span>社群分享</span>
+    </div>
+    <div class="grid-demo">
+      <div>
+        <div class="phone">
+          <div class="ph-top">ChatGPT ・ 成品貼文</div>
+          <div class="ph-app">🎉 6 語系貼文已產出</div>
+          <div class="ph-body">
+            <div class="ph-photo">🍰 顧客完成的草莓戚風</div>
+            <div class="bub ai pink"><span class="lang">Tiếng Việt</span>Tự tay làm bánh chiffon dâu trong 90 phút! Lần đầu nhưng thành công 🍓<br>#tudolambanh #DIYbakingTaipei #自己做烘焙聚樂部<br>📍 台北信義店</div>
+            <div class="bub ai pink"><span class="lang">ไทย</span>ทำเค้กชิฟฟ่อนสตรอว์เบอร์รีเองใน 90 นาที! 🍓<br>#เบเกอรี่ไทเป #DIYbakingTaipei</div>
+          </div>
+        </div>
+        <p class="phone-cap">現場動作：成品拍照 → 一鍵產出母語貼文 → 顧客複製貼上，門市被標註。</p>
+      </div>
+      <div class="stack">
+        <div class="prompt-card">
+          <div class="prompt-head"><span>📋 六語系貼文產出指令（附上成品照片）</span><button class="btn-copy" type="button">複製</button></div>
+          <pre class="prompt-body">附圖是我剛剛自己做好的草莓戚風蛋糕，
+在台北信義店花 90 分鐘完成，是第一次做烘焙。
+
+請分別用這 6 種語言各寫一則可直接貼上 Instagram 的貼文：
+繁體中文 / English / 日本語 / 한국어 / ไทย / Tiếng Việt
+
+每一則包含：
+1. 2 到 3 句第一人稱心得，要提到自己動手做和花費時間
+2. 5 個該語言社群常用的 hashtag
+   ＋固定標籤 #自己做烘焙聚樂部 #DIYbakingTaipei
+3. 最後一行放門市標註與地點：📍台北信義店
+
+語氣自然像真人發文，可以用一點口語和表情符號，
+不要寫成廣告文案，不要用「歡迎蒞臨」這種店家用語。</pre>
+        </div>
+        <div class="glass-card social">
+          <h3>📍 門市要配合的三個收斂動作</h3>
+          <ul>
+            <li><strong class="hl">出餐檯放一個 QR 碼</strong>：掃進去是多語系菜單與門市社群帳號，顧客不必自己搜尋店名。</li>
+            <li><strong class="hl">夥伴主動說一句話</strong>：「要不要幫你產一段你的語言的貼文？」這句話決定了分享率。</li>
+            <li><strong class="hl">固定標籤統一</strong>：全台 11 間門市使用同一組 hashtag，成效才統計得出來。</li>
+          </ul>
+          <p class="muted-note">授權守則：顧客照片由顧客自己發，門市不代拍人臉、不代發文；要轉貼必須取得顧客同意。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 飛輪 -->
+  <div class="slide" data-notes="為什麼整份報告的終點要設在社群分享？因為前面五步都是成本，只有第六步會回收。看這個飛輪：母語體驗做完整，顧客才願意發文；顧客用自己的語言發文，才會觸及泰國、越南、日本、韓國的同鄉圈；同鄉看到真實心得，帶著菜單連結來預約；而因為他進店前就看過菜單，接待的時間自然變短，體驗又更完整。轉一圈之後，原本花在翻譯上的成本，變成了不用付費的內容資產。這也是為什麼我們不把社群分享當成行銷部門的事，而是當成服務流程的最後一個步驟。">
+    <div class="header-bar">
+      <span class="project-tag pink">🎯 為什麼終點是社群分享</span>
+      <span class="slide-number">16 / 21</span>
+    </div>
+    <h2 class="slide-title">前五步是成本，第六步才回收</h2>
+    <p class="slide-subtitle">社群分享不是行銷部門的事，是服務流程的最後一個步驟。少了它，前面省下的工時只是省下工時。</p>
+    <div class="grid-2" style="grid-template-columns: 1.45fr 1fr;">
+      <figure>
+        <svg viewBox="0 0 820 420" role="img" aria-label="社群分享飛輪：完整母語體驗帶來顧客發文，貼文觸及同鄉社群，同鄉成為新客預約進店，使接待更快而體驗更完整">
+          <defs>
+            <marker id="arf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ec4899"></path>
+            </marker>
+          </defs>
+
+          <circle cx="410" cy="205" r="122" fill="rgba(236,72,153,0.07)" stroke="#ec4899" stroke-opacity="0.3" stroke-dasharray="4 7"></circle>
+          <text x="410" y="178" fill="#f9a8d4" font-size="14" font-weight="700" text-anchor="middle">社群分享飛輪</text>
+          <text x="410" y="207" fill="#fce7f3" font-size="19" font-weight="700" text-anchor="middle">把「翻譯」這項成本</text>
+          <text x="410" y="231" fill="#fce7f3" font-size="19" font-weight="700" text-anchor="middle">變成「內容」這項資產</text>
+
+          <g fill="none" stroke="#ec4899" stroke-width="2">
+            <path d="M 512 44 Q 648 58 688 162" marker-end="url(#arf)"></path>
+            <path d="M 690 248 Q 650 352 512 366" marker-end="url(#arf)"></path>
+            <path d="M 308 366 Q 170 352 130 248" marker-end="url(#arf)"></path>
+            <path d="M 128 162 Q 170 58 308 44" marker-end="url(#arf)"></path>
+          </g>
+          <g fill="#f9a8d4" font-size="14" font-weight="700" text-anchor="middle">
+            <text x="716" y="92">拍照＋一鍵</text>
+            <text x="716" y="108">母語貼文</text>
+            <text x="716" y="312">觸及同鄉</text>
+            <text x="716" y="328">社群圈</text>
+            <text x="104" y="312">帶著菜單</text>
+            <text x="104" y="328">連結來預約</text>
+            <text x="104" y="92">接待更快</text>
+            <text x="104" y="108">體驗更完整</text>
+          </g>
+
+          <g>
+            <rect x="315" y="10" width="190" height="68" rx="12" fill="rgba(194,103,58,0.18)" stroke="currentColor" stroke-opacity="0.35"></rect>
+            <text x="410" y="38" fill="currentColor" font-size="17" font-weight="700" text-anchor="middle">完整的母語體驗</text>
+            <text x="410" y="59" fill="currentColor" font-size="13" text-anchor="middle" opacity="0.75">步驟 1～5 的 AI 介入</text>
+          </g>
+          <g>
+            <rect x="600" y="172" width="190" height="68" rx="12" fill="rgba(236,72,153,0.2)" stroke="#ec4899" stroke-width="2"></rect>
+            <text x="695" y="200" fill="#fce7f3" font-size="17" font-weight="700" text-anchor="middle">顧客願意發文</text>
+            <text x="695" y="221" fill="#f9a8d4" font-size="13" text-anchor="middle">步驟 6・最終目的</text>
+          </g>
+          <g>
+            <rect x="315" y="334" width="190" height="68" rx="12" fill="rgba(194,103,58,0.18)" stroke="currentColor" stroke-opacity="0.35"></rect>
+            <text x="410" y="362" fill="currentColor" font-size="16" font-weight="700" text-anchor="middle">泰／越／日／韓同鄉圈</text>
+            <text x="410" y="383" fill="currentColor" font-size="13" text-anchor="middle" opacity="0.75">母語貼文＝母語廣告</text>
+          </g>
+          <g>
+            <rect x="30" y="172" width="190" height="68" rx="12" fill="rgba(194,103,58,0.18)" stroke="currentColor" stroke-opacity="0.35"></rect>
+            <text x="125" y="200" fill="currentColor" font-size="17" font-weight="700" text-anchor="middle">新客預約進店</text>
+            <text x="125" y="221" fill="currentColor" font-size="13" text-anchor="middle" opacity="0.75">進店前已看過菜單</text>
+          </g>
+        </svg>
+        <figcaption>飛輪每轉一圈，接待成本下降、內容存量上升。缺了步驟 6，這個圈就是一條直線。</figcaption>
+      </figure>
+      <div class="stack">
+        <div class="glass-card social">
+          <h3>💡 為什麼終點必須是社群分享</h3>
+          <ul>
+            <li><strong class="hl">它是唯一會回收的步驟。</strong>前五步改善的是體驗與工時，第六步才把體驗換成下一組客人。</li>
+            <li><strong class="hl">母語貼文是我們買不到的廣告。</strong>泰語、越南語的真實心得，投放廣告也打不進那個同鄉圈。</li>
+            <li><strong class="hl">它讓前五步的投資可被看見。</strong>標註門市的貼文數，是整個專案最容易向上報告的指標。</li>
+          </ul>
+        </div>
+        <div class="glass-card flat">
+          <h3>🔁 成本結構的轉向</h3>
+          <div class="table-wrap">
+            <table class="custom-table">
+              <tr><th>項目</th><th>導入前</th><th>導入後</th></tr>
+              <tr><td>語言處理</td><td class="dim">純成本：夥伴工時</td><td class="good">產出內容的原料</td></tr>
+              <tr><td>顧客成品照</td><td class="dim">顧客自己收著</td><td class="good">標註門市的公開貼文</td></tr>
+              <tr><td>外籍客獲取</td><td class="dim">被動等觀光客上門</td><td class="good">同鄉社群口碑推薦</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 內部管理 -->
+  <div class="slide" data-notes="接下來講內部管理效率。同一支手機，在顧客離店之後繼續工作。班前，把今天的檔期品項貼給 AI，產出今日六語系速查小抄。班中，拍照問 SOP，比如這台烤箱預熱幾分鐘。班後，最有價值的是這個：夥伴用語音口述今天發生的事，AI 整理成固定欄位的交接班日誌，原本要打十五分鐘的東西，講三分鐘就好。因為成本降下來了，紀錄才會真的發生。再往上，每週把一週日誌貼給 AI 看趨勢，還有新人訓練讓 AI 扮演外籍客做對話演練，店長看逐字稿就知道要補什麼。這六件事都不需要新系統。">
+    <div class="header-bar">
+      <span class="project-tag">🏪 內部管理效率</span>
+      <span class="slide-number">17 / 21</span>
+    </div>
+    <h2 class="slide-title">同一支手機，顧客離店後繼續工作</h2>
+    <p class="slide-subtitle">內部管理的瓶頸不是沒人想記錄，是記錄的成本太高。把成本從 15 分鐘降到 3 分鐘，紀錄才會發生。</p>
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="glass-card">
+        <h3>🌅 班前：今日速查小抄</h3>
+        <p>把今天的檔期品項貼給 AI，產出 6 語系品名與一句話說明，夥伴開店前看一眼就能上線。</p>
+        <p class="muted-note">資料來源直接用後台的中文 Excel 欄位。</p>
+      </div>
+      <div class="glass-card">
+        <h3>🔧 班中：SOP 即問即答</h3>
+        <p>拍下機台或器具照片直接問「這台烤箱 180 度要預熱幾分鐘」，不必翻紙本、不必打電話問店長。</p>
+        <p class="muted-note">把資深夥伴的經驗寫成一份 SOP 文件餵給 AI，答案才會一致。</p>
+      </div>
+      <div class="glass-card">
+        <h3>🌙 班後：口述變交接班日誌</h3>
+        <p>夥伴對手機講 3 分鐘，AI 產出固定欄位的日誌，直接貼進門市群組，早班不再靠「聽說」。</p>
+        <p class="muted-note">這是六件事裡回收最快的一項。</p>
+      </div>
+    </div>
+    <div class="grid-demo">
+      <div class="prompt-card" style="grid-column: 1 / -1;">
+        <div class="prompt-head"><span>📋 交接班日誌指令（語音口述後貼上逐字稿）</span><button class="btn-copy" type="button">複製</button></div>
+        <pre class="prompt-body">以下是今天晚班的口述紀錄（語音轉文字，可能有錯字與口語）：
+「（貼上逐字稿）」
+
+請整理成交接班日誌，欄位固定不要增減：
+1. 客流與翻桌（含外籍客組數與使用語言）
+2. 缺料與明日備料需求
+3. 設備異常（機台／烤箱／空調，寫下現象而非猜測原因）
+4. 客訴與處理結果
+5. 明日提醒（需要店長決策的項目前面加 ★）
+
+最後單獨一行，給我 50 字內的重點摘要，方便直接貼到門市群組。
+口述中沒提到的欄位就寫「無」，不要自己補內容。</pre>
+      </div>
+      <div class="glass-card success" style="grid-column: 1 / -1;">
+        <h3>📈 另外三件可以立刻做的事</h3>
+        <ul>
+          <li><strong class="hl">新人訓練</strong>：請 AI 扮演泰籍顧客做 10 分鐘對話演練，店長看逐字稿就知道新人缺哪一塊，不必派老手全程陪。</li>
+          <li><strong class="hl">每週趨勢摘要</strong>：把一週交接班日誌一起貼給 AI，請它找出重複出現的缺料、設備與客訴模式，產出下週備料與排班建議。</li>
+          <li><strong class="hl">檔期文案一次到位</strong>：新品中文文案寫一次，同時產出 6 語系菜單欄位與社群貼文，直接接回後台的一鍵 AI 翻譯。</li>
+        </ul>
+        <p class="muted-note">守則：日誌與文案都屬於草稿，店長確認後才發布；不輸入顧客姓名與電話等個資。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15 KPI -->
+  <div class="slide" data-notes="效益要能被量測，否則就只是感覺變好。這張表左邊兩欄是現況，其中十五到二十分鐘是 9/8 現場實地觀察的數字，其他幾項老實說我們現在根本沒有在追蹤，所以寫的是未統計。右邊是這次專案設定的目標值，請注意這是目標不是成果，我們會在導入後第四週回填實際數字。最後一欄是量測方式，全部都用現場本來就會做的動作來蒐集，不增加額外表單：時間戳用現有的下單紀錄，翻譯中斷次數加在交接班日誌欄位裡，社群貼文用固定標籤計數。">
+    <div class="header-bar">
+      <span class="project-tag">📊 效益與量測</span>
+      <span class="slide-number">18 / 21</span>
+    </div>
+    <h2 class="slide-title">效益評估：先把量尺架好，再談成果</h2>
+    <p class="slide-subtitle">右欄是本次專案設定的目標值，不是已實現的成果。量測方式一律沿用現場既有動作，不新增表單。</p>
+    <div class="table-wrap">
+      <table class="custom-table">
+        <tr>
+          <th>指標</th>
+          <th>現況（9/8 調研）</th>
+          <th>導入後目標</th>
+          <th>怎麼量</th>
+        </tr>
+        <tr>
+          <td><strong class="hl">外籍客進店到確認下單</strong></td>
+          <td class="num dim">15～20 分鐘<br><small>實地觀察值</small></td>
+          <td class="num good">5 分鐘以內</td>
+          <td>接待與下單時間戳，每班抽 3 組</td>
+        </tr>
+        <tr>
+          <td><strong class="hl">夥伴被叫去翻譯的次數</strong></td>
+          <td class="dim">未統計<br><small>尖峰時持續發生</small></td>
+          <td class="num good">每班 3 次以內</td>
+          <td>交接班日誌新增一個欄位</td>
+        </tr>
+        <tr>
+          <td><strong class="hl">特殊需求書面紀錄率</strong></td>
+          <td class="num dim">0%<br><small>僅口頭傳達</small></td>
+          <td class="num good">100%</td>
+          <td>中文工作卡截圖數 ÷ 有特殊需求的組數</td>
+        </tr>
+        <tr>
+          <td><strong class="hl">交接班日誌撰寫時間</strong></td>
+          <td class="num dim">10～15 分鐘<br><small>或直接省略不寫</small></td>
+          <td class="num good">3 分鐘以內</td>
+          <td>語音口述的起訖時間</td>
+        </tr>
+        <tr>
+          <td><strong class="hl">標註門市的外籍客貼文</strong></td>
+          <td class="dim">未追蹤</td>
+          <td class="good">先建立 4 週基線<br>再設月增目標</td>
+          <td>固定 hashtag 與門市標註計數</td>
+        </tr>
+        <tr>
+          <td><strong class="hl">檔期品項多語上架</strong></td>
+          <td class="num good">10 秒<br><small>第一階段已達成</small></td>
+          <td class="num good">維持</td>
+          <td>後台一鍵翻譯操作紀錄</td>
+        </tr>
+      </table>
+    </div>
+    <div class="glass-card danger flat" style="margin-top:16px;">
+      <p><span class="badge badge-red">誠實說明</span>目標值為專案設定值，非實測結果。導入後第 4 週以同樣方式回測並回填實際數字；若某項指標沒有改善，應檢討的是 Prompt 與動線設計，而不是把目標調低。</p>
+    </div>
+  </div>
+
+  <!-- 16 路線圖與守則 -->
+  <div class="slide" data-notes="導入分三段，而且第一段是零成本的。前三十天只做三件事：把六語系術語表和這六組 Prompt 整理成一張卡，找兩位種子夥伴，選一間門市試辦，同時把 KPI 的基線量出來。第三十一到六十天做標準化，Prompt 卡護貝掛在工作區、手機建捷徑、交接班改成口述、出餐檯加 QR 碼。六十到九十天才推到十一間門市，並且把現場高頻問答回灌後台詞彙表。右邊這四條守則請務必照著做：過敏與宗教飲食一律店長覆核、顧客照片由顧客自己發、不輸入個資、網路和額度要有備援。這四條是這個方案能不能長期用下去的前提。">
+    <div class="header-bar">
+      <span class="project-tag">🗺️ 導入計畫</span>
+      <span class="slide-number">19 / 21</span>
+    </div>
+    <h2 class="slide-title">30／60／90 天導入，第一段零成本</h2>
+    <p class="slide-subtitle">不必採購、不必開發。先用一間門市與兩位種子夥伴把流程跑順，再談全台推開。</p>
+    <div class="grid-2">
+      <div class="glass-card">
+        <h3>🗓️ 三段式導入</h3>
+        <div class="tl">
+          <div class="tl-row">
+            <div class="tl-when">第 1～30 天</div>
+            <div class="tl-what"><b>單店試辦與基線量測</b><br>整理 6 語系術語表與 6 組 Prompt 卡；選定 1 間門市、2 位種子夥伴；用現有方式量出 KPI 基線。</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-when">第 31～60 天</div>
+            <div class="tl-what"><b>標準化與工具化</b><br>Prompt 卡護貝掛在工作區、手機建立捷徑；交接班改為語音口述；出餐檯加 QR 碼；新人訓練納入 AI 對話演練。</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-when">第 61～90 天</div>
+            <div class="tl-what"><b>全台推開與回灌</b><br>11 間門市分區導入；現場高頻問答回灌後台 AI 翻譯詞彙表；回填 KPI 實際數字並檢討社群成效。</div>
+          </div>
+        </div>
+        <p class="muted-note">三段都不需要新硬體。唯一的可選支出是現場吵雜時的藍牙小喇叭與行動電源。</p>
+      </div>
+      <div class="glass-card danger">
+        <h3>🛡️ 四條不可妥協的守則</h3>
+        <ul>
+          <li><strong class="hl">過敏與宗教飲食：AI 只產草稿，店長覆核後才執行。</strong>★ 標記的項目未覆核不得出餐。</li>
+          <li><strong class="hl">肖像與貼文：顧客照片由顧客自己發。</strong>門市不代拍人臉、不代發文，要轉貼必須取得顧客同意。</li>
+          <li><strong class="hl">個資不上傳。</strong>不輸入顧客姓名、電話、訂單編號；照片只拍成品，避免拍到其他顧客。</li>
+          <li><strong class="hl">網路與額度要有備援。</strong>Prompt 卡保留紙本可離線讀；免費額度用完改用打字；報告與展示另備預錄影片。</li>
+        </ul>
+        <p class="muted-note">把這四條寫進門市 SOP 與新人訓練教材，才是真正的導入完成。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17 Demo 腳本 -->
+  <div class="slide" data-notes="最後是現場演示的腳本，總共三分鐘，全程用這支手機投影。零到二十秒，開語音模式用泰語歡迎。二十到五十秒，拍下平板菜單，用越南語給三款推薦。五十秒到一分二十秒，手機放桌上做一次雙向對話，故意問一個器具問題，讓大家看到術語鎖定有效。一分二十到一分五十，貼上過敏那句英文，秀出中英雙卡。一分五十到二分二十，拍蛋白霜判斷幾分發。最後二分二十到三分，拍成品產出六語系貼文，收尾的時候講那句話：這就是這條動線的最終目的。器材清單和備援方案在右邊，網路不穩就直接播預錄影片，不要在台上重試。">
+    <div class="header-bar">
+      <span class="project-tag pink">🎬 現場演示</span>
+      <span class="slide-number">20 / 21</span>
+    </div>
+    <h2 class="slide-title">三分鐘手機實機演示腳本</h2>
+    <p class="slide-subtitle">全程一支手機投影。每一段只做一個動作，講完一句效益就往下走，最後收在社群分享。</p>
+    <div class="grid-2">
+      <div class="glass-card flat">
+        <h3>⏱️ 跑表流程</h3>
+        <div class="run">
+          <div class="run-row"><span class="run-t">0:00</span><span class="run-k">1 接待</span><span class="run-v">開語音模式，說「歡迎光臨，幾位？」→ 手機外放泰語</span></div>
+          <div class="run-row"><span class="run-t">0:20</span><span class="run-k">2 點餐</span><span class="run-v">拍平板菜單 → 越南語推薦 3 款，指出中文原名被保留</span></div>
+          <div class="run-row"><span class="run-t">0:50</span><span class="run-k">3 跨語言溝通</span><span class="run-v">手機放桌上，問「工作盆在哪裡」→ 現場展示 Mixing bowl 術語鎖定有效</span></div>
+          <div class="run-row"><span class="run-t">1:20</span><span class="run-k">4 特殊需求</span><span class="run-v">貼上堅果過敏那句英文 → 秀出顧客確認卡與中文工作卡</span></div>
+          <div class="run-row"><span class="run-t">1:50</span><span class="run-k">5 DIY 蛋糕</span><span class="run-v">拍一張蛋白霜（可用事先拍好的照片）→ 判斷幾分發</span></div>
+          <div class="run-row goal"><span class="run-t">2:20</span><span class="run-k">6 社群分享</span><span class="run-v">拍成品 → 6 語系貼文 → 收尾：「這就是這條動線的最終目的」</span></div>
+        </div>
+        <p class="muted-note">節奏建議：每段只講一句效益。不要在台上調整 Prompt，照卡片念就好。</p>
+      </div>
+      <div class="stack">
+        <div class="glass-card">
+          <h3>🎒 器材清單</h3>
+          <ul>
+            <li>手機 ＋ 投影轉接線或 AirPlay（先測過會場）</li>
+            <li>藍牙小喇叭（會場有回音時改用喇叭外放）</li>
+            <li>行動電源（語音模式耗電明顯）</li>
+            <li>事先拍好的照片：平板菜單、蛋白霜、成品蛋糕</li>
+            <li>六組 Prompt 的紙本卡（不要臨場打字）</li>
+          </ul>
+        </div>
+        <div class="glass-card danger">
+          <h3>🧯 備援方案</h3>
+          <ul>
+            <li><strong class="hl">網路不穩</strong>：直接播預錄的螢幕錄影，不要在台上重試第二次。</li>
+            <li><strong class="hl">AI 回答跑掉</strong>：改用截圖版本，並順勢說明這就是為什麼過敏需求要人工覆核。</li>
+            <li><strong class="hl">時間被壓縮</strong>：砍掉步驟 5，保留 1、4、6 三段，因為它們分別代表體驗、安全與回收。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18 結語 -->
+  <div class="slide" data-notes="總結。第一階段我們把語言成本從後台移除，店長填中文就能產出六國語言。第二階段要把語言成本從現場移除，店員一支手機就能接待、點餐、溝通、確認需求、陪做蛋糕，最後把這段體驗變成六種語言的貼文。整條動線的終點是社群分享，因為那是唯一會把投入換回新客的步驟。接下來請主管決定的只有三件事：哪一間門市試辦、哪兩位夥伴當種子、以及四週後由誰回填 KPI 數字。謝謝大家。">
+    <div class="header-bar">
+      <span class="project-tag pink">🚀 結語</span>
+      <span class="slide-number">21 / 21</span>
+    </div>
+    <h2 class="slide-title">第一階段移除後台的語言成本，第二階段移除現場的</h2>
+    <div class="quote-box big" style="margin:8px 0 20px;">把語言處理交給手機裡的 AI，<br>把烘焙的樂趣還給顧客，把工時還給夥伴，<br>再把那一刻的感動，變成六種語言的貼文。</div>
+    <div class="grid-2">
+      <div class="glass-card social">
+        <h3>✅ 需要主管決定的三件事</h3>
+        <ul>
+          <li><strong class="hl">試辦門市</strong>：建議從外籍客比例最高的一間開始（信義或南西）。</li>
+          <li><strong class="hl">兩位種子夥伴</strong>：不需要外語能力，需要願意用手機試。</li>
+          <li><strong class="hl">四週後的回填負責人</strong>：由誰在第 4 週把 KPI 實際數字填回這份報告。</li>
+        </ul>
+        <p class="muted-note">其餘內容不需要預算核准：零硬體採購、零系統開發、沿用現有門市流程。</p>
+      </div>
+      <div class="glass-card flat">
+        <h3>📦 相關成果與檔案</h3>
+        <div class="links-grid">
+          <a class="link-item" href="https://claude.ai/code/artifact/5e40e5bd-f0ff-408d-8182-06ed28e9f23d" target="_blank" rel="noopener"><span>🍰 前台多語系菜單（已上線）</span><small>點擊開啟 ↗</small></a>
+          <a class="link-item" href="https://claude.ai/code/artifact/fdc4ed77-c295-4cf3-8a28-ceb760d41ec7" target="_blank" rel="noopener"><span>📱 本份手機 AI 動線報告（已上線）</span><small>點擊開啟 ↗</small></a>
+          <a class="link-item" href="https://claude.ai/code/artifact/33f96c7f-7513-458f-9372-616a327b6728" target="_blank" rel="noopener"><span>🎙️ 隨身口譯 RAG 原型（離線示範）</span><small>點擊開啟 ↗</small></a>
+          <div class="link-item"><span>🗄️ 現場問答知識庫（22 筆種子）</span><small>knowledge_base.js</small></div>
+          <div class="link-item"><span>⚙️ 後台 Excel 與 AI 上架管理</span><small>admin.html</small></div>
+          <div class="link-item"><span>📊 第一階段成果簡報</span><small>presentation.html</small></div>
+          <div class="link-item"><span>📋 六組 Prompt 速查卡（紙本用）</span><small>AI_手機演示腳本.md</small></div>
+        </div>
+        <p class="muted-note">上線連結預設為私人，示範前請先在頁面分享選單開啟存取權。需要公開可掃 QR 的網址，改用 GitHub Pages：https://&lt;帳號&gt;.github.io/&lt;儲存庫&gt;/</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="speaker-drawer" id="speakerDrawer">
+  <div class="speaker-header">🎙️ 講者講稿 / SPEAKER SCRIPT</div>
+  <p class="speaker-text" id="speakerNotesText"></p>
+</div>
+
+<div class="toc" id="toc">
+  <h3>目錄 ・ 點選跳頁</h3>
+  <div class="toc-list" id="tocList"></div>
+</div>
+
+<div class="controls">
+  <button class="btn-ctrl" type="button" id="btnToc">☰ 目錄</button>
+  <button class="btn-ctrl" type="button" id="btnNotes">🎙️ 講稿 (S)</button>
+  <button class="btn-ctrl" type="button" id="btnPrev">‹ 上一頁</button>
+  <button class="btn-ctrl" type="button" id="btnNext">下一頁 ›</button>
+</div>
+
+<div class="toast" id="toast">已複製</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const progressBar = document.getElementById('progressBar');
+  const speakerDrawer = document.getElementById('speakerDrawer');
+  const speakerNotesText = document.getElementById('speakerNotesText');
+  const toc = document.getElementById('toc');
+  const tocList = document.getElementById('tocList');
+  const toastEl = document.getElementById('toast');
+  let currentIndex = 0;
+
+  function titleOf(slide, i) {
+    const h = slide.querySelector('h2.slide-title') || slide.querySelector('h1.hero-title');
+    const raw = h ? h.textContent.replace(/\s+/g, ' ').trim() : ('第 ' + (i + 1) + ' 頁');
+    return raw.length > 26 ? raw.slice(0, 26) + '…' : raw;
+  }
+
+  slides.forEach((slide, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'toc-item';
+    btn.innerHTML = '<b>' + String(i + 1).padStart(2, '0') + '</b><span></span>';
+    btn.querySelector('span').textContent = titleOf(slide, i);
+    btn.addEventListener('click', () => { toc.classList.remove('open'); goTo(i); });
+    tocList.appendChild(btn);
+  });
+
+  function goTo(index) {
+    currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
+    const active = slides[currentIndex];
+    active.scrollTop = 0;
+    speakerNotesText.textContent = active.getAttribute('data-notes') || '（此頁無講稿）';
+    progressBar.style.width = ((currentIndex + 1) / slides.length * 100) + '%';
+  }
+
+  document.getElementById('btnPrev').addEventListener('click', () => goTo(currentIndex - 1));
+  document.getElementById('btnNext').addEventListener('click', () => goTo(currentIndex + 1));
+  document.getElementById('btnNotes').addEventListener('click', () => speakerDrawer.classList.toggle('open'));
+  document.getElementById('btnToc').addEventListener('click', () => toc.classList.toggle('open'));
+  toc.addEventListener('click', (e) => { if (e.target === toc) toc.classList.remove('open'); });
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 1400);
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-copy');
+    if (!btn) return;
+    const pre = btn.closest('.prompt-card').querySelector('pre.prompt-body');
+    const text = pre.textContent;
+    const fallback = () => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      showToast(ok ? '已複製到剪貼簿' : '複製失敗，請長按文字手動選取');
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => showToast('已複製到剪貼簿')).catch(fallback);
+    } else {
+      fallback();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); goTo(currentIndex + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); goTo(currentIndex - 1); }
+    else if (k === 's' || k === 'S') { speakerDrawer.classList.toggle('open'); }
+    else if (k === 'o' || k === 'O') { toc.classList.toggle('open'); }
+    else if (k === 'Escape') { toc.classList.remove('open'); speakerDrawer.classList.remove('open'); }
+    else if (k === 'f' || k === 'F') {
+      if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => {}); }
+      else { document.exitFullscreen().catch(() => {}); }
+    }
+  });
+
+  // 手機左右滑動翻頁
+  let tx = 0, ty = 0;
+  document.getElementById('deck').addEventListener('touchstart', (e) => {
+    tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY;
+  }, { passive: true });
+  document.getElementById('deck').addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+      goTo(currentIndex + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+
+  goTo(0);
+</script>
+</body>
+</html>

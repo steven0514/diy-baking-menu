@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>待審核准後台 · 自己做烘焙聚樂部</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#c2673a; --primary-light:#e88c5d;
+  --bg:#0c0e14; --surface:#161925; --surface-2:#1e2230;
+  --border:rgba(255,255,255,.09);
+  --text:#f3f4f6; --muted:#9ca3af;
+  --green:#10b981; --amber:#f59e0b; --red:#ef4444; --blue:#3b82f6;
+  --amber-soft:rgba(245,158,11,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans','Noto Sans TC','PingFang TC',sans-serif;
+  background:var(--bg); color:var(--text);
+  min-height:100dvh; -webkit-text-size-adjust:100%;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary-light); outline-offset:2px}
+
+header{position:sticky; top:0; z-index:10; background:var(--surface); border-bottom:1px solid var(--border);
+  padding:max(10px,env(safe-area-inset-top)) 14px 10px}
+.bar{display:flex; align-items:center; gap:8px}
+.brand{font-size:1rem; font-weight:700; white-space:nowrap}
+.brand span{color:var(--primary-light)}
+.spacer{flex:1}
+.icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:7px 11px; font-size:.85rem; font-weight:600; flex:0 0 auto; line-height:1}
+.stats{display:flex; gap:6px; flex-wrap:wrap; min-width:0}
+.chip{font-size:.7rem; font-weight:700; padding:3px 9px; border-radius:9999px; background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); font-variant-numeric:tabular-nums}
+.chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
+.chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
+
+main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-direction:column; gap:18px}
+
+.model-card{max-width:720px; margin:16px auto 0; padding:14px 14px 16px; background:var(--surface-2);
+  border:1px solid var(--border); border-radius:15px}
+.model-card h2{font-size:.9rem; font-weight:700; color:#ffc5a8; margin-bottom:6px}
+.model-card .sub{font-size:.78rem; color:var(--muted); line-height:1.6; margin-bottom:11px}
+.model-row{display:flex; gap:8px; flex-wrap:wrap}
+.model-row select, .model-row input{flex:1 1 160px; min-width:140px; background:var(--surface); border:1px solid var(--border);
+  color:var(--text); border-radius:10px; padding:9px 10px; font-size:.84rem}
+.model-row .btn{flex:0 0 auto; padding:9px 13px; font-size:.82rem}
+.model-row .btn.ghost{background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text)}
+.model-msg{font-size:.78rem; margin-top:9px; line-height:1.5; min-height:1.1em; color:var(--muted)}
+.model-msg.ok{color:#86efac}
+.model-msg.err{color:#fca5a5}
+.cfg-list{display:flex; flex-direction:column; gap:7px}
+.cfg-row{display:flex; align-items:center; gap:9px; font-size:.82rem}
+.cfg-row .cfg-name{color:var(--muted); flex:0 0 auto}
+.cfg-row .cfg-val{font-weight:700; font-variant-numeric:tabular-nums}
+.cfg-row .cfg-val.ok{color:#86efac}
+.cfg-row .cfg-val.err{color:#fca5a5}
+
+.setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:16px}
+.setup h3{font-size:1rem; color:#fbbf24; margin-bottom:8px}
+.setup p{font-size:.86rem; color:#e5e7eb; line-height:1.7; margin-bottom:10px}
+
+.empty{margin:40px auto; text-align:center; color:var(--muted); font-size:.9rem; line-height:1.85; max-width:34ch}
+.empty b{display:block; color:var(--text); font-size:1.1rem; margin-bottom:8px}
+
+.store-section h2{font-size:.95rem; font-weight:700; color:#e5e7eb; display:flex; align-items:center; gap:8px; margin-bottom:10px}
+.store-count{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:9999px; background:var(--amber-soft); color:#fbbf24; border:1px solid rgba(245,158,11,.35)}
+
+.card{background:var(--surface); border:1px solid var(--border); border-radius:15px; padding:14px; margin-bottom:12px}
+.card-head{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:9px}
+.tag{padding:2px 7px; border-radius:6px; font-weight:700; font-size:.68rem; background:rgba(255,255,255,.08); color:var(--muted)}
+.tag.staff{background:var(--amber-soft); color:#fbbf24}
+.card-kw{font-size:.76rem; color:var(--muted); margin-bottom:8px; line-height:1.5}
+.card textarea{width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:11px; padding:11px 12px; font-size:.92rem; line-height:1.6; min-height:70px; resize:vertical}
+.card-meta{font-size:.74rem; color:var(--muted); margin-top:8px}
+.card-actions{display:flex; gap:8px; margin-top:11px}
+.btn{border:none; border-radius:11px; padding:10px 15px; font-size:.85rem; font-weight:700; color:#fff; flex:1}
+.btn:disabled{opacity:.45}
+.btn.approve{background:var(--green)}
+.btn.reject{background:rgba(239,68,68,.16); color:#fca5a5; border:1px solid rgba(239,68,68,.4)}
+.btn.reject.confirm{background:var(--red); color:#fff}
+.card-msg{font-size:.78rem; margin-top:8px; line-height:1.5; display:none}
+.card-msg.show{display:block}
+.card-msg.ok{color:#86efac}
+.card-msg.err{color:#fca5a5}
+
+.loading{text-align:center; color:var(--muted); font-size:.85rem; padding:30px 0}
+</style>
+<script src="knowledge_base.js"></script>
+<script src="admin_gate.js"></script>
+</head>
+<body>
+<script>
+  // 只有總覽網址（沒帶 store 參數）要登入，因為金鑰與模型設定在那裡。
+  // 各門市的 ?store=xxx 網址上那張卡片本來就會被移除，不需要擋，也省得店長每次還要打密碼。
+  if (!(new URLSearchParams(location.search).get('store') || '').trim()) {
+    adminGate({ title: '待核准後台' });
+  }
+</script>
+
+<header>
+  <div class="bar">
+    <div class="brand">🍰 <span id="brandStore">待核准後台</span></div>
+    <div class="stats" id="stats"></div>
+    <div class="spacer"></div>
+    <a class="icon-btn" href="admin.html" target="_blank" aria-label="商品菜單後台" title="商品菜單後台" style="display:inline-flex;align-items:center;text-decoration:none">🧁</a>
+    <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄</button>
+  </div>
+</header>
+
+<section class="model-card" id="modelCard">
+  <h2>後端設定狀態</h2>
+  <p class="sub">金鑰、模型、GitHub 權杖一律存在 Apps Script 的指令碼屬性，這個頁面只顯示狀態、不提供修改，所以就算網址外流也改不到設定。要調整請到 Apps Script →「專案設定」→「指令碼屬性」。</p>
+  <div class="cfg-list" id="cfgList"><p class="model-msg">讀取中…</p></div>
+</section>
+
+<main id="main">
+  <div class="loading">載入中…</div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  var $=function(id){return document.getElementById(id);};
+  var mainEl=$('main'), statsEl=$('stats');
+
+  // 每間門市各自一個網址，例如 interpreter_admin.html?store=台北信義，
+  // 只給該門市自己送出待審，不會混到其他店的狀況，其他店長也看不到。
+  // 不帶這個參數就是總覽模式，列出所有有待審資料的門市（給要看全局的人用）。
+  //
+  // 網址用中文店名，店長不用背英文代號。舊的 ?store=xinyi 也還認得，發出去的舊連結
+  // 不會突然失效。中文在網址列會被編碼成 %XX，但 URLSearchParams 會自動解回來。
+  var STORE_PARAM=(new URLSearchParams(location.search).get('store')||'').trim();
+
+  function cfg(){
+    return {
+      sheet: window.KB_SHEET_ID||'',       // 寫死在 knowledge_base.js，不給前端改
+      script: window.KB_SCRIPT_URL||''     // 同上
+    };
+  }
+  // 中文店名（台北信義）、含「店」字的全名（台北信義店）、英文代號（xinyi）都查得到
+  function storeInfo(key){
+    var k=String(key||'').trim();
+    if(!k) return null;
+    var l=window.KB_STORES||[];
+    for(var i=0;i<l.length;i++) if(l[i].sheet===k) return l[i];
+    for(var j=0;j<l.length;j++) if(l[j].zh===k) return l[j];
+    for(var m=0;m<l.length;m++) if(l[m].id===k) return l[m];
+    return null;
+  }
+  // 網址參數對應到的門市（找不到就是 null，代表網址打錯）
+  var LOCKED_STORE=storeInfo(STORE_PARAM);
+  var LOCKED_STORE_ID=LOCKED_STORE ? LOCKED_STORE.id : STORE_PARAM;
+  // 待審分頁命名跟正式分頁一致，用中文店名（_待審_台北信義），在試算表上一眼就看得懂
+  // 是哪一間店。早期版本用的是店代號（_待審_xinyi），反查時一併認，免得舊分頁變孤兒。
+  function pendingSheetName(storeId){
+    var st=storeInfo(storeId);
+    return '_待審_'+((st && st.sheet) || storeId);
+  }
+  function storeByPendingSheet(sheetName){
+    var key=sheetName.replace('_待審_','').trim();
+    var l=window.KB_STORES||[];
+    for(var i=0;i<l.length;i++) if(l[i].sheet===key) return l[i];
+    for(var j=0;j<l.length;j++) if(l[j].id===key) return l[j];
+    return null;
+  }
+
+  // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
+  // gviz 會把「看起來像日期」的欄位自動轉成 Date(年,月,日) 這種 JS 字面量塞進 v，
+  // 真正人看得懂的格式在 f（formatted）欄位，有的話要優先用它。
+  function gvizCell(c){
+    if(!c) return '';
+    if(c.f!=null) return String(c.f);
+    return c.v!=null ? String(c.v) : '';
+  }
+  var jsonpSeq=0;
+  function loadSheetRows(sheetId, tabName, withHeaders){
+    return new Promise(function(resolve,reject){
+      var cb='admcb_'+(++jsonpSeq)+'_'+Date.now();
+      var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
+            +'/gviz/tq?tqx=out:json;responseHandler:'+cb
+            +'&sheet='+encodeURIComponent(tabName)+'&headers=1&_t='+Date.now();
+      var tag=document.createElement('script');
+      var done=false;
+      var timer=setTimeout(function(){ if(!done){done=true; cleanup(); reject(new Error('讀取逾時')); } },10000);
+      function cleanup(){ clearTimeout(timer); try{delete window[cb];}catch(e){window[cb]=undefined;} if(tag.parentNode) tag.parentNode.removeChild(tag); }
+      window[cb]=function(res){
+        if(done) return; done=true;
+        try{
+          var rows=(res && res.table && res.table.rows)||[];
+          var mapped=rows.map(function(r){ return (r.c||[]).map(gvizCell); });
+          if(withHeaders){
+            var cols=(res && res.table && res.table.cols)||[];
+            resolve({ headers: cols.map(function(c){ return (c.label||'').trim(); }), rows: mapped });
+          }else{
+            resolve(mapped);
+          }
+        }catch(e){ reject(e); }
+        cleanup();
+      };
+      tag.onerror=function(){ if(!done){done=true; cleanup(); reject(new Error('無法連線到試算表')); } };
+      tag.src=url;
+      document.head.appendChild(tag);
+    });
+  }
+
+  // 列出試算表實際存在的分頁名稱。不能用 gviz 判斷分頁存不存在——
+  // 查詢不存在的分頁名稱時，gviz 會默默回傳別的分頁內容。
+  function loadSheetNames(){
+    var c=cfg();
+    if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var tokenQs=window.KB_SCRIPT_TOKEN?'&token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'';
+    return fetch(c.script+'?action=sheets'+tokenQs+'&_t='+Date.now())
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(data){
+        if(!data.ok) throw new Error(data.error||'讀取分頁清單失敗');
+        return data.sheets||[];
+      });
+  }
+
+  function postScript(payload){
+    var c=cfg();
+    if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var url=c.script+(window.KB_SCRIPT_TOKEN?'?token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'');
+    var body=JSON.stringify(payload);
+    return fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: body
+    }).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    }).then(function(text){
+      var data;
+      try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
+      return data;
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
+      return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
+        .then(function(){ return { ok:true, unconfirmed:true }; });
+    });
+  }
+
+  // ── 後端設定狀態（唯讀）──────────────────────────────
+  // 金鑰、模型、GitHub 權杖都存在 Apps Script 指令碼屬性，這裡只問「有沒有設定」
+  // 與非機密的模型名稱，不提供任何修改介面，網址外流也動不到設定。
+  function cfgRow(name, value, cls){
+    var row=el('div','cfg-row');
+    row.appendChild(el('span','cfg-name',name));
+    row.appendChild(el('span','cfg-val'+(cls?' '+cls:''), value));
+    return row;
+  }
+  function renderConfigStatus(){
+    var box=$('cfgList');
+    if(!box) return;
+    postScript({action:'hasSecret'}).then(function(d){
+      box.innerHTML='';
+      if(d.unconfirmed){
+        box.appendChild(el('p','model-msg err','已送出但讀不到回應，無法確認後端狀態。'));
+        return;
+      }
+      box.appendChild(cfgRow('Gemini 金鑰', d.hasKey?'已設定':'未設定', d.hasKey?'ok':'err'));
+      box.appendChild(cfgRow('AI 模型', d.model || '未設定（用預設 gemini-2.5-flash）', d.model?'ok':''));
+      box.appendChild(cfgRow('GitHub 權杖', d.hasGithubToken?'已設定':'未設定', d.hasGithubToken?'ok':'err'));
+      box.appendChild(cfgRow('管理密碼', d.hasPassword?'已設定':'未設定（後台等於沒有保護）', d.hasPassword?'ok':'err'));
+    }).catch(function(e){
+      box.innerHTML='';
+      box.appendChild(el('p','model-msg err','讀取後端狀態失敗：'+e.message));
+    });
+  }
+
+  function rowsToEntries(rows){
+    return rows.map(function(r){
+      var id=(r[0]||'').trim(), a=(r[3]||'').trim();
+      if(!id || !a) return null;
+      return {
+        id:id,
+        cat:(r[1]||'').trim(),
+        q:(r[2]||'').trim(),
+        a_zh:a,
+        needs_staff:/^(是|true|yes|y|1)$/i.test((r[4]||'').trim()),
+        updated:(r[6]||'').trim(),
+        by:(r[7]||'').trim()
+      };
+    }).filter(Boolean);
+  }
+
+  // ── 畫面 ──────────────────────────────────────────
+  function el(tag, cls, text){
+    var e=document.createElement(tag);
+    if(cls) e.className=cls;
+    if(text!=null) e.textContent=text;
+    return e;
+  }
+
+  function renderSetupPrompt(missing){
+    mainEl.innerHTML='';
+    var box=el('div','setup');
+    box.appendChild(el('h3',null,'⚠️ 讀不到'+missing));
+    var p=el('p',null,'試算表 ID 和 Apps Script 網址寫死在 knowledge_base.js，理論上不該缺。請確認這個頁面能正常載入 knowledge_base.js（檢查網路連線或重新整理）。');
+    box.appendChild(p);
+    mainEl.appendChild(box);
+  }
+
+  function renderStats(groups, loading){
+    statsEl.innerHTML='';
+    if(loading){ statsEl.appendChild(el('span','chip','載入中…')); return; }
+    var total=groups.reduce(function(n,g){return n+g.entries.length;},0);
+    statsEl.appendChild(el('span','chip', groups.length+'間門市'));
+    statsEl.appendChild(el('span','chip '+(total>0?'warn':'ok'), '待審'+total+'筆'));
+  }
+
+  function renderGroups(groups){
+    mainEl.innerHTML='';
+    var total=groups.reduce(function(n,g){return n+g.entries.length;},0);
+    if(total===0){
+      var empty=el('div','empty');
+      empty.appendChild(el('b',null,'🎉 目前沒有待審項目'));
+      empty.appendChild(el('div',null,'店員在現場回答新問題後，會出現在這裡等待核准。'));
+      mainEl.appendChild(empty);
+      return;
+    }
+    groups.forEach(function(g){
+      if(!g.entries.length) return;
+      var section=el('section','store-section');
+      var h2=el('h2');
+      h2.appendChild(document.createTextNode(g.store.zh));
+      h2.appendChild(el('span','store-count', g.entries.length+' 筆'));
+      section.appendChild(h2);
+      g.entries.forEach(function(entry){
+        section.appendChild(renderCard(g, entry));
+      });
+      mainEl.appendChild(section);
+    });
+  }
+
+  function renderCard(group, entry){
+    var card=el('div','card');
+    card.dataset.id=entry.id;
+
+    var head=el('div','card-head');
+    head.appendChild(el('span','tag', entry.cat||'未分類'));
+    if(entry.needs_staff) head.appendChild(el('span','tag staff','需店員'));
+    card.appendChild(head);
+
+    if(entry.q) card.appendChild(el('div','card-kw','顧客問法：'+entry.q));
+
+    var ta=document.createElement('textarea');
+    ta.value=entry.a_zh;
+    card.appendChild(ta);
+
+    var meta=el('div','card-meta', (entry.by?entry.by+' · ':'')+(entry.updated||''));
+    card.appendChild(meta);
+
+    var msg=el('div','card-msg');
+    var actions=el('div','card-actions');
+
+    var btnApprove=el('button','btn approve','✓ 核准');
+    var btnReject=el('button','btn reject','不採用');
+    actions.appendChild(btnApprove);
+    actions.appendChild(btnReject);
+    card.appendChild(actions);
+    card.appendChild(msg);
+
+    function setMsg(text, isErr){
+      msg.textContent=text;
+      msg.className='card-msg show '+(isErr?'err':'ok');
+    }
+    function setBusy(busy){
+      btnApprove.disabled=busy; btnReject.disabled=busy; ta.disabled=busy;
+    }
+
+    btnApprove.addEventListener('click', function(){
+      setBusy(true); setMsg('處理中…');
+      var edited=ta.value.trim();
+      // 核准前一律先把「已審核」標成是（順便存下可能被編輯過的答案），
+      // 這樣正式分頁拿到的那一列才會正確標示為已審核，不管店員有沒有動過文字。
+      postScript({ sheet:group.pendingSheet, row:[entry.id, entry.cat, entry.q, edited,
+          entry.needs_staff?'是':'否', '是', entry.updated, entry.by] })
+        .then(function(){
+          return postScript({ action:'approve', sheet:group.pendingSheet, targetSheet:group.store.sheet, id:entry.id });
+        })
+        .then(function(){
+          card.style.opacity='.5';
+          setMsg('✓ 已核准，移到正式分頁「'+group.store.sheet+'」');
+          setTimeout(function(){ removeCard(group, entry.id); }, 600);
+        })
+        .catch(function(e){
+          setBusy(false);
+          setMsg('✕ 核准失敗：'+e.message, true);
+        });
+    });
+
+    var rejectArmed=false;
+    btnReject.addEventListener('click', function(){
+      if(!rejectArmed){
+        rejectArmed=true;
+        btnReject.textContent='再按一次確認刪除';
+        btnReject.classList.add('confirm');
+        setTimeout(function(){ rejectArmed=false; btnReject.textContent='不採用'; btnReject.classList.remove('confirm'); }, 4000);
+        return;
+      }
+      setBusy(true); setMsg('刪除中…');
+      postScript({ action:'delete', sheet:group.pendingSheet, id:entry.id })
+        .then(function(){
+          card.style.opacity='.5';
+          setMsg('已刪除');
+          setTimeout(function(){ removeCard(group, entry.id); }, 400);
+        })
+        .catch(function(e){
+          setBusy(false);
+          setMsg('✕ 刪除失敗：'+e.message, true);
+        });
+    });
+
+    return card;
+  }
+
+  var state={ groups:[] };
+
+  function removeCard(group, id){
+    group.entries = group.entries.filter(function(e){ return e.id!==id; });
+    renderGroups(state.groups);
+    renderStats(state.groups, false);
+  }
+
+  function loadAll(){
+    var c=cfg();
+    var missing=[];
+    if(!c.sheet) missing.push('試算表 ID');
+    if(!c.script) missing.push('Apps Script 網址');
+    if(missing.length){ renderSetupPrompt('「'+missing.join('、')+'」'); renderStats([], false); return; }
+
+    if(STORE_PARAM && !LOCKED_STORE){
+      mainEl.innerHTML='';
+      var badBox=el('div','setup');
+      badBox.appendChild(el('h3',null,'✕ 網址裡的門市名稱不對'));
+      badBox.appendChild(el('p',null,'網址參數 store='+STORE_PARAM+' 找不到對應門市。請用中文店名，例如 ?store=台北信義、?store=新竹巨城，或去掉 ?store= 看全部門市。'));
+      var names=(window.KB_STORES||[]).map(function(s){ return s.sheet; }).join('、');
+      if(names) badBox.appendChild(el('p',null,'目前可用的門市：'+names));
+      mainEl.appendChild(badBox);
+      renderStats([], false);
+      return;
+    }
+
+    mainEl.innerHTML='<div class="loading">載入中…</div>';
+    renderStats([], true);
+
+    loadSheetNames().then(function(names){
+      var pendingSheets=names.filter(function(n){ return n.indexOf('_待審_')===0; });
+      if(LOCKED_STORE_ID){
+        pendingSheets=pendingSheets.filter(function(n){
+          var st=storeByPendingSheet(n);
+          return !!st && st.id===LOCKED_STORE_ID;
+        });
+      }
+      var jobs=pendingSheets.map(function(sheetName){
+        var store=storeByPendingSheet(sheetName);
+        if(!store) return Promise.resolve(null); // 認不出是哪一間店，略過
+        return loadSheetRows(c.sheet, sheetName).then(function(rows){
+          return { store:store, pendingSheet:sheetName, entries: rowsToEntries(rows) };
+        }).catch(function(){ return null; });
+      });
+      return Promise.all(jobs);
+    }).then(function(groups){
+      groups=groups.filter(Boolean).filter(function(g){ return g.entries.length>0; });
+      groups.sort(function(a,b){ return b.entries.length - a.entries.length; });
+      state.groups=groups;
+      renderGroups(groups);
+      renderStats(groups, false);
+    }).catch(function(e){
+      mainEl.innerHTML='';
+      var box=el('div','setup');
+      box.appendChild(el('h3',null,'✕ 載入失敗'));
+      box.appendChild(el('p',null,e.message+'。確認 Apps Script 已部署為「任何人」可存取，且 token 跟 google_apps_script.gs 裡的 SECRET 一致。'));
+      mainEl.appendChild(box);
+      renderStats([], false);
+    });
+  }
+
+  $('btnRefresh').addEventListener('click', function(){ loadAll(); if(!LOCKED_STORE_ID) renderConfigStatus(); });
+
+  // 後端設定是全門市共用的，只有沒帶 ?store= 的總覽網址才顯示；
+  // 個別門市的網址完全不顯示這塊，連文字說明都不該看到「所有門市」字樣。
+  if(LOCKED_STORE_ID){
+    var lockedInfo=storeInfo(LOCKED_STORE_ID);
+    $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待核准';
+    var mc=$('modelCard'); if(mc) mc.remove();
+  }else{
+    renderConfigStatus();
+  }
+  loadAll();
+})();
+</script>
+</body>
+</html>

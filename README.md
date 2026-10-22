@@ -38,8 +38,54 @@
 ├── products_multilingual.json  # 完整多語系商品資料庫 JSON
 ├── vue.global.prod.js          # Vue 3 核心庫（離線支援）
 ├── xlsx.full.min.js            # SheetJS Excel 解析庫（離線支援）
-└── admin.html                  # 智慧後台上架管理系統
+│
+├── admin.html                  # 智慧後台上架管理系統
+├── interpreter.html            # 隨身口譯（店員手機用，含 RAG 問答與寫回）
+├── interpreter_admin.html      # 待審核准後台（店長核准店員現場新增的問答）
+├── knowledge_base.js           # 口譯知識庫：門市清單、語言清單、預設問答
+├── admin_gate.js               # 兩個後台共用的密碼遮罩
+├── google_apps_script.gs       # 後端端點，貼進試算表的 Apps Script
+├── deploy.sh                   # 把公開檔案同步到 gh-pages 分支
+├── presentation_mobile_ai.html # 手機 AI 服務動線簡報
+└── AI_手機演示腳本.md           # 現場演示用的提示詞與流程小抄
 ```
+
+### 部署後的各頁網址
+
+| 用途 | 網址 | 給誰用 |
+|---|---|---|
+| 多語系菜單 | `/` | 顧客 |
+| 隨身口譯 | `/interpreter.html` | 店員手機 |
+| 待審核准（單一門市） | `/interpreter_admin.html?store=台北信義` | 該門市店長 |
+| 待審核准（總覽） | `/interpreter_admin.html` | 管理者，需密碼 |
+| 後台上架管理 | `/admin.html` | 店長，需密碼 |
+| 簡報 | `/presentation_mobile_ai.html` | 報告用 |
+
+### 為什麼一定要部署，不能只用本機檔案
+
+- **麥克風**：瀏覽器只在 https 或 `http://localhost` 下允許錄音。用 `file://` 或區網 IP（如 `http://192.168.1.5:8000`）開啟時，語音輸入一定失效。GitHub Pages 是 https，所以可用。
+- **外部 JS 載不到**：直接雙擊開檔或用預覽窗格開啟時，`knowledge_base.js` 這類檔案不會被載入，頁面會顯示「未設定 Apps Script 網址」。
+- **QR 碼**：門市現場要讓店員掃碼即開，需要一個公開網址。
+- **Claude Artifact 連結不適用**：Artifact 的安全政策會擋掉所有對外呼叫，Gemini 與 Google Sheets 都連不到，只能跑離線示範。
+
+---
+
+## 🔐 憑證放在哪裡
+
+所有金鑰一律存在 Apps Script 的**指令碼屬性**，不會出現在網頁原始碼、網址或試算表裡。
+前端只問得到「有沒有設定」，問不到內容；翻譯與發布都由後端代為執行。
+
+| 指令碼屬性 | 用途 | 必要性 |
+|---|---|---|
+| `GEMINI_API_KEY` | 口譯翻譯、後台 AI 翻譯 | 必要 |
+| `ADMIN_PASSWORD` | 兩個後台的登入密碼 | 必要 |
+| `GITHUB_TOKEN` | 商品後台「發布至全裝置」 | 發布功能需要 |
+| `GEMINI_MODEL` | 指定模型，未設則用預設 | 選用 |
+
+設定位置：Apps Script →「專案設定」→「指令碼屬性」。
+改過 `google_apps_script.gs` 之後要「部署 → 管理部署作業 → 編輯 → 版本選新版本」，否則線上跑的還是舊版；但指令碼屬性是即時生效的，不必重新部署。
+
+> **安全邊界**：後台密碼只是擋掉路過的人。`knowledge_base.js` 是公開檔案，裡面的 token 任何人都看得到，所以後端對「改設定」與「發布到 GitHub」這兩種動作會另外要求管理密碼。真正阻止資料被竄改的是這些憑證本身，不是前端的登入畫面。
 
 ---
 

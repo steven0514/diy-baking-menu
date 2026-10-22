@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>隨身口譯 · 自己做烘焙聚樂部</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#c2673a; --primary-light:#e88c5d;
+  --bg:#0c0e14; --surface:#161925; --surface-2:#1e2230;
+  --border:rgba(255,255,255,.09);
+  --text:#f3f4f6; --muted:#9ca3af;
+  --green:#10b981; --amber:#f59e0b; --red:#ef4444; --blue:#3b82f6;
+  --amber-soft:rgba(245,158,11,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans','Noto Sans TC','PingFang TC',sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100dvh; min-height:100dvh; overflow:hidden;
+  display:flex; flex-direction:column; -webkit-text-size-adjust:100%;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary-light); outline-offset:2px}
+
+/* ── 頂欄 ── */
+header{flex:0 0 auto; background:var(--surface); border-bottom:1px solid var(--border); padding:max(8px,env(safe-area-inset-top)) 12px 8px}
+.bar{display:flex; align-items:center; gap:8px}
+.brand{font-size:.95rem; font-weight:700; white-space:nowrap}
+.brand span{color:var(--primary-light)}
+.brand .brand-model{font-size:.68rem; font-weight:700; color:var(--muted); margin-left:2px}
+.brand .brand-model.bad{color:#fca5a5}
+.spacer{flex:1}
+.sel{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:6px 8px; font-size:.8rem; font-weight:600; max-width:34vw}
+.icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:6px 10px; font-size:.85rem}
+
+/* ── 對話區：一次問答就是一張卡 ── */
+/* min-height:0 不可省略：flex 子元素預設 min-height:auto，會撐到內容高度而不出現捲軸 */
+main{flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+     padding:14px 12px 6px; display:flex; flex-direction:column; gap:12px}
+.empty{margin:auto; flex:0 0 auto; text-align:center; color:var(--muted); font-size:.88rem; line-height:1.85; padding:20px; max-width:34ch}
+.empty b{display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px}
+.empty code{background:rgba(255,255,255,.07); padding:1px 6px; border-radius:5px; font-size:.82rem}
+
+.setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:14px}
+.setup h3{font-size:.95rem; color:#fbbf24; margin-bottom:7px}
+.setup p{font-size:.82rem; color:#e5e7eb; line-height:1.65; margin-bottom:10px}
+.setup .srow{display:flex; gap:8px}
+.setup input{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:10px; padding:10px 11px; font-size:.9rem; min-width:0}
+.setup .warn-note{font-size:.76rem; color:#fca5a5; line-height:1.6; margin:10px 0 0}
+.vrow{display:flex; align-items:center; gap:8px; padding:6px 0; border-top:1px solid var(--border); font-size:.8rem; flex-wrap:wrap}
+.vrow:first-of-type{border-top:none}
+.vrow .vname{flex:1; min-width:120px; color:#d1d5db}
+.vrow .vok{color:#6ee7b7; font-weight:700}
+.vrow .vno{color:#fca5a5; font-weight:700}
+.vtest{background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:4px 10px; font-size:.72rem; font-weight:700}
+.vresult{margin-top:9px; padding:9px 11px; background:var(--surface); border:1px solid var(--border); border-radius:10px; font-size:.85rem; color:#fff; line-height:1.55; min-height:1.2em}
+.diag{background:var(--surface-2); border:1px solid var(--border); border-radius:15px; padding:14px}
+.diag h3{font-size:.95rem; margin-bottom:9px; color:#ffc5a8}
+.diag .dl{font-size:.8rem; line-height:1.7; color:#d1d5db; word-break:break-all}
+.diag .dl b{color:#fff}
+.diag .fix{margin-top:10px; padding-top:9px; border-top:1px solid var(--border); font-size:.8rem; color:#fbbf24; line-height:1.65}
+.turn{background:var(--surface); border:1px solid var(--border); border-radius:15px; overflow:hidden; flex:0 0 auto}
+.setup,.diag{flex:0 0 auto}
+.seg{padding:11px 14px}
+.seg + .seg{border-top:1px solid var(--border)}
+.seg.ask{border-left:3px solid var(--blue)}
+.seg.ans{border-left:3px solid var(--green); background:rgba(16,185,129,.045)}
+.seg.wait{border-left:3px solid var(--amber); background:var(--amber-soft)}
+.seg.block{border-left:3px solid var(--red); background:rgba(239,68,68,.07)}
+
+.seg-head{display:flex; align-items:center; gap:7px; margin-bottom:6px; flex-wrap:wrap}
+.role{font-size:.7rem; font-weight:800; letter-spacing:.5px; color:var(--muted)}
+.seg.ans .role{color:#6ee7b7}
+.seg.wait .role{color:#fbbf24}
+.seg.block .role{color:#fca5a5}
+.tag{padding:2px 7px; border-radius:6px; font-weight:700; font-size:.64rem; background:rgba(255,255,255,.08); color:var(--muted)}
+.tag.lang{background:rgba(59,130,246,.16); color:#93c5fd}
+.tag.kb{background:rgba(16,185,129,.16); color:#6ee7b7}
+.tag.staff{background:var(--amber-soft); color:#fbbf24}
+.tag.demo{background:rgba(139,92,246,.16); color:#c4b5fd}
+.speak{margin-left:auto; background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:3px 10px; font-size:.68rem; font-weight:700}
+.t-src{font-size:1.02rem; line-height:1.55; color:#fff; font-weight:600}
+.t-zh{font-size:.9rem; line-height:1.55; color:#b9c2cf; margin-top:3px}
+.t-note{font-size:.74rem; color:var(--muted); margin-top:7px; line-height:1.5}
+.seg.wait .t-note{color:#fbbf24}
+
+/* ── 底部操作 ── */
+footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--border); padding:9px 12px calc(9px + env(safe-area-inset-bottom))}
+.hintbar{display:flex; align-items:center; gap:8px; margin-bottom:7px}
+.mode-hint{font-size:.74rem; color:var(--muted); line-height:1.45; flex:1}
+.mode-hint.staff{color:#fbbf24; font-weight:700}
+.mini{background:rgba(255,255,255,.07); border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:4px 10px; font-size:.7rem; font-weight:700; white-space:nowrap}
+.mini:hover{color:#fff}
+.row{display:flex; gap:8px; align-items:stretch}
+.staff-banner{display:none; align-items:center; gap:8px; margin-bottom:8px; padding:8px 11px;
+  background:rgba(245,158,11,.16); border:1px solid rgba(245,158,11,.5); border-radius:11px}
+.staff-banner.on{display:flex}
+.staff-banner .sb-txt{flex:1; font-size:.8rem; color:#fde68a; line-height:1.5}
+.staff-banner .sb-txt b{color:#fff; display:block; font-size:.86rem; margin-bottom:2px}
+.staff-banner .sb-skip{background:rgba(255,255,255,.1); border:1px solid var(--border); color:#fde68a;
+  border-radius:8px; padding:5px 11px; font-size:.72rem; font-weight:700; white-space:nowrap}
+body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.07)}
+.mic-lang-picker{margin-bottom:8px; padding:10px 11px; background:rgba(59,130,246,.1); border:1px solid rgba(59,130,246,.35); border-radius:11px}
+.mic-lang-picker .mlp-title{font-size:.78rem; color:#93c5fd; margin-bottom:8px; font-weight:700}
+.mlp-chips{display:flex; flex-wrap:wrap; gap:7px}
+.mlp-chips button{background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:9999px; padding:7px 14px; font-size:.84rem; font-weight:600}
+.mlp-chips button:active{background:var(--blue); border-color:var(--blue)}
+.msg{display:none}
+.msg.ok,.msg.err,.msg:not(:empty){display:block; line-height:1.55}
+.msg.ok{color:#86efac}
+.msg.err{color:#fca5a5}
+.howto{margin:8px 0 0; padding-left:20px; font-size:.76rem; color:var(--muted); line-height:1.75}
+.howto li{margin-bottom:4px}
+.howto code{background:rgba(255,255,255,.08); padding:1px 5px; border-radius:4px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.9em}
+.howto b{color:#fde68a}
+.fixbtn{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.4); color:#fca5a5;
+  border-radius:8px; padding:3px 9px; font-size:.68rem; font-weight:700; margin-left:6px}
+.field{flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:11px; padding:11px 12px; font-size:1rem; min-width:0}
+.field::placeholder{color:#6b7280}
+.btn{border:none; border-radius:11px; padding:11px 15px; font-size:.9rem; font-weight:700; color:#fff; background:var(--primary); white-space:nowrap}
+.btn:disabled{opacity:.45}
+.btn.mic{background:var(--blue); min-width:52px; font-size:1.1rem}
+.btn.mic.on{background:var(--red); animation:pulse 1s infinite}
+.btn.amber{background:var(--amber); color:#3a2503}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.btn.mic.on{animation:none}}
+.save-row{display:none}
+.save-row input{width:16px; height:16px; accent-color:var(--primary)}
+
+/* ── 設定 ── */
+.modal{position:fixed; inset:0; background:rgba(5,6,10,.9); z-index:50; display:none; align-items:flex-end; justify-content:center}
+.modal.open{display:flex}
+.sheet{background:var(--surface); width:100%; max-width:540px; max-height:90dvh; overflow-y:auto; border-radius:18px 18px 0 0; border:1px solid var(--border); padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheet h2{font-size:1.1rem; margin-bottom:4px}
+.sheet p.sub{font-size:.8rem; color:var(--muted); line-height:1.6; margin-bottom:14px}
+.fg{margin-bottom:13px}
+.fg label{display:block; font-size:.76rem; font-weight:700; color:#ffc5a8; margin-bottom:5px}
+.fg input,.fg select{width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text); border-radius:10px; padding:10px 11px; font-size:.9rem}
+.fg small{display:block; font-size:.72rem; color:var(--muted); margin-top:5px; line-height:1.55}
+.fg small b{color:#fbbf24}
+.btn-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+.btn.ghost{background:var(--surface-2); border:1px solid var(--border); color:var(--text)}
+.toast{position:fixed; left:50%; bottom:92px; transform:translate(-50%,12px); background:var(--green); color:#04291d; font-weight:700; font-size:.82rem; padding:8px 16px; border-radius:9999px; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:60; max-width:88vw; text-align:center; line-height:1.45}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+.toast.err{background:var(--red); color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">🍰 隨身<span>口譯</span><span class="brand-model" id="brandModel"></span></div>
+    <div class="spacer"></div>
+    <select class="sel" id="selStore" aria-label="目前門市"></select>
+    <select class="sel" id="selLang" aria-label="顧客語言"></select>
+    <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
+  </div>
+</header>
+
+<main id="log">
+  <div class="empty" id="empty">
+    <b>讓顧客對著手機說話</b>
+    不限語言。系統自動判斷顧客說哪一國話，同時顯示原文與中文。<br>
+    查得到就直接用他的母語回答；查不到會請你用中文回一次，然後寫回 Google Sheets。<br>
+    試試看輸入 <code>where is the toilet</code>
+  </div>
+</main>
+
+<footer>
+  <div class="hintbar">
+    <p class="mode-hint" id="hint">顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。</p>
+    <button class="mini" id="btnClear">🗑️ 清除對話</button>
+  </div>
+  <div class="staff-banner" id="staffBanner">
+    <span class="sb-txt"><b>現在輪到你回答</b><span id="sbQ"></span></span>
+    <button class="sb-skip" id="btnSkip" type="button">跳過</button>
+  </div>
+  <div class="mic-lang-picker" id="micLangPicker" hidden>
+    <p class="mlp-title">顧客說哪一種語言？點一下再開始聽</p>
+    <div class="mlp-chips" id="mlpChips"></div>
+  </div>
+  <div class="row">
+    <button class="btn mic" id="btnMic" aria-label="語音輸入">🎤</button>
+    <input class="field" id="inputBox" placeholder="顧客說的話，任何語言都可以" autocomplete="off">
+    <button class="btn" id="btnSend">送出</button>
+  </div>
+  <div class="save-row" id="saveRow" hidden>
+    <input type="checkbox" id="chkSave" checked>
+    <label for="chkSave">回答後寫回知識庫，下次自動回答</label>
+  </div>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h2>設定</h2>
+    <p class="sub">試算表、寫回網址都已經固定好，不會因為手滑改到。Gemini 金鑰只存在後端（Apps Script），這個頁面跟網址裡都看不到；要設定金鑰或換模型請到後台核准頁（interpreter_admin.html）。</p>
+    <p class="sub">語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</p>
+
+    <div class="fg">
+      <label>知識庫</label>
+      <div class="btn-row">
+        <button class="btn ghost" id="btnDiag">🩺 連線診斷</button>
+        <button class="btn ghost" id="btnSpeechTest">🎤 語音測試</button>
+        <button class="btn ghost" id="btnReload">重新載入</button>
+        <button class="btn ghost" id="btnExport">匯出 JSON</button>
+        <button class="btn ghost" id="btnReset">清除本機新增</button>
+        <button class="btn ghost" id="btnUnhide">恢復已移除</button>
+      </div>
+      <small id="kbInfo"></small>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="btnSave">關閉</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="knowledge_base.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var K_MODEL='diybc_gemini_model';
+  var K_LOCAL='diybc_kb_local', K_STORE='diybc_itp_store', K_LANG='diybc_itp_lang';
+  var K_HIDE='diybc_kb_hidden';
+
+  // 舊版把 Gemini 金鑰明碼存在每台裝置的 localStorage，現在金鑰只留在後端，
+  // 這裡順手清掉殘留的那份，免得舊裝置上一直留著可被讀取的明碼。
+  try{ localStorage.removeItem('diybc_gemini_api_key'); }catch(e){}
+
+  var $=function(id){return document.getElementById(id);};
+  var log=$('log'), empty=$('empty'), hint=$('hint'), inputBox=$('inputBox');
+  var btnSend=$('btnSend'), btnMic=$('btnMic'), chkSave=$('chkSave');
+  var modal=$('modal'), toastEl=$('toast');
+
+  var AUTO={id:'auto', zh:'自動偵測', native:'🌐 自動偵測', speech:'en-US'};
+  var DEMO=window.KB_DEMO_I18N||{};
+
+  // 店員在頂端選定「顧客語言」（不是自動偵測）時，面向顧客的介面文字跟著切換，
+  // 讓顧客看得懂怎麼操作。店員自己用的（答案輸入、店員提示）維持中文不受影響。
+  var UI_I18N={
+    en:{ title:'Speak into the phone', body:'We’ll translate and reply in your language.',
+         hint:'Tap the microphone and speak, or type your message.', placeholder:'Speak or type here', send:'Send' },
+    ja:{ title:'スマホに向かって話してください', body:'あなたの言語で翻訳してお答えします。',
+         hint:'マイクをタップして話すか、直接入力してください。', placeholder:'ここで話すか入力してください', send:'送信' },
+    ko:{ title:'휴대폰에 대고 말씀해 주세요', body:'고객님의 언어로 번역하여 답변해 드립니다.',
+         hint:'마이크를 누르고 말하거나 직접 입력해 주세요.', placeholder:'여기에 말하거나 입력하세요', send:'전송' },
+    th:{ title:'พูดใส่โทรศัพท์ได้เลยค่ะ', body:'เราจะแปลและตอบกลับเป็นภาษาของคุณค่ะ',
+         hint:'แตะไมโครโฟนเพื่อพูด หรือพิมพ์ข้อความ', placeholder:'พูดหรือพิมพ์ที่นี่', send:'ส่ง' },
+    vi:{ title:'Hãy nói vào điện thoại', body:'Chúng tôi sẽ dịch và trả lời bằng ngôn ngữ của bạn.',
+         hint:'Nhấn micro để nói hoặc nhập văn bản.', placeholder:'Nói hoặc nhập ở đây', send:'Gửi' }
+  };
+  function uiI18n(){ return !isAuto() && UI_I18N[cfg().lang]; }
+
+  var state={
+    mode:'customer', pending:null, asked:0, hit:0, busy:false,
+    lastSpeech:null, lastLangName:null,
+    kb:null, kbSource:'內建', kbStore:null,
+    hasKey:false  // Gemini 金鑰是否已在後端設定，金鑰本身不會出現在前端
+  };
+
+  // ── 設定 ──────────────────────────────────────────
+  function cfg(){
+    return {
+      model: localStorage.getItem(K_MODEL)||'gemini-2.5-flash',
+      sheet: window.KB_SHEET_ID||'',       // 寫死在 knowledge_base.js，不給前端改
+      script: window.KB_SCRIPT_URL||'',    // 同上
+      store: localStorage.getItem(K_STORE)||'xinyi',
+      lang: localStorage.getItem(K_LANG)||'auto'
+    };
+  }
+  function storeInfo(id){
+    var l=window.KB_STORES||[];
+    for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i];
+    return l[0]||{id:id, zh:id, sheet:id};
+  }
+  function langInfo(id){
+    if(!id||id==='auto') return AUTO;
+    var l=window.KB_LANGS||[];
+    for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i];
+    return AUTO;
+  }
+  function isAuto(){return cfg().lang==='auto';}
+  function langList(){
+    return (window.KB_LANGS||[]).map(function(l){return l.zh;}).join('、');
+  }
+  function isChinese(c){return !!c && String(c).toLowerCase().indexOf('zh')===0;}
+  function today(){return new Date().toISOString().slice(0,10);}
+
+  // ── 本機新增 ──────────────────────────────────────
+  function localKb(){try{return JSON.parse(localStorage.getItem(K_LOCAL)||'[]');}catch(e){return [];}}
+  function saveLocalKb(a){try{localStorage.setItem(K_LOCAL,JSON.stringify(a));}catch(e){toast('本機儲存失敗',true);}}
+  // 試算表或內建的條目不能從這支程式刪掉，改為記在封存清單，載入時跳過
+  function hiddenIds(){try{return JSON.parse(localStorage.getItem(K_HIDE)||'[]');}catch(e){return [];}}
+  function saveHidden(a){try{localStorage.setItem(K_HIDE,JSON.stringify(a));}catch(e){}}
+  function hideId(id){
+    var a=hiddenIds();
+    if(a.indexOf(id)<0){a.push(id); saveHidden(a);}
+  }
+
+  // ── Google Sheets 讀取（JSONP，避開跨網域限制）──────
+  // gviz 會把「看起來像日期」的欄位自動轉成 Date(年,月,日) 這種 JS 字面量塞進 v，
+  // 真正人看得懂的格式在 f（formatted）欄位，有的話要優先用它。
+  function gvizCell(c){
+    if(!c) return '';
+    if(c.f!=null) return String(c.f);
+    return c.v!=null ? String(c.v) : '';
+  }
+  var jsonpSeq=0;
+  function loadSheet(sheetId, tabName, withHeaders){
+    return new Promise(function(resolve,reject){
+      var cb='kbcb_'+(++jsonpSeq)+'_'+Date.now();
+      var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
+            +'/gviz/tq?tqx=out:json;responseHandler:'+cb
+            +'&sheet='+encodeURIComponent(tabName)+'&headers=1&_t='+Date.now();
+      var tag=document.createElement('script');
+      var done=false;
+      var timer=setTimeout(function(){ if(!done){done=true; cleanup(); reject(new Error('讀取逾時')); } },10000);
+      function cleanup(){ clearTimeout(timer); try{delete window[cb];}catch(e){window[cb]=undefined;} if(tag.parentNode) tag.parentNode.removeChild(tag); }
+      window[cb]=function(res){
+        if(done) return; done=true;
+        try{
+          var rows=(res && res.table && res.table.rows)||[];
+          var mapped=rows.map(function(r){
+            return (r.c||[]).map(gvizCell);
+          });
+          if(withHeaders){
+            var cols=(res && res.table && res.table.cols)||[];
+            resolve({ headers: cols.map(function(c){ return (c.label||'').trim(); }), rows: mapped });
+          } else {
+            resolve(mapped);
+          }
+        }catch(e){ reject(e); }
+        cleanup();
+      };
+      tag.onerror=function(){ if(!done){done=true; cleanup(); reject(new Error('無法連線到試算表')); } };
+      tag.src=url;
+      document.head.appendChild(tag);
+    });
+  }
+
+  function rowsToEntries(rows, store, sheetName){
+    var out=[];
+    rows.forEach(function(r){
+      var id=(r[0]||'').trim(), qs=(r[2]||'').trim(), a=(r[3]||'').trim();
+      if(!id || !a) return;
+      out.push({
+        id:id,
+        store:store,
+        sheet:sheetName||'',
+        cat:(r[1]||'').trim(),
+        q:qs.split(/[、,，;；]/).map(function(x){return x.trim();}).filter(Boolean),
+        a_zh:a,
+        needs_staff:/^(是|true|yes|y|1)$/i.test((r[4]||'').trim()),
+        verified:/^(是|true|yes|y|1)$/i.test((r[5]||'').trim()),
+        updated:(r[6]||'').trim(),
+        by:(r[7]||'').trim()
+      });
+    });
+    return out;
+  }
+
+  // 設定一律跟後端拿，不再讀試算表的「設定」分頁。
+  // 金鑰只回報「有沒有設定」，模型名稱不是機密所以直接給，拿來顯示與送出翻譯請求。
+  function loadConfig(){
+    return postScript({action:'hasSecret'}).then(function(d){
+      state.hasKey = !!(d && d.hasKey);
+      if(d && d.model) localStorage.setItem(K_MODEL, d.model);
+      return d || {};
+    }).catch(function(){
+      state.hasKey=false;
+      return {};
+    });
+  }
+
+  function loadKb(storeId, silent){
+    var c=cfg(), st=storeInfo(storeId);
+    state.kbStore=storeId;
+    if(!c.sheet){ useBuiltIn(storeId,'未設定試算表'); return Promise.resolve(); }
+    return Promise.all([
+      loadSheet(c.sheet, window.KB_SHEET_COMMON||'共用').catch(function(){return null;}),
+      loadSheet(c.sheet, st.sheet).catch(function(){return null;})
+    ]).then(function(res){
+      if(res[0]===null && res[1]===null) throw new Error('兩個分頁都讀不到');
+      var kb=[]
+        .concat(res[0]?rowsToEntries(res[0],'ALL',window.KB_SHEET_COMMON):[])
+        .concat(res[1]?rowsToEntries(res[1],[storeId],st.sheet):[]);
+      if(!kb.length) throw new Error('試算表沒有資料');
+      state.kb=kb; state.kbSource='Google Sheets';
+      refreshChips();
+      if(!silent) toast('已從 Google Sheets 載入 '+kb.length+' 筆（'+st.zh+'）');
+    }).catch(function(e){
+      useBuiltIn(storeId, e.message);
+      if(!silent) toast('讀不到試算表（'+e.message+'），改用內建條目', true);
+    });
+  }
+  function useBuiltIn(storeId, why){
+    var all=(window.DEFAULT_KB||[]);
+    state.kb=all.filter(function(e){
+      return e.store==='ALL' || (Array.isArray(e.store) && e.store.indexOf(storeId)>=0);
+    });
+    state.kbSource='內建'+(why?'（'+why+'）':'');
+    refreshChips();
+  }
+  function kbNow(){
+    var storeId=cfg().store, hid=hiddenIds();
+    var base=state.kb||[];
+    var mine=localKb().filter(function(e){
+      return e.store==='ALL' || (Array.isArray(e.store)&&e.store.indexOf(storeId)>=0);
+    });
+    return base.concat(mine).filter(function(e){ return hid.indexOf(e.id)<0; });
+  }
+  function findEntry(id){
+    var all=(state.kb||[]).concat(localKb());
+    for(var i=0;i<all.length;i++) if(String(all[i].id)===String(id)) return all[i];
+    return null;
+  }
+  function kbContext(){
+    return kbNow().map(function(e){
+      return e.id+' | '+(e.needs_staff?'[需店員]':'')+e.q.join('、')+' | '+e.a_zh;
+    }).join('\n');
+  }
+
+  // ── Google Sheets 寫回 ─────────────────────────────
+  function postScript(payload){
+    var c=cfg();
+    if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var url=c.script+(window.KB_SCRIPT_TOKEN?'?token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'');
+    var body=JSON.stringify(payload);
+    // 用 POST 送資料本身沒問題（Apps Script 會先同步處理完 doPost 才回應）。
+    // 麻煩的只有「讀回確認訊息」：回應會先 302 轉址到 script.googleusercontent.com，
+    // 該網址不一定允許跨網域讀取。讀不到時改用 no-cors：資料照樣送達並寫入，
+    // 只是瀏覽器看不到回應內容，所以用 unconfirmed 標記讓呼叫端知道無法 100% 確認。
+    return fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: body
+    }).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    }).then(function(text){
+      var data;
+      try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
+      return data;
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
+      return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
+        .then(function(){ return { ok:true, unconfirmed:true }; });
+    });
+  }
+  // 待審分頁命名跟正式分頁一致，用中文店名（_待審_台北信義），在試算表上一眼就看得懂
+  // 是哪一間店，不用再對照店代號。
+  function pendingSheetName(storeId){
+    var st=storeInfo(storeId);
+    return '_待審_'+((st && st.sheet) || storeId);
+  }
+  function appendToSheet(entry){
+    var c=cfg();
+    var targetSheet = pendingSheetName(c.store);  // 寫到待審分頁，不是正式分頁
+    return postScript({
+      sheet: targetSheet,
+      row: [entry.id, entry.cat, entry.q.join('、'), entry.a_zh,
+            entry.needs_staff?'是':'否', entry.verified?'是':'否', entry.updated, entry.by]
+    });
+  }
+  function deleteFromSheet(sheetName, id){
+    return postScript({ action:'delete', sheet: sheetName, id: id });
+  }
+
+  // ── 畫面 ──────────────────────────────────────────
+  function toast(msg,isErr){
+    toastEl.textContent=msg;
+    toastEl.className='toast show'+(isErr?' err':'');
+    setTimeout(function(){toastEl.className='toast'+(isErr?' err':'');},2600);
+  }
+  function refreshChips(){
+    var bm=$('brandModel');
+    // 模型名稱（例如 3.5-flash-lite）不顯示，字太長在手機上會把頂部列擠到換行。
+    // 只在離線示範模式才提示，這才是店員真正需要知道的狀態。
+    if(state.hasKey){ bm.textContent=''; bm.className='brand-model'; }
+    else { bm.textContent='（離線示範）'; bm.className='brand-model bad'; }
+  }
+  function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
+  function scrollDown(){
+    // 先立即捲一次：頁面在背景時 requestAnimationFrame 不會觸發
+    log.scrollTop=log.scrollHeight;
+    // 再補一次：等版面重算後才讀得到最終高度
+    requestAnimationFrame(function(){
+      log.scrollTop=log.scrollHeight;
+      requestAnimationFrame(function(){ log.scrollTop=log.scrollHeight; });
+    });
+  }
+
+  function newTurn(srcText, zhText, langLabel){
+    if(empty && empty.parentNode) empty.remove();
+    var card=el('article','turn');
+    var seg=el('div','seg ask');
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role','顧客提問'));
+    if(langLabel) head.appendChild(el('span','tag lang',langLabel));
+    seg.appendChild(head);
+    seg.appendChild(el('p','t-src',srcText));
+    if(zhText) seg.appendChild(el('p','t-zh',zhText));
+    card.appendChild(seg);
+    log.appendChild(card);
+    scrollDown();
+    return card;
+  }
+  function clearReply(card){
+    var old=card.querySelector('.seg.ans, .seg.wait, .seg.block');
+    if(old) old.remove();
+  }
+  // kind: 'policy' 強制轉店員 ／ 'miss' 知識庫沒有 ／ 'untranslated' 離線且無法翻譯
+  function showWaiting(card, zhQuestion, kind){
+    clearReply(card);
+    var seg=el('div','seg '+(kind==='policy'?'block':'wait'));
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role',
+      kind==='policy' ? '必須由店員回答'
+      : kind==='untranslated' ? '離線模式無法翻譯這句'
+      : '知識庫查無此題'));
+    seg.appendChild(head);
+    seg.appendChild(el('p','t-note',
+      kind==='policy'
+        ? '涉及過敏、飲食禁忌、金流或安全，系統不自動作答。請用中文回覆顧客。'
+      : kind==='untranslated'
+        ? '目前是離線示範模式，只有內建的 22 個問題有翻譯，其他語言一律不翻。店員看不懂顧客原文，請先在設定頁填入 Gemini 金鑰。仍可直接用中文回答，答案會存進知識庫。'
+        : '請用中文回答一次，系統會翻成顧客語言並寫回知識庫。'));
+    card.appendChild(seg);
+    scrollDown();
+  }
+  function showAnswer(card, zhText, srcText, speech, opt){
+    clearReply(card);
+    var seg=el('div','seg ans');
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role','回覆顧客'));
+    if(opt.tag) head.appendChild(el('span','tag '+opt.tagClass, opt.tag));
+    if(srcText && speech){
+      var b=el('button','speak','🔊 播放');
+      b.type='button';
+      b.addEventListener('click',function(){speak(srcText,speech);});
+      head.appendChild(b);
+    }
+    // 任何命中的條目都可能存錯，給一個當場移除的出口
+    if(opt.entryId){
+      var fb=el('button','fixbtn','✏️ 答案不對');
+      fb.type='button';
+      fb.addEventListener('click',function(){ removeEntry(opt.entryId, card); });
+      head.appendChild(fb);
+    }
+    seg.appendChild(head);
+    if(srcText) seg.appendChild(el('p','t-src',srcText));
+    seg.appendChild(el('p', srcText?'t-zh':'t-src', zhText));
+    if(opt.note) seg.appendChild(el('p','t-note',opt.note));
+    card.appendChild(seg);
+    scrollDown();
+  }
+
+  // Google 目前發出的金鑰有兩種前綴：舊的 AIza…、新的 AQ.…
+  // 格式會再變，所以只做最低限度檢查，真正的驗證交給連線診斷實際打一次 API
+  // 現場要快，所以優先 flash；同系列取版本號較新的。連線診斷用這個在模型
+  // 失效時自動換一個堪用的，手動選模型的功能搬到後台核准頁去了。
+  function rankModel(id){
+    var score=0;
+    if(/flash/i.test(id)) score+=100;
+    if(/lite/i.test(id)) score-=30;
+    if(/pro/i.test(id)) score+=20;
+    if(/(preview|exp|experimental)/i.test(id)) score-=50;
+    if(/(vision|embedding|aqa|tts|image|audio)/i.test(id)) score-=500;
+    var v=id.match(/(\d+)\.(\d+)/);
+    if(v) score += parseInt(v[1],10)*10 + parseInt(v[2],10);
+    return score;
+  }
+  function pickBest(list){
+    var best=null, bs=-1e9;
+    list.forEach(function(m){ var s=rankModel(m); if(s>bs){bs=s; best=m;} });
+    return best;
+  }
+
+  function runDiagnostics(){
+    modal.classList.remove('open');
+    if(empty && empty.parentNode) empty.remove();
+    var c=cfg();
+    var box=el('div','diag');
+    box.appendChild(el('h3',null,'🩺 連線診斷'));
+    var dl=el('div','dl'); box.appendChild(dl);
+    var fix=el('div','fix'); box.appendChild(fix);
+    log.appendChild(box); scrollDown();
+
+    function line(t){ var p=el('p',null,t); dl.appendChild(p); scrollDown(); return p; }
+
+    var proto=location.protocol, host=location.hostname||'（無）';
+    line('開啟方式：'+proto+'//'+host);
+    line('試算表 ID：'+(c.sheet?c.sheet.slice(0,12)+'…':'未設定'));
+    line('Gemini 金鑰：'+(state.hasKey ? '後端已設定（內容不會出現在前端）' : '尚未設定'));
+
+    var sheetLine=line('Google Sheets：測試中…');
+    var geminiLine=line('Gemini API：測試中…');
+    var results={sheet:null, gemini:null};
+
+    function verdict(){
+      if(results.sheet===null || results.gemini===null) return;
+      var blocked = results.sheet==='fail' && (results.gemini==='fail');
+      if(blocked){
+        fix.textContent='兩項都連不上，表示這個頁面被禁止對外連線。最常見原因是用 Claude Artifact 連結開啟。請改用 GitHub Pages 網址，或在電腦上執行 python3 -m http.server 8000 後開 http://localhost:8000/interpreter.html';
+      }else if(results.sheet==='fail'){
+        fix.textContent='只有試算表讀不到。請確認試算表已設為「知道連結的任何人可以檢視」，以及分頁名稱與設定的門市相符。';
+      }else if(results.gemini==='skip'){
+        fix.textContent='尚未設定 Gemini 金鑰，請聯絡管理員到後台核准頁（interpreter_admin.html）設定一次，所有分店共用。';
+      }else if(results.gemini==='model'){
+        fix.textContent='金鑰沒問題，但原本設定的模型不可用，已自動換成可用的模型。直接再試一次即可。';
+      }else if(results.gemini==='fail'){
+        fix.textContent='只有 Gemini 連不上。請聯絡管理員到後台核准頁確認金鑰正確、未過期，且已啟用 Generative Language API。';
+      }else{
+        fix.textContent='兩項都正常，可以直接使用。';
+      }
+      scrollDown();
+    }
+
+    loadSheet(c.sheet, window.KB_SHEET_COMMON||'共用').then(function(rows){
+      sheetLine.textContent='Google Sheets：✅ 讀到共用分頁 '+rows.length+' 列';
+      results.sheet='ok';
+    }).catch(function(e){
+      sheetLine.textContent='Google Sheets：❌ '+e.message;
+      results.sheet='fail';
+    }).then(verdict);
+
+    postScript({action:'listModels'}).then(function(d){
+      if(d && d.unconfirmed){
+        geminiLine.textContent='Gemini API：⚠️ 已送出但讀不到回應，無法確認';
+        results.gemini='fail';
+        return;
+      }
+      var usable=d.models||[];
+      var ok = usable.indexOf(c.model)>=0;
+      geminiLine.textContent='Gemini API：✅ 金鑰有效，可用模型 '+usable.length+' 個'
+        + (ok ? '，目前設定的 '+c.model+' 可用' : '，⚠️ 目前設定的 '+c.model+' 不在清單中');
+      results.gemini = ok ? 'ok' : 'model';
+      if(!ok){
+        var best=pickBest(usable);
+        if(best){ localStorage.setItem(K_MODEL,best); refreshChips();
+          line('已自動改用可用模型：'+best); }
+      }
+    }).catch(function(e){
+      if(/尚未設定 Gemini 金鑰/.test(e.message)){
+        geminiLine.textContent='Gemini API：略過，'+e.message;
+        results.gemini='skip';
+      } else {
+        geminiLine.textContent='Gemini API：❌ '+e.message;
+        results.gemini='fail';
+      }
+    }).then(verdict);
+  }
+
+  // ── 語音與麥克風測試面板 ──────────────────────────
+  var TEST_PHRASE={
+    'th-TH':'ห้องน้ำอยู่ทางซ้ายค่ะ',
+    'ja-JP':'お手洗いは左側にあります。',
+    'vi-VN':'Nhà vệ sinh ở bên trái.',
+    'ko-KR':'화장실은 왼쪽에 있습니다.',
+    'id-ID':'Toilet ada di sebelah kiri.',
+    'en-US':'The restroom is on the left.',
+    'zh-TW':'洗手間在左手邊。'
+  };
+
+  function runSpeechTest(){
+    modal.classList.remove('open');
+    unlockAudio();
+    loadVoices();
+    if(empty && empty.parentNode) empty.remove();
+
+    var box=el('div','diag');
+    box.appendChild(el('h3',null,'🎤 語音與麥克風測試'));
+    var dl=el('div','dl'); box.appendChild(dl);
+    log.appendChild(box); scrollDown();
+
+    dl.appendChild(el('p',null,'開啟方式：'+location.protocol+'//'+(location.host||'本機檔案')));
+    dl.appendChild(el('p',null,'安全連線：'+(window.isSecureContext?'✅ 是（麥克風可用）':'❌ 否（瀏覽器會禁止麥克風）')));
+    dl.appendChild(el('p',null,'已安裝語音包：'+voicesCache.length+' 個'));
+
+    // 語音播放逐語言檢查
+    var langs=['th-TH','ja-JP','vi-VN','ko-KR','id-ID','en-US','zh-TW'];
+    langs.forEach(function(code){
+      var v=pickVoice(code);
+      var row=el('div','vrow');
+      var name=el('span','vname', code+'　'+(v?v.name:'未安裝語音包'));
+      row.appendChild(name);
+      row.appendChild(el('span', v?'vok':'vno', v?'可播放':'無法播放'));
+      if(v){
+        var b=el('button','vtest','🔊 試聽'); b.type='button';
+        b.addEventListener('click',function(){ speak(TEST_PHRASE[code], code); });
+        row.appendChild(b);
+      }
+      box.appendChild(row);
+    });
+
+    // 麥克風測試
+    var micRow=el('div','vrow');
+    var reason=micBlockedReason();
+    micRow.appendChild(el('span','vname','語音輸入（麥克風）'));
+    micRow.appendChild(el('span', reason?'vno':'vok', reason?'不可用':'可用'));
+    var mb=el('button','vtest','🎙️ 錄一句測試'); mb.type='button';
+    micRow.appendChild(mb);
+    box.appendChild(micRow);
+
+    var out=el('div','vresult', reason || '按下按鈕後說一句話，辨識結果會顯示在這裡。');
+    box.appendChild(out);
+    scrollDown();
+
+    if(reason){ mb.disabled=true; return; }
+
+    mb.addEventListener('click',function(){
+      if(listening){ try{recog.stop();}catch(e){} return; }
+      if(!recog) initRecog();
+      if(!recog){ out.textContent='無法建立語音辨識物件。'; return; }
+      out.textContent='🎙️ 聆聽中，請現在說一句話…';
+      mb.textContent='⏹ 停止';
+      micHandler=function(err, text){
+        micHandler=null;
+        mb.textContent='🎙️ 再測一次';
+        if(err){ out.textContent='❌ '+srMessage(err); }
+        else {
+          out.textContent='✅ 聽到：「'+text+'」　（辨識語言 '+recog.lang+'）';
+          speak(text, recog.lang);
+        }
+        scrollDown();
+      };
+      recog.lang = micLang();
+      try{ recog.start(); listening=true; }
+      catch(e){ micHandler=null; mb.textContent='🎙️ 錄一句測試'; out.textContent='❌ 無法啟動麥克風：'+e.message; }
+    });
+  }
+
+  // 沒有金鑰時，在對話區最上方放一張提示卡。金鑰只能由管理員在後台設定一次，
+  // 全店共用；店員端不開放貼金鑰，避免金鑰散落在每個人的裝置上。
+  function showSetupCard(){
+    if(state.hasKey || document.getElementById('setupCard')) return;
+    var c=el('div','setup'); c.id='setupCard';
+    c.appendChild(el('h3',null,'⚠️ 還沒設定 Gemini 金鑰，目前無法翻譯'));
+    c.appendChild(el('p',null,'現在是離線示範模式，只有內建的 22 個問題看得到翻譯。日文、印尼文等其他語言一律不會翻，店員也看不到中文，等於沒辦法回答。'));
+    c.appendChild(el('p',null,'金鑰只能由管理員在後台核准頁（interpreter_admin.html）設定一次，所有分店共用，店員不需要也不應該自己貼金鑰。'));
+    log.insertBefore(c, log.firstChild);
+  }
+
+  function customerPlaceholder(){
+    if(isAuto()) return '顧客說的話，任何語言都可以';
+    var t=uiI18n();
+    return t ? t.placeholder : '顧客說的話（'+langInfo(cfg().lang).native+'）';
+  }
+  // 選定特定顧客語言時（非自動偵測），把「空白狀態」的操作說明也換成該語言，
+  // 顧客不懂中文一樣看得懂怎麼用。只在尚未開始對話（empty 還在畫面上）時看得到。
+  function updateEmptyIntro(){
+    if(!empty) return;
+    var t=uiI18n();
+    empty.innerHTML = t
+      ? '<b>'+t.title+'</b>'+t.body
+      : '<b>讓顧客對著手機說話</b>'
+        +'不限語言。系統自動判斷顧客說哪一國話，同時顯示原文與中文。<br>'
+        +'查得到就直接用他的母語回答；查不到會請你用中文回一次，然後寫回 Google Sheets。<br>'
+        +'試試看輸入 <code>where is the toilet</code>';
+  }
+  function setMode(mode, zhQuestion){
+    state.mode=mode;
+    var mlp=$('micLangPicker'); if(mlp) mlp.hidden=true;
+    if(mode==='staff'){
+      hint.textContent='請輸入「答案」，不是問題。系統會翻給顧客並記住。';
+      hint.className='mode-hint staff';
+      inputBox.placeholder='用中文寫出答案，例如：擠花袋在 C 區抽屜';
+      btnSend.textContent='送出答案'; btnSend.className='btn amber';
+      $('staffBanner').classList.add('on');
+      $('sbQ').textContent='顧客問的是：「'+zhQuestion+'」';
+      document.body.classList.add('staff');
+      setTimeout(function(){try{inputBox.focus();}catch(e){}},50);
+    }else{
+      $('staffBanner').classList.remove('on');
+      document.body.classList.remove('staff');
+      var t=uiI18n();
+      hint.textContent = isAuto()
+        ? '顧客模式：顧客說任何語言都可以，系統會自動判斷並用同一種語言回答。'
+        : (t ? t.hint : '顧客模式：按麥克風或直接輸入顧客說的話。');
+      hint.className='mode-hint';
+      inputBox.placeholder=customerPlaceholder();
+      btnSend.textContent = t ? t.send : '送出'; btnSend.className='btn';
+      updateEmptyIntro();
+    }
+    inputBox.value='';
+  }
+  function clearConversation(){
+    // 連線診斷、語音測試這些面板也是直接插進對話區，不是 .turn 卡片，
+    // 只清 .turn 的話這些面板會永遠卡在畫面上、按清除對話也清不掉。
+    // 乾脆清空 log 底下所有東西（empty 預留文字除外），保證畫面真的乾淨。
+    Array.prototype.slice.call(log.children).forEach(function(n){ if(n!==empty) n.remove(); });
+    if(empty && !empty.parentNode) log.appendChild(empty);
+    state.pending=null; state.asked=0; state.hit=0;
+    state.lastSpeech=null; state.lastLangName=null;
+    setMode('customer');
+    refreshChips();
+    toast('已清除對話，知識庫不受影響');
+  }
+
+  // ── 語音輸出 ────────────────────────────────────────
+  var voicesCache=[], voicesReady=false, audioUnlocked=false, warnedLang={};
+
+  function loadVoices(){
+    if(!('speechSynthesis' in window)) return;
+    var v=window.speechSynthesis.getVoices()||[];
+    if(v.length){ voicesCache=v; voicesReady=true; }
+  }
+  function onVoices(fn){
+    if(!('speechSynthesis' in window)) return;
+    if(typeof window.speechSynthesis.addEventListener==='function')
+      window.speechSynthesis.addEventListener('voiceschanged', fn);
+    else window.speechSynthesis.onvoiceschanged=fn;
+  }
+  function pickVoice(speech){
+    var want=String(speech||'').replace('_','-').toLowerCase();
+    var base=want.split('-')[0], exact=null, loose=null;
+    for(var i=0;i<voicesCache.length;i++){
+      var vl=(voicesCache[i].lang||'').replace('_','-').toLowerCase();
+      if(vl===want) return voicesCache[i];
+      if(!loose && vl.split('-')[0]===base) loose=voicesCache[i];
+    }
+    return exact||loose||null;
+  }
+  function hasVoiceFor(speech){ return !!pickVoice(speech); }
+
+  // iOS 與 Safari 規定語音必須由使用者操作觸發。
+  // 第一次點擊時先播一段靜音，之後程式自動播放才不會被擋。
+  function unlockAudio(){
+    if(audioUnlocked || !('speechSynthesis' in window)) return;
+    try{
+      var u=new SpeechSynthesisUtterance(' ');
+      u.volume=0; u.rate=10;
+      window.speechSynthesis.speak(u);
+      audioUnlocked=true;
+    }catch(e){}
+  }
+
+  function speak(text, speech, opt){
+    opt=opt||{};
+    if(!text) return;
+    if(!('speechSynthesis' in window)){ if(!opt.quiet) toast('此裝置不支援語音播放',true); return; }
+    if(!voicesReady) loadVoices();
+    var v=pickVoice(speech);
+    if(!v && !voicesReady && !opt.retried){
+      // 語音清單尚未載入完成，等事件觸發後再試一次
+      onVoices(function once(){ loadVoices(); opt.retried=true; speak(text,speech,opt); });
+      return;
+    }
+    try{
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=speech||'en-US';
+      if(v) u.voice=v;
+      u.onerror=function(e){
+        var code=(e && e.error)||'unknown';
+        if(code==='interrupted'||code==='canceled') return;
+        if(code==='not-allowed'){
+          toast('瀏覽器擋下自動播放，請按卡片上的 🔊 播放', true); return;
+        }
+        if(!opt.quiet) toast('語音播放失敗（'+code+'）',true);
+      };
+      window.speechSynthesis.speak(u);
+      if(!v && !warnedLang[speech]){
+        warnedLang[speech]=1;
+        toast('這台裝置沒有安裝 '+speech+' 的語音包，只會顯示文字',true);
+      }
+    }catch(e){ if(!opt.quiet) toast('語音播放失敗',true); }
+  }
+
+  // ── 語音輸入 ────────────────────────────────────────
+  var recog=null, listening=false, micHandler=null;
+
+  var SR_ERR={
+    'not-allowed':'麥克風權限被拒絕。請在瀏覽器網址列的權限設定中允許麥克風。',
+    'service-not-allowed':'瀏覽器不允許使用語音辨識服務，常見於非 https 網址。',
+    'audio-capture':'找不到麥克風，請確認裝置有麥克風且未被其他程式佔用。',
+    'no-speech':'沒有聽到聲音，請靠近一點再說一次。',
+    'network':'語音辨識服務連線失敗，請檢查網路。',
+    'aborted':'語音辨識被中斷。'
+  };
+  function srMessage(code){ return SR_ERR[code] || ('語音辨識失敗（'+code+'）'); }
+
+  function micLang(){
+    if(state.mode==='staff') return 'zh-TW';
+    if(!isAuto()) return langInfo(cfg().lang).speech;
+    return state.lastSpeech||'en-US';
+  }
+  function micBlockedReason(){
+    if(!(window.SpeechRecognition||window.webkitSpeechRecognition))
+      return '這個瀏覽器不支援語音輸入，請改用手機鍵盤的聽寫功能。';
+    if(!window.isSecureContext)
+      return '目前網址不是安全連線，瀏覽器禁止使用麥克風。請改用 https 網址，或在電腦上用 http://localhost。';
+    return null;
+  }
+  function initRecog(){
+    var reason=micBlockedReason();
+    if(reason){ btnMic.disabled=true; btnMic.title=reason; return; }
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    // continuous+interimResults：不要讓瀏覽器自己猜「講完了沒」（常常猜錯、
+    // 外語尤其不準），改成一直聽、累積逐字稿，直到店員或顧客自己按停止為止，
+    // 停止當下才把累積到的內容送出去。
+    recog=new SR(); recog.continuous=true; recog.interimResults=true;
+    var transcript='', recogErr=null;
+    recog.onresult=function(e){
+      var t='';
+      for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
+      transcript=t;
+    };
+    recog.onerror=function(e){ recogErr=(e&&e.error)||'unknown'; };
+    recog.onend=function(){
+      listening=false; btnMic.className='btn mic';
+      if(inputBox.dataset.restorePh!=null){ inputBox.placeholder=inputBox.dataset.restorePh; delete inputBox.dataset.restorePh; }
+      var txt=transcript.trim(), err=recogErr;
+      transcript=''; recogErr=null;
+      if(txt){
+        if(micHandler){ var h=micHandler; micHandler=null; h(null, txt); return; }
+        inputBox.value=txt; submit(); return;
+      }
+      if(err){
+        if(micHandler){ var h2=micHandler; micHandler=null; h2(err, null); return; }
+        toast(srMessage(err), true);
+      }
+    };
+  }
+  function toggleMic(){
+    var reason=micBlockedReason();
+    if(reason){ toast(reason, true); return; }
+    if(listening){ if(recog) recog.stop(); return; }
+    // 瀏覽器的語音辨識沒辦法真的「自動判斷語言」，開始聽之前一定要先指定語言。
+    // 自動偵測模式下，對話一開始還不知道顧客講什麼語言，直接用預設語言去聽
+    // 外語會整個聽不懂，所以第一次要先讓顧客自己點一下講的是哪種語言。
+    if(state.mode==='customer' && isAuto() && !state.lastSpeech){
+      showMicLangPicker();
+      return;
+    }
+    startRecog();
+  }
+  function showMicLangPicker(){
+    var box=$('micLangPicker'), chips=$('mlpChips');
+    chips.innerHTML='';
+    (window.KB_LANGS||[]).forEach(function(l){
+      var b=document.createElement('button');
+      b.type='button'; b.textContent=l.native;
+      b.addEventListener('click',function(){
+        state.lastSpeech=l.speech; state.lastLangName=l.zh;
+        box.hidden=true;
+        startRecog();
+      });
+      chips.appendChild(b);
+    });
+    box.hidden=false;
+    scrollDown();
+  }
+  function startRecog(){
+    if(!recog) initRecog();
+    if(!recog) return;
+    recog.lang=micLang();
+    try{
+      recog.start(); listening=true; btnMic.className='btn mic on';
+      inputBox.dataset.restorePh=inputBox.placeholder;
+      inputBox.placeholder='🎙️ 錄音中…講完再按一次麥克風';
+    }
+    catch(e){ toast('無法啟動麥克風：'+e.message, true); }
+  }
+
+  // ── Gemini（透過 Apps Script 代呼，金鑰全程不經過前端）──
+  function explainGeminiError(msg){
+    if(/no longer available|not found|404/i.test(msg))
+      return '模型「'+cfg().model+'」已不開放使用。請聯絡管理員到後台核准頁按「🔄 重新偵測」，系統會自動換成可用的模型。';
+    if(/Failed to fetch|NetworkError|Load failed/i.test(msg))
+      return '連不到知識庫後端。若此頁是用 Artifact 連結開啟，瀏覽器會擋掉所有對外呼叫，請改用 GitHub Pages 或本機伺服器網址。';
+    if(/API key not valid|401|403/i.test(msg))
+      return '金鑰無效或未啟用 Generative Language API，請聯絡管理員到後台核准頁重新設定。';
+    if(/429|quota|RESOURCE_EXHAUSTED/i.test(msg))
+      return '已達免費額度上限，請稍後再試或聯絡管理員換一組金鑰。';
+    if(/尚未設定 Gemini 金鑰/.test(msg))
+      return '尚未設定 Gemini 金鑰，請聯絡管理員到後台核准頁設定。';
+    return 'Gemini 連線失敗：'+msg;
+  }
+
+  function callGemini(prompt){
+    var c=cfg();
+    return postScript({ action:'generate', prompt: prompt, model: c.model }).then(function(d){
+      if(d.unconfirmed) throw new Error('已送出但讀不到回應，無法確認翻譯結果');
+      return JSON.parse(d.text);
+    });
+  }
+
+  function askPrompt(utterance){
+    var c=cfg(), L=langInfo(c.lang);
+    return [
+      '你是台灣「自己做烘焙聚樂部」'+storeInfo(c.store).zh+'的現場口譯與問答助理。',
+      isAuto()
+        ? '顧客語言：未指定，請你自己從這句話判斷。現場常見的是 '+langList()+'，若都不是就照實判斷，不要硬套。'
+        : '顧客語言：'+L.zh+'（'+L.id+'，語音代碼 '+L.speech+'）。一律用這個語言回覆。',
+      '',
+      '【本店知識庫】每行格式為「id | 問題關鍵詞 | 中文答案」：',
+      kbContext(),
+      '',
+      '【顧客這句話】「'+utterance+'」',
+      '',
+      '只輸出 JSON：',
+      '{',
+      '  "lang_name": 顧客語言的中文名稱，例如「印尼語」,',
+      '  "lang_code": BCP-47 代碼，例如 th-TH、vi-VN、id-ID、es-ES,',
+      '  "q_src": 顧客原句，修正明顯的語音辨識錯字，保持原語言,',
+      '  "q_zh": 這句話的繁體中文翻譯,',
+      '  "hit": true 或 false,',
+      '  "entry_id": 命中的知識庫 id；未命中填 null,',
+      '  "a_zh": 命中時填該筆中文答案（語句可微調得自然，但地點、數字、品名、規則一字不可改）；未命中填 null,',
+      '  "a_src": 命中時把 a_zh 翻成顧客語言；未命中填 null,',
+      '  "need_staff": true 或 false',
+      '}',
+      '',
+      '規則：',
+      '1. 知識庫沒有的，hit 一律 false，絕對不可自行編造地點、數字、時間或店規。',
+      '2. 問題涉及過敏、飲食禁忌、身體不適、受傷、價格、退費、折扣時，need_staff 填 true 且 hit 填 false。',
+      '3. 命中標示 [需店員] 的條目時，need_staff 填 true 且 hit 填 false。',
+      '4. 顧客若使用繁體或簡體中文，lang_code 填 zh-TW，a_src 與 a_zh 相同即可。',
+      '5. 術語固定：工作盆 Mixing bowl、刮刀與抹刀 Spatula、廚房紙巾 Paper towel、打發到硬性發泡 whip to stiff peaks。',
+      '6. 翻譯語氣親切、句子短，適合現場口說。'
+    ].join('\n');
+  }
+  function staffPrompt(zhQuestion, zhAnswer, langName, langCode){
+    return [
+      '你是台灣烘焙教室的現場口譯助理。',
+      '顧客使用的語言是：'+(langName||'未知')+'（'+(langCode||'請自行判斷')+'）。',
+      '顧客的問題（中文）：「'+zhQuestion+'」',
+      '店員的回答（中文）：「'+zhAnswer+'」',
+      '',
+      '只輸出 JSON：',
+      '{',
+      '  "a_src": 把店員回答翻成顧客語言，語氣親切、句子短、適合口說,',
+      '  "a_zh": 把店員回答整理成通順完整的中文，地點、數字與規則不可更動,',
+      '  "q_keywords": 3 到 5 個中文關鍵詞陣列，描述「顧客問的問題」而不是答案內容',
+      '}',
+      '顧客語言若是中文，a_src 與 a_zh 相同即可。不要加任何說明文字。'
+    ].join('\n');
+  }
+
+  // ── 離線比對 ──────────────────────────────────────
+  function offlineMatch(text){
+    var raw=String(text).trim(), probe=raw.toLowerCase();
+    var list=kbNow(), best=null;
+    for(var i=0;i<list.length && !best;i++){
+      for(var j=0;j<list[i].q.length;j++){
+        var k=String(list[i].q[j]).toLowerCase();
+        if(k && (probe.indexOf(k)>=0 || k.indexOf(probe)>=0)){ best=list[i]; break; }
+      }
+    }
+    var usable = best && !best.needs_staff;
+    // 顧客本來就說中文時不需要翻譯，店員看得懂原文
+    var isZh = /[\u4e00-\u9fff\u3400-\u4dbf]/.test(raw);
+    return { zh: usable ? best.q[0] : raw, entry: best, translated: !!usable, zhInput: isZh };
+  }
+
+  // ── 主流程 ────────────────────────────────────────
+  function handleCustomer(text){
+    var c=cfg();
+    state.asked++;
+
+    if(state.hasKey){
+      var card=newTurn(text,'翻譯中…', isAuto()?'判斷語言中':langInfo(c.lang).zh);
+      setBusy(true);
+      callGemini(askPrompt(text)).then(function(r){
+        var code=r.lang_code||(isAuto()?null:langInfo(c.lang).speech);
+        var name=r.lang_name||(isAuto()?'未知語言':langInfo(c.lang).zh);
+        if(code){state.lastSpeech=code; state.lastLangName=name;}
+        var same=isChinese(code);
+        card.innerHTML='';
+        var fresh=newTurnInto(card, r.q_src||text, same?null:(r.q_zh||''), name);
+        if(r.need_staff){
+          showWaiting(card, r.q_zh||text, 'policy');
+          state.pending={zh:r.q_zh||text, src:text, card:card, langName:name, langCode:code};
+          setMode('staff', r.q_zh||text);
+        }else if(r.hit && r.a_zh){
+          state.hit++;
+          showAnswer(card, r.a_zh, same?null:r.a_src, code, {tag:'知識庫 '+(r.entry_id||''), tagClass:'kb', entryId:r.entry_id, lang:name});
+          if(!same && r.a_src && code) speak(r.a_src, code, {quiet:true});
+        }else{
+          showWaiting(card, r.q_zh||text, 'miss');
+          state.pending={zh:r.q_zh||text, src:text, card:card, langName:name, langCode:code};
+          setMode('staff', r.q_zh||text);
+        }
+        refreshChips();
+      }).catch(function(e){
+        card.innerHTML='';
+        newTurnInto(card, text, null, '連線失敗');
+        showWaiting(card, text, 'miss');
+        state.pending={zh:text, src:text, card:card, langName:state.lastLangName, langCode:state.lastSpeech};
+        setMode('staff', text);
+        toast(explainGeminiError(e.message), true);
+      }).then(function(){setBusy(false);});
+
+    }else{
+      var m=offlineMatch(text);
+      var card2=newTurn(text, (m.translated && !m.zhInput) ? m.zh : null, m.zhInput?'中文':'離線示範');
+      if(m.entry && m.entry.needs_staff){
+        showWaiting(card2, m.zh, 'policy');
+        state.pending={zh:m.zh, src:text, card:card2, langName:null, langCode:null};
+        setMode('staff', m.zh);
+      }else if(m.entry){
+        state.hit++;
+        var bank=DEMO[m.entry.id]||{};
+        var fb=isAuto()?'en':cfg().lang;
+        // 顧客講中文或指定中文時不需要翻譯，否則會莫名冒出一行英文
+        var d=(m.zhInput||fb==='zh')?null:(bank[fb]||bank.en||bank[Object.keys(bank)[0]]||null);
+        showAnswer(card2, m.entry.a_zh, d?d.t:null, d?d.s:null, {
+          tag: m.zhInput?'本店知識庫':'離線示範', tagClass: m.zhInput?'kb':'demo', entryId: m.entry.id,
+          // 顧客講中文時本來就不需要翻譯，不要顯示缺翻譯的提示
+          note: m.zhInput ? null
+              : d ? '離線示範翻譯，設定 Gemini 金鑰後改為即時翻譯所有語言'
+                  : '離線模式沒有這句的翻譯，設定 Gemini 金鑰後即支援所有語言'
+        });
+        if(d) speak(d.t, d.s, {quiet:true});
+      }else{
+        showWaiting(card2, m.zh, (m.translated || m.zhInput) ? 'miss' : 'untranslated');
+        state.pending={zh:m.zh, src:text, card:card2, langName:null, langCode:null};
+        setMode('staff', m.zh);
+      }
+      refreshChips();
+    }
+  }
+
+  // 在既有卡片內重建提問段落
+  function newTurnInto(card, srcText, zhText, langLabel){
+    var seg=el('div','seg ask');
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role','顧客提問'));
+    if(langLabel) head.appendChild(el('span','tag lang',langLabel));
+    seg.appendChild(head);
+    seg.appendChild(el('p','t-src',srcText));
+    if(zhText) seg.appendChild(el('p','t-zh',zhText));
+    card.appendChild(seg);
+    return seg;
+  }
+
+  function normalize(t){ return String(t||'').replace(/[\s　。，、．,.!！?？~～]/g,'').toLowerCase(); }
+  function looksLikeQuestion(t){
+    var x=String(t||'').trim();
+    return /[?？]$/.test(x) || /^(請問|哪裡|在哪|怎麼|如何|有沒有|可不可以|多少錢|幾點)/.test(x);
+  }
+
+  function handleStaff(text){
+    var c=cfg(), p=state.pending;
+    if(!p){setMode('customer');return;}
+
+    // 防呆：把問題當成答案存進去，會讓系統之後用問題回答問題
+    var same = normalize(text)===normalize(p.zh);
+    if(same || looksLikeQuestion(text)){
+      var why = same ? '你輸入的和顧客的問題一模一樣。' : '你輸入的看起來是一個問題，不是答案。';
+      if(!confirm(why+'\n\n「'+text+'」\n\n存進知識庫後，下次顧客問同樣的問題，系統就會用這句話當答案回覆。\n\n按「取消」回去改寫成答案，按「確定」仍要照原樣送出。')){
+        inputBox.value=text;
+        setTimeout(function(){try{inputBox.focus();}catch(e){}},50);
+        return;
+      }
+    }
+
+    var wantSave=chkSave.checked;
+    if(state.hasKey){
+      setBusy(true);
+      callGemini(staffPrompt(p.zh,text,p.langName,p.langCode)).then(function(r){
+        finishStaff(p, r.a_zh||text, r.a_src, r.q_keywords, wantSave);
+      }).catch(function(e){
+        finishStaff(p, text, null, null, wantSave);
+        toast('翻譯失敗，已保留中文。'+explainGeminiError(e.message), true);
+      }).then(function(){setBusy(false);});
+    }else{
+      finishStaff(p, text, null, null, wantSave);
+    }
+  }
+
+  function finishStaff(p, zhAnswer, srcAnswer, keywords, wantSave){
+    var c=cfg(), same=isChinese(p.langCode);
+    var note = wantSave ? '寫入知識庫中…' : '未存入知識庫';
+    showAnswer(p.card, zhAnswer, same?null:srcAnswer, p.langCode, {tag:'店員回答', tagClass:'staff', note:note});
+    if(!same && srcAnswer && p.langCode) speak(srcAnswer, p.langCode, {quiet:true});
+
+    if(wantSave){
+      // 關鍵詞描述「問題」，不是答案；原文也一併存，之後同語言問法可直接比中
+      var qs=(keywords&&keywords.length?keywords.slice():[p.zh]);
+      if(p.src && qs.indexOf(p.src)<0) qs.push(p.src);
+      var entry={
+        id:'local-'+Date.now(), store:[c.store], cat:'店員現場新增',
+        q:qs, a_zh:zhAnswer, needs_staff:false, verified:false,
+        updated:today(), by:'店員現場新增'
+      };
+      var arr=localKb(); arr.push(entry); saveLocalKb(arr);
+      refreshChips();
+
+      var noteEl=p.card.querySelector('.seg.ans .t-note');
+      if(c.script){
+        appendToSheet(entry).then(function(data){
+          if(noteEl) noteEl.textContent = data.unconfirmed
+            ? '已送出到 Google Sheets「'+pendingSheetName(c.store)+'」分頁，但無法讀取確認訊息，請留意試算表是否有這筆'
+            : '已提交到 Google Sheets「'+pendingSheetName(c.store)+'」分頁，等待後台核准';
+          toast('已提交待審');
+        }).catch(function(e){
+          if(noteEl) noteEl.textContent='已存在本機，寫回試算表失敗：'+e.message;
+          toast('寫回試算表失敗，已存在本機：'+e.message, true);
+        });
+      }else{
+        if(noteEl) noteEl.textContent='已存在本機知識庫（未設定 Apps Script，尚未上傳）';
+        toast('已存入本機，下次同樣問題自動命中');
+      }
+    }
+    state.pending=null;
+    setMode('customer');
+    refreshChips();
+  }
+
+  function removeEntry(id, card){
+    id=String(id||'').trim();
+    if(!id){ toast('這筆沒有編號，無法定位，請到試算表處理', true); return; }
+
+    var arr=localKb(), idx=-1;
+    for(var i=0;i<arr.length;i++) if(String(arr[i].id)===id){ idx=i; break; }
+    var isLocal = idx>=0;
+    var found = isLocal ? arr[idx] : findEntry(id);
+
+    var desc = found
+      ? '問題關鍵詞：'+found.q.join('、')+'\n目前答案：'+found.a_zh
+      : '編號：'+id;
+    var where = isLocal ? '這是現場新增、只存在這台手機的答案。'
+              : found ? '這筆來自知識庫，不是這台手機新增的。'
+                      : '找不到這筆的內容，但還是可以把它擋掉。';
+    if(!confirm('要移除這筆答案嗎？\n\n'+desc+'\n\n'+where+'\n移除後下次再問同樣的問題，系統會重新請你回答。')) return;
+
+    if(isLocal){ arr.splice(idx,1); saveLocalKb(arr); }
+    hideId(id);
+    refreshChips();
+
+    clearReply(card);
+    var seg=el('div','seg wait');
+    var head=el('div','seg-head');
+    head.appendChild(el('span','role','已移除這筆答案'));
+    seg.appendChild(head);
+    var note=el('p','t-note','下次顧客再問同樣的問題，系統會重新請你回答。');
+    seg.appendChild(note);
+    card.appendChild(seg);
+    scrollDown();
+    toast('已移除，知識庫剩 '+kbNow().length+' 筆');
+
+    // 試算表裡的資料要連帶刪掉，否則下次重新載入又會回來
+    // 店員現場新增的條目在待審分頁（_待審_台北信義），已核准的才在正式分頁
+    var c=cfg();
+    var sheetName = isLocal ? pendingSheetName(c.store) : ((found && found.sheet) || storeInfo(c.store).sheet);
+    var inSheet = !isLocal && state.kbSource.indexOf('Sheets')>=0;
+    if(!isLocal && !inSheet){
+      note.textContent='這筆是內建示範資料，已在這台手機擋掉。下次顧客再問同樣的問題，系統會重新請你回答。';
+      return;
+    }
+    if(!cfg().script){
+      // 沒設定寫回端點時，現場新增的那筆根本沒上傳過，不要嚇人說試算表還有
+      if(!isLocal) note.textContent='已在這台手機擋掉。這筆還留在 Google Sheets「'+sheetName+'」分頁（編號 '+id+'），請到試算表刪除該列，否則其他手機還是會用到。';
+      return;
+    }
+    note.textContent='正在從 Google Sheets 刪除…';
+    deleteFromSheet(sheetName, id).then(function(data){
+      if(data.unconfirmed){
+        note.textContent='刪除指令已送出，但瀏覽器不讓我讀取回應，請到試算表「'+sheetName+'」分頁確認編號 '+id+' 那列已不在。';
+      }else{
+        note.textContent='已從 Google Sheets「'+sheetName+'」分頁刪除。';
+        toast('已從試算表刪除');
+      }
+      scrollDown();
+    }).catch(function(e){
+      note.textContent='已在這台手機擋掉，但刪不掉試算表那列（'+e.message+'）。請到「'+sheetName+'」分頁手動刪除編號 '+id+' 那列。';
+      scrollDown();
+    });
+  }
+
+  function skipAnswer(){
+    var p=state.pending;
+    if(p && p.card){
+      clearReply(p.card);
+      var seg=el('div','seg wait');
+      var head=el('div','seg-head');
+      head.appendChild(el('span','role','未回答'));
+      seg.appendChild(head);
+      seg.appendChild(el('p','t-note','這一題跳過了，沒有存進知識庫。'));
+      p.card.appendChild(seg);
+    }
+    state.pending=null;
+    setMode('customer');
+    toast('已跳過，沒有存進知識庫');
+  }
+
+  function setBusy(b){
+    state.busy=b; btnSend.disabled=b;
+    btnSend.textContent = b?'處理中…':(state.mode==='staff'?'回答':'送出');
+  }
+  function submit(){
+    if(state.busy) return;
+    var t=inputBox.value.trim();
+    if(!t){inputBox.focus();return;}
+    inputBox.value='';
+    if(state.mode==='staff') handleStaff(t); else handleCustomer(t);
+  }
+
+  // ── 設定面板 ──────────────────────────────────────
+  function openSettings(){
+    var hid=hiddenIds().length;
+    $('kbInfo').textContent='目前載入 '+kbNow().length+' 筆（來源：'+state.kbSource+'），其中本機新增 '+localKb().length
+      +' 筆'+(hid?'，已移除 '+hid+' 筆':'')
+      +'。答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆等於 '+(window.KB_LANGS||[]).length+' 種語言同時支援。';
+    modal.classList.add('open');
+  }
+  function saveSettings(){
+    modal.classList.remove('open');
+  }
+  function exportKb(){
+    var data=JSON.stringify(localKb(),null,2);
+    var blob=new Blob([data],{type:'application/json'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='kb_local_'+cfg().store+'_'+today()+'.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+    toast('已匯出 '+localKb().length+' 筆');
+  }
+
+  // ── 初始化 ────────────────────────────────────────
+  function initSelects(){
+    var c=cfg();
+    (window.KB_STORES||[]).forEach(function(s){
+      var o=document.createElement('option');
+      o.value=s.id; o.textContent=s.zh;
+      if(s.id===c.store) o.selected=true;
+      $('selStore').appendChild(o);
+    });
+    var sel=$('selLang');
+    var a=document.createElement('option');
+    a.value='auto'; a.textContent='🌐 自動偵測';
+    if(c.lang==='auto') a.selected=true;
+    sel.appendChild(a);
+    (window.KB_LANGS||[]).forEach(function(l){
+      var o=document.createElement('option');
+      o.value=l.id; o.textContent=l.native;
+      if(l.id===c.lang) o.selected=true;
+      sel.appendChild(o);
+    });
+  }
+
+  initSelects(); initRecog(); setMode('customer'); refreshChips();
+  // 金鑰要等 loadConfig() 從「設定」分頁讀完才知道有沒有，太早檢查會在
+  // 金鑰其實有設定好的情況下也閃一下「還沒設定金鑰」的警告。
+  loadConfig().then(function(){
+    loadKb(cfg().store, true);
+    showSetupCard();
+  }).catch(function(){
+    loadKb(cfg().store, true);
+    showSetupCard();
+  });
+
+  btnSend.addEventListener('click',submit);
+  btnMic.addEventListener('click',toggleMic);
+  $('btnClear').addEventListener('click',clearConversation);
+  $('btnSkip').addEventListener('click',skipAnswer);
+  inputBox.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+  $('selStore').addEventListener('change',function(e){
+    localStorage.setItem(K_STORE,e.target.value); loadKb(e.target.value);
+  });
+  $('selLang').addEventListener('change',function(e){
+    localStorage.setItem(K_LANG,e.target.value);
+    state.lastSpeech=null; state.lastLangName=null;
+    setMode(state.mode, state.pending?state.pending.zh:''); refreshChips();
+  });
+  $('btnSettings').addEventListener('click',openSettings);
+  $('btnSave').addEventListener('click',saveSettings);
+  $('btnDiag').addEventListener('click',runDiagnostics);
+  $('btnSpeechTest').addEventListener('click',runSpeechTest);
+  $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});
+  $('btnExport').addEventListener('click',exportKb);
+  $('btnUnhide').addEventListener('click',function(){
+    var n=hiddenIds().length;
+    if(!n){ toast('沒有被移除的條目'); return; }
+    if(!confirm('要恢復被「答案不對」移除的 '+n+' 筆嗎？\n已經從 Google Sheets 刪掉的那幾筆不會回來。')) return;
+    saveHidden([]); refreshChips(); openSettings(); toast('已恢復 '+n+' 筆');
+  });
+  $('btnReset').addEventListener('click',function(){
+    if(!confirm('確定清除本機新增的 '+localKb().length+' 筆？已寫回 Google Sheets 的不受影響。')) return;
+    saveLocalKb([]); refreshChips(); openSettings(); toast('已清除本機新增條目');
+  });
+  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
+  loadVoices();
+  onVoices(loadVoices);
+  ['touchend','mousedown','keydown'].forEach(function(ev){
+    document.addEventListener(ev, unlockAudio, {once:true, passive:true});
+  });
+})();
+</script>
+</body>
+</html>
