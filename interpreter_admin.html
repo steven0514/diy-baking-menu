@@ -32,8 +32,8 @@ header{position:sticky; top:0; z-index:10; background:var(--surface); border-bot
 .brand{font-size:1rem; font-weight:700; white-space:nowrap}
 .brand span{color:var(--primary-light)}
 .spacer{flex:1}
-.icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:7px 11px; font-size:.85rem; font-weight:600}
-.stats{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap}
+.icon-btn{background:var(--surface-2); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:7px 11px; font-size:.85rem; font-weight:600; flex:0 0 auto; line-height:1}
+.stats{display:flex; gap:6px; flex-wrap:wrap; min-width:0}
 .chip{font-size:.7rem; font-weight:700; padding:3px 9px; border-radius:9999px; background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); font-variant-numeric:tabular-nums}
 .chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
 .chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
@@ -89,11 +89,11 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 
 <header>
   <div class="bar">
-    <div class="brand">🍰 <span id="brandStore">待審核准後台</span></div>
+    <div class="brand">🍰 <span id="brandStore">待核准後台</span></div>
+    <div class="stats" id="stats"></div>
     <div class="spacer"></div>
-    <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄 重新整理</button>
+    <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄</button>
   </div>
-  <div class="stats" id="stats"></div>
 </header>
 
 <section class="model-card" id="modelCard">
@@ -357,8 +357,8 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     statsEl.innerHTML='';
     if(loading){ statsEl.appendChild(el('span','chip','載入中…')); return; }
     var total=groups.reduce(function(n,g){return n+g.entries.length;},0);
-    statsEl.appendChild(el('span','chip '+(total>0?'warn':'ok'), '待審 '+total+' 筆'));
-    statsEl.appendChild(el('span','chip', groups.length+' 間門市有資料'));
+    statsEl.appendChild(el('span','chip', groups.length+'間門市'));
+    statsEl.appendChild(el('span','chip '+(total>0?'warn':'ok'), '待審'+total+'筆'));
   }
 
   function renderGroups(groups){
@@ -531,7 +531,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   // 個別門市的網址完全不顯示這塊，連文字說明都不該看到「所有門市」字樣。
   if(LOCKED_STORE_ID){
     var lockedInfo=storeInfo(LOCKED_STORE_ID);
-    $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待審核准';
+    $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待核准';
     var mc=$('modelCard'); if(mc) mc.remove();
   }else{
     initModelCard();
