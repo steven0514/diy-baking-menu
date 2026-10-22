@@ -84,8 +84,17 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 
 .loading{text-align:center; color:var(--muted); font-size:.85rem; padding:30px 0}
 </style>
+<script src="knowledge_base.js"></script>
+<script src="admin_gate.js"></script>
 </head>
 <body>
+<script>
+  // 只有總覽網址（沒帶 store 參數）要登入，因為金鑰與模型設定在那裡。
+  // 各門市的 ?store=xxx 網址上那張卡片本來就會被移除，不需要擋，也省得店長每次還要打密碼。
+  if (!(new URLSearchParams(location.search).get('store') || '').trim()) {
+    adminGate({ title: '待核准後台' });
+  }
+</script>
 
 <header>
   <div class="bar">
@@ -117,7 +126,6 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   <div class="loading">載入中…</div>
 </main>
 
-<script src="knowledge_base.js"></script>
 <script>
 (function(){
   'use strict';
