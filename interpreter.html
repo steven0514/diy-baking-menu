@@ -825,7 +825,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     inputBox.value='';
   }
   function clearConversation(){
-    Array.prototype.slice.call(log.querySelectorAll('.turn')).forEach(function(n){n.remove();});
+    // 連線診斷、語音測試這些面板也是直接插進對話區，不是 .turn 卡片，
+    // 只清 .turn 的話這些面板會永遠卡在畫面上、按清除對話也清不掉。
+    // 乾脆清空 log 底下所有東西（empty 預留文字除外），保證畫面真的乾淨。
+    Array.prototype.slice.call(log.children).forEach(function(n){ if(n!==empty) n.remove(); });
     if(empty && !empty.parentNode) log.appendChild(empty);
     state.pending=null; state.asked=0; state.hit=0;
     state.lastSpeech=null; state.lastLangName=null;
