@@ -527,12 +527,15 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   $('btnDetectModels').addEventListener('click', function(){ detectModels($('modelSelect').value); });
   $('btnSaveModel').addEventListener('click', saveModel);
 
+  // AI 模型是全門市共用的設定，只有沒帶 ?store= 的總覽網址能看到、能改；
+  // 個別門市的網址完全不顯示這塊，連文字說明都不該看到「所有門市」字樣。
   if(LOCKED_STORE_ID){
     var lockedInfo=storeInfo(LOCKED_STORE_ID);
     $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待審核准';
+    var mc=$('modelCard'); if(mc) mc.remove();
+  }else{
+    initModelCard();
   }
-
-  initModelCard();
   loadAll();
 })();
 </script>
