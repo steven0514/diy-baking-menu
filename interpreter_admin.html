@@ -101,7 +101,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   <h2>AI 模型與金鑰</h2>
   <p class="sub">所有門市共用這一組設定。Gemini 金鑰只存在 Apps Script 後端（Script Properties），不會出現在試算表、網頁原始碼或網址裡；貼上儲存後連這個頁面自己也讀不回內容，只能覆蓋重設。</p>
   <div class="model-row">
-    <input type="password" id="geminiKeyInput" placeholder="貼上 Gemini API Key（留空＝不變更）" autocomplete="off">
+    <input type="password" id="geminiKeyInput" placeholder="貼上 Gemini API Key" autocomplete="off">
     <button class="btn" id="btnSaveKey">儲存金鑰</button>
   </div>
   <p class="model-msg" id="keyMsg"></p>
@@ -230,9 +230,12 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     }).then(function(text){
       var data;
       try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
-      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
       return data;
-    }).catch(function(){
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
       return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });

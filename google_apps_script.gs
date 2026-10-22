@@ -211,6 +211,21 @@ function handleRequest(e, body) {
   }
 }
 
+/**
+ * 授權用。第一次部署這版程式碼後，要在編輯器手動執行這個函式一次，
+ * 同意「連線到外部服務」權限（UrlFetchApp），listModels / generate 才有權呼叫 Gemini。
+ * 執行後看「執行紀錄」：出現 models 清單就是成功，出現「尚未設定 Gemini 金鑰」
+ * 代表權限已經給了、只差還沒到後台貼金鑰，一樣算完成。
+ *
+ * 其他輔助函式名稱結尾都有底線（Apps Script 的私有函式慣例），不會出現在
+ * 執行下拉選單裡，所以才需要這個沒有底線的函式當入口。
+ */
+function authorizeExternalRequest() {
+  var result = listGeminiModels_();
+  Logger.log(JSON.stringify(result));
+  return result;
+}
+
 // 「設定」分頁裡曾經放過明碼 gemini_api_key（透過 gviz 公開讀取，等於洩漏給所有顧客）。
 // 金鑰改存 Script Properties 後，把分頁裡的舊值清掉，避免殘留的明碼繼續外流。
 function clearLegacyGeminiKeyFromSheet_() {
@@ -218,15 +233,23 @@ function clearLegacyGeminiKeyFromSheet_() {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sh = ss.getSheetByName('設定');
     if (!sh) return;
+    // 橫式與直式只能擇一處理。兩種都跑的話，橫式表的 A1 是欄位名稱 gemini_api_key，
+    // 直式邏輯會誤判成「key 在 A 欄」而把 B1（隔壁欄位的名稱）當成值清掉。
     var lastCol = Math.max(sh.getLastColumn(), 1);
     var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
     for (var h = 0; h < headers.length; h++) {
-      if (String(headers[h]).trim() === 'gemini_api_key') sh.getRange(2, h + 1).setValue('');
+      if (String(headers[h]).trim() === 'gemini_api_key') {
+        sh.getRange(2, h + 1).setValue('');
+        return;
+      }
     }
     var lastRow = Math.max(sh.getLastRow(), 1);
     var keys = sh.getRange(1, 1, lastRow, 1).getValues();
     for (var r = 0; r < keys.length; r++) {
-      if (String(keys[r][0]).trim() === 'gemini_api_key') sh.getRange(r + 1, 2).setValue('');
+      if (String(keys[r][0]).trim() === 'gemini_api_key') {
+        sh.getRange(r + 1, 2).setValue('');
+        return;
+      }
     }
   } catch (err) {
     // 清不掉也不影響金鑰本身已經存進 Script Properties，不擋主流程

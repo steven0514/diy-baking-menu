@@ -232,6 +232,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   var K_LOCAL='diybc_kb_local', K_STORE='diybc_itp_store', K_LANG='diybc_itp_lang';
   var K_HIDE='diybc_kb_hidden';
 
+  // 舊版把 Gemini 金鑰明碼存在每台裝置的 localStorage，現在金鑰只留在後端，
+  // 這裡順手清掉殘留的那份，免得舊裝置上一直留著可被讀取的明碼。
+  try{ localStorage.removeItem('diybc_gemini_api_key'); }catch(e){}
+
   var $=function(id){return document.getElementById(id);};
   var log=$('log'), empty=$('empty'), hint=$('hint'), inputBox=$('inputBox');
   var btnSend=$('btnSend'), btnMic=$('btnMic'), chkSave=$('chkSave');
@@ -468,9 +472,12 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     }).then(function(text){
       var data;
       try{ data=JSON.parse(text); }catch(e){ throw new Error('回應格式錯誤：'+text.slice(0,200)); }
-      if(!data.ok) throw new Error(data.error||'寫入失敗');
+      if(!data.ok){ var err=new Error(data.error||'寫入失敗'); err.serverReplied=true; throw err; }
       return data;
-    }).catch(function(){
+    }).catch(function(err){
+      // 伺服器其實有正常回應（只是回報失敗，例如「尚未設定金鑰」），
+      // 不是讀不到回應，要把真正的錯誤丟出去，不能誤判成 no-cors 讀不到。
+      if(err && err.serverReplied) throw err;
       return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
