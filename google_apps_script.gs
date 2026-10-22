@@ -18,6 +18,7 @@
  *   不帶 action 或 'append' → 新增或更新一列（同 id 覆蓋）
  *   action:'delete'         → 刪掉指定 id 那一列（店員按「答案不對」時用）
  *   action:'approve'        → 把待審分頁的一列移到正式分頁（後台核准時用）
+ *   action:'setConfig'      → 更新「設定」分頁的一組 key/value（後台調整 AI 模型用）
  *
  * 另外 doGet 支援 ?action=sheets，回傳試算表目前所有分頁名稱（唯讀，後台核准頁用
  * 來判斷哪些 _待審_<店代號> 分頁真的存在 —— gviz 查詢不存在的分頁名稱時會默默
@@ -85,6 +86,43 @@ function handleRequest(e, body) {
         }
       }
       return reply({ ok: false, error: '分頁 ' + sheetName + ' 裡找不到 id ' + id });
+    }
+
+    // 更新「設定」分頁裡的一組 key/value（後台調整 AI 模型等設定用）。
+    // 「設定」分頁支援兩種排版：橫式（欄位名稱在第1列、值在第2列同一欄）
+    // 和直式（A 欄是 key、B 欄是 value），兩種都要能正確寫回。
+    if (action === 'setConfig') {
+      var cfgKey = String(body.key || '').trim();
+      var cfgVal = String(body.value != null ? body.value : '');
+      if (!cfgKey) return reply({ ok: false, error: '沒有指定要設定的 key' });
+      var cfgSheet = ss.getSheetByName(sheetName);
+      if (!cfgSheet) {
+        cfgSheet = ss.insertSheet(sheetName);
+        cfgSheet.appendRow([cfgKey, cfgVal]);
+        return reply({ ok: true, mode: 'created' });
+      }
+      var lastCol = Math.max(cfgSheet.getLastColumn(), 1);
+      var headers = cfgSheet.getRange(1, 1, 1, lastCol).getValues()[0];
+      var colIdx = -1;
+      for (var h = 0; h < headers.length; h++) {
+        if (String(headers[h]).trim() === cfgKey) { colIdx = h + 1; break; }
+      }
+      if (colIdx > 0) {
+        cfgSheet.getRange(2, colIdx).setValue(cfgVal);
+        return reply({ ok: true, mode: 'updated-horizontal' });
+      }
+      var lastRow = Math.max(cfgSheet.getLastRow(), 1);
+      var keys = cfgSheet.getRange(1, 1, lastRow, 1).getValues();
+      var cfgRowIdx = -1;
+      for (var r = 0; r < keys.length; r++) {
+        if (String(keys[r][0]).trim() === cfgKey) { cfgRowIdx = r + 1; break; }
+      }
+      if (cfgRowIdx > 0) {
+        cfgSheet.getRange(cfgRowIdx, 2).setValue(cfgVal);
+        return reply({ ok: true, mode: 'updated-vertical' });
+      }
+      cfgSheet.appendRow([cfgKey, cfgVal]);
+      return reply({ ok: true, mode: 'appended' });
     }
 
     // 核准待審條目，從 _待審_X 移到正式分頁
