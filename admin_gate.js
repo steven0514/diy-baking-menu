@@ -131,7 +131,15 @@
           inp.value = '';
           inp.focus();
         })
-        .catch(function (e) { setMsg('無法驗證：' + e.message, 'err'); })
+        .catch(function (e) {
+          // 舊版後端沒有 checkPassword 這個動作，會掉到「要指定分頁名稱」那條路，
+          // 直接寫出真正原因，免得以為是密碼打錯。
+          if (/沒有指定分頁名稱/.test(e.message)) {
+            setMsg('後端還是舊版（沒有 checkPassword 動作）。請先到 Apps Script 重新部署新版本。', 'warn');
+          } else {
+            setMsg('無法驗證：' + e.message, 'err');
+          }
+        })
         .then(function () { btn.disabled = false; });
     }
 
