@@ -745,6 +745,13 @@ header.hero p {
     font-weight: 700;
 }
 
+/* 門市選單跟同步按鈕放同一排，避免同步按鈕在手機版獨占一整行 */
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* 雲端即時同步按鈕 (精簡圖示版，防止破版) */
 .sync-control-wrap {
     padding: 3px 6px;
@@ -842,9 +849,14 @@ header.hero p {
         flex-wrap: nowrap;
     }
 
+    .control-row,
     .control-item:not(.lang-control-wrap) {
         flex: 1 1 auto;
         min-width: 0;
+    }
+
+    .control-row .sync-control-wrap {
+        flex: 0 0 auto;
     }
 
     .custom-select {
@@ -940,6 +952,24 @@ header.hero p {
     .control-item {
         width: 100%;
         justify-content: space-between;
+    }
+
+    /* 門市選單跟同步按鈕擠在同一排：選單吃滿剩餘寬度，按鈕維持原本大小 */
+    .control-row {
+        width: 100%;
+    }
+
+    .control-row .control-item {
+        width: auto;
+    }
+
+    .control-row .control-item:first-child {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .control-row .sync-control-wrap {
+        flex: 0 0 auto;
     }
 
     .custom-select {

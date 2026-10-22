@@ -461,8 +461,21 @@
             };
         },
         computed: {
+            // 選了非中文語言時，所有介面文字自動附上中文提示，
+            // 讓只看得懂中文的店員也能理解顧客畫面上寫的是什麼、知道怎麼協助。
+            // 例：「1. 製菓経験 (1. 您的烘焙經驗)」。經驗/品相的選項按鈕跟商品卡片上的
+            // 經驗、品項徽章也是從這份字典取字，一併受惠不用另外處理。
             t() {
-                return this.i18n[this.currentLang] || this.i18n.zh;
+                const current = this.i18n[this.currentLang] || this.i18n.zh;
+                if (this.currentLang === 'zh') return current;
+                const zh = this.i18n.zh;
+                const merged = {};
+                Object.keys(current).forEach(key => {
+                    const val = current[key];
+                    const zhVal = zh[key];
+                    merged[key] = (zhVal && zhVal !== val) ? `${val} (${zhVal})` : val;
+                });
+                return merged;
             },
             seasonalTagKey() {
                 return this.seasonalConfig?.tagKey || 'mid_autumn';
