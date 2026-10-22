@@ -108,6 +108,12 @@ footer{flex:0 0 auto; background:var(--surface); border-top:1px solid var(--bord
 .staff-banner .sb-skip{background:rgba(255,255,255,.1); border:1px solid var(--border); color:#fde68a;
   border-radius:8px; padding:5px 11px; font-size:.72rem; font-weight:700; white-space:nowrap}
 body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.07)}
+.mic-lang-picker{margin-bottom:8px; padding:10px 11px; background:rgba(59,130,246,.1); border:1px solid rgba(59,130,246,.35); border-radius:11px}
+.mic-lang-picker .mlp-title{font-size:.78rem; color:#93c5fd; margin-bottom:8px; font-weight:700}
+.mlp-chips{display:flex; flex-wrap:wrap; gap:7px}
+.mlp-chips button{background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  border-radius:9999px; padding:7px 14px; font-size:.84rem; font-weight:600}
+.mlp-chips button:active{background:var(--blue); border-color:var(--blue)}
 .msg{display:none}
 .msg.ok,.msg.err,.msg:not(:empty){display:block; line-height:1.55}
 .msg.ok{color:#86efac}
@@ -185,6 +191,10 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     <span class="sb-txt"><b>現在輪到你回答</b><span id="sbQ"></span></span>
     <button class="sb-skip" id="btnSkip" type="button">跳過</button>
   </div>
+  <div class="mic-lang-picker" id="micLangPicker" hidden>
+    <p class="mlp-title">顧客說哪一種語言？點一下再開始聽</p>
+    <div class="mlp-chips" id="mlpChips"></div>
+  </div>
   <div class="row">
     <button class="btn mic" id="btnMic" aria-label="語音輸入">🎤</button>
     <input class="field" id="inputBox" placeholder="顧客說的話，任何語言都可以" autocomplete="off">
@@ -199,15 +209,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 <div class="modal" id="modal">
   <div class="sheet">
     <h2>設定</h2>
-    <p class="sub">所有設定只存在這支手機的瀏覽器裡，不會上傳。Gemini 金鑰與後台管理系統共用同一組。</p>
-
-    <div class="fg">
-      <label for="inKey">Google Gemini API Key</label>
-      <input type="password" id="inKey" placeholder="AQ.… 或 AIzaSy…">
-      <small>這是翻譯與語意比對的引擎，<b>沒有填就只能跑離線示範</b>。<br>
-      還沒有金鑰？到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:#93c5fd">Google AI Studio</a> 用 Google 帳號登入，點 Create API key 即可免費取得。前綴可能是 AQ. 或 AIzaSy，兩種都可以用。<br>
-      注意：用 Claude Artifact 連結開啟時，瀏覽器安全政策會擋掉所有對外呼叫，請改用 GitHub Pages 網址。</small>
-    </div>
+    <p class="sub">試算表、寫回網址、Gemini 金鑰都已經固定好，不會因為手滑改到。Gemini 金鑰跟模型是從 Google Sheets「設定」分頁自動讀取的，不需要在這裡填。</p>
 
     <div class="fg">
       <label for="inModel">AI 模型</label>
@@ -215,33 +217,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       <div class="btn-row" style="margin-top:8px">
         <button class="btn ghost" id="btnModels">🔄 偵測可用模型</button>
       </div>
-      <small id="modelNote">Google 會淘汰舊模型，清單由你的金鑰實際可用的模型決定。填好金鑰後按上面的按鈕重新偵測。</small>
+      <small id="modelNote">Google 會淘汰舊模型，清單由金鑰實際可用的模型決定。</small>
       <small>語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</small>
-    </div>
-
-    <div class="fg">
-      <label for="inSheet">Google Sheets 知識庫 ID</label>
-      <input type="text" id="inSheet" placeholder="試算表網址中 /d/ 與 /edit 之間那一段">
-      <small>每間門市一個分頁，另有一個「共用」分頁放全門市通用的條目。<br><b>試算表必須設為「知道連結的任何人可以檢視」</b>，程式才讀得到。</small>
-    </div>
-
-    <div class="fg">
-      <label for="inScript">寫回用的 Apps Script 網址（選填）</label>
-      <input type="text" id="inScript" placeholder="https://script.google.com/macros/s/.../exec">
-      <div class="btn-row" style="margin-top:8px">
-        <button class="btn ghost" id="btnTestScript">🔌 測試這個網址</button>
-        <button class="btn ghost" id="btnScriptHelp">怎麼拿到這個網址？</button>
-      </div>
-      <small id="scriptMsg" class="msg"></small>
-      <small>填了之後，店員現場回答會直接寫進 Google Sheets 的門市分頁，按「答案不對」也會連帶刪掉試算表那一列。留空則只存在這支手機，可用下方匯出再人工貼上。</small>
-      <ol id="scriptHelp" class="howto" hidden>
-        <li>打開知識庫試算表 → 上方「擴充功能」→「Apps Script」。</li>
-        <li>把專案裡 <code>google_apps_script.gs</code> 的內容整份貼進去，蓋掉原本的 <code>myFunction</code>，按存檔。</li>
-        <li>右上角「部署」→「新增部署作業」→ 左邊齒輪選「網頁應用程式」。</li>
-        <li><b>執行身分：我</b>。<b>具有存取權的使用者：任何人</b>。這一步選錯就會連不上。</li>
-        <li>按「部署」，第一次會要你授權，一路按「允許」。</li>
-        <li>複製那串結尾是 <code>/exec</code> 的網址貼到上面，再按「測試這個網址」。</li>
-      </ol>
     </div>
 
     <div class="fg">
@@ -271,7 +248,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   'use strict';
 
   var K_KEY='diybc_gemini_api_key', K_MODEL='diybc_gemini_model';
-  var K_SHEET='diybc_kb_sheet_id', K_SCRIPT='diybc_kb_script_url';
   var K_LOCAL='diybc_kb_local', K_STORE='diybc_itp_store', K_LANG='diybc_itp_lang';
   var K_HIDE='diybc_kb_hidden';
 
@@ -310,8 +286,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     return {
       key: localStorage.getItem(K_KEY)||'',
       model: localStorage.getItem(K_MODEL)||'gemini-2.5-flash',
-      sheet: localStorage.getItem(K_SHEET)|| (window.KB_SHEET_ID||''),
-      script: localStorage.getItem(K_SCRIPT)||'',
+      sheet: window.KB_SHEET_ID||'',       // 寫死在 knowledge_base.js，不給前端改
+      script: window.KB_SCRIPT_URL||'',    // 同上
       store: localStorage.getItem(K_STORE)||'xinyi',
       lang: localStorage.getItem(K_LANG)||'auto'
     };
@@ -490,12 +466,13 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   function postScript(payload){
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var url=c.script+(window.KB_SCRIPT_TOKEN?'?token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'');
     var body=JSON.stringify(payload);
     // 用 POST 送資料本身沒問題（Apps Script 會先同步處理完 doPost 才回應）。
     // 麻煩的只有「讀回確認訊息」：回應會先 302 轉址到 script.googleusercontent.com，
     // 該網址不一定允許跨網域讀取。讀不到時改用 no-cors：資料照樣送達並寫入，
     // 只是瀏覽器看不到回應內容，所以用 unconfirmed 標記讓呼叫端知道無法 100% 確認。
-    return fetch(c.script, {
+    return fetch(url, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: body
@@ -508,7 +485,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       if(!data.ok) throw new Error(data.error||'寫入失敗');
       return data;
     }).catch(function(){
-      return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
+      return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
   }
@@ -523,48 +500,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
   function deleteFromSheet(sheetName, id){
     return postScript({ action:'delete', sheet: sheetName, id: id });
-  }
-
-  // 常見的貼錯：貼了編輯器網址、貼了 /dev 測試網址、網址後面少了 /exec
-  function scriptUrlProblem(u){
-    u=String(u||'').trim();
-    if(!u) return '還沒填寫網址。';
-    if(!/^https:\/\//.test(u)) return '網址要以 https:// 開頭。';
-    if(/docs\.google\.com/.test(u))
-      return '這是試算表本身的網址，不是 Apps Script 的網址。請在試算表按「擴充功能 → Apps Script」，部署後再複製那串結尾是 /exec 的網址。';
-    if(/\/edit/.test(u) || /script\.google\.com\/(home|u\/\d+\/home)/.test(u))
-      return '這是 Apps Script 編輯器的網址，不是部署後的網址。請按右上角「部署」→「管理部署作業」，複製裡面的「網頁應用程式」網址。';
-    if(/\/dev(\?|$)/.test(u))
-      return '這是 /dev 測試網址，只有你自己登入時能用。請改用結尾為 /exec 的網址。';
-    if(!/\/macros\//.test(u))
-      return '網址看起來不是 Apps Script 網頁應用程式，正確的會長得像 https://script.google.com/macros/s/AKfy…/exec';
-    if(!/\/exec(\?|$)/.test(u))
-      return '網址結尾要是 /exec。';
-    return null;
-  }
-  function testScript(){
-    var u=$('inScript').value.trim();
-    var box=$('scriptMsg');
-    var bad=scriptUrlProblem(u);
-    if(bad){ box.className='msg err'; box.textContent='✕ '+bad; return; }
-    box.className='msg'; box.textContent='測試中…正在寫入一筆測試資料到「_連線測試」分頁';
-    var saved=localStorage.getItem(K_SCRIPT);
-    localStorage.setItem(K_SCRIPT,u);
-    postScript({ sheet:'_連線測試', row:['test-'+Date.now(),'連線測試','測試','這是一筆測試資料，可以直接刪掉','否','否',today(),'隨身口譯連線測試'] })
-      .then(function(data){
-        if(data.unconfirmed){
-          box.className='msg';
-          box.textContent='△ 已送出，但瀏覽器不讓我讀取回應。請到試算表看有沒有多一個「_連線測試」分頁；有就代表成功。';
-        }else{
-          box.className='msg ok';
-          box.textContent='✓ 連線成功，已在試算表建立「_連線測試」分頁並寫入一筆測試資料，確認後可以刪掉那個分頁。';
-        }
-      })
-      .catch(function(e){
-        box.className='msg err';
-        box.textContent='✕ 連不上：'+e.message+'。最常見的原因是部署時「具有存取權的使用者」沒有選「任何人」。';
-      })
-      .then(function(){ if(saved===null) localStorage.removeItem(K_SCRIPT); else localStorage.setItem(K_SCRIPT,saved); });
   }
 
   // ── 畫面 ──────────────────────────────────────────
@@ -947,6 +882,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
   function setMode(mode, zhQuestion){
     state.mode=mode;
+    var mlp=$('micLangPicker'); if(mlp) mlp.hidden=true;
     if(mode==='staff'){
       hint.textContent='請輸入「答案」，不是問題。系統會翻給顧客並記住。';
       hint.className='mode-hint staff';
@@ -1079,27 +1015,70 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var reason=micBlockedReason();
     if(reason){ btnMic.disabled=true; btnMic.title=reason; return; }
     var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    recog=new SR(); recog.continuous=false; recog.interimResults=false;
+    // continuous+interimResults：不要讓瀏覽器自己猜「講完了沒」（常常猜錯、
+    // 外語尤其不準），改成一直聽、累積逐字稿，直到店員或顧客自己按停止為止，
+    // 停止當下才把累積到的內容送出去。
+    recog=new SR(); recog.continuous=true; recog.interimResults=true;
+    var transcript='', recogErr=null;
     recog.onresult=function(e){
-      var txt=e.results[0][0].transcript;
-      if(micHandler){ micHandler(null, txt); return; }
-      inputBox.value=txt; submit();
+      var t='';
+      for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
+      transcript=t;
     };
-    recog.onerror=function(e){
-      var code=(e&&e.error)||'unknown';
-      if(micHandler){ micHandler(code, null); return; }
-      toast(srMessage(code), true);
+    recog.onerror=function(e){ recogErr=(e&&e.error)||'unknown'; };
+    recog.onend=function(){
+      listening=false; btnMic.className='btn mic';
+      if(inputBox.dataset.restorePh!=null){ inputBox.placeholder=inputBox.dataset.restorePh; delete inputBox.dataset.restorePh; }
+      var txt=transcript.trim(), err=recogErr;
+      transcript=''; recogErr=null;
+      if(txt){
+        if(micHandler){ var h=micHandler; micHandler=null; h(null, txt); return; }
+        inputBox.value=txt; submit(); return;
+      }
+      if(err){
+        if(micHandler){ var h2=micHandler; micHandler=null; h2(err, null); return; }
+        toast(srMessage(err), true);
+      }
     };
-    recog.onend=function(){ listening=false; btnMic.className='btn mic'; };
   }
   function toggleMic(){
     var reason=micBlockedReason();
     if(reason){ toast(reason, true); return; }
+    if(listening){ if(recog) recog.stop(); return; }
+    // 瀏覽器的語音辨識沒辦法真的「自動判斷語言」，開始聽之前一定要先指定語言。
+    // 自動偵測模式下，對話一開始還不知道顧客講什麼語言，直接用預設語言去聽
+    // 外語會整個聽不懂，所以第一次要先讓顧客自己點一下講的是哪種語言。
+    if(state.mode==='customer' && isAuto() && !state.lastSpeech){
+      showMicLangPicker();
+      return;
+    }
+    startRecog();
+  }
+  function showMicLangPicker(){
+    var box=$('micLangPicker'), chips=$('mlpChips');
+    chips.innerHTML='';
+    (window.KB_LANGS||[]).forEach(function(l){
+      var b=document.createElement('button');
+      b.type='button'; b.textContent=l.native;
+      b.addEventListener('click',function(){
+        state.lastSpeech=l.speech; state.lastLangName=l.zh;
+        box.hidden=true;
+        startRecog();
+      });
+      chips.appendChild(b);
+    });
+    box.hidden=false;
+    scrollDown();
+  }
+  function startRecog(){
     if(!recog) initRecog();
     if(!recog) return;
-    if(listening){ recog.stop(); return; }
     recog.lang=micLang();
-    try{ recog.start(); listening=true; btnMic.className='btn mic on'; }
+    try{
+      recog.start(); listening=true; btnMic.className='btn mic on';
+      inputBox.dataset.restorePh=inputBox.placeholder;
+      inputBox.placeholder='🎙️ 錄音中…講完再按一次麥克風';
+    }
     catch(e){ toast('無法啟動麥克風：'+e.message, true); }
   }
 
@@ -1443,30 +1422,19 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   // ── 設定面板 ──────────────────────────────────────
   function openSettings(){
     var c=cfg();
-    $('inKey').value=c.key; $('inModel').value=c.model;
-    $('inSheet').value=c.sheet; $('inScript').value=c.script;
+    $('inModel').value=c.model;
     fillModelSelect(FALLBACK_MODELS, c.model);
     if(c.key) detectModels(true);
     var hid=hiddenIds().length;
     $('kbInfo').textContent='目前載入 '+kbNow().length+' 筆（來源：'+state.kbSource+'），其中本機新增 '+localKb().length
       +' 筆'+(hid?'，已移除 '+hid+' 筆':'')
       +'。答案只存中文，任何語言都是問的當下即時翻譯，所以新增一筆等於 '+(window.KB_LANGS||[]).length+' 種語言同時支援。';
-    $('scriptMsg').textContent=''; $('scriptMsg').className='msg';
-    $('scriptHelp').hidden=true;
     modal.classList.add('open');
   }
   function saveSettings(){
-    var kv=$('inKey').value.trim();
-    if(kv && !looksLikeGeminiKey(kv) && !confirm('這串看起來太短或含有空白，可能不是完整的金鑰。仍要儲存嗎？')) return;
-    localStorage.setItem(K_KEY,kv);
     localStorage.setItem(K_MODEL,$('inModel').value);
-    localStorage.setItem(K_SHEET,$('inSheet').value.trim());
-    localStorage.setItem(K_SCRIPT,$('inScript').value.trim());
     modal.classList.remove('open');
-    loadKb(cfg().store);
     refreshChips();
-    if(cfg().key){ var sc=document.getElementById('setupCard'); if(sc) sc.remove(); }
-    else showSetupCard();
     toast('設定已儲存');
   }
   function exportKb(){
@@ -1503,10 +1471,14 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
 
   initSelects(); initRecog(); setMode('customer'); refreshChips();
+  // 金鑰要等 loadConfig() 從「設定」分頁讀完才知道有沒有，太早檢查會在
+  // 金鑰其實有設定好的情況下也閃一下「還沒設定金鑰」的警告。
   loadConfig().then(function(){
     loadKb(cfg().store, true);
+    showSetupCard();
   }).catch(function(){
     loadKb(cfg().store, true);
+    showSetupCard();
   });
 
   btnSend.addEventListener('click',submit);
@@ -1529,10 +1501,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   $('btnSpeechTest').addEventListener('click',runSpeechTest);
   $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});
   $('btnExport').addEventListener('click',exportKb);
-  $('btnTestScript').addEventListener('click',testScript);
-  $('btnScriptHelp').addEventListener('click',function(){
-    var h=$('scriptHelp'); h.hidden=!h.hidden;
-  });
   $('btnUnhide').addEventListener('click',function(){
     var n=hiddenIds().length;
     if(!n){ toast('沒有被移除的條目'); return; }
@@ -1549,7 +1517,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   ['touchend','mousedown','keydown'].forEach(function(ev){
     document.addEventListener(ev, unlockAudio, {once:true, passive:true});
   });
-  showSetupCard();
 })();
 </script>
 </body>

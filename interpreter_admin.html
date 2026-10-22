@@ -70,21 +70,6 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 .card-msg.err{color:#fca5a5}
 
 .loading{text-align:center; color:var(--muted); font-size:.85rem; padding:30px 0}
-
-/* ── 設定 ── */
-.modal{position:fixed; inset:0; background:rgba(5,6,10,.9); z-index:50; display:none; align-items:flex-end; justify-content:center}
-.modal.open{display:flex}
-.sheet{background:var(--surface); width:100%; max-width:480px; max-height:88dvh; overflow-y:auto;
-  border-radius:20px 20px 0 0; padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
-.sheet h2{font-size:1.1rem; margin-bottom:6px}
-.sheet .sub{font-size:.8rem; color:var(--muted); line-height:1.6; margin-bottom:16px}
-.field-label{font-size:.82rem; font-weight:700; color:#ffc5a8; margin:14px 0 7px}
-.field-label:first-of-type{margin-top:0}
-.sheet input{width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
-  border-radius:11px; padding:11px 12px; font-size:.9rem}
-.sheet .hint{font-size:.76rem; color:var(--muted); line-height:1.6; margin-top:7px}
-.sheet .close{width:100%; margin-top:18px; background:var(--primary); border:none; color:#fff;
-  border-radius:11px; padding:12px; font-size:.92rem; font-weight:700}
 </style>
 </head>
 <body>
@@ -94,7 +79,6 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     <div class="brand">🍰 待審<span>核准</span>後台</div>
     <div class="spacer"></div>
     <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄 重新整理</button>
-    <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
   </div>
   <div class="stats" id="stats"></div>
 </header>
@@ -103,36 +87,18 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   <div class="loading">載入中…</div>
 </main>
 
-<div class="modal" id="modal">
-  <div class="sheet">
-    <h2>設定</h2>
-    <p class="sub">跟「隨身口譯」共用同一組設定，只存在這支裝置的瀏覽器裡。</p>
-
-    <div class="field-label">Google Sheets 知識庫 ID</div>
-    <input id="inSheet" placeholder="貼試算表網址中 /d/ 和 /edit 中間那一串">
-    <p class="hint">試算表必須設為「知道連結的任何人可以檢視」，程式才讀得到。</p>
-
-    <div class="field-label">寫回用的 Apps Script 網址</div>
-    <input id="inScript" placeholder="https://script.google.com/macros/s/.../exec">
-    <p class="hint">核准、刪除都要靠這個網址寫回試算表，沒填就只能看、不能操作。</p>
-
-    <button class="close" id="btnCloseModal">儲存並關閉</button>
-  </div>
-</div>
-
 <script src="knowledge_base.js"></script>
 <script>
 (function(){
   'use strict';
 
-  var K_SHEET='diybc_kb_sheet_id', K_SCRIPT='diybc_kb_script_url';
   var $=function(id){return document.getElementById(id);};
-  var mainEl=$('main'), statsEl=$('stats'), modal=$('modal');
+  var mainEl=$('main'), statsEl=$('stats');
 
   function cfg(){
     return {
-      sheet: localStorage.getItem(K_SHEET) || (window.KB_SHEET_ID||''),
-      script: localStorage.getItem(K_SCRIPT) || ''
+      sheet: window.KB_SHEET_ID||'',       // 寫死在 knowledge_base.js，不給前端改
+      script: window.KB_SCRIPT_URL||''     // 同上
     };
   }
   function storeInfo(id){
@@ -181,7 +147,8 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   function loadSheetNames(){
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
-    return fetch(c.script+'?action=sheets&_t='+Date.now())
+    var tokenQs=window.KB_SCRIPT_TOKEN?'&token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'';
+    return fetch(c.script+'?action=sheets'+tokenQs+'&_t='+Date.now())
       .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
       .then(function(data){
         if(!data.ok) throw new Error(data.error||'讀取分頁清單失敗');
@@ -192,8 +159,9 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   function postScript(payload){
     var c=cfg();
     if(!c.script) return Promise.reject(new Error('未設定 Apps Script 網址'));
+    var url=c.script+(window.KB_SCRIPT_TOKEN?'?token='+encodeURIComponent(window.KB_SCRIPT_TOKEN):'');
     var body=JSON.stringify(payload);
-    return fetch(c.script, {
+    return fetch(url, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: body
@@ -206,7 +174,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
       if(!data.ok) throw new Error(data.error||'寫入失敗');
       return data;
     }).catch(function(){
-      return fetch(c.script, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
+      return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
   }
@@ -238,8 +206,8 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   function renderSetupPrompt(missing){
     mainEl.innerHTML='';
     var box=el('div','setup');
-    box.appendChild(el('h3',null,'⚠️ 還沒設定'+missing));
-    var p=el('p',null,'核准後台需要跟「隨身口譯」一樣的試算表 ID 和 Apps Script 網址，按右上角 ⚙️ 設定。');
+    box.appendChild(el('h3',null,'⚠️ 讀不到'+missing));
+    var p=el('p',null,'試算表 ID 和 Apps Script 網址寫死在 knowledge_base.js，理論上不該缺。請確認這個頁面能正常載入 knowledge_base.js（檢查網路連線或重新整理）。');
     box.appendChild(p);
     mainEl.appendChild(box);
   }
@@ -398,27 +366,12 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
       mainEl.innerHTML='';
       var box=el('div','setup');
       box.appendChild(el('h3',null,'✕ 載入失敗'));
-      box.appendChild(el('p',null,e.message+'。確認「設定」裡的試算表 ID 跟 Apps Script 網址都對，且 Apps Script 已部署為「任何人」可存取。'));
+      box.appendChild(el('p',null,e.message+'。確認 Apps Script 已部署為「任何人」可存取，且 token 跟 google_apps_script.gs 裡的 SECRET 一致。'));
       mainEl.appendChild(box);
       renderStats([], false);
     });
   }
 
-  // ── 設定面板 ──────────────────────────────────────
-  function openModal(){
-    $('inSheet').value=cfg().sheet;
-    $('inScript').value=cfg().script;
-    modal.classList.add('open');
-  }
-  function closeModal(){
-    localStorage.setItem(K_SHEET, $('inSheet').value.trim());
-    localStorage.setItem(K_SCRIPT, $('inScript').value.trim());
-    modal.classList.remove('open');
-    loadAll();
-  }
-
-  $('btnSettings').addEventListener('click', openModal);
-  $('btnCloseModal').addEventListener('click', closeModal);
   $('btnRefresh').addEventListener('click', loadAll);
 
   loadAll();

@@ -3,9 +3,13 @@
 // 理由：門市配置與規則會變動，維護 6 國語言的成本正是第一階段要消滅的問題。
 window.KB_VERSION = 'v2026.10.21.1';
 
-// 預設的 Google Sheets 知識庫（可在設定頁更換）
+// Google Sheets 知識庫。固定寫死在這裡，不開放前端介面更改——
+// 這兩個值錯了，店員端或後台核准頁就整個連不上，寫死可以避免被手滑改壞。
+// 真的要換試算表或重新部署 Apps Script 時，直接改這裡再重新部署網站即可。
 window.KB_SHEET_ID = '1gupMBpy3l4ThAfNdMiwsWEvlG3_siWDWAODxolgXK18';
 window.KB_SHEET_COMMON = '共用';   // 全門市通用條目的分頁名稱
+window.KB_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjNm_eaJvDFvbnDHBzhmOkuccHnkRfYQxSUqoh1upvhFw8tgWexXmTx6pTBmIknL1h/exec';
+window.KB_SCRIPT_TOKEN = 'L_z7ye9b6IKXMQhC_oQoh3liK3toQoHl';   // 要跟 google_apps_script.gs 的 SECRET 一致
 
 // sheet 欄位對應 Google Sheets 的分頁名稱
 window.KB_STORES = [
