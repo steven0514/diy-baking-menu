@@ -52,6 +52,12 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 .model-msg{font-size:.78rem; margin-top:9px; line-height:1.5; min-height:1.1em; color:var(--muted)}
 .model-msg.ok{color:#86efac}
 .model-msg.err{color:#fca5a5}
+.cfg-list{display:flex; flex-direction:column; gap:7px}
+.cfg-row{display:flex; align-items:center; gap:9px; font-size:.82rem}
+.cfg-row .cfg-name{color:var(--muted); flex:0 0 auto}
+.cfg-row .cfg-val{font-weight:700; font-variant-numeric:tabular-nums}
+.cfg-row .cfg-val.ok{color:#86efac}
+.cfg-row .cfg-val.err{color:#fca5a5}
 
 .setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:16px}
 .setup h3{font-size:1rem; color:#fbbf24; margin-bottom:8px}
@@ -107,19 +113,9 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 </header>
 
 <section class="model-card" id="modelCard">
-  <h2>AI 模型與金鑰</h2>
-  <p class="sub">所有門市共用這一組設定。Gemini 金鑰只存在 Apps Script 後端（Script Properties），不會出現在試算表、網頁原始碼或網址裡；貼上儲存後連這個頁面自己也讀不回內容，只能覆蓋重設。</p>
-  <div class="model-row">
-    <input type="password" id="geminiKeyInput" placeholder="貼上 Gemini API Key" autocomplete="off">
-    <button class="btn" id="btnSaveKey">儲存金鑰</button>
-  </div>
-  <p class="model-msg" id="keyMsg"></p>
-  <div class="model-row">
-    <select id="modelSelect"><option value="">載入中…</option></select>
-    <button class="btn ghost" id="btnDetectModels">🔄 重新偵測</button>
-    <button class="btn" id="btnSaveModel">儲存</button>
-  </div>
-  <p class="model-msg" id="modelMsg"></p>
+  <h2>後端設定狀態</h2>
+  <p class="sub">金鑰、模型、GitHub 權杖一律存在 Apps Script 的指令碼屬性，這個頁面只顯示狀態、不提供修改，所以就算網址外流也改不到設定。要調整請到 Apps Script →「專案設定」→「指令碼屬性」。</p>
+  <div class="cfg-list" id="cfgList"><p class="model-msg">讀取中…</p></div>
 </section>
 
 <main id="main">
@@ -202,26 +198,6 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     });
   }
 
-  // 讀「設定」分頁，支援橫式（欄位名稱在第1列、值在第2列）與
-  // 直式（A 欄是 key、B 欄是 value）兩種排版，跟 interpreter.html 的邏輯一致。
-  function loadConfigSheet(){
-    var c=cfg();
-    return loadSheetRows(c.sheet, '設定', true).then(function(result){
-      var config={};
-      var headers=result.headers||[], rows=result.rows||[];
-      var firstRow=rows[0]||[];
-      headers.forEach(function(h,i){
-        var val=(firstRow[i]||'').trim();
-        if(h && val) config[h]=val;
-      });
-      rows.forEach(function(r){
-        var key=(r[0]||'').trim(), val=(r[1]||'').trim();
-        if(key && val) config[key]=val;
-      });
-      return config;
-    });
-  }
-
   // 列出試算表實際存在的分頁名稱。不能用 gviz 判斷分頁存不存在——
   // 查詢不存在的分頁名稱時，gviz 會默默回傳別的分頁內容。
   function loadSheetNames(){
@@ -262,108 +238,32 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     });
   }
 
-  // ── AI 模型管理（寫回「設定」分頁，店員端不開放選擇）──────────
-  // 排序規則跟 interpreter.html 一致：現場要快，優先 flash；同系列取版本號較新的
-  function rankModel(id){
-    var score=0;
-    if(/flash/i.test(id)) score+=100;
-    if(/lite/i.test(id)) score-=30;
-    if(/pro/i.test(id)) score+=20;
-    if(/(preview|exp|experimental)/i.test(id)) score-=50;
-    if(/(vision|embedding|aqa|tts|image|audio)/i.test(id)) score-=500;
-    var v=id.match(/(\d+)\.(\d+)/);
-    if(v) score += parseInt(v[1],10)*10 + parseInt(v[2],10);
-    return score;
+  // ── 後端設定狀態（唯讀）──────────────────────────────
+  // 金鑰、模型、GitHub 權杖都存在 Apps Script 指令碼屬性，這裡只問「有沒有設定」
+  // 與非機密的模型名稱，不提供任何修改介面，網址外流也動不到設定。
+  function cfgRow(name, value, cls){
+    var row=el('div','cfg-row');
+    row.appendChild(el('span','cfg-name',name));
+    row.appendChild(el('span','cfg-val'+(cls?' '+cls:''), value));
+    return row;
   }
-  // 偵測模型清單改走 Apps Script 代呼，金鑰留在後端，前端拿到的只是模型名稱（非機密）。
-  function listModels(){
-    return postScript({action:'listModels'}).then(function(d){
-      if(d.unconfirmed) throw new Error('已送出但讀不到回應，無法確認模型清單');
-      return (d.models||[]).slice().sort(function(a,b){ return rankModel(b)-rankModel(a); });
-    });
-  }
-  function fillModelSelect(list, selected){
-    var sel=$('modelSelect');
-    sel.innerHTML='';
-    list.forEach(function(m){
-      var o=document.createElement('option');
-      o.value=m; o.textContent=m;
-      if(m===selected) o.selected=true;
-      sel.appendChild(o);
-    });
-    if(selected && list.indexOf(selected)<0){
-      var o2=document.createElement('option');
-      o2.value=selected; o2.textContent=selected+'（目前設定，清單中沒有）';
-      o2.selected=true; sel.insertBefore(o2, sel.firstChild);
-    }
-  }
-  function setModelMsg(text, cls){
-    var m=$('modelMsg'); m.textContent=text; m.className='model-msg'+(cls?' '+cls:'');
-  }
-  function setKeyMsg(text, cls){
-    var m=$('keyMsg'); m.textContent=text; m.className='model-msg'+(cls?' '+cls:'');
-  }
-  function checkKeyStatus(){
-    return postScript({action:'hasSecret'}).then(function(d){
-      if(d.unconfirmed){ setKeyMsg('已送出但讀不到回應，無法確認金鑰狀態。'); return; }
-      setKeyMsg(d.hasKey ? '目前已設定金鑰（存在後端，看不到內容）。' : '⚠️ 尚未設定金鑰，店員端無法翻譯。', d.hasKey?'ok':'err');
+  function renderConfigStatus(){
+    var box=$('cfgList');
+    if(!box) return;
+    postScript({action:'hasSecret'}).then(function(d){
+      box.innerHTML='';
+      if(d.unconfirmed){
+        box.appendChild(el('p','model-msg err','已送出但讀不到回應，無法確認後端狀態。'));
+        return;
+      }
+      box.appendChild(cfgRow('Gemini 金鑰', d.hasKey?'已設定':'未設定', d.hasKey?'ok':'err'));
+      box.appendChild(cfgRow('AI 模型', d.model || '未設定（用預設 gemini-2.5-flash）', d.model?'ok':''));
+      box.appendChild(cfgRow('GitHub 權杖', d.hasGithubToken?'已設定':'未設定', d.hasGithubToken?'ok':'err'));
+      box.appendChild(cfgRow('管理密碼', d.hasPassword?'已設定':'未設定（後台等於沒有保護）', d.hasPassword?'ok':'err'));
     }).catch(function(e){
-      setKeyMsg('讀取金鑰狀態失敗：'+e.message, 'err');
+      box.innerHTML='';
+      box.appendChild(el('p','model-msg err','讀取後端狀態失敗：'+e.message));
     });
-  }
-  function saveKey(){
-    var inp=$('geminiKeyInput');
-    var v=inp.value.trim();
-    if(!v){ setKeyMsg('請先貼上金鑰再按儲存。', 'err'); return; }
-    if(!/^[A-Za-z0-9._-]{20,}$/.test(v) && !confirm('這串看起來太短或含有空白，可能不是完整的金鑰。仍要儲存嗎？')) return;
-    setKeyMsg('儲存中…');
-    postScript({ action:'setSecret', key:'gemini_api_key', value:v })
-      .then(function(data){
-        inp.value='';
-        if(data.unconfirmed){
-          setKeyMsg('△ 已送出，但瀏覽器讀不到回應，請按「重新偵測」確認金鑰是否生效。');
-        }else{
-          setKeyMsg('✓ 金鑰已儲存到後端，店員端重新整理後生效。', 'ok');
-        }
-        return detectModels($('modelSelect').value);
-      })
-      .catch(function(e){ setKeyMsg('✕ 儲存失敗：'+e.message, 'err'); });
-  }
-  function initModelCard(){
-    setModelMsg('載入中…');
-    checkKeyStatus();
-    loadConfigSheet().then(function(config){
-      var curModel=config.gemini_model||'';
-      fillModelSelect(curModel?[curModel]:[], curModel);
-      setModelMsg('目前設定：'+(curModel||'（未設定）')+'。偵測中…');
-      return detectModels(curModel);
-    }).catch(function(e){
-      setModelMsg('讀取「設定」分頁失敗：'+e.message, 'err');
-    });
-  }
-  function detectModels(curModel){
-    setModelMsg('偵測中…');
-    return listModels().then(function(list){
-      if(!list.length) throw new Error('沒有可用於對話的模型');
-      fillModelSelect(list, curModel || list[0]);
-      setModelMsg('可用模型 '+list.length+' 個，選好後按「儲存」。');
-    }).catch(function(e){
-      setModelMsg('偵測失敗：'+e.message, 'err');
-    });
-  }
-  function saveModel(){
-    var model=$('modelSelect').value;
-    if(!model){ setModelMsg('請先選一個模型。', 'err'); return; }
-    setModelMsg('儲存中…');
-    postScript({ action:'setConfig', sheet:'設定', key:'gemini_model', value:model })
-      .then(function(data){
-        if(data.unconfirmed){
-          setModelMsg('△ 已送出，但瀏覽器讀不到回應，請自行到試算表「設定」分頁確認 gemini_model 是否已經改成 '+model+'。');
-        }else{
-          setModelMsg('✓ 已儲存，店員端重新整理後生效。', 'ok');
-        }
-      })
-      .catch(function(e){ setModelMsg('✕ 儲存失敗：'+e.message, 'err'); });
   }
 
   function rowsToEntries(rows){
@@ -573,19 +473,16 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     });
   }
 
-  $('btnRefresh').addEventListener('click', loadAll);
-  $('btnDetectModels').addEventListener('click', function(){ detectModels($('modelSelect').value); });
-  $('btnSaveModel').addEventListener('click', saveModel);
-  $('btnSaveKey').addEventListener('click', saveKey);
+  $('btnRefresh').addEventListener('click', function(){ loadAll(); if(!LOCKED_STORE_ID) renderConfigStatus(); });
 
-  // AI 模型是全門市共用的設定，只有沒帶 ?store= 的總覽網址能看到、能改；
+  // 後端設定是全門市共用的，只有沒帶 ?store= 的總覽網址才顯示；
   // 個別門市的網址完全不顯示這塊，連文字說明都不該看到「所有門市」字樣。
   if(LOCKED_STORE_ID){
     var lockedInfo=storeInfo(LOCKED_STORE_ID);
     $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待核准';
     var mc=$('modelCard'); if(mc) mc.remove();
   }else{
-    initModelCard();
+    renderConfigStatus();
   }
   loadAll();
 })();
