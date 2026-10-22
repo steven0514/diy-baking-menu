@@ -1,6 +1,11 @@
 #!/bin/bash
 # 把公開檔案同步到 gh-pages 分支並推送上線。
-# 後台 admin.html 與內部文件不在清單內，永遠不會離開這台電腦。
+#
+# admin.html 與 interpreter_admin.html 這兩個後台也在清單內（要能在手機、iPad 上用），
+# 靠 admin_gate.js 的密碼遮罩擋掉路過的人。那只是門檻不是保險箱：密碼雖然存在
+# Apps Script 後端、原始碼裡看不到，但「驗證通過就顯示畫面」跑在瀏覽器，懂的人
+# 繞得過去。真正擋住竄改的是寫入憑證——商品後台要 GitHub PAT、知識庫要 token。
+# 內部文件（*.md 等）仍然不在清單內，不會離開這台電腦。
 #
 #   用法：./deploy.sh
 #
@@ -19,7 +24,10 @@ FILES=(
   vue.global.prod.js
   interpreter.html
   interpreter_admin.html
+  admin.html
+  admin_gate.js
   knowledge_base.js
+  xlsx.full.min.js
   presentation_mobile_ai.html
   presentation.html
 )

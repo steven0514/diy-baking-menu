@@ -964,8 +964,12 @@
             document.write('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>');
         }
     </script>
+    <!-- 後台登入遮罩：密碼存在 Apps Script 後端，原始碼裡看不到 -->
+    <script src="knowledge_base.js"></script>
+    <script src="admin_gate.js"></script>
 </head>
 <body>
+    <script>adminGate({ title: '商品菜單後台' });</script>
 
     <!-- Admin Header -->
     <header class="admin-header">

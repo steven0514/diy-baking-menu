@@ -23,6 +23,7 @@
  *   action:'hasSecret'      → 回報金鑰是否已設定（布林值），不洩漏內容
  *   action:'listModels'     → 伺服器端用已存的金鑰查可用模型清單，回傳模型名稱（非機密）
  *   action:'generate'       → 伺服器端用已存的金鑰呼叫 Gemini，回傳翻譯結果；金鑰全程不經過前端
+ *   action:'checkPassword'  → 比對後台登入密碼（存在指令碼屬性 ADMIN_PASSWORD），只回傳對或不對
  *
  * 另外 doGet 支援 ?action=sheets，回傳試算表目前所有分頁名稱（唯讀，後台核准頁用
  * 來判斷哪些 _待審_<店代號> 分頁真的存在 —— gviz 查詢不存在的分頁名稱時會默默
@@ -44,6 +45,7 @@
 
 var SECRET = 'L_z7ye9b6IKXMQhC_oQoh3liK3toQoHl';
 var GEMINI_KEY_PROP = 'GEMINI_API_KEY';
+var ADMIN_PASS_PROP = 'ADMIN_PASSWORD';
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === 'sheets') {
@@ -87,6 +89,13 @@ function handleRequest(e, body) {
     if (action === 'hasSecret') {
       var has = !!PropertiesService.getScriptProperties().getProperty(GEMINI_KEY_PROP);
       return reply({ ok: true, hasKey: has });
+    }
+    // 後台登入用。密碼只能在 Apps Script「專案設定 → 指令碼屬性」手動設定 ADMIN_PASSWORD，
+    // 不開放任何線上頁面修改，否則公開的後台網址等於可以自己改密碼。
+    if (action === 'checkPassword') {
+      var stored = PropertiesService.getScriptProperties().getProperty(ADMIN_PASS_PROP);
+      if (!stored) return reply({ ok: true, noPassword: true });
+      return reply({ ok: true, pass: String(body.password || '') === stored });
     }
     if (action === 'listModels') {
       return reply(listGeminiModels_());
