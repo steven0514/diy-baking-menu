@@ -332,6 +332,23 @@ function getConfiguredModel_() {
 }
 
 /**
+ * 測試用：在編輯器執行這個函式，確認後端真的能用指令碼屬性裡的 GitHub 權杖寫入 repo。
+ * 在編輯器執行不必輸入管理密碼（能打開這個專案的人本來就是擁有者）。
+ *
+ * 成功的話 repo 根目錄會多出 _publish_test.txt，看執行紀錄會是
+ * {"ok":true,"results":[{"path":"_publish_test.txt","ok":true,"commit":"xxxxxxx"}]...}
+ * 那個測試檔確認完就可以刪掉，不影響網站。
+ */
+function testPublish() {
+  var r = publishToGitHub_(
+    [{ path: '_publish_test.txt', content: '發布代理測試 ' + new Date().toISOString() + '\n確認後可刪除此檔。\n' }],
+    'test: 確認 Apps Script 能代為寫入 GitHub'
+  );
+  Logger.log(JSON.stringify(r));
+  return r;
+}
+
+/**
  * 代替商品後台把檔案寫進 GitHub。權杖只存在指令碼屬性，前端拿不到。
  *
  * files 格式：[{ path: 'products_data.js', content: '檔案內容' }, ...]
