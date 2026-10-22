@@ -40,6 +40,11 @@ header{flex:0 0 auto; background:var(--surface); border-bottom:1px solid var(--b
 .chip.ok{background:rgba(16,185,129,.16); color:#6ee7b7; border-color:rgba(16,185,129,.35)}
 .chip.warn{background:var(--amber-soft); color:#fbbf24; border-color:rgba(245,158,11,.35)}
 .chip.bad{background:rgba(239,68,68,.16); color:#fca5a5; border-color:rgba(239,68,68,.35)}
+/* 頂端只留這顆 chip，跟著裝置的深色/淺色主題切換：深色模式黑底白字，淺色模式白底黑字 */
+#chipMode{background:#000; color:#fff; border-color:#000}
+@media (prefers-color-scheme: light){
+  #chipMode{background:#fff; color:#000; border-color:#000}
+}
 
 /* ── 對話區：一次問答就是一張卡 ── */
 /* min-height:0 不可省略：flex 子元素預設 min-height:auto，會撐到內容高度而不出現捲軸 */
@@ -165,11 +170,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     <button class="icon-btn" id="btnSettings" aria-label="設定">⚙️</button>
   </div>
   <div class="stats">
-    <span class="chip" id="chipKb">知識庫載入中</span>
-    <span class="chip" id="chipSrc">來源：內建</span>
     <span class="chip" id="chipMode">離線示範模式</span>
-    <span class="chip" id="chipLang">語言自動偵測</span>
-    <span class="chip" id="chipHit">命中 0 / 0</span>
   </div>
 </header>
 
@@ -209,17 +210,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 <div class="modal" id="modal">
   <div class="sheet">
     <h2>設定</h2>
-    <p class="sub">試算表、寫回網址、Gemini 金鑰都已經固定好，不會因為手滑改到。Gemini 金鑰跟模型是從 Google Sheets「設定」分頁自動讀取的，不需要在這裡填。</p>
-
-    <div class="fg">
-      <label for="inModel">AI 模型</label>
-      <select id="inModel"></select>
-      <div class="btn-row" style="margin-top:8px">
-        <button class="btn ghost" id="btnModels">🔄 偵測可用模型</button>
-      </div>
-      <small id="modelNote">Google 會淘汰舊模型，清單由金鑰實際可用的模型決定。</small>
-      <small>語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</small>
-    </div>
+    <p class="sub">試算表、寫回網址、Gemini 金鑰、AI 模型都已經固定好，不會因為手滑改到。這幾項都從 Google Sheets「設定」分頁自動讀取；要換模型請到後台核准頁（interpreter_admin.html）設定。</p>
+    <p class="sub">語言不需要事先設定。頂端保持「自動偵測」時，顧客說哪一國話就用哪一國話回答。</p>
 
     <div class="fg">
       <label>知識庫</label>
@@ -235,7 +227,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     </div>
 
     <div class="btn-row">
-      <button class="btn" id="btnSave">儲存並關閉</button>
+      <button class="btn" id="btnSave">關閉</button>
     </div>
   </div>
 </div>
@@ -417,7 +409,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var c=cfg(), st=storeInfo(storeId);
     state.kbStore=storeId;
     if(!c.sheet){ useBuiltIn(storeId,'未設定試算表'); return Promise.resolve(); }
-    setChip('chipKb','知識庫載入中…','');
     return Promise.all([
       loadSheet(c.sheet, window.KB_SHEET_COMMON||'共用').catch(function(){return null;}),
       loadSheet(c.sheet, st.sheet).catch(function(){return null;})
@@ -511,13 +502,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   function setChip(id,text,cls){ var e=$(id); e.textContent=text; e.className='chip'+(cls?' '+cls:''); }
   function refreshChips(){
     var c=cfg();
-    setChip('chipKb','知識庫 '+kbNow().length+' 筆', '');
-    setChip('chipSrc','來源：'+state.kbSource, state.kbSource.indexOf('Sheets')>=0?'ok':'warn');
     if(c.key) setChip('chipMode','AI 模式 ・ '+c.model.replace('gemini-',''),'ok');
     else setChip('chipMode','離線示範模式','bad');
-    if(isAuto()) setChip('chipLang', state.lastLangName?('偵測到 '+state.lastLangName):'語言自動偵測', state.lastLangName?'ok':'');
-    else setChip('chipLang','指定 '+langInfo(c.lang).zh,'');
-    setChip('chipHit','命中 '+state.hit+' / '+state.asked,'');
   }
   function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
   function scrollDown(){
@@ -597,25 +583,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   // Google 目前發出的金鑰有兩種前綴：舊的 AIza…、新的 AQ.…
   // 格式會再變，所以只做最低限度檢查，真正的驗證交給連線診斷實際打一次 API
-  // ── 可用模型查詢（Google 會淘汰模型，不寫死在程式裡）────────
-  var FALLBACK_MODELS=['gemini-2.5-flash','gemini-2.0-flash'];
-
-  function listModels(key){
-    return fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':key}})
-      .then(function(r){
-        if(!r.ok) return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,100));});
-        return r.json();
-      }).then(function(d){
-        return (d.models||[])
-          .filter(function(m){
-            return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0;
-          })
-          .map(function(m){ return String(m.name||'').replace(/^models\//,''); })
-          .filter(Boolean);
-      });
-  }
-
-  // 現場要快，所以優先 flash；同系列取版本號較新的
+  // 現場要快，所以優先 flash；同系列取版本號較新的。連線診斷用這個在模型
+  // 失效時自動換一個堪用的，手動選模型的功能搬到後台核准頁去了。
   function rankModel(id){
     var score=0;
     if(/flash/i.test(id)) score+=100;
@@ -631,45 +600,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     var best=null, bs=-1e9;
     list.forEach(function(m){ var s=rankModel(m); if(s>bs){bs=s; best=m;} });
     return best;
-  }
-  function fillModelSelect(list, selected){
-    var sel=$('inModel');
-    sel.innerHTML='';
-    list.slice().sort(function(a,b){return rankModel(b)-rankModel(a);}).forEach(function(m){
-      var o=document.createElement('option');
-      o.value=m; o.textContent=m;
-      if(m===selected) o.selected=true;
-      sel.appendChild(o);
-    });
-    if(selected && list.indexOf(selected)<0){
-      var o2=document.createElement('option');
-      o2.value=selected; o2.textContent=selected+'（目前設定，清單中沒有）';
-      o2.selected=true; sel.insertBefore(o2, sel.firstChild);
-    }
-  }
-  function detectModels(quiet){
-    var c=cfg();
-    if(!c.key){ $('modelNote').textContent='請先填入金鑰再偵測模型。'; return Promise.resolve(); }
-    $('modelNote').textContent='偵測中…';
-    return listModels(c.key).then(function(list){
-      if(!list.length) throw new Error('沒有可用於對話的模型');
-      fillModelSelect(list, c.model);
-      var note='你的金鑰可用 '+list.length+' 個模型。';
-      if(list.indexOf(c.model)<0){
-        var best=pickBest(list);
-        localStorage.setItem(K_MODEL,best);
-        fillModelSelect(list,best);
-        note+='原本設定的 '+c.model+' 不可用，已自動換成 '+best+'。';
-        refreshChips();
-      }
-      $('modelNote').textContent=note;
-      if(!quiet) toast('已更新可用模型清單');
-      return list;
-    }).catch(function(e){
-      fillModelSelect(FALLBACK_MODELS, c.model);
-      $('modelNote').textContent='偵測失敗（'+e.message+'）。清單為預設值，可能已被 Google 淘汰。';
-      if(!quiet) toast('偵測模型失敗：'+e.message, true);
-    });
   }
 
   function looksLikeGeminiKey(k){ return /^[A-Za-z0-9._\-]{20,}$/.test(k); }
@@ -1421,10 +1351,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
 
   // ── 設定面板 ──────────────────────────────────────
   function openSettings(){
-    var c=cfg();
-    $('inModel').value=c.model;
-    fillModelSelect(FALLBACK_MODELS, c.model);
-    if(c.key) detectModels(true);
     var hid=hiddenIds().length;
     $('kbInfo').textContent='目前載入 '+kbNow().length+' 筆（來源：'+state.kbSource+'），其中本機新增 '+localKb().length
       +' 筆'+(hid?'，已移除 '+hid+' 筆':'')
@@ -1432,10 +1358,7 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     modal.classList.add('open');
   }
   function saveSettings(){
-    localStorage.setItem(K_MODEL,$('inModel').value);
     modal.classList.remove('open');
-    refreshChips();
-    toast('設定已儲存');
   }
   function exportKb(){
     var data=JSON.stringify(localKb(),null,2);
@@ -1496,7 +1419,6 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   });
   $('btnSettings').addEventListener('click',openSettings);
   $('btnSave').addEventListener('click',saveSettings);
-  $('btnModels').addEventListener('click',function(){detectModels(false);});
   $('btnDiag').addEventListener('click',runDiagnostics);
   $('btnSpeechTest').addEventListener('click',runSpeechTest);
   $('btnReload').addEventListener('click',function(){loadKb(cfg().store).then(openSettings);});

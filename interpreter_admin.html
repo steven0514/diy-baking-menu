@@ -40,6 +40,19 @@ header{position:sticky; top:0; z-index:10; background:var(--surface); border-bot
 
 main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-direction:column; gap:18px}
 
+.model-card{max-width:720px; margin:16px auto 0; padding:14px 14px 16px; background:var(--surface-2);
+  border:1px solid var(--border); border-radius:15px}
+.model-card h2{font-size:.9rem; font-weight:700; color:#ffc5a8; margin-bottom:6px}
+.model-card .sub{font-size:.78rem; color:var(--muted); line-height:1.6; margin-bottom:11px}
+.model-row{display:flex; gap:8px; flex-wrap:wrap}
+.model-row select{flex:1 1 160px; min-width:140px; background:var(--surface); border:1px solid var(--border);
+  color:var(--text); border-radius:10px; padding:9px 10px; font-size:.84rem}
+.model-row .btn{flex:0 0 auto; padding:9px 13px; font-size:.82rem}
+.model-row .btn.ghost{background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text)}
+.model-msg{font-size:.78rem; margin-top:9px; line-height:1.5; min-height:1.1em; color:var(--muted)}
+.model-msg.ok{color:#86efac}
+.model-msg.err{color:#fca5a5}
+
 .setup{background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.45); border-radius:15px; padding:16px}
 .setup h3{font-size:1rem; color:#fbbf24; margin-bottom:8px}
 .setup p{font-size:.86rem; color:#e5e7eb; line-height:1.7; margin-bottom:10px}
@@ -76,12 +89,23 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 
 <header>
   <div class="bar">
-    <div class="brand">🍰 待審<span>核准</span>後台</div>
+    <div class="brand">🍰 <span id="brandStore">待審核准後台</span></div>
     <div class="spacer"></div>
     <button class="icon-btn" id="btnRefresh" aria-label="重新整理">🔄 重新整理</button>
   </div>
   <div class="stats" id="stats"></div>
 </header>
+
+<section class="model-card" id="modelCard">
+  <h2>AI 模型</h2>
+  <p class="sub">所有門市共用這一個設定，寫回 Google Sheets「設定」分頁，店員端會自動讀到。避免在店員端開放選擇，省得選到不支援或昂貴的模型。</p>
+  <div class="model-row">
+    <select id="modelSelect"><option value="">載入中…</option></select>
+    <button class="btn ghost" id="btnDetectModels">🔄 重新偵測</button>
+    <button class="btn" id="btnSaveModel">儲存</button>
+  </div>
+  <p class="model-msg" id="modelMsg"></p>
+</section>
 
 <main id="main">
   <div class="loading">載入中…</div>
@@ -94,6 +118,11 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
 
   var $=function(id){return document.getElementById(id);};
   var mainEl=$('main'), statsEl=$('stats');
+
+  // 每間門市各自一個網址，例如 interpreter_admin.html?store=xinyi，
+  // 只給該門市自己送出待審，不會混到其他店的狀況，其他店長也看不到。
+  // 不帶這個參數就是總覽模式，列出所有有待審資料的門市（給要看全局的人用）。
+  var LOCKED_STORE_ID=(new URLSearchParams(location.search).get('store')||'').trim();
 
   function cfg(){
     return {
@@ -116,7 +145,7 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     return c.v!=null ? String(c.v) : '';
   }
   var jsonpSeq=0;
-  function loadSheetRows(sheetId, tabName){
+  function loadSheetRows(sheetId, tabName, withHeaders){
     return new Promise(function(resolve,reject){
       var cb='admcb_'+(++jsonpSeq)+'_'+Date.now();
       var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)
@@ -130,15 +159,39 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
         if(done) return; done=true;
         try{
           var rows=(res && res.table && res.table.rows)||[];
-          resolve(rows.map(function(r){
-            return (r.c||[]).map(gvizCell);
-          }));
+          var mapped=rows.map(function(r){ return (r.c||[]).map(gvizCell); });
+          if(withHeaders){
+            var cols=(res && res.table && res.table.cols)||[];
+            resolve({ headers: cols.map(function(c){ return (c.label||'').trim(); }), rows: mapped });
+          }else{
+            resolve(mapped);
+          }
         }catch(e){ reject(e); }
         cleanup();
       };
       tag.onerror=function(){ if(!done){done=true; cleanup(); reject(new Error('無法連線到試算表')); } };
       tag.src=url;
       document.head.appendChild(tag);
+    });
+  }
+
+  // 讀「設定」分頁，支援橫式（欄位名稱在第1列、值在第2列）與
+  // 直式（A 欄是 key、B 欄是 value）兩種排版，跟 interpreter.html 的邏輯一致。
+  function loadConfigSheet(){
+    var c=cfg();
+    return loadSheetRows(c.sheet, '設定', true).then(function(result){
+      var config={};
+      var headers=result.headers||[], rows=result.rows||[];
+      var firstRow=rows[0]||[];
+      headers.forEach(function(h,i){
+        var val=(firstRow[i]||'').trim();
+        if(h && val) config[h]=val;
+      });
+      rows.forEach(function(r){
+        var key=(r[0]||'').trim(), val=(r[1]||'').trim();
+        if(key && val) config[key]=val;
+      });
+      return config;
     });
   }
 
@@ -177,6 +230,94 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
       return fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: body})
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
+  }
+
+  // ── AI 模型管理（寫回「設定」分頁，店員端不開放選擇）──────────
+  // 排序規則跟 interpreter.html 一致：現場要快，優先 flash；同系列取版本號較新的
+  function rankModel(id){
+    var score=0;
+    if(/flash/i.test(id)) score+=100;
+    if(/lite/i.test(id)) score-=30;
+    if(/pro/i.test(id)) score+=20;
+    if(/(preview|exp|experimental)/i.test(id)) score-=50;
+    if(/(vision|embedding|aqa|tts|image|audio)/i.test(id)) score-=500;
+    var v=id.match(/(\d+)\.(\d+)/);
+    if(v) score += parseInt(v[1],10)*10 + parseInt(v[2],10);
+    return score;
+  }
+  function listModels(key){
+    return fetch('https://generativelanguage.googleapis.com/v1beta/models',{headers:{'x-goog-api-key':key}})
+      .then(function(r){
+        if(!r.ok) return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,100));});
+        return r.json();
+      }).then(function(d){
+        return (d.models||[])
+          .filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0; })
+          .map(function(m){ return String(m.name||'').replace(/^models\//,''); })
+          .filter(Boolean)
+          .sort(function(a,b){ return rankModel(b)-rankModel(a); });
+      });
+  }
+  function fillModelSelect(list, selected){
+    var sel=$('modelSelect');
+    sel.innerHTML='';
+    list.forEach(function(m){
+      var o=document.createElement('option');
+      o.value=m; o.textContent=m;
+      if(m===selected) o.selected=true;
+      sel.appendChild(o);
+    });
+    if(selected && list.indexOf(selected)<0){
+      var o2=document.createElement('option');
+      o2.value=selected; o2.textContent=selected+'（目前設定，清單中沒有）';
+      o2.selected=true; sel.insertBefore(o2, sel.firstChild);
+    }
+  }
+  function setModelMsg(text, cls){
+    var m=$('modelMsg'); m.textContent=text; m.className='model-msg'+(cls?' '+cls:'');
+  }
+  var currentGeminiKey='';
+  function initModelCard(){
+    setModelMsg('載入中…');
+    loadConfigSheet().then(function(config){
+      currentGeminiKey=config.gemini_api_key||'';
+      var curModel=config.gemini_model||'';
+      if(!currentGeminiKey){
+        fillModelSelect(curModel?[curModel]:[], curModel);
+        setModelMsg('「設定」分頁沒有 gemini_api_key，無法偵測可用模型清單。', 'err');
+        return;
+      }
+      fillModelSelect(curModel?[curModel]:[], curModel);
+      setModelMsg('目前設定：'+(curModel||'（未設定）')+'。偵測中…');
+      return detectModels(curModel);
+    }).catch(function(e){
+      setModelMsg('讀取「設定」分頁失敗：'+e.message, 'err');
+    });
+  }
+  function detectModels(curModel){
+    if(!currentGeminiKey){ setModelMsg('沒有金鑰，無法偵測。', 'err'); return; }
+    setModelMsg('偵測中…');
+    return listModels(currentGeminiKey).then(function(list){
+      if(!list.length) throw new Error('沒有可用於對話的模型');
+      fillModelSelect(list, curModel || list[0]);
+      setModelMsg('可用模型 '+list.length+' 個，選好後按「儲存」。');
+    }).catch(function(e){
+      setModelMsg('偵測失敗：'+e.message, 'err');
+    });
+  }
+  function saveModel(){
+    var model=$('modelSelect').value;
+    if(!model){ setModelMsg('請先選一個模型。', 'err'); return; }
+    setModelMsg('儲存中…');
+    postScript({ action:'setConfig', sheet:'設定', key:'gemini_model', value:model })
+      .then(function(data){
+        if(data.unconfirmed){
+          setModelMsg('△ 已送出，但瀏覽器讀不到回應，請自行到試算表「設定」分頁確認 gemini_model 是否已經改成 '+model+'。');
+        }else{
+          setModelMsg('✓ 已儲存，店員端重新整理後生效。', 'ok');
+        }
+      })
+      .catch(function(e){ setModelMsg('✕ 儲存失敗：'+e.message, 'err'); });
   }
 
   function rowsToEntries(rows){
@@ -341,12 +482,22 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
     if(!c.script) missing.push('Apps Script 網址');
     if(missing.length){ renderSetupPrompt('「'+missing.join('、')+'」'); renderStats([], false); return; }
 
+    if(LOCKED_STORE_ID && !storeInfo(LOCKED_STORE_ID)){
+      mainEl.innerHTML='';
+      var badBox=el('div','setup');
+      badBox.appendChild(el('h3',null,'✕ 網址裡的門市代號不對'));
+      badBox.appendChild(el('p',null,'網址參數 store='+LOCKED_STORE_ID+' 不是任何一間門市的代號，請確認拼字（例如 xinyi、nanxi、shilin…），或去掉 ?store= 看全部門市。'));
+      mainEl.appendChild(badBox);
+      renderStats([], false);
+      return;
+    }
+
     mainEl.innerHTML='<div class="loading">載入中…</div>';
     renderStats([], true);
 
     loadSheetNames().then(function(names){
-      var stores=window.KB_STORES||[];
       var pendingSheets=names.filter(function(n){ return n.indexOf('_待審_')===0; });
+      if(LOCKED_STORE_ID) pendingSheets=pendingSheets.filter(function(n){ return n==='_待審_'+LOCKED_STORE_ID; });
       var jobs=pendingSheets.map(function(sheetName){
         var storeId=sheetName.replace('_待審_','');
         var store=storeInfo(storeId);
@@ -373,7 +524,15 @@ main{max-width:720px; margin:0 auto; padding:16px 14px 60px; display:flex; flex-
   }
 
   $('btnRefresh').addEventListener('click', loadAll);
+  $('btnDetectModels').addEventListener('click', function(){ detectModels($('modelSelect').value); });
+  $('btnSaveModel').addEventListener('click', saveModel);
 
+  if(LOCKED_STORE_ID){
+    var lockedInfo=storeInfo(LOCKED_STORE_ID);
+    $('brandStore').textContent=(lockedInfo?lockedInfo.zh:LOCKED_STORE_ID)+' · 待審核准';
+  }
+
+  initModelCard();
   loadAll();
 })();
 </script>
