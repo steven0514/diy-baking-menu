@@ -127,7 +127,8 @@ function handleRequest(e, body) {
         hasKey: !!props.getProperty(GEMINI_KEY_PROP),          // 沿用舊欄位名，店員端在看這個
         hasGithubToken: !!props.getProperty(GITHUB_TOKEN_PROP),
         hasPassword: !!props.getProperty(ADMIN_PASS_PROP),
-        model: getConfiguredModel_()                            // 模型名稱不是機密，可以回報
+        model: getConfiguredModel_(),                           // 模型名稱不是機密，可以回報
+        modelSource: modelSource_()                             // 讓人看得出來設定是從哪裡來的
       });
     }
     // 後台登入用。密碼只能在 Apps Script「專案設定 → 指令碼屬性」手動設定 ADMIN_PASSWORD，
@@ -303,6 +304,17 @@ function clearLegacyGeminiKeyFromSheet_() {
   } catch (err) {
     // 清不掉也不影響金鑰本身已經存進 Script Properties，不擋主流程
   }
+}
+
+/**
+ * 模型設定目前是從哪裡來的。用來判斷「設定」分頁還能不能刪：
+ *   'property' → 來自指令碼屬性，「設定」分頁可以安全刪除
+ *   'sheet'    → 還在靠「設定」分頁，刪了會掉回預設模型
+ *   'default'  → 兩邊都沒設，用程式內建的預設值
+ */
+function modelSource_() {
+  if (PropertiesService.getScriptProperties().getProperty(GEMINI_MODEL_PROP)) return 'property';
+  return getConfiguredModel_() ? 'sheet' : 'default';
 }
 
 // 模型名稱以指令碼屬性 GEMINI_MODEL 為準，跟金鑰放在同一個地方管理。
