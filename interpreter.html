@@ -482,9 +482,15 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
         .then(function(){ return { ok:true, unconfirmed:true }; });
     });
   }
+  // 待審分頁命名跟正式分頁一致，用中文店名（_待審_台北信義），在試算表上一眼就看得懂
+  // 是哪一間店，不用再對照店代號。
+  function pendingSheetName(storeId){
+    var st=storeInfo(storeId);
+    return '_待審_'+((st && st.sheet) || storeId);
+  }
   function appendToSheet(entry){
     var c=cfg();
-    var targetSheet = '_待審_'+c.store;  // 寫到待審分頁，不是正式分頁
+    var targetSheet = pendingSheetName(c.store);  // 寫到待審分頁，不是正式分頁
     return postScript({
       sheet: targetSheet,
       row: [entry.id, entry.cat, entry.q.join('、'), entry.a_zh,
@@ -1221,8 +1227,8 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
       if(c.script){
         appendToSheet(entry).then(function(data){
           if(noteEl) noteEl.textContent = data.unconfirmed
-            ? '已送出到 Google Sheets「_待審_'+c.store+'」分頁，但無法讀取確認訊息，請留意試算表是否有這筆'
-            : '已提交到 Google Sheets「_待審_'+c.store+'」分頁，等待後台核准';
+            ? '已送出到 Google Sheets「'+pendingSheetName(c.store)+'」分頁，但無法讀取確認訊息，請留意試算表是否有這筆'
+            : '已提交到 Google Sheets「'+pendingSheetName(c.store)+'」分頁，等待後台核准';
           toast('已提交待審');
         }).catch(function(e){
           if(noteEl) noteEl.textContent='已存在本機，寫回試算表失敗：'+e.message;
@@ -1271,9 +1277,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
     toast('已移除，知識庫剩 '+kbNow().length+' 筆');
 
     // 試算表裡的資料要連帶刪掉，否則下次重新載入又會回來
-    // 店員新增的條目寫到 _待審_${storeId} 分頁
+    // 店員現場新增的條目在待審分頁（_待審_台北信義），已核准的才在正式分頁
     var c=cfg();
-    var sheetName = isLocal ? '_待審_'+c.store : ((found && found.sheet) || storeInfo(c.store).sheet);
+    var sheetName = isLocal ? pendingSheetName(c.store) : ((found && found.sheet) || storeInfo(c.store).sheet);
     var inSheet = !isLocal && state.kbSource.indexOf('Sheets')>=0;
     if(!isLocal && !inSheet){
       note.textContent='這筆是內建示範資料，已在這台手機擋掉。下次顧客再問同樣的問題，系統會重新請你回答。';
