@@ -49,9 +49,17 @@ var GEMINI_MODEL_PROP = 'GEMINI_MODEL';
 var ADMIN_PASS_PROP = 'ADMIN_PASSWORD';
 var GITHUB_TOKEN_PROP = 'GITHUB_TOKEN';
 
-// 商品菜單要發布到哪個 repo。這兩個不是機密，寫在這裡就好。
+// 商品菜單要發布到哪個 repo。這些不是機密，寫在這裡就好。
 var GITHUB_REPO = 'steven0514/diy-baking-menu';
-var GITHUB_BRANCH = 'main';
+
+/**
+ * 發布要寫進哪些分支。兩個都要寫，缺一不可：
+ *   main     → 保留商品資料的版本歷史，方便追溯哪一版改了什麼
+ *   gh-pages → GitHub Pages 實際服務的分支，前台讀的是同網域的相對路徑，
+ *              只寫 main 的話顧客端永遠看不到更新（舊版就是只寫 main，所以發布
+ *              顯示成功但線上還是舊資料）
+ */
+var GITHUB_BRANCHES = ['main', 'gh-pages'];
 
 /**
  * 敏感動作的第二道關卡。
@@ -374,22 +382,25 @@ function publishToGitHub_(files, message) {
 
   var results = [];
   var failed = 0;
-  for (var i = 0; i < files.length; i++) {
-    var path = String((files[i] && files[i].path) || '').trim();
-    var content = (files[i] && files[i].content) != null ? String(files[i].content) : '';
-    if (!path) { results.push({ path: '(未指定)', ok: false, error: '沒有指定檔案路徑' }); failed++; continue; }
-    try {
-      results.push(putGitHubFile_(token, path, content, message));
-      if (!results[results.length - 1].ok) failed++;
-    } catch (err) {
-      results.push({ path: path, ok: false, error: String(err) });
-      failed++;
+  for (var b = 0; b < GITHUB_BRANCHES.length; b++) {
+    var branch = GITHUB_BRANCHES[b];
+    for (var i = 0; i < files.length; i++) {
+      var path = String((files[i] && files[i].path) || '').trim();
+      var content = (files[i] && files[i].content) != null ? String(files[i].content) : '';
+      if (!path) { results.push({ branch: branch, path: '(未指定)', ok: false, error: '沒有指定檔案路徑' }); failed++; continue; }
+      try {
+        results.push(putGitHubFile_(token, branch, path, content, message));
+        if (!results[results.length - 1].ok) failed++;
+      } catch (err) {
+        results.push({ branch: branch, path: path, ok: false, error: String(err) });
+        failed++;
+      }
     }
   }
-  return { ok: failed === 0, results: results, repo: GITHUB_REPO, branch: GITHUB_BRANCH };
+  return { ok: failed === 0, results: results, repo: GITHUB_REPO, branches: GITHUB_BRANCHES };
 }
 
-function putGitHubFile_(token, path, content, message) {
+function putGitHubFile_(token, branch, path, content, message) {
   var base = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + path;
   var headers = {
     'Authorization': 'Bearer ' + token,
@@ -397,9 +408,10 @@ function putGitHubFile_(token, path, content, message) {
     'User-Agent': 'diy-baking-menu-apps-script'
   };
 
-  // 覆寫既有檔案必須帶上目前的 sha，沒有就是新增檔案
+  // 覆寫既有檔案必須帶上「該分支上」目前的 sha，沒有就是新增檔案。
+  // 同一個檔案在不同分支的 sha 不一樣，查錯分支會寫不進去。
   var sha = null;
-  var getRes = UrlFetchApp.fetch(base + '?ref=' + encodeURIComponent(GITHUB_BRANCH), {
+  var getRes = UrlFetchApp.fetch(base + '?ref=' + encodeURIComponent(branch), {
     headers: headers, muteHttpExceptions: true
   });
   if (getRes.getResponseCode() === 200) {
@@ -409,7 +421,7 @@ function putGitHubFile_(token, path, content, message) {
   var payload = {
     message: message,
     content: Utilities.base64Encode(content, Utilities.Charset.UTF_8),
-    branch: GITHUB_BRANCH
+    branch: branch
   };
   if (sha) payload.sha = sha;
 
@@ -422,10 +434,10 @@ function putGitHubFile_(token, path, content, message) {
   });
   var code = putRes.getResponseCode();
   if (code !== 200 && code !== 201) {
-    return { path: path, ok: false, error: 'HTTP ' + code + ' ' + putRes.getContentText().slice(0, 200) };
+    return { branch: branch, path: path, ok: false, error: 'HTTP ' + code + ' ' + putRes.getContentText().slice(0, 200) };
   }
   var data = JSON.parse(putRes.getContentText());
-  return { path: path, ok: true, commit: (data.commit && data.commit.sha || '').slice(0, 7) };
+  return { branch: branch, path: path, ok: true, commit: (data.commit && data.commit.sha || '').slice(0, 7) };
 }
 
 function listGeminiModels_() {
