@@ -490,7 +490,9 @@ body.staff .field{border-color:rgba(245,158,11,.6); background:rgba(245,158,11,.
   }
   function refreshChips(){
     var c=cfg(), bm=$('brandModel');
-    if(c.key){ bm.textContent='（'+c.model.replace('gemini-','')+'）'; bm.className='brand-model'; }
+    // 模型名稱（例如 3.5-flash-lite）不顯示，字太長在手機上會把頂部列擠到換行。
+    // 只在離線示範模式才提示，這才是店員真正需要知道的狀態。
+    if(c.key){ bm.textContent=''; bm.className='brand-model'; }
     else { bm.textContent='（離線示範）'; bm.className='brand-model bad'; }
   }
   function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n;}
