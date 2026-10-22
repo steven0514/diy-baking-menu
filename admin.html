@@ -1514,20 +1514,6 @@
                     <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
                         設定 GitHub Token 後，點擊頂部<strong>「🚀 發布至全裝置」</strong>即可自動將最新品項推送到 GitHub Pages，全台門市 iPad 與顧客手機將於 30 秒內自動同步！
                     </p>
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label class="form-label" style="font-size: 12px;">GitHub Personal Access Token (PAT)</label>
-                        <input type="password" class="form-input" id="input-github-token" placeholder="ghp_..." style="font-size: 13px;">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" style="font-size: 12px;">GitHub 儲存庫 (Repo)</label>
-                            <input type="text" class="form-input" id="input-github-repo" value="steven0514/diy-baking-menu" style="font-size: 13px;">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" style="font-size: 12px;">分支 (Branch)</label>
-                            <input type="text" class="form-input" id="input-github-branch" value="main" style="font-size: 13px;">
-                        </div>
-                    </div>
                     <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
                         <button type="button" class="btn btn-secondary" onclick="testGitHubConnection()" style="font-size: 12px; padding: 5px 12px;">
                             測試 GitHub 連線
@@ -1535,29 +1521,18 @@
                     </div>
                 </div>
 
-                <!-- Google Gemini API 設定 -->
+                <!-- 後端設定狀態（唯讀） -->
                 <h3 style="font-size: 15px; font-weight: 700; color: var(--text-color); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                    <span>🤖</span> Google Gemini AI 翻譯設定
+                    <span>🔐</span> 後端設定狀態
                 </h3>
                 <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
-                    串接 <strong>Google Gemini API</strong>，可在上架新品時自動進行專業烘焙語意翻譯（英文、日文、泰文、韓文、越文）。金鑰僅存放於本機瀏覽器。
+                    Gemini 金鑰、AI 模型與 GitHub 權杖都存放在 Apps Script 的指令碼屬性，<strong>不會出現在這個網頁、網址或 GitHub 原始碼裡</strong>。翻譯與發布都由後端代為執行，這個頁面只看得到狀態。要調整請到 Apps Script →「專案設定」→「指令碼屬性」。
                 </p>
-                <div class="form-group" style="margin-bottom: 14px;">
-                    <label class="form-label" style="font-size: 12px;">Google Gemini API Key</label>
-                    <input type="password" class="form-input" id="input-gemini-key" placeholder="AIzaSy..." style="font-size: 13px;">
-                    <span class="form-hint">未輸入金鑰時，系統會自動使用內建的烘焙專用術語庫。</span>
-                </div>
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label class="form-label" style="font-size: 12px;">AI 模型選擇</label>
-                    <select class="form-select" id="input-gemini-model" style="font-size: 13px;">
-                        <option value="gemini-2.5-flash">gemini-2.5-flash (推薦，速度極快且精確)</option>
-                        <option value="gemini-2.5-pro">gemini-2.5-pro (深度推理模式)</option>
-                    </select>
-                </div>
+                <div id="backend-config-status" style="font-size: 13px; line-height: 2;">讀取中…</div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="testApiKey()">測試 Gemini API</button>
-                <button class="btn btn-primary" onclick="saveApiKey()">儲存全部設定</button>
+                <button class="btn btn-secondary" onclick="testApiKey()">測試 Gemini 翻譯</button>
+                <button class="btn btn-secondary" onclick="refreshBackendStatus()">重新整理狀態</button>
             </div>
         </div>
     </div>
@@ -3421,8 +3396,12 @@
 ];
 
         const DB_KEY = 'diybc_products_db';
-        const API_KEY_STORAGE = 'diybc_gemini_api_key';
-        const API_MODEL_STORAGE = 'diybc_gemini_model';
+        // 金鑰與模型改由 Apps Script 後端保管，這裡不再存任何憑證。
+        // 舊版曾把金鑰明碼存在這台裝置的 localStorage，載入時順手清掉殘留。
+        try {
+            localStorage.removeItem('diybc_gemini_api_key');
+            localStorage.removeItem('diybc_github_token');
+        } catch (e) {}
 
         // 節慶預設庫（支援中秋、萬聖節、聖誕節、草莓季、櫻花季及自訂活動）
         const SEASONAL_STORAGE_KEY = 'diybc_seasonal_config';
@@ -3660,37 +3639,22 @@
                 return;
             }
 
-            const apiKey = localStorage.getItem(API_KEY_STORAGE);
-            const model = localStorage.getItem(API_MODEL_STORAGE) || 'gemini-2.5-flash';
-
-            if (apiKey) {
-                try {
-                    const prompt = `You are a professional culinary marketing translator for Taiwanese DIY baking bakery.
+            try {
+                const prompt = `You are a professional culinary marketing translator for Taiwanese DIY baking bakery.
 Translate the following seasonal festival promotion name into English (en), Japanese (ja), Thai (th), Korean (ko), and Vietnamese (vi).
 Keep emojis if present. Return ONLY valid JSON format with keys "en", "ja", "th", "ko", "vi".
 Term: "${zhName}"`;
 
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: prompt }] }],
-                            generationConfig: { responseMimeType: "application/json" }
-                        })
-                    });
-
-                    if (res.ok) {
-                        const data = await res.json();
-                        const parsed = JSON.parse(data.candidates[0].content.parts[0].text);
-                        ['en', 'ja', 'th', 'ko', 'vi'].forEach(l => {
-                            if (parsed[l]) document.getElementById(`seasonal-name-${l}`).value = parsed[l];
-                        });
-                        showToast('✨ AI 節慶名稱翻譯完成！');
-                        return;
-                    }
-                } catch(e) {
-                    console.warn('Gemini seasonal translate failed:', e);
-                }
+                const data = await callBackend({ action: 'generate', prompt: prompt });
+                const parsed = JSON.parse(data.text);
+                ['en', 'ja', 'th', 'ko', 'vi'].forEach(l => {
+                    if (parsed[l]) document.getElementById(`seasonal-name-${l}`).value = parsed[l];
+                });
+                showToast('✨ AI 節慶名稱翻譯完成！');
+                return;
+            } catch (e) {
+                // 後端翻不了就往下走內建字典，不要讓節慶設定卡住
+                console.warn('Gemini seasonal translate failed:', e);
             }
 
             // 離線智慧備援
@@ -4842,9 +4806,6 @@ Term: "${zhName}"`;
             icon.textContent = '';
             text.textContent = 'AI 翻譯生成中...';
 
-            const apiKey = localStorage.getItem(API_KEY_STORAGE);
-            const model = localStorage.getItem(API_MODEL_STORAGE) || 'gemini-2.5-flash';
-
             const source = {
                 name: nameZh,
                 subtitle: subZh,
@@ -4856,13 +4817,11 @@ Term: "${zhName}"`;
                 let translations = null;
                 let usedEngine = '';
 
-                if (apiKey) {
-                    try {
-                        translations = await callGeminiTranslateApi(apiKey, model, source);
-                        usedEngine = 'Google Gemini 2.5 AI';
-                    } catch (geminiErr) {
-                        console.warn('Gemini API failed, falling back to Google Online Translate:', geminiErr);
-                    }
+                try {
+                    translations = await callGeminiTranslateApi(source);
+                    usedEngine = 'Google Gemini AI';
+                } catch (geminiErr) {
+                    console.warn('Gemini API failed, falling back to Google Online Translate:', geminiErr);
                 }
 
                 if (!translations) {
@@ -4890,15 +4849,10 @@ Term: "${zhName}"`;
 
         // 統整 AI 翻譯引擎（自動優先嘗試 Gemini API，備援 Google 智慧翻譯引擎，再備援離線字典）
         async function autoTranslateProduct(source) {
-            const apiKey = localStorage.getItem(API_KEY_STORAGE);
-            const model = localStorage.getItem(API_MODEL_STORAGE) || 'gemini-2.5-flash';
-
-            if (apiKey) {
-                try {
-                    return await callGeminiTranslateApi(apiKey, model, source);
-                } catch (e) {
-                    console.warn('Gemini API failed, falling back to Google Online Translate:', e);
-                }
+            try {
+                return await callGeminiTranslateApi(source);
+            } catch (e) {
+                console.warn('Gemini API failed, falling back to Google Online Translate:', e);
             }
 
             try {
@@ -4910,7 +4864,7 @@ Term: "${zhName}"`;
         }
 
         // 呼叫 Google Gemini API
-        async function callGeminiTranslateApi(apiKey, model, source) {
+        async function callGeminiTranslateApi(source) {
             const prompt = `You are a world-class culinary baking translator specializing in bakery menus for DIY Baking Club.
 Translate the following Traditional Chinese baking product fields into English (en), Japanese (ja), Thai (th), Korean (ko), and Vietnamese (vi).
 
@@ -4933,27 +4887,10 @@ Requirements:
   "storage": { "en": "...", "ja": "...", "th": "...", "ko": "...", "vi": "..." }
 }`;
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        temperature: 0.2
-                    }
-                })
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || `HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            return JSON.parse(textResponse);
+            // 金鑰在 Apps Script 那一端，這裡只把要翻的內容送過去。
+            // 翻譯是日常功能，不需要管理密碼。
+            const data = await callBackend({ action: 'generate', prompt: prompt });
+            return JSON.parse(data.text);
         }
 
         // 內建離線智慧語意字典與轉換演算法（斷網時的安全備援）
@@ -5046,158 +4983,94 @@ Requirements:
 
         // ⚙️ API & GitHub Cloud Settings Modal
         // ==========================================
-        const GITHUB_TOKEN_STORAGE = 'diybc_github_token';
-        const GITHUB_REPO_STORAGE = 'diybc_github_repo';
-        const GITHUB_BRANCH_STORAGE = 'diybc_github_branch';
-        const DEFAULT_GITHUB_TOKEN = '';
+        // 公開讀取用的 repo 位置（從雲端拉資料不需要權杖，所以留在前端）。
+        // 寫入用的 GitHub 權杖只存在 Apps Script 指令碼屬性，前端拿不到也不需要。
         const DEFAULT_GITHUB_REPO = 'steven0514/diy-baking-menu';
         const DEFAULT_GITHUB_BRANCH = 'main';
 
+        /**
+         * 呼叫 Apps Script 後端。金鑰與 GitHub 權杖都在那一端，前端只送要做的事。
+         * needAdmin 為真時會附上管理密碼——後端對「改設定、動用 GitHub 權杖」這類
+         * 動作會驗密碼，因為公開的 token 不能當成管理員身分。
+         */
+        async function callBackend(payload, needAdmin) {
+            const base = window.KB_SCRIPT_URL || '';
+            if (!base) throw new Error('讀不到 Apps Script 網址，請確認 knowledge_base.js 有載入（用網址開啟而不是直接開檔案）');
+            if (needAdmin) {
+                const pw = window.adminPassword ? window.adminPassword.require('這個動作會動到後端設定或 GitHub') : '';
+                if (!pw) throw new Error('沒有輸入管理密碼');
+                payload = Object.assign({}, payload, { password: pw });
+            }
+            const url = base + (window.KB_SCRIPT_TOKEN ? '?token=' + encodeURIComponent(window.KB_SCRIPT_TOKEN) : '');
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const text = await res.text();
+            let data;
+            try { data = JSON.parse(text); } catch (e) { throw new Error('回應格式錯誤：' + text.slice(0, 200)); }
+            if (!data.ok) throw new Error(data.error || '後端回報失敗');
+            return data;
+        }
+
         function openApiModal() {
-            document.getElementById('input-gemini-key').value = localStorage.getItem(API_KEY_STORAGE) || '';
-            document.getElementById('input-gemini-model').value = localStorage.getItem(API_MODEL_STORAGE) || 'gemini-2.5-flash';
-            document.getElementById('input-github-token').value = localStorage.getItem(GITHUB_TOKEN_STORAGE) || DEFAULT_GITHUB_TOKEN;
-            document.getElementById('input-github-repo').value = localStorage.getItem(GITHUB_REPO_STORAGE) || DEFAULT_GITHUB_REPO;
-            document.getElementById('input-github-branch').value = localStorage.getItem(GITHUB_BRANCH_STORAGE) || DEFAULT_GITHUB_BRANCH;
             document.getElementById('api-modal').classList.add('active');
+            refreshBackendStatus();
         }
 
         function closeApiModal() {
             document.getElementById('api-modal').classList.remove('active');
         }
 
-        function saveApiKey() {
-            const key = document.getElementById('input-gemini-key').value.trim();
-            const model = document.getElementById('input-gemini-model').value;
-            if (key) {
-                localStorage.setItem(API_KEY_STORAGE, key);
-            } else {
-                localStorage.removeItem(API_KEY_STORAGE);
+        async function refreshBackendStatus() {
+            const box = document.getElementById('backend-config-status');
+            if (!box) return;
+            box.textContent = '讀取中…';
+            try {
+                const d = await callBackend({ action: 'hasSecret' });
+                const mark = (okFlag, okText, noText) =>
+                    `<span style="font-weight:700;color:${okFlag ? '#15803d' : '#b91c1c'}">${okFlag ? okText : noText}</span>`;
+                box.innerHTML = [
+                    `Gemini 金鑰：${mark(d.hasKey, '已設定', '未設定')}`,
+                    `AI 模型：<span style="font-weight:700">${d.model || '未設定（用預設 gemini-2.5-flash）'}</span>`,
+                    `GitHub 權杖：${mark(d.hasGithubToken, '已設定', '未設定（無法發布）')}`,
+                    `管理密碼：${mark(d.hasPassword, '已設定', '未設定（後台等於沒保護）')}`
+                ].join('<br>');
+            } catch (e) {
+                box.innerHTML = `<span style="color:#b91c1c">讀取失敗：${e.message}</span>`;
             }
-            localStorage.setItem(API_MODEL_STORAGE, model);
-
-            const ghToken = document.getElementById('input-github-token').value.trim();
-            const ghRepo = document.getElementById('input-github-repo').value.trim();
-            const ghBranch = document.getElementById('input-github-branch').value.trim();
-            if (ghToken) localStorage.setItem(GITHUB_TOKEN_STORAGE, ghToken);
-            if (ghRepo) localStorage.setItem(GITHUB_REPO_STORAGE, ghRepo);
-            if (ghBranch) localStorage.setItem(GITHUB_BRANCH_STORAGE, ghBranch);
-
-            closeApiModal();
-            showToast('雲端與 API 設定已儲存成功！');
         }
 
         async function testApiKey() {
-            const key = document.getElementById('input-gemini-key').value.trim();
-            const model = document.getElementById('input-gemini-model').value;
-            if (!key) {
-                alert('請先輸入 API Key 再進行連線測試');
-                return;
-            }
-
-            showToast('正在連線測試 Google Gemini API...');
+            showToast('正在測試後端的 Gemini 翻譯...');
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-                const resp = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: 'Hello, respond with OK' }] }] })
+                const d = await callBackend({
+                    action: 'generate',
+                    prompt: '只輸出 JSON：{"ok": true, "zh": "測試成功"}'
                 });
-
-                if (resp.ok) {
-                    alert('🎉 連線測試成功！Gemini API 運作正常');
-                } else {
-                    const err = await resp.json();
-                    alert(`連線失敗：${err.error?.message || '未知錯誤'}`);
-                }
+                alert(`🎉 翻譯測試成功！\n\n使用模型：${d.model || '(後端預設)'}\n回應：${String(d.text || '').slice(0, 120)}`);
             } catch (e) {
-                alert(`連線發生網路異常：${e.message}`);
+                alert(`測試失敗：${e.message}`);
             }
         }
 
         async function testGitHubConnection() {
-            const token = document.getElementById('input-github-token').value.trim() || DEFAULT_GITHUB_TOKEN;
-            const repo = document.getElementById('input-github-repo').value.trim() || DEFAULT_GITHUB_REPO;
-            if (!token) {
-                alert('請先輸入 GitHub Token');
-                return;
-            }
-            showToast('正在測試 GitHub 儲存庫連線...');
+            showToast('正在確認後端的 GitHub 權杖...');
             try {
-                const res = await fetch(`https://api.github.com/repos/${repo}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    alert(`🎉 GitHub 連線成功！\n\n儲存庫：${data.full_name}\n預設分支：${data.default_branch}\n權限確認有效！可以隨時進行全裝置發布。`);
+                const d = await callBackend({ action: 'hasSecret' });
+                if (d.hasGithubToken) {
+                    alert(`🎉 後端已設定 GitHub 權杖，可以進行全裝置發布。\n\n儲存庫：${DEFAULT_GITHUB_REPO}\n分支：${DEFAULT_GITHUB_BRANCH}\n\n權杖只存在 Apps Script，這個頁面看不到內容。`);
                 } else {
-                    const err = await res.json();
-                    alert(`連線失敗：${err.message || '請確認 Token 是否具備 repo 讀寫權限'}`);
+                    alert('後端尚未設定 GitHub 權杖，目前無法發布。\n\n請到 Apps Script →「專案設定」→「指令碼屬性」新增 GITHUB_TOKEN。');
                 }
             } catch (e) {
-                alert(`連線發生異常：${e.message}`);
+                alert(`確認失敗：${e.message}`);
             }
-        }
-
-        async function updateGitHubFile(repo, branch, path, content, token, commitMsg) {
-            let sha = null;
-            try {
-                const getUrl = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}&_t=${Date.now()}`;
-                const getRes = await fetch(getUrl, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                if (getRes.ok) {
-                    const fileData = await getRes.json();
-                    sha = fileData.sha;
-                }
-            } catch (e) {
-                console.warn('獲取現有 SHA 警告:', e);
-            }
-
-            const encodedContent = btoa(unescape(encodeURIComponent(content)));
-
-            const putUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
-            const bodyPayload = {
-                message: commitMsg,
-                content: encodedContent,
-                branch: branch
-            };
-            if (sha) bodyPayload.sha = sha;
-
-            const putRes = await fetch(putUrl, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(bodyPayload)
-            });
-
-            if (!putRes.ok) {
-                const errData = await putRes.json();
-                throw new Error(errData.message || 'GitHub API 回傳失敗');
-            }
-            return await putRes.json();
         }
 
         async function publishToCloud() {
-            const token = localStorage.getItem(GITHUB_TOKEN_STORAGE) || DEFAULT_GITHUB_TOKEN;
-            const repo = localStorage.getItem(GITHUB_REPO_STORAGE) || DEFAULT_GITHUB_REPO;
-            const branch = localStorage.getItem(GITHUB_BRANCH_STORAGE) || DEFAULT_GITHUB_BRANCH;
-
-            if (!token) {
-                alert('請先在「雲端與 API 設定」中填入 GitHub Personal Access Token！');
-                openApiModal();
-                return;
-            }
-
             const ok = confirm(`🚀 確定要將目前的 ${products.length} 款品項發布至雲端嗎？\n\n這將自動更新 GitHub Pages，讓全台門市 iPad 與顧客手機在 20~30 秒內自動同步最新菜單！`);
             if (!ok) return;
 
@@ -5210,17 +5083,27 @@ Requirements:
                 const jsonContent = JSON.stringify(products, null, 2);
                 const jsContent = `// 自己做烘焙聚樂部 · 完整商品多語系數據庫\n// Version: ${versionStr}\nwindow.PRODUCTS_VERSION = '${versionStr}';\nwindow.DEFAULT_PRODUCTS = ${jsonContent};\n`;
 
-                showToast('⏳ 正在同步 products_data.js 至 GitHub (1/2)...');
-                await updateGitHubFile(repo, branch, 'products_data.js', jsContent, token, `chore(menu): update products_data.js [${versionStr}]`);
+                // 兩個檔案一次送給後端，由 Apps Script 用它自己保管的 GitHub 權杖寫入。
+                // 權杖從頭到尾不會出現在這個頁面，所以這裡改用管理密碼當憑證。
+                showToast('⏳ 正在透過後端同步至 GitHub...');
+                const result = await callBackend({
+                    action: 'publishGitHub',
+                    message: `chore(menu): update products [${versionStr}]`,
+                    files: [
+                        { path: 'products_data.js', content: jsContent },
+                        { path: 'products_multilingual.json', content: jsonContent }
+                    ]
+                }, true);
 
-                showToast('⏳ 正在同步 products_multilingual.json 至 GitHub (2/2)...');
-                await updateGitHubFile(repo, branch, 'products_multilingual.json', jsonContent, token, `chore(menu): update products_multilingual.json [${versionStr}]`);
+                const detail = (result.results || [])
+                    .map(r => `${r.ok ? '✅' : '❌'} ${r.path}${r.ok ? ' (' + r.commit + ')' : '：' + r.error}`)
+                    .join('\n');
 
                 showToast(`🎉 成功發布！版本：${versionStr}，GitHub Pages 已觸發更新！`);
-                alert(`🎉 發布成功！\n\n版本號：${versionStr}\n\n已成功將修改推送到 GitHub 雲端儲存庫！\n全台門市的 iPad、手機在 20~30 秒後重新開啟或整理網頁，即可自動讀取到最新品項！`);
+                alert(`🎉 發布成功！\n\n版本號：${versionStr}\n\n${detail}\n\n全台門市的 iPad、手機在 20~30 秒後重新開啟或整理網頁，即可自動讀取到最新品項！`);
             } catch (err) {
                 console.error('發布失敗:', err);
-                alert(`❌ 發布失敗：${err.message}\n\n請檢查網路或至「雲端與 API 設定」確認 Token 權限。`);
+                alert(`❌ 發布失敗：${err.message}\n\n可能原因：管理密碼不對，或後端尚未設定 GITHUB_TOKEN（到 Apps Script →「專案設定」→「指令碼屬性」確認）。`);
             }
         }
 

@@ -17,6 +17,34 @@
 
   var PASS_KEY = 'diybc_admin_gate';
   var PASS_TTL = 7 * 24 * 60 * 60 * 1000;   // 通過後 7 天內不用重打
+  var PW_KEY = 'diybc_admin_pw';            // 只放 sessionStorage，關掉分頁就消失
+
+  /**
+   * 會改到後端設定、或動用 GitHub 權杖的動作，後端都會要求附上管理密碼
+   * （公開的 SECRET token 不能當成管理員身分）。所以登入時輸入的密碼要留著給那些
+   * 動作用，放在 sessionStorage：同一個分頁內不用重打，分頁關掉就清掉。
+   *
+   * 7 天免登入期間若另開新分頁，sessionStorage 會是空的，這時才用 prompt 補問一次。
+   */
+  window.adminPassword = {
+    get: function () {
+      try { return sessionStorage.getItem(PW_KEY) || ''; } catch (e) { return ''; }
+    },
+    set: function (pw) {
+      try { sessionStorage.setItem(PW_KEY, pw); } catch (e) {}
+    },
+    clear: function () {
+      try { sessionStorage.removeItem(PW_KEY); } catch (e) {}
+    },
+    // 需要密碼時呼叫這個：有就直接回傳，沒有就問一次
+    require: function (why) {
+      var pw = window.adminPassword.get();
+      if (pw) return pw;
+      pw = window.prompt((why || '這個動作需要管理密碼') + '\n\n請輸入管理密碼：') || '';
+      if (pw) window.adminPassword.set(pw);
+      return pw;
+    }
+  };
 
   function unlocked() {
     try {
@@ -126,7 +154,7 @@
             open();
             return;
           }
-          if (d.pass) { remember(); open(); return; }
+          if (d.pass) { remember(); window.adminPassword.set(pw); open(); return; }
           setMsg('密碼不對。', 'err');
           inp.value = '';
           inp.focus();

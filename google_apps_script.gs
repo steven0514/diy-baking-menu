@@ -45,7 +45,28 @@
 
 var SECRET = 'L_z7ye9b6IKXMQhC_oQoh3liK3toQoHl';
 var GEMINI_KEY_PROP = 'GEMINI_API_KEY';
+var GEMINI_MODEL_PROP = 'GEMINI_MODEL';
 var ADMIN_PASS_PROP = 'ADMIN_PASSWORD';
+var GITHUB_TOKEN_PROP = 'GITHUB_TOKEN';
+
+// 商品菜單要發布到哪個 repo。這兩個不是機密，寫在這裡就好。
+var GITHUB_REPO = 'steven0514/diy-baking-menu';
+var GITHUB_BRANCH = 'main';
+
+/**
+ * 敏感動作的第二道關卡。
+ *
+ * SECRET 寫在公開的 knowledge_base.js 裡（純靜態網頁沒有後端，token 勢必得公開），
+ * 所以「有 token」不能當成「是管理員」。會改金鑰、動知識庫、或拿 GitHub 權杖去寫
+ * repo 的動作，一律要再附上管理密碼，否則任何看過原始碼的人都能照樣呼叫。
+ *
+ * 店員端會用到的動作（寫待審、翻譯）不能要求密碼，維持只驗 token。
+ */
+function adminOk_(body) {
+  var stored = PropertiesService.getScriptProperties().getProperty(ADMIN_PASS_PROP);
+  if (!stored) return true;   // 還沒設密碼就不擋，否則等於把自己鎖在外面
+  return String(body.password || '') === stored;
+}
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === 'sheets') {
@@ -78,17 +99,36 @@ function handleRequest(e, body) {
 
     // Gemini 金鑰與金鑰相關動作不需要指定分頁，所以放在 sheetName 檢查之前處理。
     if (action === 'setSecret') {
+      if (!adminOk_(body)) return reply({ ok: false, error: '需要管理密碼' });
       var secKey = String(body.key || '').trim();
       var secVal = String(body.value != null ? body.value : '').trim();
-      if (secKey !== 'gemini_api_key') return reply({ ok: false, error: '不支援的 key：' + secKey });
-      if (!secVal) return reply({ ok: false, error: '沒有填金鑰內容' });
-      PropertiesService.getScriptProperties().setProperty(GEMINI_KEY_PROP, secVal);
-      clearLegacyGeminiKeyFromSheet_();
-      return reply({ ok: true, mode: 'secret-set' });
+      if (!secVal) return reply({ ok: false, error: '沒有填內容' });
+      var propMap = {
+        gemini_api_key: GEMINI_KEY_PROP,
+        gemini_model: GEMINI_MODEL_PROP,
+        github_token: GITHUB_TOKEN_PROP
+      };
+      var prop = propMap[secKey];
+      if (!prop) return reply({ ok: false, error: '不支援的 key：' + secKey });
+      PropertiesService.getScriptProperties().setProperty(prop, secVal);
+      if (prop === GEMINI_KEY_PROP) clearLegacyGeminiKeyFromSheet_();
+      return reply({ ok: true, mode: 'secret-set', key: secKey });
+    }
+    // 發布商品菜單到 GitHub。權杖只存在指令碼屬性，不會送到前端。
+    // 這個動作等於「可以改 repo 內容」，一定要管理密碼，不能只靠公開的 token。
+    if (action === 'publishGitHub') {
+      if (!adminOk_(body)) return reply({ ok: false, error: '需要管理密碼' });
+      return reply(publishToGitHub_(body.files, String(body.message || 'chore(menu): update from admin')));
     }
     if (action === 'hasSecret') {
-      var has = !!PropertiesService.getScriptProperties().getProperty(GEMINI_KEY_PROP);
-      return reply({ ok: true, hasKey: has });
+      var props = PropertiesService.getScriptProperties();
+      return reply({
+        ok: true,
+        hasKey: !!props.getProperty(GEMINI_KEY_PROP),          // 沿用舊欄位名，店員端在看這個
+        hasGithubToken: !!props.getProperty(GITHUB_TOKEN_PROP),
+        hasPassword: !!props.getProperty(ADMIN_PASS_PROP),
+        model: getConfiguredModel_()                            // 模型名稱不是機密，可以回報
+      });
     }
     // 後台登入用。密碼只能在 Apps Script「專案設定 → 指令碼屬性」手動設定 ADMIN_PASSWORD，
     // 不開放任何線上頁面修改，否則公開的後台網址等於可以自己改密碼。
@@ -265,9 +305,11 @@ function clearLegacyGeminiKeyFromSheet_() {
   }
 }
 
-// 「設定」分頁裡的 gemini_model 不是機密，伺服器端自己也要讀，當 generate 動作沒指定
-// model 時的預設值用。
+// 模型名稱以指令碼屬性 GEMINI_MODEL 為準，跟金鑰放在同一個地方管理。
+// 舊版放在「設定」分頁的 gemini_model 還是讀得到，當作沒設指令碼屬性時的後備。
 function getConfiguredModel_() {
+  var fromProp = PropertiesService.getScriptProperties().getProperty(GEMINI_MODEL_PROP);
+  if (fromProp) return String(fromProp).trim();
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sh = ss.getSheetByName('設定');
@@ -287,6 +329,74 @@ function getConfiguredModel_() {
     }
   } catch (err) {}
   return '';
+}
+
+/**
+ * 代替商品後台把檔案寫進 GitHub。權杖只存在指令碼屬性，前端拿不到。
+ *
+ * files 格式：[{ path: 'products_data.js', content: '檔案內容' }, ...]
+ * 一次寫多個檔案時逐一處理，其中一個失敗就把錯誤一起回報，不中斷其他檔案，
+ * 免得前兩個寫成功、第三個失敗卻看不出來哪個成功了。
+ */
+function publishToGitHub_(files, message) {
+  var token = PropertiesService.getScriptProperties().getProperty(GITHUB_TOKEN_PROP);
+  if (!token) return { ok: false, error: '尚未設定 GitHub 權杖（指令碼屬性 GITHUB_TOKEN）' };
+  if (!files || !files.length) return { ok: false, error: '沒有要發布的檔案' };
+
+  var results = [];
+  var failed = 0;
+  for (var i = 0; i < files.length; i++) {
+    var path = String((files[i] && files[i].path) || '').trim();
+    var content = (files[i] && files[i].content) != null ? String(files[i].content) : '';
+    if (!path) { results.push({ path: '(未指定)', ok: false, error: '沒有指定檔案路徑' }); failed++; continue; }
+    try {
+      results.push(putGitHubFile_(token, path, content, message));
+      if (!results[results.length - 1].ok) failed++;
+    } catch (err) {
+      results.push({ path: path, ok: false, error: String(err) });
+      failed++;
+    }
+  }
+  return { ok: failed === 0, results: results, repo: GITHUB_REPO, branch: GITHUB_BRANCH };
+}
+
+function putGitHubFile_(token, path, content, message) {
+  var base = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + path;
+  var headers = {
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'diy-baking-menu-apps-script'
+  };
+
+  // 覆寫既有檔案必須帶上目前的 sha，沒有就是新增檔案
+  var sha = null;
+  var getRes = UrlFetchApp.fetch(base + '?ref=' + encodeURIComponent(GITHUB_BRANCH), {
+    headers: headers, muteHttpExceptions: true
+  });
+  if (getRes.getResponseCode() === 200) {
+    sha = JSON.parse(getRes.getContentText()).sha;
+  }
+
+  var payload = {
+    message: message,
+    content: Utilities.base64Encode(content, Utilities.Charset.UTF_8),
+    branch: GITHUB_BRANCH
+  };
+  if (sha) payload.sha = sha;
+
+  var putRes = UrlFetchApp.fetch(base, {
+    method: 'put',
+    contentType: 'application/json',
+    headers: headers,
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+  var code = putRes.getResponseCode();
+  if (code !== 200 && code !== 201) {
+    return { path: path, ok: false, error: 'HTTP ' + code + ' ' + putRes.getContentText().slice(0, 200) };
+  }
+  var data = JSON.parse(putRes.getContentText());
+  return { path: path, ok: true, commit: (data.commit && data.commit.sha || '').slice(0, 7) };
 }
 
 function listGeminiModels_() {
