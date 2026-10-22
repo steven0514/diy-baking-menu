@@ -26,14 +26,19 @@
  * 改過這份程式碼後要重新「部署」→「管理部署作業」→ 編輯 → 版本選「新版本」，
  * 否則線上跑的還是舊版。
  *
- * 安全提醒：這個端點任何人都能寫入。只放現場問答，不要放個資或金鑰。
- * 需要更嚴格時，在下方 SECRET 填一組通行碼，並在前端設定頁網址後面加上 ?token=你的通行碼
+ * 安全提醒：這個端點任何人都能寫入，SECRET 只是擋掉隨便亂爬網址的自動化腳本，
+ * 擋不住真的去看網站原始碼的人（前端是純靜態網頁，沒有後端，token 勢必得跟著
+ * 程式碼一起公開）。只放現場問答，不要放個資或機密資料。
+ * 這裡的值要跟 knowledge_base.js 的 KB_SCRIPT_TOKEN 保持一致。
  */
 
-var SECRET = '';   // 留空代表不檢查；要加強時填一組自訂字串
+var SECRET = 'L_z7ye9b6IKXMQhC_oQoh3liK3toQoHl';
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === 'sheets') {
+    if (SECRET && (!e.parameter || e.parameter.token !== SECRET)) {
+      return reply({ ok: false, error: 'token 不正確' });
+    }
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var names = ss.getSheets().map(function (s) { return s.getName(); });
     return reply({ ok: true, sheets: names });
