@@ -1,7 +1,65 @@
 // 自己做烘焙聚樂部 · 完整商品多語系數據庫
-// Version: v2026.10.23.1044
-window.PRODUCTS_VERSION = 'v2026.10.23.1044';
+// Version: v2026.10.23.1314
+window.PRODUCTS_VERSION = 'v2026.10.23.1314';
 window.DEFAULT_PRODUCTS = [
+  {
+    "id": 46,
+    "name": {
+      "zh": "這一半 (複製)",
+      "en": "The Other Half (Double Chiffon Cake)",
+      "ja": "運命の片割れ (ペアシフォンケーキ)",
+      "th": "อีกครึ่งหนึ่งของหัวใจ (เค้กคู่รัก)",
+      "ko": "또 다른 반쪽 (커플 쉬폰 케이크)",
+      "vi": "Nửa kia của nhau (Bánh Chiffon đôi)"
+    },
+    "price": 999,
+    "price_display": "NT$ 999",
+    "subtitle": {
+      "zh": "6吋 / 製作時間：2 小時",
+      "en": "6 inch / Prep Time: 2 hours",
+      "ja": "6インチ / 製作時間：2 時間",
+      "th": "6 นิ้ว / เวลาทำ: 2 ชั่วโมง",
+      "ko": "6인치 / 소요 시간: 2 시간",
+      "vi": "6 inch / Thời gian làm: 2 giờ"
+    },
+    "features": {
+      "zh": "🏠提供製作：所有分店\n❗可以1人或2人製作 (無陪同費)，第3人需獨立再製作一份甜點。\n❗不可以與當日壽星優惠併用。\n⭐２人製作：訂位一場即可！\n（訂位時→入場人數：2位、製作份數：2份）\n（品項：1.另一半、2.不點選；總金額：999 (無陪同費)）\n⭐１人製作：需訂位二場！\n（範例：訂位11:00~13:00場1人，加訂13:00~15:00場1人）\n（品項：第一場 1.另一半，第二場 1.不點選）\n---------------------------------------------\n［蛋奶素］［含酒，可不加］\n●主體：原味戚風蛋糕 (愛心型)\n●內餡：覆盆子鮮奶油、巧克力鮮奶油、巧克力甘納許、覆盆子凍\n●裝飾：鮮奶油、心形巧克力片(顏色隨機)、巧克力、糖粒、糖片\n🎁附手提紙盒一個",
+      "en": "🏠 Available at: All branch stores\n❗ Suitable for 1 or 2 guests to craft together (no companion fee); a 3rd guest must craft an independent dessert.\n❗ Cannot be combined with birthday person discounts or promotions.\n⭐ 2 People Crafting: Simply book ONE timeslot!\n(When booking -> Party Size: 2 guests, Servings: 2 portions)\n(Items: 1. The Other Half, 2. None; Total: $999 with no companion fee)\n⭐ 1 Person Crafting Alone: Must book TWO consecutive timeslots!\n(Example: Book 11:00-13:00 for 1 guest, then book 13:00-15:00 for 1 guest)\n(Selection: 1st slot select 'The Other Half', 2nd slot select 'None')\n---------------------------------------------\n［Ovo-lacto Vegetarian］［Contains Alcohol, Optional］\n● Main: Heart-shaped fluffy vanilla chiffon cake\n● Filling: Raspberry whipped cream, chocolate whipped cream, chocolate ganache, tangy raspberry jelly\n● Decoration: Whipped cream, heart chocolate plaque (color random), chocolate drizzle, sugar beads, crispy sugar flakes\n🎁 Includes one portable cake box",
+      "ja": "🏠 製作可能店舗：全店舗\n❗ 1名または2名で体験可能（同伴料なし）。3人目の方は別メニューの独立製作が必要です。\n❗ お誕生日当日割引との併用はできません。\n⭐ 2名で製作する場合：予約枠は1枠のみでOK！\n（予約時→来店人数：2名、製作数量：2品と選択）\n（メニュー：1. 運命の片割れ、2. 選択なし；合計金額：999元・同伴料なし）\n⭐ 1名で全工程を製作する場合：連続する2枠の予約が必要です！\n（例：11:00〜13:00枠で1名予約 ＋ 13:00〜15:00枠で1名追加予約）\n（メニュー選択：第1枠で「運命の片割れ」選択、第2枠は「選択なし」）\n---------------------------------------------\n［卵乳素］［洋酒使用（省略可能）］\n● メイン：ハート型のふわふわプレーンシフォンケーキ\n● フィリング：ラズベリー生クリーム、チョコ生クリーム、生チョコガナッシュ、甘酸っぱいラズベリージュレ\n● デコレーション：生クリーム、ハート型チョコプレート（色おまかせ）、チョコレート、シュガースプリンクル、チップ\n🎁 手提げケーキ箱1個付き",
+      "th": "🏠 สาขาที่ให้บริการ: ทุกสาขา\n❗ สามารถทำได้ 1 หรือ 2 ท่าน (ไม่มีค่าผู้ติดตาม) ท่านที่ 3 ต้องแยกทำอีก 1 เมนู\n❗ ไม่สามารถใช้ร่วมกับสิทธิพิเศษวันเกิดได้\n⭐ สำหรับ 2 ท่านร่วมกันทำ: จองเพียง 1 รอบเวลาเท่านั้น!\n(ขั้นตอนการจอง -> จำนวนผู้เข้า: 2 ท่าน, จำนวนขนม: 2 ชุด)\n(เมนู: 1. อีกครึ่งหนึ่งของหัวใจ, 2. ไม่เลือก; ยอดรวม: 999 ไม่มีค่าผู้ติดตาม)\n⭐ สำหรับ 1 ท่านทำคนเดียว: ต้องจองล่วงหน้า 2 รอบเวลาต่อเนื่องกัน!\n(ตัวอย่าง: จองรอบ 11:00-13:00 สำหรับ 1 คน และจองเพิ่มรอบ 13:00-15:00 สำหรับ 1 คน)\n(การเลือกเมนู: รอบแรกเลือก 'อีกครึ่งหนึ่งของหัวใจ', รอบสอง 'ไม่เลือก')\n---------------------------------------------\n［มังสวิรัติไข่-นม］［มีแอลกอฮอล์ (สามารถเลือกไม่ใส่ได้)］\n● ตัวเค้ก: ชิฟฟอนเค้กรูปหัวใจเนียนนุ่ม\n● ไส้: วิปครีมราสเบอร์รี่, วิปครีมช็อกโกแลต, กานาชช็อกโกแลต, เยลลี่ราสเบอร์รี่เปรี้ยวอมหวาน\n● ตกแต่ง: วิปครีมสด, ช็อกโกแลตรูปหัวใจ (สุ่มสี), ช็อกโกแลต, เกล็ดน้ำตาลตกแต่ง\n🎁 แถมฟรีกระเป๋ากล่องเค้ก 1 ใบ",
+      "ko": "🏠 제작 가능 지점: 전 지점\n❗ 1인 또는 2인 동시 제작 가능 (동반 요금 무료), 3번째 인원부터는 별도 디저트 제작 필수.\n❗ 당일 생일자 할인 혜택과 중복 적용 불가합니다.\n⭐ 2인 제작 시: 1개 타임 슬롯만 예약하시면 됩니다!\n(예약 시→ 입장 인원: 2명, 제작 수량: 2개 선택)\n(메뉴: 1. 또 다른 반쪽, 2. 선택안함; 총 금액: 999원・동반비 없음)\n⭐ 1인 단독 제작 시: 연속 2개 타임 슬롯을 예약해야 합니다!\n(예시: 11:00~13:00 1인 예약 + 13:00~15:00 1인 추가 예약)\n(메뉴 선택: 첫 번째 타임 '또 다른 반쪽' 선택, 두 번째 타임 '선택안함')\n---------------------------------------------\n［락토 오보］［알코올 함유 (생략 가능)］\n● 베이스: 하트 모양의 촉촉하고 퐁신한 플레인 쉬폰 케이크\n● 샌드: 상큼한 라즈베리 생크림, 초콜릿 생크림, 진한 초코 가나슈, 라즈베리 젤리\n● 데코레이션: 생크림, 하트 초콜릿 판 (랜덤 색상), 초콜릿, 슈가 스프링클, 슈가 플레이크\n🎁 핸드 캐리 케이크 박스 1개 제공",
+      "vi": "🏠 Áp dụng tại: Tất cả các chi nhánh\n❗ Có thể làm 1 hoặc 2 người (không tính phí đi kèm), người thứ 3 phải tự làm 1 món riêng.\n❗ Không thể áp dụng đồng thời với ưu đãi sinh nhật.\n⭐ 2 người cùng làm: Chỉ cần đặt 1 khung giờ duy nhất!\n(Khi đặt bàn -> Số người vào: 2 người, Số phần làm: 2 phần)\n(Món: 1. Nửa kia của nhau, 2. Không chọn; Tổng cộng: 999 không phí đi kèm)\n⭐ 1 người tự làm hết: Cần đặt 2 khung giờ liên tiếp!\n(Ví dụ: Đặt khung 11:00~13:00 cho 1 người, và đặt thêm 13:00~15:00 cho 1 người)\n(Chọn món: Lượt 1 chọn 'Nửa kia của nhau', Lượt 2 chọn 'Không chọn')\n---------------------------------------------\n［Chay có trứng sữa］［Có chứa cồn, có thể bỏ］\n● Cốt bánh: Bánh Chiffon hình trái tim xốp mềm\n● Nhân: Kem tươi phúc bồn tử, kem tươi sô-cô-la, ganache sô-cô-la, thạch phúc bồn tử\n● Trang trí: Kem tươi, phiến sô-cô-la trái tim (màu ngẫu nhiên), sô-cô-la, hạt cốm đường, kẹo đường\n🎁 Tặng kèm 1 hộp giấy xách tay"
+    },
+    "storage": {
+      "zh": "●製作完成：需2小時內冷藏。\n（店內無借冰，保冰墊:加購價$39/個）\n●冷藏保存（建議放入保鮮盒或以保鮮膜包覆）。\n●請於3天內食用完，口感較佳。",
+      "en": "● After completion: Must be refrigerated within 2 hours.\n(Store does not offer free ice storage; cooler pad available for +$39/pc)\n● Keep refrigerated (recommend airtight container or cling wrap).\n● Best consumed within 3 days for optimal taste.",
+      "ja": "●完成後：2時間以内に要冷蔵。\n（店内での保冷預かりなし。保冷剤追加購入：39元/個）\n●冷蔵保存（密閉容器またはラップで包むことをおすすめします）。\n●食感を保つため、3日以内にお召し上がりください。",
+      "th": "●ทำเสร็จแล้ว: ต้องแช่เย็นภายใน 2 ชั่วโมง\n(ทางร้านไม่มีบริการรับฝากแช่เย็น, เจลเก็บความเย็นซื้อเพิ่ม: $39/ชิ้น)\n●เก็บรักษาในตู้เย็น (แนะนำให้ใส่กล่องปิดสนิทหรือห่อพลาสติก)\n●ควรรับประทานภายใน 3 วันเพื่อรสชาติที่ดีที่สุด",
+      "ko": "●완성 후: 2시간 이내 냉장 보관 필수.\n(매장 내 보관 불가, 보랭팩 추가 구매: $39/개)\n●냉장 보관 (밀폐 용기 또는 랩 포장 권장).\n●최상의 맛을 위해 3일 이내에 드세요.",
+      "vi": "●Sau khi hoàn thành: Cần bảo quản lạnh trong vòng 2 giờ.\n(Cửa hàng không nhận giữ lạnh, túi đá giữ nhiệt mua thêm: $39/cái)\n●Bảo quản lạnh (khuyên dùng hộp kín hoặc bọc màng bọc thực phẩm).\n●Vui lòng dùng hết trong vòng 3 ngày để có vị ngon nhất."
+    },
+    "exp": [
+      "有過幾次經驗"
+    ],
+    "type": "戚風與海綿蛋糕",
+    "tag": null,
+    "stores": [
+      "xinyi",
+      "shilin",
+      "banqiao",
+      "xindian",
+      "zhongli",
+      "yiwen",
+      "hsinchu",
+      "jingming",
+      "caowu",
+      "focus",
+      "kaohsiung"
+    ],
+    "stores_rule": "全門市供應",
+    "status": "active",
+    "image": "https://diybcstorage.blob.core.windows.net/recipeimages/e879f842-c666-4b7e-b6d5-88edc1f5ad0c/wi/wi1-e879f842-c666-4b7e-b6d5-88edc1f5ad0c.jpg?v=251103060756"
+  },
   {
     "id": 45,
     "name": {
